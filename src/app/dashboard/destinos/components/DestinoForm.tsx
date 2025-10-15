@@ -4,14 +4,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { YVTextField, YVSelect, YVUploadImg } from '@/components/YV';
+import { YVTextField, YVSelect, YVUploadImg, YVSwitch } from '@/components/YV';
 import YVTinyMCEEditor from '@/components/editor/YVTinyMCEEditor';
 import { Label } from '@/components/ui/label';
 import { MapPin, Globe, Tag, Image as ImageIcon, Star, Building2 } from 'lucide-react';
-import { destinoSchema } from '@/schemas/dashboard/destino';
+import { destinoSchema, type DestinoFormData } from '@/schemas/dashboard/destino';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type FormValues = Record<string, any>;
 
 type DestinoFormProps = {
   defaultValues?: {
@@ -27,6 +25,7 @@ type DestinoFormProps = {
     highlights?: string;
     status?: string;
     // Campos das principais cidades
+    cityEnabled?: boolean;
     cityTitle?: string;
     cityDescription?: string;
     city1Title?: string;
@@ -41,6 +40,70 @@ type DestinoFormProps = {
     city4Title?: string;
     city4Description?: string;
     city4Image?: string;
+    // Campos dos diferenciais
+    diferenciaisEnabled?: boolean;
+    diferenciaisTitle?: string;
+    diferenciaisDescription?: string;
+    diferencial1Title?: string;
+    diferencial1Description?: string;
+    diferencial1Image?: string;
+    diferencial2Title?: string;
+    diferencial2Description?: string;
+    diferencial2Image?: string;
+    diferencial3Title?: string;
+    diferencial3Description?: string;
+    diferencial3Image?: string;
+    diferencial4Title?: string;
+    diferencial4Description?: string;
+    diferencial4Image?: string;
+    // Campos dos benefícios
+    beneficiosEnabled?: boolean;
+    beneficio1Title?: string;
+    beneficio1Description?: string;
+    beneficio1Icon?: string;
+    beneficio2Title?: string;
+    beneficio2Description?: string;
+    beneficio2Icon?: string;
+    beneficio3Title?: string;
+    beneficio3Description?: string;
+    beneficio3Icon?: string;
+    // Campos dos requisitos especiais
+    requisitosEnabled?: boolean;
+    requisitosTitle?: string;
+    requisitosDescription?: string;
+    requisitosBreadcrumb?: string;
+    requisitosButtonText?: string;
+    requisitosButtonUrl?: string;
+    requisito1Title?: string;
+    requisito1Description?: string;
+    requisito1Icon?: string;
+    requisito2Title?: string;
+    requisito2Description?: string;
+    requisito2Icon?: string;
+    requisito3Title?: string;
+    requisito3Description?: string;
+    requisito3Icon?: string;
+    requisito4Title?: string;
+    requisito4Description?: string;
+    requisito4Icon?: string;
+    requisito5Title?: string;
+    requisito5Description?: string;
+    requisito5Icon?: string;
+    requisito6Title?: string;
+    requisito6Description?: string;
+    requisito6Icon?: string;
+    requisito7Title?: string;
+    requisito7Description?: string;
+    requisito7Icon?: string;
+    requisito8Title?: string;
+    requisito8Description?: string;
+    requisito8Icon?: string;
+    // Campos do CTA
+    ctaEnabled?: boolean;
+    ctaTitle?: string;
+    ctaDescription?: string;
+    ctaButtonText?: string;
+    ctaButtonUrl?: string;
   };
   isEditing?: boolean;
 };
@@ -53,6 +116,11 @@ export default function DestinoForm({
   const [serverSuccess, setServerSuccess] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cidadesExpanded, setCidadesExpanded] = useState(false);
+  const [diferenciaisExpanded, setDiferenciaisExpanded] = useState(false);
+  const [beneficiosExpanded, setBeneficiosExpanded] = useState(false);
+  const [requisitosExpanded, setRequisitosExpanded] = useState(false);
+  const [requisitosCount, setRequisitosCount] = useState(1);
+  const [ctaExpanded, setCtaExpanded] = useState(false);
   const router = useRouter();
 
   // Helper function to get city field name with proper typing
@@ -88,6 +156,7 @@ export default function DestinoForm({
       highlights: defaultValues?.highlights || '',
       status: (defaultValues?.status as 'draft' | 'published') || 'draft',
       // Campos das principais cidades
+      cityEnabled: defaultValues?.cityEnabled || false,
       cityTitle: defaultValues?.cityTitle || '',
       cityDescription: defaultValues?.cityDescription || '',
       city1Title: defaultValues?.city1Title || '',
@@ -101,18 +170,92 @@ export default function DestinoForm({
       city3Image: defaultValues?.city3Image || '',
       city4Title: defaultValues?.city4Title || '',
       city4Description: defaultValues?.city4Description || '',
-      city4Image: defaultValues?.city4Image || ''
+      city4Image: defaultValues?.city4Image || '',
+      // Campos dos diferenciais
+      diferenciaisEnabled: defaultValues?.diferenciaisEnabled || false,
+      diferenciaisTitle: defaultValues?.diferenciaisTitle || '',
+      diferenciaisDescription: defaultValues?.diferenciaisDescription || '',
+      diferencial1Title: defaultValues?.diferencial1Title || '',
+      diferencial1Description: defaultValues?.diferencial1Description || '',
+      diferencial1Image: defaultValues?.diferencial1Image || '',
+      diferencial2Title: defaultValues?.diferencial2Title || '',
+      diferencial2Description: defaultValues?.diferencial2Description || '',
+      diferencial2Image: defaultValues?.diferencial2Image || '',
+      diferencial3Title: defaultValues?.diferencial3Title || '',
+      diferencial3Description: defaultValues?.diferencial3Description || '',
+      diferencial3Image: defaultValues?.diferencial3Image || '',
+      diferencial4Title: defaultValues?.diferencial4Title || '',
+      diferencial4Description: defaultValues?.diferencial4Description || '',
+      diferencial4Image: defaultValues?.diferencial4Image || '',
+      // Campos dos benefícios
+      beneficiosEnabled: defaultValues?.beneficiosEnabled || false,
+      beneficio1Title: defaultValues?.beneficio1Title || '',
+      beneficio1Description: defaultValues?.beneficio1Description || '',
+      beneficio1Icon: defaultValues?.beneficio1Icon || '',
+      beneficio2Title: defaultValues?.beneficio2Title || '',
+      beneficio2Description: defaultValues?.beneficio2Description || '',
+      beneficio2Icon: defaultValues?.beneficio2Icon || '',
+      beneficio3Title: defaultValues?.beneficio3Title || '',
+      beneficio3Description: defaultValues?.beneficio3Description || '',
+      beneficio3Icon: defaultValues?.beneficio3Icon || '',
+      // Campos dos requisitos especiais
+      requisitosEnabled: defaultValues?.requisitosEnabled || false,
+      requisitosTitle: defaultValues?.requisitosTitle || '',
+      requisitosDescription: defaultValues?.requisitosDescription || '',
+      requisitosBreadcrumb: defaultValues?.requisitosBreadcrumb || '',
+      requisitosButtonText: defaultValues?.requisitosButtonText || '',
+      requisitosButtonUrl: defaultValues?.requisitosButtonUrl || '',
+      requisito1Title: defaultValues?.requisito1Title || '',
+      requisito1Description: defaultValues?.requisito1Description || '',
+      requisito1Icon: defaultValues?.requisito1Icon || '',
+      requisito2Title: defaultValues?.requisito2Title || '',
+      requisito2Description: defaultValues?.requisito2Description || '',
+      requisito2Icon: defaultValues?.requisito2Icon || '',
+      requisito3Title: defaultValues?.requisito3Title || '',
+      requisito3Description: defaultValues?.requisito3Description || '',
+      requisito3Icon: defaultValues?.requisito3Icon || '',
+      requisito4Title: defaultValues?.requisito4Title || '',
+      requisito4Description: defaultValues?.requisito4Description || '',
+      requisito4Icon: defaultValues?.requisito4Icon || '',
+      requisito5Title: defaultValues?.requisito5Title || '',
+      requisito5Description: defaultValues?.requisito5Description || '',
+      requisito5Icon: defaultValues?.requisito5Icon || '',
+      requisito6Title: defaultValues?.requisito6Title || '',
+      requisito6Description: defaultValues?.requisito6Description || '',
+      requisito6Icon: defaultValues?.requisito6Icon || '',
+      requisito7Title: defaultValues?.requisito7Title || '',
+      requisito7Description: defaultValues?.requisito7Description || '',
+      requisito7Icon: defaultValues?.requisito7Icon || '',
+      requisito8Title: defaultValues?.requisito8Title || '',
+      requisito8Description: defaultValues?.requisito8Description || '',
+      requisito8Icon: defaultValues?.requisito8Icon || '',
+      // Campos do CTA
+      ctaEnabled: defaultValues?.ctaEnabled || false,
+      ctaTitle: defaultValues?.ctaTitle || '',
+      ctaDescription: defaultValues?.ctaDescription || '',
+      ctaButtonText: defaultValues?.ctaButtonText || '',
+      ctaButtonUrl: defaultValues?.ctaButtonUrl || ''
     }
   });
 
   const watchedFields = watch();
+  
+  // Debug: Verificar se os campos de benefícios estão sendo observados
+  console.log('Campos observados - Benefícios:', {
+    beneficiosEnabled: watchedFields.beneficiosEnabled,
+    beneficio1Title: watchedFields.beneficio1Title,
+    beneficio1Description: watchedFields.beneficio1Description,
+    beneficio1Icon: watchedFields.beneficio1Icon,
+  });
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: DestinoFormData) => {
     setIsSubmitting(true);
     setServerError(null);
     setServerSuccess(null);
 
+
     try {
+
       const payload = {
         name: data.name,
         slug: data.slug,
@@ -125,6 +268,7 @@ export default function DestinoForm({
         highlights: data.highlights || '',
         status: data.status,
         // Campos das principais cidades
+        cityEnabled: data.cityEnabled || false,
         cityTitle: data.cityTitle || '',
         cityDescription: data.cityDescription || '',
         city1Title: data.city1Title || '',
@@ -138,7 +282,71 @@ export default function DestinoForm({
         city3Image: data.city3Image || '',
         city4Title: data.city4Title || '',
         city4Description: data.city4Description || '',
-        city4Image: data.city4Image || ''
+        city4Image: data.city4Image || '',
+        // Campos dos diferenciais
+        diferenciaisEnabled: data.diferenciaisEnabled || false,
+        diferenciaisTitle: data.diferenciaisTitle || '',
+        diferenciaisDescription: data.diferenciaisDescription || '',
+        diferencial1Title: data.diferencial1Title || '',
+        diferencial1Description: data.diferencial1Description || '',
+        diferencial1Image: data.diferencial1Image || '',
+        diferencial2Title: data.diferencial2Title || '',
+        diferencial2Description: data.diferencial2Description || '',
+        diferencial2Image: data.diferencial2Image || '',
+        diferencial3Title: data.diferencial3Title || '',
+        diferencial3Description: data.diferencial3Description || '',
+        diferencial3Image: data.diferencial3Image || '',
+        diferencial4Title: data.diferencial4Title || '',
+        diferencial4Description: data.diferencial4Description || '',
+        diferencial4Image: data.diferencial4Image || '',
+        // Campos dos benefícios
+        beneficiosEnabled: data.beneficiosEnabled || false,
+        beneficio1Title: data.beneficio1Title || '',
+        beneficio1Description: data.beneficio1Description || '',
+        beneficio1Icon: data.beneficio1Icon || '',
+        beneficio2Title: data.beneficio2Title || '',
+        beneficio2Description: data.beneficio2Description || '',
+        beneficio2Icon: data.beneficio2Icon || '',
+        beneficio3Title: data.beneficio3Title || '',
+        beneficio3Description: data.beneficio3Description || '',
+        beneficio3Icon: data.beneficio3Icon || '',
+        // Campos dos requisitos especiais
+        requisitosEnabled: data.requisitosEnabled || false,
+        requisitosTitle: data.requisitosTitle || '',
+        requisitosDescription: data.requisitosDescription || '',
+        requisitosBreadcrumb: data.requisitosBreadcrumb || '',
+        requisitosButtonText: data.requisitosButtonText || '',
+        requisitosButtonUrl: data.requisitosButtonUrl || '',
+        requisito1Title: data.requisito1Title || '',
+        requisito1Description: data.requisito1Description || '',
+        requisito1Icon: data.requisito1Icon || '',
+        requisito2Title: data.requisito2Title || '',
+        requisito2Description: data.requisito2Description || '',
+        requisito2Icon: data.requisito2Icon || '',
+        requisito3Title: data.requisito3Title || '',
+        requisito3Description: data.requisito3Description || '',
+        requisito3Icon: data.requisito3Icon || '',
+        requisito4Title: data.requisito4Title || '',
+        requisito4Description: data.requisito4Description || '',
+        requisito4Icon: data.requisito4Icon || '',
+        requisito5Title: data.requisito5Title || '',
+        requisito5Description: data.requisito5Description || '',
+        requisito5Icon: data.requisito5Icon || '',
+        requisito6Title: data.requisito6Title || '',
+        requisito6Description: data.requisito6Description || '',
+        requisito6Icon: data.requisito6Icon || '',
+        requisito7Title: data.requisito7Title || '',
+        requisito7Description: data.requisito7Description || '',
+        requisito7Icon: data.requisito7Icon || '',
+        requisito8Title: data.requisito8Title || '',
+        requisito8Description: data.requisito8Description || '',
+        requisito8Icon: data.requisito8Icon || '',
+        // Campos do CTA
+        ctaEnabled: data.ctaEnabled || false,
+        ctaTitle: data.ctaTitle || '',
+        ctaDescription: data.ctaDescription || '',
+        ctaButtonText: data.ctaButtonText || '',
+        ctaButtonUrl: data.ctaButtonUrl || ''
       };
 
       const url = isEditing && defaultValues?.slug 
@@ -318,6 +526,151 @@ export default function DestinoForm({
               />
             </div>
 
+            {/* Seção Diferenciais */}
+            <div className='border-t pt-6'>
+              <button
+                type='button'
+                onClick={() => setDiferenciaisExpanded(!diferenciaisExpanded)}
+                className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors'
+              >
+                <div className='flex items-center space-x-3'>
+                  <Building2 className='w-6 h-6 text-[#FFBD1A]' />
+                  <div className='text-left'>
+                    <h3 className='text-lg font-semibold text-dashboard'>Diferenciais</h3>
+                    <p className='text-sm text-gray-500'>Configure os diferenciais do destino</p>
+                  </div>
+                </div>
+                <div className='flex items-center space-x-4'>
+                  <YVSwitch
+                    checked={watchedFields.diferenciaisEnabled || false}
+                    onCheckedChange={(checked) => setValue('diferenciaisEnabled', checked)}
+                    label="Exibir na página"
+                    size="sm"
+                    variant="primary"
+                  />
+                  <svg
+                    className={`w-5 h-5 text-gray-400 transition-transform ${
+                      diferenciaisExpanded ? 'rotate-180' : ''
+                    }`}
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'
+                  >
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+                  </svg>
+                </div>
+              </button>
+
+              {diferenciaisExpanded && (
+                <div className='mt-4 space-y-6 p-4 bg-white border border-gray-200 rounded-lg'>
+                  {/* Título e Descrição da Seção */}
+                  <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                    <div>
+                      <Label htmlFor='diferenciaisTitle' className='mb-2 block'>
+                        Título da Seção
+                      </Label>
+                      <YVTextField
+                        id='diferenciaisTitle'
+                        type='text'
+                        placeholder='Ex: Por que escolher este destino?'
+                        {...register('diferenciaisTitle')}
+                        disabled={isSubmitting}
+                        error={errors.diferenciaisTitle?.message as string}
+                        variant='modern'
+                        size='md'
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor='diferenciaisDescription' className='mb-2 block'>
+                        Descrição da Seção
+                      </Label>
+                      <textarea
+                        id='diferenciaisDescription'
+                        placeholder='Ex: Descrição dos diferenciais...'
+                        {...register('diferenciaisDescription')}
+                        disabled={isSubmitting}
+                        rows={3}
+                        className='w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors'
+                      />
+                      {errors.diferenciaisDescription && (
+                        <p className='text-sm text-red-600 mt-1.5'>
+                          {errors.diferenciaisDescription.message as string}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Diferenciais - Layout 2 colunas */}
+                  <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+                    {[1, 2, 3, 4].map((diferencialNum) => (
+                      <div key={diferencialNum} className='border border-gray-200 rounded-lg p-3 bg-gray-50'>
+                        <h4 className='text-sm font-medium text-gray-900 mb-3 flex items-center'>
+                          <span className='w-6 h-6 bg-[#FFBD1A] text-white rounded-full flex items-center justify-center text-xs font-bold mr-2'>
+                            {diferencialNum}
+                          </span>
+                          Diferencial {diferencialNum}
+                        </h4>
+
+                        <div className='space-y-3'>
+                          <div>
+                            <Label htmlFor={`diferencial${diferencialNum}Title`} className='mb-1 block text-xs font-medium'>
+                              Título
+                            </Label>
+                            <YVTextField
+                              id={`diferencial${diferencialNum}Title`}
+                              type='text'
+                              placeholder={`Ex: Diferencial ${diferencialNum}`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              {...register(`diferencial${diferencialNum}Title` as any)}
+                              disabled={isSubmitting}
+                              error={errors[`diferencial${diferencialNum}Title` as keyof typeof errors]?.message as string}
+                              variant='modern'
+                              size='sm'
+                            />
+                          </div>
+
+                          <div>
+                            <Label htmlFor={`diferencial${diferencialNum}Description`} className='mb-1 block text-xs font-medium'>
+                              Descrição
+                            </Label>
+                            <textarea
+                              id={`diferencial${diferencialNum}Description`}
+                              placeholder={`Ex: Descrição do diferencial ${diferencialNum}...`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              {...register(`diferencial${diferencialNum}Description` as any)}
+                              disabled={isSubmitting}
+                              rows={2}
+                              className='w-full px-2 py-1 text-xs rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-1 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors'
+                            />
+                            {errors[`diferencial${diferencialNum}Description` as keyof typeof errors] && (
+                              <p className='text-xs text-red-600 mt-1'>
+                                {errors[`diferencial${diferencialNum}Description` as keyof typeof errors]?.message as string}
+                              </p>
+                            )}
+                          </div>
+
+                          <div>
+                            <Label htmlFor={`diferencial${diferencialNum}Image`} className='mb-1 block text-xs font-medium'>
+                              Imagem
+                            </Label>
+                            <YVUploadImg
+                              value={watchedFields[`diferencial${diferencialNum}Image` as keyof typeof watchedFields] as string || ''}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              onChange={(url: string) => setValue(`diferencial${diferencialNum}Image` as any, url)}
+                              disabled={isSubmitting}
+                              error={errors[`diferencial${diferencialNum}Image` as keyof typeof errors]?.message as string}
+                              placeholder={`https://exemplo.com/diferencial${diferencialNum}.jpg`}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
             {/* Principais Cidades - Accordion */}
             <div className='border-t pt-6'>
               <button
@@ -332,10 +685,19 @@ export default function DestinoForm({
                     <p className='text-sm text-gray-500'>Configure as cidades de destino</p>
                   </div>
                 </div>
-                <div className={`transform transition-transform ${cidadesExpanded ? 'rotate-180' : ''}`}>
-                  <svg className='w-5 h-5 text-gray-500' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
-                  </svg>
+                <div className='flex items-center space-x-4'>
+                  <YVSwitch
+                    checked={watchedFields.cityEnabled || false}
+                    onCheckedChange={(checked) => setValue('cityEnabled', checked)}
+                    label="Exibir na página"
+                    size="sm"
+                    variant="primary"
+                  />
+                  <div className={`transform transition-transform ${cidadesExpanded ? 'rotate-180' : ''}`}>
+                    <svg className='w-5 h-5 text-gray-500' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+                    </svg>
+                  </div>
                 </div>
               </button>
 
@@ -437,6 +799,463 @@ export default function DestinoForm({
                               error={errors[getCityFieldName(cityNum, 'Image')]?.message as string}
                               placeholder={`https://exemplo.com/cidade${cityNum}.jpg`}
                             />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+         
+            {/* Seção Requisitos Especiais */}
+            <div className='border-t pt-6'>
+              <button
+                type='button'
+                onClick={() => setRequisitosExpanded(!requisitosExpanded)}
+                className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors'
+              >
+                <div className='flex items-center space-x-3'>
+                  <svg className='w-6 h-6 text-[#FFBD1A]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' />
+                  </svg>
+                  <div className='text-left'>
+                    <h3 className='text-lg font-semibold text-dashboard'>Requisitos Especiais</h3>
+                    <p className='text-sm text-gray-500'>Configure os requisitos especiais do destino</p>
+                  </div>
+                </div>
+                <div className='flex items-center space-x-4'>
+                  <YVSwitch
+                    checked={watchedFields.requisitosEnabled || false}
+                    onCheckedChange={(checked) => setValue('requisitosEnabled', checked)}
+                    label="Exibir na página"
+                    size="sm"
+                    variant="primary"
+                  />
+                  <svg
+                    className={`w-5 h-5 text-gray-400 transition-transform ${
+                      requisitosExpanded ? 'rotate-180' : ''
+                    }`}
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'
+                  >
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+                  </svg>
+                </div>
+              </button>
+
+              {requisitosExpanded && (
+                <div className='mt-4 space-y-6 p-4 bg-white border border-gray-200 rounded-lg'>
+                  {/* Título e Descrição da Seção */}
+                  <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                    <div>
+                      <Label htmlFor='requisitosTitle' className='mb-2 block'>
+                        Título da Seção
+                      </Label>
+                      <YVTextField
+                        id='requisitosTitle'
+                        type='text'
+                        placeholder='Ex: A gente acredita em soluções que cabem na vida real'
+                        {...register('requisitosTitle')}
+                        disabled={isSubmitting}
+                        error={errors.requisitosTitle?.message as string}
+                        variant='modern'
+                        size='md'
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor='requisitosDescription' className='mb-2 block'>
+                        Descrição da Seção
+                      </Label>
+                      <textarea
+                        id='requisitosDescription'
+                        placeholder='Ex: Descrição da seção de requisitos especiais...'
+                        {...register('requisitosDescription')}
+                        disabled={isSubmitting}
+                        rows={3}
+                        className='w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors'
+                      />
+                      {errors.requisitosDescription && (
+                        <p className='text-sm text-red-600 mt-1.5'>
+                          {errors.requisitosDescription.message as string}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Breadcrumb e Botão */}
+                  <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                    <div>
+                      <Label htmlFor='requisitosBreadcrumb' className='mb-2 block'>
+                        Breadcrumb
+                      </Label>
+                      <YVTextField
+                        id='requisitosBreadcrumb'
+                        type='text'
+                        placeholder='Ex: ESPECIAIS'
+                        {...register('requisitosBreadcrumb')}
+                        disabled={isSubmitting}
+                        error={errors.requisitosBreadcrumb?.message as string}
+                        variant='modern'
+                        size='md'
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor='requisitosButtonText' className='mb-2 block'>
+                        Texto do Botão
+                      </Label>
+                      <YVTextField
+                        id='requisitosButtonText'
+                        type='text'
+                        placeholder='Ex: Conheça todos os requisitos especiais'
+                        {...register('requisitosButtonText')}
+                        disabled={isSubmitting}
+                        error={errors.requisitosButtonText?.message as string}
+                        variant='modern'
+                        size='md'
+                      />
+                    </div>
+                  </div>
+
+                  {/* URL do Botão */}
+                  <div>
+                    <Label htmlFor='requisitosButtonUrl' className='mb-2 block'>
+                      URL do Botão
+                    </Label>
+                    <YVTextField
+                      id='requisitosButtonUrl'
+                      type='text'
+                      placeholder='Ex: /requisitos'
+                      {...register('requisitosButtonUrl')}
+                      disabled={isSubmitting}
+                      error={errors.requisitosButtonUrl?.message as string}
+                      variant='modern'
+                      size='md'
+                    />
+                  </div>
+
+                  {/* Controles de Adicionar/Remover */}
+                  <div className='flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200'>
+                    <div className='flex items-center space-x-4'>
+                      <span className='text-sm font-medium text-gray-700'>
+                        {requisitosCount === 1 ? 'Requisito' : 'Requisitos'} ({requisitosCount})
+                      </span>
+                      <div className='flex items-center space-x-2'>
+                        <button
+                          type='button'
+                          onClick={() => setRequisitosCount(Math.max(1, requisitosCount - 1))}
+                          disabled={requisitosCount <= 1}
+                          className='px-3 py-1 text-xs bg-red-100 text-red-700 rounded-md hover:bg-red-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
+                        >
+                          - Remover
+                        </button>
+                        <button
+                          type='button'
+                          onClick={() => setRequisitosCount(Math.min(8, requisitosCount + 1))}
+                          disabled={requisitosCount >= 8}
+                          className='px-3 py-1 text-xs bg-green-100 text-green-700 rounded-md hover:bg-green-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
+                        >
+                          + Adicionar
+                        </button>
+                      </div>
+                    </div>
+                    <span className='text-xs text-gray-500'>
+                      {requisitosCount === 1 ? 'Adicione mais requisitos conforme necessário' : 'Máximo 8 requisitos'}
+                    </span>
+                  </div>
+
+                  {/* Requisitos - Layout 2 colunas */}
+                  <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+                    {Array.from({ length: requisitosCount }, (_, index) => {
+                      const requisitoNum = index + 1;
+                      return (
+                      <div key={requisitoNum} className='border border-gray-200 rounded-lg p-3 bg-gray-50'>
+                        <h4 className='text-sm font-medium text-gray-900 mb-3 flex items-center'>
+                          <span className='w-6 h-6 bg-[#FFBD1A] text-white rounded-full flex items-center justify-center text-xs font-bold mr-2'>
+                            {requisitoNum}
+                          </span>
+                          Requisito {requisitoNum}
+                        </h4>
+
+                        <div className='space-y-3'>
+                          <div>
+                            <Label htmlFor={`requisito${requisitoNum}Icon`} className='mb-1 block text-xs font-medium'>
+                              Ícone SVG (opcional)
+                            </Label>
+                            <textarea
+                              id={`requisito${requisitoNum}Icon`}
+                              placeholder={`Cole o código SVG do ícone...`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              {...register(`requisito${requisitoNum}Icon` as any)}
+                              disabled={isSubmitting}
+                              rows={4}
+                              className='w-full px-2 py-1 text-xs rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-1 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors font-mono'
+                            />
+                          </div>
+
+                          <div>
+                            <Label htmlFor={`requisito${requisitoNum}Title`} className='mb-1 block text-xs font-medium'>
+                              Título
+                            </Label>
+                            <YVTextField
+                              id={`requisito${requisitoNum}Title`}
+                              type='text'
+                              placeholder={`Ex: Título do requisito ${requisitoNum}...`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              {...register(`requisito${requisitoNum}Title` as any)}
+                              disabled={isSubmitting}
+                              error={errors[`requisito${requisitoNum}Title` as keyof typeof errors]?.message as string}
+                              variant='modern'
+                              size='sm'
+                            />
+                          </div>
+
+                          <div>
+                            <Label htmlFor={`requisito${requisitoNum}Description`} className='mb-1 block text-xs font-medium'>
+                              Descrição
+                            </Label>
+                            <textarea
+                              id={`requisito${requisitoNum}Description`}
+                              placeholder={`Ex: Descrição do requisito ${requisitoNum}...`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              {...register(`requisito${requisitoNum}Description` as any)}
+                              disabled={isSubmitting}
+                              rows={2}
+                              className='w-full px-2 py-1 text-xs rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-1 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors'
+                            />
+                            {errors[`requisito${requisitoNum}Description` as keyof typeof errors] && (
+                              <p className='text-xs text-red-600 mt-1'>
+                                {errors[`requisito${requisitoNum}Description` as keyof typeof errors]?.message as string}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )})}
+                  </div>
+                </div>
+              )}
+            </div>
+   {/* Seção CTA */}
+   <div className='border-t pt-6'>
+              <button
+                type='button'
+                onClick={() => setCtaExpanded(!ctaExpanded)}
+                className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors'
+              >
+                <div className='flex items-center space-x-3'>
+                  <svg className='w-6 h-6 text-[#FFBD1A]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z' />
+                  </svg>
+                  <div className='text-left'>
+                    <h3 className='text-lg font-semibold text-dashboard'>CTA</h3>
+                    <p className='text-sm text-gray-500'>Configure o CTA personalizado</p>
+                  </div>
+                </div>
+                <div className='flex items-center space-x-4'>
+                  <YVSwitch
+                    checked={watchedFields.ctaEnabled || false}
+                    onCheckedChange={(checked) => setValue('ctaEnabled', checked)}
+                    label="Exibir na página"
+                    size="sm"
+                    variant="primary"
+                  />
+                  <svg
+                    className={`w-5 h-5 text-gray-400 transition-transform ${
+                      ctaExpanded ? 'rotate-180' : ''
+                    }`}
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'
+                  >
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+                  </svg>
+                </div>
+              </button>
+
+              {ctaExpanded && (
+                <div className='mt-4 space-y-6 p-4 bg-white border border-gray-200 rounded-lg'>
+                  {/* Título e Descrição */}
+                  <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                    <div>
+                      <Label htmlFor='ctaTitle' className='mb-2 block'>
+                        Título do CTA
+                      </Label>
+                      <YVTextField
+                        id='ctaTitle'
+                        type='text'
+                        placeholder='Ex: Pronto para começar sua jornada?'
+                        {...register('ctaTitle')}
+                        disabled={isSubmitting}
+                        error={errors.ctaTitle?.message as string}
+                        variant='modern'
+                        size='md'
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor='ctaDescription' className='mb-2 block'>
+                        Descrição do CTA
+                      </Label>
+                      <textarea
+                        id='ctaDescription'
+                        placeholder='Ex: Descrição do CTA...'
+                        {...register('ctaDescription')}
+                        disabled={isSubmitting}
+                        rows={3}
+                        className='w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors'
+                      />
+                      {errors.ctaDescription && (
+                        <p className='text-sm text-red-600 mt-1.5'>
+                          {errors.ctaDescription.message as string}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Botão */}
+                  <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                    <div>
+                      <Label htmlFor='ctaButtonText' className='mb-2 block'>
+                        Texto do Botão
+                      </Label>
+                      <YVTextField
+                        id='ctaButtonText'
+                        type='text'
+                        placeholder='Ex: Começar agora'
+                        {...register('ctaButtonText')}
+                        disabled={isSubmitting}
+                        error={errors.ctaButtonText?.message as string}
+                        variant='modern'
+                        size='md'
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor='ctaButtonUrl' className='mb-2 block'>
+                        URL do Botão
+                      </Label>
+                      <YVTextField
+                        id='ctaButtonUrl'
+                        type='text'
+                        placeholder='Ex: /comecar'
+                        {...register('ctaButtonUrl')}
+                        disabled={isSubmitting}
+                        error={errors.ctaButtonUrl?.message as string}
+                        variant='modern'
+                        size='md'
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Seção Benefícios - ÚLTIMA SEÇÃO */}
+            <div className='mb-6 mt-4'>
+              <div className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg'>
+                <div className='flex items-center space-x-3'>
+                  <svg className='w-6 h-6 text-[#FFBD1A]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
+                  </svg>
+                  <div className='text-left'>
+                    <h3 className='text-lg font-semibold text-dashboard'>Benefícios</h3>
+                    <p className='text-sm text-gray-500'>Configure os benefícios deste destino</p>
+                  </div>
+                </div>
+                <div className='flex items-center space-x-4'>
+                  <YVSwitch
+                    checked={watchedFields.beneficiosEnabled}
+                    onCheckedChange={(checked) => setValue('beneficiosEnabled', checked)}
+                    label="Exibir na página"
+                    size="sm"
+                    variant="primary"
+                  />
+                  <button
+                    type='button'
+                    onClick={() => setBeneficiosExpanded(!beneficiosExpanded)}
+                    className='text-gray-600 hover:text-gray-900 transition-colors'
+                  >
+                    <svg className={`w-5 h-5 transition-transform ${beneficiosExpanded ? 'rotate-180' : ''}`} fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {beneficiosExpanded && (
+                <div className='mt-4 space-y-6 p-4 bg-white border border-gray-200 rounded-lg'>
+                  {/* Benefícios - Layout 2 colunas */}
+                  <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+                    {[1, 2, 3].map((beneficioNum) => (
+                      <div key={beneficioNum} className='border border-gray-200 rounded-lg p-3 bg-gray-50'>
+                        <h4 className='text-sm font-medium text-gray-900 mb-3 flex items-center'>
+                          <span className='w-6 h-6 bg-[#FFBD1A] text-white rounded-full flex items-center justify-center text-xs font-bold mr-2'>
+                            {beneficioNum}
+                          </span>
+                          Benefício {beneficioNum}
+                        </h4>
+
+                        <div className='space-y-3'>
+                          <div>
+                            <Label htmlFor={`beneficio${beneficioNum}Icon`} className='mb-1 block text-xs font-medium'>
+                              Ícone SVG (opcional)
+                            </Label>
+                            <textarea
+                              id={`beneficio${beneficioNum}Icon`}
+                              placeholder={`Cole o código SVG do ícone...`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              {...register(`beneficio${beneficioNum}Icon` as any)}
+                              disabled={isSubmitting}
+                              rows={4}
+                              className='w-full px-2 py-1 text-xs rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-1 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors font-mono'
+                            />
+                            {errors[`beneficio${beneficioNum}Icon` as keyof typeof errors] && (
+                              <p className='text-xs text-red-600 mt-1'>
+                                {errors[`beneficio${beneficioNum}Icon` as keyof typeof errors]?.message as string}
+                              </p>
+                            )}
+                          </div>
+
+                          <div>
+                            <Label htmlFor={`beneficio${beneficioNum}Title`} className='mb-1 block text-xs font-medium'>
+                              Título
+                            </Label>
+                            <YVTextField
+                              id={`beneficio${beneficioNum}Title`}
+                              type='text'
+                              placeholder={`Ex: Título do benefício ${beneficioNum}...`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              {...register(`beneficio${beneficioNum}Title` as any)}
+                              disabled={isSubmitting}
+                              error={errors[`beneficio${beneficioNum}Title` as keyof typeof errors]?.message as string}
+                              variant='modern'
+                              size='sm'
+                            />
+                          </div>
+
+                          <div>
+                            <Label htmlFor={`beneficio${beneficioNum}Description`} className='mb-1 block text-xs font-medium'>
+                              Descrição
+                            </Label>
+                            <textarea
+                              id={`beneficio${beneficioNum}Description`}
+                              placeholder={`Ex: Descrição do benefício ${beneficioNum}...`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              {...register(`beneficio${beneficioNum}Description` as any)}
+                              disabled={isSubmitting}
+                              rows={2}
+                              className='w-full px-2 py-1 text-xs rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-1 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors'
+                            />
+                            {errors[`beneficio${beneficioNum}Description` as keyof typeof errors] && (
+                              <p className='text-xs text-red-600 mt-1'>
+                                {errors[`beneficio${beneficioNum}Description` as keyof typeof errors]?.message as string}
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>

@@ -1,7 +1,7 @@
 import HeroVistos from './components/HeroVistos';
 import Banner from './components/banner';
 
-import RequisitosEspeciais from './components/RequisitosEspeciais';
+import RequisitosEspeciais from '@/components/shared/RequisitosEspeciais';
 import BeneficiosSection from '@/components/shared/BeneficiosSection';
 import DicasENoticias from '@/components/shared/DicasENoticias';
 import PerguntasFrequentes from '@/components/shared/PerguntasFrequentes';
@@ -23,7 +23,7 @@ export default function Sobre() {
       <Banner />
       <Vistos />
       <SimplificamosSeuVisto showButton={false} />
-      <RequisitosEspeciais showButton={false} />
+      <RequisitosEspeciais showButton={false} requisitos={[]} />
       <Contadores />
       <PerguntasFrequentes slug='guia-do-imigrante' />
       <CTABanner />

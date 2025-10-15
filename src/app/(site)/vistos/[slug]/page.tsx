@@ -3,7 +3,7 @@ import { getVistoBySlug } from '@/lib/actions/vistos';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import DescricaoVisto from './components/DescricaoVisto';
-import Diferenciais from './components/Diferenciais';
+import Diferenciais from '@/components/shared/Diferenciais';
 import HeroVistos from './components/HeroVistos';
 import OutrosVistos from './components/OutrosVistos';
 import PrincipaisCidades from './components/PrincipaisCidades';
@@ -11,7 +11,7 @@ import VistoBanner from './components/VistoBanner';
 import VistoBeneficios from './components/VistoBeneficios';
 import VistoFAQ from './components/VistoFAQ';
 import VistoVideo from './components/VistoVideo';
-import VistoRequisitos from './components/VistoRequisitos';
+import RequisitosEspeciais from '@/components/shared/RequisitosEspeciais';
 
 interface VistoPageProps {
   params: Promise<{
@@ -202,7 +202,12 @@ export default async function VistoPage({ params }: VistoPageProps) {
   }
 
   // Preparar dados dos requisitos especiais
-  const requisitos = [];
+  const requisitos: Array<{
+    id: string;
+    icon?: string;
+    title: string;
+    description: string;
+  }> = [];
   for (let i = 1; i <= 8; i++) {
     const title = visto[`requisito${i}Title` as keyof typeof visto] as string;
     const description = visto[`requisito${i}Description` as keyof typeof visto] as string;
@@ -210,6 +215,7 @@ export default async function VistoPage({ params }: VistoPageProps) {
     
     if (title && description) {
       requisitos.push({
+        id: `requisito-${i}`,
         icon: icon || '',
         title,
         description
@@ -251,11 +257,11 @@ export default async function VistoPage({ params }: VistoPageProps) {
       )}
 
       {visto.requisitosEnabled && (
-        <VistoRequisitos
+        <RequisitosEspeciais
           requisitosTitle={visto.requisitosTitle || "A gente acredita em soluções que cabem na vida real"}
           requisitosDescription={visto.requisitosDescription}
           requisitosBreadcrumb={visto.requisitosBreadcrumb || "ESPECIAIS"}
-          requisitosButtonText={visto.requisitosButtonText || ""}
+          requisitosButtonText={visto.requisitosButtonText || "Conheça todos os requisitos especiais"}
           requisitosButtonUrl={visto.requisitosButtonUrl || "/requisitos"}
           requisitos={requisitos}
         />
