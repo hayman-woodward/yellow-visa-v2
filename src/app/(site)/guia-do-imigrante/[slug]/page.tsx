@@ -4,7 +4,7 @@ import DicasENoticias from '@/components/shared/DicasENoticias';
 import { getGuiaQuestionHeader } from '@/lib/actions/faq';
 import GuiaHeader from './components/GuiaHeader';
 import GuiaContent from './components/GuiaContent';
-import OutrosDestaques from '../../blog/destinos/components/OutrosDestaques';
+import OutrosDestaques from '../../blog/locais/components/OutrosDestaques';
 import { Metadata } from 'next';
 
 interface GDIPostPageProps {

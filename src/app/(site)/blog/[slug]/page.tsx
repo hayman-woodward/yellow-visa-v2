@@ -3,7 +3,7 @@ import BlogHeader from "./components/BlogHeader";
 import BlogPost from "./components/BlogPost";
 import FeaturedImg from "./components/FeaturedImg";
 import BeneficiosSection from "@/components/shared/BeneficiosSection";
-import OutrosDestaques from "../destinos/components/OutrosDestaques";
+import OutrosDestaques from "../locais/components/OutrosDestaques";
 import { getBlogPostBySlug } from "@/lib/actions/blog";
 import { Metadata } from "next";
 

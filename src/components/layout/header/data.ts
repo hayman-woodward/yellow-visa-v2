@@ -62,7 +62,7 @@ export const menuData = {
   //     items: [
   //       { id: 'noticias', label: 'Notícias', href: '/blog' },
   //       { id: 'historias', label: 'Histórias', href: '/blog/historias' },
-  //       { id: 'destinos', label: 'Destinos', href: '/blog/destinos' }
+  //       { id: 'destinos', label: 'Destinos', href: '/blog/locais' }
   //     ]
   //   }
   // ]
