@@ -6,6 +6,7 @@ import HeroDestinos from './components/HeroDestinos';
 import { getDestinoBySlug } from '@/lib/actions/destinos';
 import DescricaoDestinos from './components/DescricaoDesatinos';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 interface DestinoPageProps {
   params: Promise<{
@@ -17,12 +18,7 @@ export async function generateMetadata({ params }: DestinoPageProps): Promise<Me
   const { slug } = await params;
   const destino = await getDestinoBySlug(slug);
 
-  if (!destino) {
-    return {
-      title: 'Destino não encontrado | Yellow Visa',
-      description: 'O destino solicitado não foi encontrado.',
-    };
-  }
+  if (!destino) notFound();
 
   return {
     title: `${destino.name} | Yellow Visa`,
@@ -47,19 +43,11 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
   const destino = await getDestinoBySlug(slug);
 
   if (!destino) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Destino não encontrado</h1>
-          <p className="text-gray-600">O destino solicitado não foi encontrado.</p>
-          <p className="text-sm text-gray-500 mt-2">Slug: {slug}</p>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
   return (
-    <div>
+    <div className='bg-white min-h-screen'>
       <HeroDestinos 
         title={destino.name}
         slug={destino.slug}
@@ -70,7 +58,7 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
         excerpt={destino.description}
         content={destino.content}
       />
-      <PerguntasFrequentes slug='guia-do-imigrante' />
+      
       <CTABanner />
       <BeneficiosSection />
       <DicasENoticias />

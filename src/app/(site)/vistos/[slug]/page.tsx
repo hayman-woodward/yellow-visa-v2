@@ -1,6 +1,7 @@
 import CTABanner from '@/components/shared/CTABanner';
 import { getVistoBySlug } from '@/lib/actions/vistos';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import DescricaoVisto from './components/DescricaoVisto';
 import Diferenciais from './components/Diferenciais';
 import HeroVistos from './components/HeroVistos';
@@ -22,12 +23,7 @@ export async function generateMetadata({ params }: VistoPageProps): Promise<Meta
   const { slug } = await params;
   const visto = await getVistoBySlug(slug);
 
-  if (!visto) {
-    return {
-      title: 'Visto não encontrado | Yellow Visa',
-      description: 'O visto solicitado não foi encontrado.',
-    };
-  }
+  if (!visto) notFound();
 
   return {
     title: visto.metaTitle || `${visto.title} | Yellow Visa`,
@@ -53,15 +49,7 @@ export default async function VistoPage({ params }: VistoPageProps) {
 
   // Se não encontrar o visto, mostrar página 404
   if (!visto) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Visto não encontrado</h1>
-          <p className="text-gray-600">O visto solicitado não foi encontrado.</p>
-          <p className="text-sm text-gray-500 mt-2">Slug: {slug}</p>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
 

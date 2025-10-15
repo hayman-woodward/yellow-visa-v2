@@ -7,7 +7,11 @@ import {
   YVTitle
 } from '@/components/YV';
 
-export default function SimplificamosSeuVisto() {
+interface SimplificamosSeuVistoProps {
+  showButton?: boolean;
+}
+
+export default function SimplificamosSeuVisto({ showButton = true }: SimplificamosSeuVistoProps) {
   const galleryItems = [
     {
       id: '1',
@@ -33,13 +37,15 @@ export default function SimplificamosSeuVisto() {
                 className='mb-6'
               />
               <YVText className='p-2 mb-4'>
-                Descrição Phasellus netus natoque ante eget at condimentum
-                eget.Descrição
+                Transformamos o processo complexo de imigração em uma jornada clara e personalizada, 
+                com orientação completa desde a escolha do visto ideal até sua chegada no novo país.
               </YVText>
-              <YVButton variant='outline' href='/destinos'>
-                <YVIcon name='arrow-right' />
-                Conheça todos os destinos
-              </YVButton>
+              {showButton && (
+                <YVButton variant='outline' href='/destinos'>
+                  <YVIcon name='arrow-right' />
+                  Conheça todos os destinos
+                </YVButton>
+              )}
             </div>
           </div>
 

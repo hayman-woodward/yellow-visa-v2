@@ -18,12 +18,12 @@ export const metadata = {
 
 export default function Sobre() {
   return (
-    <div>
+    <div className='bg-white'>
       <HeroVistos />
       <Banner />
       <Vistos />
-      <SimplificamosSeuVisto />
-      <RequisitosEspeciais />
+      <SimplificamosSeuVisto showButton={false} />
+      <RequisitosEspeciais showButton={false} />
       <Contadores />
       <PerguntasFrequentes slug='guia-do-imigrante' />
       <CTABanner />
