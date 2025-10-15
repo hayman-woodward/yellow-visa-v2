@@ -150,7 +150,23 @@ export default function EditarDestinoPage({ params }: PageProps) {
             city3Image: destino.city3Image || '',
             city4Title: destino.city4Title || '',
             city4Description: destino.city4Description || '',
-            city4Image: destino.city4Image || ''
+            city4Image: destino.city4Image || '',
+            // Campos dos diferenciais
+            diferenciaisEnabled: destino.diferenciaisEnabled || false,
+            diferenciaisTitle: destino.diferenciaisTitle || '',
+            diferenciaisDescription: destino.diferenciaisDescription || '',
+            diferencial1Title: destino.diferencial1Title || '',
+            diferencial1Description: destino.diferencial1Description || '',
+            diferencial1Image: destino.diferencial1Image || '',
+            diferencial2Title: destino.diferencial2Title || '',
+            diferencial2Description: destino.diferencial2Description || '',
+            diferencial2Image: destino.diferencial2Image || '',
+            diferencial3Title: destino.diferencial3Title || '',
+            diferencial3Description: destino.diferencial3Description || '',
+            diferencial3Image: destino.diferencial3Image || '',
+            diferencial4Title: destino.diferencial4Title || '',
+            diferencial4Description: destino.diferencial4Description || '',
+            diferencial4Image: destino.diferencial4Image || ''
           }}
           isEditing
         />

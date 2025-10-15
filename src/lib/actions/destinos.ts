@@ -36,6 +36,22 @@ export type DestinoData = {
   city4Title?: string;
   city4Description?: string;
   city4Image?: string;
+  // Campos dos diferenciais
+  diferenciaisEnabled: boolean;
+  diferenciaisTitle?: string;
+  diferenciaisDescription?: string;
+  diferencial1Title?: string;
+  diferencial1Description?: string;
+  diferencial1Image?: string;
+  diferencial2Title?: string;
+  diferencial2Description?: string;
+  diferencial2Image?: string;
+  diferencial3Title?: string;
+  diferencial3Description?: string;
+  diferencial3Image?: string;
+  diferencial4Title?: string;
+  diferencial4Description?: string;
+  diferencial4Image?: string;
 };
 
 export async function getPublishedDestinos(): Promise<DestinoSummary[]> {
@@ -87,7 +103,23 @@ export async function getDestinoBySlug(slug: string): Promise<DestinoData | null
         city3Image: true,
         city4Title: true,
         city4Description: true,
-        city4Image: true
+        city4Image: true,
+        // Campos dos diferenciais
+        diferenciaisEnabled: true,
+        diferenciaisTitle: true,
+        diferenciaisDescription: true,
+        diferencial1Title: true,
+        diferencial1Description: true,
+        diferencial1Image: true,
+        diferencial2Title: true,
+        diferencial2Description: true,
+        diferencial2Image: true,
+        diferencial3Title: true,
+        diferencial3Description: true,
+        diferencial3Image: true,
+        diferencial4Title: true,
+        diferencial4Description: true,
+        diferencial4Image: true
       }
     });
 
@@ -120,7 +152,23 @@ export async function getDestinoBySlug(slug: string): Promise<DestinoData | null
       city3Image: destino.city3Image || undefined,
       city4Title: destino.city4Title || undefined,
       city4Description: destino.city4Description || undefined,
-      city4Image: destino.city4Image || undefined
+      city4Image: destino.city4Image || undefined,
+      // Campos dos diferenciais
+      diferenciaisEnabled: destino.diferenciaisEnabled || false,
+      diferenciaisTitle: destino.diferenciaisTitle || undefined,
+      diferenciaisDescription: destino.diferenciaisDescription || undefined,
+      diferencial1Title: destino.diferencial1Title || undefined,
+      diferencial1Description: destino.diferencial1Description || undefined,
+      diferencial1Image: destino.diferencial1Image || undefined,
+      diferencial2Title: destino.diferencial2Title || undefined,
+      diferencial2Description: destino.diferencial2Description || undefined,
+      diferencial2Image: destino.diferencial2Image || undefined,
+      diferencial3Title: destino.diferencial3Title || undefined,
+      diferencial3Description: destino.diferencial3Description || undefined,
+      diferencial3Image: destino.diferencial3Image || undefined,
+      diferencial4Title: destino.diferencial4Title || undefined,
+      diferencial4Description: destino.diferencial4Description || undefined,
+      diferencial4Image: destino.diferencial4Image || undefined
     };
   } catch (error) {
     console.error('Failed to load destino by slug:', error);

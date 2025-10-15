@@ -42,6 +42,22 @@ type DestinoFormProps = {
     city4Title?: string;
     city4Description?: string;
     city4Image?: string;
+    // Campos dos diferenciais
+    diferenciaisEnabled?: boolean;
+    diferenciaisTitle?: string;
+    diferenciaisDescription?: string;
+    diferencial1Title?: string;
+    diferencial1Description?: string;
+    diferencial1Image?: string;
+    diferencial2Title?: string;
+    diferencial2Description?: string;
+    diferencial2Image?: string;
+    diferencial3Title?: string;
+    diferencial3Description?: string;
+    diferencial3Image?: string;
+    diferencial4Title?: string;
+    diferencial4Description?: string;
+    diferencial4Image?: string;
   };
   isEditing?: boolean;
 };
@@ -54,6 +70,7 @@ export default function DestinoForm({
   const [serverSuccess, setServerSuccess] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cidadesExpanded, setCidadesExpanded] = useState(false);
+  const [diferenciaisExpanded, setDiferenciaisExpanded] = useState(false);
   const router = useRouter();
 
   // Helper function to get city field name with proper typing
@@ -103,7 +120,23 @@ export default function DestinoForm({
       city3Image: defaultValues?.city3Image || '',
       city4Title: defaultValues?.city4Title || '',
       city4Description: defaultValues?.city4Description || '',
-      city4Image: defaultValues?.city4Image || ''
+      city4Image: defaultValues?.city4Image || '',
+      // Campos dos diferenciais
+      diferenciaisEnabled: defaultValues?.diferenciaisEnabled || false,
+      diferenciaisTitle: defaultValues?.diferenciaisTitle || '',
+      diferenciaisDescription: defaultValues?.diferenciaisDescription || '',
+      diferencial1Title: defaultValues?.diferencial1Title || '',
+      diferencial1Description: defaultValues?.diferencial1Description || '',
+      diferencial1Image: defaultValues?.diferencial1Image || '',
+      diferencial2Title: defaultValues?.diferencial2Title || '',
+      diferencial2Description: defaultValues?.diferencial2Description || '',
+      diferencial2Image: defaultValues?.diferencial2Image || '',
+      diferencial3Title: defaultValues?.diferencial3Title || '',
+      diferencial3Description: defaultValues?.diferencial3Description || '',
+      diferencial3Image: defaultValues?.diferencial3Image || '',
+      diferencial4Title: defaultValues?.diferencial4Title || '',
+      diferencial4Description: defaultValues?.diferencial4Description || '',
+      diferencial4Image: defaultValues?.diferencial4Image || ''
     }
   });
 
@@ -141,7 +174,23 @@ export default function DestinoForm({
         city3Image: data.city3Image || '',
         city4Title: data.city4Title || '',
         city4Description: data.city4Description || '',
-        city4Image: data.city4Image || ''
+        city4Image: data.city4Image || '',
+        // Campos dos diferenciais
+        diferenciaisEnabled: data.diferenciaisEnabled || false,
+        diferenciaisTitle: data.diferenciaisTitle || '',
+        diferenciaisDescription: data.diferenciaisDescription || '',
+        diferencial1Title: data.diferencial1Title || '',
+        diferencial1Description: data.diferencial1Description || '',
+        diferencial1Image: data.diferencial1Image || '',
+        diferencial2Title: data.diferencial2Title || '',
+        diferencial2Description: data.diferencial2Description || '',
+        diferencial2Image: data.diferencial2Image || '',
+        diferencial3Title: data.diferencial3Title || '',
+        diferencial3Description: data.diferencial3Description || '',
+        diferencial3Image: data.diferencial3Image || '',
+        diferencial4Title: data.diferencial4Title || '',
+        diferencial4Description: data.diferencial4Description || '',
+        diferencial4Image: data.diferencial4Image || ''
       };
 
       const url = isEditing && defaultValues?.slug 
@@ -319,6 +368,148 @@ export default function DestinoForm({
                 variant='modern'
                 size='md'
               />
+            </div>
+
+            {/* Seção Diferenciais */}
+            <div className='border-t pt-6'>
+              <button
+                type='button'
+                onClick={() => setDiferenciaisExpanded(!diferenciaisExpanded)}
+                className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors'
+              >
+                <div className='flex items-center space-x-3'>
+                  <Building2 className='w-6 h-6 text-[#FFBD1A]' />
+                  <div className='text-left'>
+                    <h3 className='text-lg font-semibold text-dashboard'>Diferenciais</h3>
+                    <p className='text-sm text-gray-500'>Configure os diferenciais do destino</p>
+                  </div>
+                </div>
+                <div className='flex items-center space-x-4'>
+                  <YVSwitch
+                    checked={watchedFields.diferenciaisEnabled || false}
+                    onCheckedChange={(checked) => setValue('diferenciaisEnabled', checked)}
+                    label="Exibir na página"
+                    size="sm"
+                    variant="primary"
+                  />
+                  <svg
+                    className={`w-5 h-5 text-gray-400 transition-transform ${
+                      diferenciaisExpanded ? 'rotate-180' : ''
+                    }`}
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'
+                  >
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+                  </svg>
+                </div>
+              </button>
+
+              {diferenciaisExpanded && (
+                <div className='mt-4 space-y-6 p-4 bg-white border border-gray-200 rounded-lg'>
+                  {/* Título e Descrição da Seção */}
+                  <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                    <div>
+                      <Label htmlFor='diferenciaisTitle' className='mb-2 block'>
+                        Título da Seção
+                      </Label>
+                      <YVTextField
+                        id='diferenciaisTitle'
+                        type='text'
+                        placeholder='Ex: Por que escolher este destino?'
+                        {...register('diferenciaisTitle')}
+                        disabled={isSubmitting}
+                        error={errors.diferenciaisTitle?.message as string}
+                        variant='modern'
+                        size='md'
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor='diferenciaisDescription' className='mb-2 block'>
+                        Descrição da Seção
+                      </Label>
+                      <textarea
+                        id='diferenciaisDescription'
+                        placeholder='Ex: Descrição dos diferenciais...'
+                        {...register('diferenciaisDescription')}
+                        disabled={isSubmitting}
+                        rows={3}
+                        className='w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors'
+                      />
+                      {errors.diferenciaisDescription && (
+                        <p className='text-sm text-red-600 mt-1.5'>
+                          {errors.diferenciaisDescription.message as string}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Diferenciais - Layout 2 colunas */}
+                  <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+                    {[1, 2, 3, 4].map((diferencialNum) => (
+                      <div key={diferencialNum} className='border border-gray-200 rounded-lg p-3 bg-gray-50'>
+                        <h4 className='text-sm font-medium text-gray-900 mb-3 flex items-center'>
+                          <span className='w-6 h-6 bg-[#FFBD1A] text-white rounded-full flex items-center justify-center text-xs font-bold mr-2'>
+                            {diferencialNum}
+                          </span>
+                          Diferencial {diferencialNum}
+                        </h4>
+
+                        <div className='space-y-3'>
+                          <div>
+                            <Label htmlFor={`diferencial${diferencialNum}Title`} className='mb-1 block text-xs font-medium'>
+                              Título
+                            </Label>
+                            <YVTextField
+                              id={`diferencial${diferencialNum}Title`}
+                              type='text'
+                              placeholder={`Ex: Diferencial ${diferencialNum}`}
+                              {...register(`diferencial${diferencialNum}Title` as any)}
+                              disabled={isSubmitting}
+                              error={errors[`diferencial${diferencialNum}Title` as keyof typeof errors]?.message as string}
+                              variant='modern'
+                              size='sm'
+                            />
+                          </div>
+
+                          <div>
+                            <Label htmlFor={`diferencial${diferencialNum}Description`} className='mb-1 block text-xs font-medium'>
+                              Descrição
+                            </Label>
+                            <textarea
+                              id={`diferencial${diferencialNum}Description`}
+                              placeholder={`Ex: Descrição do diferencial ${diferencialNum}...`}
+                              {...register(`diferencial${diferencialNum}Description` as any)}
+                              disabled={isSubmitting}
+                              rows={2}
+                              className='w-full px-2 py-1 text-xs rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-1 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors'
+                            />
+                            {errors[`diferencial${diferencialNum}Description` as keyof typeof errors] && (
+                              <p className='text-xs text-red-600 mt-1'>
+                                {errors[`diferencial${diferencialNum}Description` as keyof typeof errors]?.message as string}
+                              </p>
+                            )}
+                          </div>
+
+                          <div>
+                            <Label htmlFor={`diferencial${diferencialNum}Image`} className='mb-1 block text-xs font-medium'>
+                              Imagem
+                            </Label>
+                            <YVUploadImg
+                              value={watchedFields[`diferencial${diferencialNum}Image` as keyof typeof watchedFields] as string || ''}
+                              onChange={(url: string) => setValue(`diferencial${diferencialNum}Image` as any, url)}
+                              disabled={isSubmitting}
+                              error={errors[`diferencial${diferencialNum}Image` as keyof typeof errors]?.message as string}
+                              placeholder={`https://exemplo.com/diferencial${diferencialNum}.jpg`}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Principais Cidades - Accordion */}

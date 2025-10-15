@@ -39,6 +39,22 @@ export async function GET(
         city4Title: true,
         city4Description: true,
         city4Image: true,
+        // Campos dos diferenciais
+        diferenciaisEnabled: true,
+        diferenciaisTitle: true,
+        diferenciaisDescription: true,
+        diferencial1Title: true,
+        diferencial1Description: true,
+        diferencial1Image: true,
+        diferencial2Title: true,
+        diferencial2Description: true,
+        diferencial2Image: true,
+        diferencial3Title: true,
+        diferencial3Description: true,
+        diferencial3Image: true,
+        diferencial4Title: true,
+        diferencial4Description: true,
+        diferencial4Image: true,
         createdAt: true,
         updatedAt: true
       }
@@ -122,7 +138,23 @@ export async function PUT(
         city3Image: validated.city3Image || null,
         city4Title: validated.city4Title || null,
         city4Description: validated.city4Description || null,
-        city4Image: validated.city4Image || null
+        city4Image: validated.city4Image || null,
+        // Campos dos diferenciais
+        diferenciaisEnabled: validated.diferenciaisEnabled || false,
+        diferenciaisTitle: validated.diferenciaisTitle || null,
+        diferenciaisDescription: validated.diferenciaisDescription || null,
+        diferencial1Title: validated.diferencial1Title || null,
+        diferencial1Description: validated.diferencial1Description || null,
+        diferencial1Image: validated.diferencial1Image || null,
+        diferencial2Title: validated.diferencial2Title || null,
+        diferencial2Description: validated.diferencial2Description || null,
+        diferencial2Image: validated.diferencial2Image || null,
+        diferencial3Title: validated.diferencial3Title || null,
+        diferencial3Description: validated.diferencial3Description || null,
+        diferencial3Image: validated.diferencial3Image || null,
+        diferencial4Title: validated.diferencial4Title || null,
+        diferencial4Description: validated.diferencial4Description || null,
+        diferencial4Image: validated.diferencial4Image || null
       }
     });
 

@@ -40,6 +40,22 @@ interface Destino {
   city4Title?: string;
   city4Description?: string;
   city4Image?: string;
+  // Campos dos diferenciais
+  diferenciaisEnabled?: boolean;
+  diferenciaisTitle?: string;
+  diferenciaisDescription?: string;
+  diferencial1Title?: string;
+  diferencial1Description?: string;
+  diferencial1Image?: string;
+  diferencial2Title?: string;
+  diferencial2Description?: string;
+  diferencial2Image?: string;
+  diferencial3Title?: string;
+  diferencial3Description?: string;
+  diferencial3Image?: string;
+  diferencial4Title?: string;
+  diferencial4Description?: string;
+  diferencial4Image?: string;
 }
 
 interface Historia {

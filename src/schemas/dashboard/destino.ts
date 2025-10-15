@@ -26,7 +26,23 @@ export const destinoSchema = z.object({
   city3Image: z.string().url('URL inválida').optional().or(z.literal('')),
   city4Title: z.string().optional(),
   city4Description: z.string().optional(),
-  city4Image: z.string().url('URL inválida').optional().or(z.literal(''))
+  city4Image: z.string().url('URL inválida').optional().or(z.literal('')),
+  // Campos dos diferenciais
+  diferenciaisEnabled: z.boolean().default(false),
+  diferenciaisTitle: z.string().optional(),
+  diferenciaisDescription: z.string().optional(),
+  diferencial1Title: z.string().optional(),
+  diferencial1Description: z.string().optional(),
+  diferencial1Image: z.string().url('URL inválida').optional().or(z.literal('')),
+  diferencial2Title: z.string().optional(),
+  diferencial2Description: z.string().optional(),
+  diferencial2Image: z.string().url('URL inválida').optional().or(z.literal('')),
+  diferencial3Title: z.string().optional(),
+  diferencial3Description: z.string().optional(),
+  diferencial3Image: z.string().url('URL inválida').optional().or(z.literal('')),
+  diferencial4Title: z.string().optional(),
+  diferencial4Description: z.string().optional(),
+  diferencial4Image: z.string().url('URL inválida').optional().or(z.literal(''))
 });
 
 export type DestinoFormData = z.infer<typeof destinoSchema>;
