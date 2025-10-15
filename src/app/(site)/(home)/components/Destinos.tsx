@@ -11,7 +11,7 @@ export default function Destinos() {
     },
     {
       id: '2',
-      src: '/imgs/home/estados-unidos.jpg',
+      src: '/imgs/home/portugal.jpg',
       alt: 'Portugal',
       title: 'Portugal',
       description: ''
