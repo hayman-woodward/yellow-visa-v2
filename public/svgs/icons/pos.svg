@@ -1,0 +1,21 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- University building -->
+  <rect x="8" y="24" width="32" height="20" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Columns -->
+  <line x1="12" y1="24" x2="12" y2="44" stroke="#000" stroke-width="2"/>
+  <line x1="20" y1="24" x2="20" y2="44" stroke="#000" stroke-width="2"/>
+  <line x1="28" y1="24" x2="28" y2="44" stroke="#000" stroke-width="2"/>
+  <line x1="36" y1="24" x2="36" y2="44" stroke="#000" stroke-width="2"/>
+  
+  <!-- Roof -->
+  <path d="M6 24L24 8L42 24" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Windows -->
+  <rect x="14" y="28" width="4" height="4" fill="none" stroke="#000" stroke-width="1"/>
+  <rect x="22" y="28" width="4" height="4" fill="none" stroke="#000" stroke-width="1"/>
+  <rect x="30" y="28" width="4" height="4" fill="none" stroke="#000" stroke-width="1"/>
+  
+  <!-- Door -->
+  <rect x="20" y="32" width="8" height="12" fill="none" stroke="#000" stroke-width="2"/>
+</svg>

@@ -1,0 +1,18 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Brush handle -->
+  <rect x="20" y="8" width="8" height="24" rx="2" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Brush tip -->
+  <path d="M18 32L30 32L28 40L20 40Z" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Paint drops -->
+  <circle cx="16" cy="36" r="2" fill="#000"/>
+  <circle cx="32" cy="38" r="1.5" fill="#000"/>
+  <circle cx="12" cy="40" r="1" fill="#000"/>
+  
+  <!-- Palette -->
+  <circle cx="36" cy="20" r="8" fill="none" stroke="#000" stroke-width="2"/>
+  <circle cx="32" cy="16" r="2" fill="#000"/>
+  <circle cx="40" cy="16" r="2" fill="none" stroke="#000" stroke-width="1"/>
+  <circle cx="36" cy="24" r="2" fill="none" stroke="#000" stroke-width="1"/>
+</svg>

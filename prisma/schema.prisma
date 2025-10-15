@@ -1,0 +1,345 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("user")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Contact {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("contacts")
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("categories")
+}
+
+model BlogPost {
+  id                 String    @id @default(uuid())
+  title              String
+  slug               String    @unique
+  excerpt            String?
+  content            String
+  featuredImage      String?
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+  authorId           String?
+  category           String?
+  isFeatured         Boolean   @default(false)
+  metaDescription    String?
+  metaKeywords       String?
+  metaTitle          String?
+  ogDescription      String?
+  ogImage            String?
+  ogTitle            String?
+  order              Int       @default(0)
+  publishedAt        DateTime?
+  status             String    @default("draft")
+  tags               String?
+  twitterDescription String?
+  twitterImage       String?
+  twitterTitle       String?
+
+  @@map("blog_posts")
+}
+
+model Page {
+  id                 String    @id @default(uuid())
+  title              String
+  slug               String    @unique
+  content            String
+  excerpt            String?
+  metaTitle          String?
+  metaDescription    String?
+  metaKeywords       String?
+  ogTitle            String?
+  ogDescription      String?
+  ogImage            String?
+  twitterTitle       String?
+  twitterDescription String?
+  twitterImage       String?
+  featuredImage      String?
+  order              Int       @default(0)
+  status             String    @default("draft")
+  isHomepage         Boolean   @default(false)
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+  publishedAt        DateTime?
+  authorId           String?
+
+  @@map("pages")
+}
+
+model Visto {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  description String
+  excerpt     String?  // Novo campo para resumo
+  content     String?  // Novo campo para conteúdo principal
+  bannerTitle String?  // Título do banner (ex: "Seu talento merece chegar mais longe")
+  // Campos do banner dinâmico
+  bannerEnabled Boolean @default(false)
+  bannerDescription String?
+  bannerButtonText String?
+  bannerButtonUrl String?
+  // Campos do CTA dinâmico
+  ctaTitle String?
+  ctaDescription String?
+  ctaButtonText String?
+  ctaButtonUrl String?
+  videoUrl    String?  // URL do vídeo do YouTube
+  // Campos das principais cidades
+  cityEnabled     Boolean  @default(false) // Se a seção de cidades deve aparecer na página
+  cityTitle       String?  // Título da seção (ex: "Principais cidades de destino do visto EB2-NIW")
+  cityDescription String?  // Descrição da seção
+  city1Title      String?  // Título da cidade 1
+  city1Description String? // Descrição da cidade 1
+  city1Image      String?  // Imagem da cidade 1
+  city2Title      String?  // Título da cidade 2
+  city2Description String? // Descrição da cidade 2
+  city2Image      String?  // Imagem da cidade 2
+  city3Title      String?  // Título da cidade 3
+  city3Description String? // Descrição da cidade 3
+  city3Image      String?  // Imagem da cidade 3
+  city4Title      String?  // Título da cidade 4
+  city4Description String? // Descrição da cidade 4
+  city4Image      String?  // Imagem da cidade 4
+  // Campos do FAQ
+  faqEnabled     Boolean  @default(false) // Se o FAQ deve aparecer na página
+  faqTitle       String?  // Título da seção FAQ
+  faqDescription String?  // Descrição da seção FAQ
+  faq1Question   String?  // Pergunta 1
+  faq1Answer     String?  // Resposta 1
+  faq2Question   String?  // Pergunta 2
+  faq2Answer     String?  // Resposta 2
+  faq3Question   String?  // Pergunta 3
+  faq3Answer     String?  // Resposta 3
+  faq4Question   String?  // Pergunta 4
+  faq4Answer     String?  // Resposta 4
+  faq5Question   String?  // Pergunta 5
+  faq5Answer     String?  // Resposta 5
+  faq6Question   String?  // Pergunta 6
+  faq6Answer     String?  // Resposta 6
+  // Campos dos diferenciais
+  diferenciaisEnabled Boolean  @default(false) // Se a seção de diferenciais deve aparecer na página
+  diferenciaisTitle  String?  // Título da seção de diferenciais
+  diferenciaisDescription String? // Descrição da seção de diferenciais
+  diferencial1Title  String?  // Título do diferencial 1
+  diferencial1Description String? // Descrição do diferencial 1
+  diferencial1Image  String?  // Imagem do diferencial 1
+  diferencial2Title  String?  // Título do diferencial 2
+  diferencial2Description String? // Descrição do diferencial 2
+  diferencial2Image  String?  // Imagem do diferencial 2
+  diferencial3Title  String?  // Título do diferencial 3
+  diferencial3Description String? // Descrição do diferencial 3
+  diferencial3Image  String?  // Imagem do diferencial 3
+  diferencial4Title  String?  // Título do diferencial 4
+  diferencial4Description String? // Descrição do diferencial 4
+  diferencial4Image  String?  // Imagem do diferencial 4
+  // Campos dos benefícios
+  beneficiosEnabled Boolean  @default(false) // Se a seção de benefícios deve aparecer na página
+  beneficio1Title   String?  // Título do benefício 1
+  beneficio1Description String? // Descrição do benefício 1
+  beneficio1Icon    String?  // Ícone do benefício 1 (SVG como string)
+  beneficio2Title   String?  // Título do benefício 2
+  beneficio2Description String? // Descrição do benefício 2
+  beneficio2Icon    String?  // Ícone do benefício 2 (SVG como string)
+  beneficio3Title   String?  // Título do benefício 3
+  beneficio3Description String? // Descrição do benefício 3
+  beneficio3Icon    String?  // Ícone do benefício 3 (SVG como string)
+  // Campos dos requisitos especiais
+  requisitosEnabled Boolean  @default(false) // Se a seção de requisitos deve aparecer na página
+  requisitosTitle   String?  // Título da seção de requisitos
+  requisitosDescription String? // Descrição da seção de requisitos
+  requisitosBreadcrumb String? // Breadcrumb da seção de requisitos
+  requisitosButtonText String? // Texto do botão da seção de requisitos
+  requisitosButtonUrl String? // URL do botão da seção de requisitos
+  requisito1Title   String?  // Título do requisito 1
+  requisito1Description String? // Descrição do requisito 1
+  requisito1Icon    String?  // Ícone do requisito 1 (SVG como string)
+  requisito2Title   String?  // Título do requisito 2
+  requisito2Description String? // Descrição do requisito 2
+  requisito2Icon    String?  // Ícone do requisito 2 (SVG como string)
+  requisito3Title   String?  // Título do requisito 3
+  requisito3Description String? // Descrição do requisito 3
+  requisito3Icon    String?  // Ícone do requisito 3 (SVG como string)
+  requisito4Title   String?  // Título do requisito 4
+  requisito4Description String? // Descrição do requisito 4
+  requisito4Icon    String?  // Ícone do requisito 4 (SVG como string)
+  requisito5Title   String?  // Título do requisito 5
+  requisito5Description String? // Descrição do requisito 5
+  requisito5Icon    String?  // Ícone do requisito 5 (SVG como string)
+  requisito6Title   String?  // Título do requisito 6
+  requisito6Description String? // Descrição do requisito 6
+  requisito6Icon    String?  // Ícone do requisito 6 (SVG como string)
+  requisito7Title   String?  // Título do requisito 7
+  requisito7Description String? // Descrição do requisito 7
+  requisito7Icon    String?  // Ícone do requisito 7 (SVG como string)
+  requisito8Title   String?  // Título do requisito 8
+  requisito8Description String? // Descrição do requisito 8
+  requisito8Icon    String?  // Ícone do requisito 8 (SVG como string)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  country     String
+  imageUrl    String?  @map("image_url")
+  status      String   @default("draft")
+  vistoType   String   @map("visto_type")
+  // Campos SEO
+  authorId           String?
+  metaTitle          String?
+  metaDescription    String?
+  metaKeywords       String?
+  ogTitle            String?
+  ogDescription      String?
+  ogImage            String?
+  twitterTitle       String?
+  twitterDescription String?
+  twitterImage       String?
+
+  @@map("vistos")
+}
+
+model Historia {
+  id         String   @id @default(uuid())
+  title      String
+  slug       String   @unique
+  content    String
+  imageUrl   String?  @map("image_url")
+  authorName String   @map("author_name")
+  country    String
+  status     String   @default("draft")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("historias")
+}
+
+model Destino {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String?
+  content     String?  @map("content")
+  bannerTitle String?  @map("banner_title")
+  imageUrl    String?  @map("image_url")
+  country     String
+  continent   String
+  highlights  String?
+  status      String   @default("draft")
+  // Campos das principais cidades
+  cityTitle       String?  @map("city_title")
+  cityDescription String?  @map("city_description")
+  city1Title      String?  @map("city1_title")
+  city1Description String? @map("city1_description")
+  city1Image      String?  @map("city1_image")
+  city2Title      String?  @map("city2_title")
+  city2Description String? @map("city2_description")
+  city2Image      String?  @map("city2_image")
+  city3Title      String?  @map("city3_title")
+  city3Description String? @map("city3_description")
+  city3Image      String?  @map("city3_image")
+  city4Title      String?  @map("city4_title")
+  city4Description String? @map("city4_description")
+  city4Image      String?  @map("city4_image")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("destinos")
+}
+
+model TeamMember {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  position  String
+  bio       String?
+  imageUrl  String?  @map("image_url")
+  email     String?
+  linkedin  String?
+  order     Int      @default(0)
+  status    String   @default("draft")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("team_members")
+}
+
+model FaqGroup {
+  id           String        @id @default(uuid())
+  title        String
+  slug         String        @unique
+  description  String?
+  imageUrl     String?       @map("image_url")
+  order        Int           @default(0)
+  status       String        @default("draft")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  sectionTitle String?
+  questions    FaqQuestion[]
+
+  @@map("faq_groups")
+}
+
+model FaqQuestion {
+  id              String   @id @default(uuid())
+  question        String
+  order           Int      @default(0)
+  status          String   @default("draft")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  groupId         String
+  link            String
+  videoUrl        String?
+  authorId        String?
+  content         String?
+  imageurl        String?
+  metadescription String?
+  ogdescription   String?
+  group           FaqGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@map("faq_questions")
+}
+
+model Lead {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  phone     String?
+  source    String   @default("newsletter")
+  status    String   @default("new")
+  notes     String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("leads")
+}

@@ -1,0 +1,22 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Microscope base -->
+  <rect x="16" y="32" width="16" height="8" rx="2" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Microscope arm -->
+  <line x1="24" y1="32" x2="24" y2="20" stroke="#000" stroke-width="3"/>
+  
+  <!-- Microscope head -->
+  <circle cx="24" cy="20" r="6" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Eyepiece -->
+  <circle cx="24" cy="16" r="2" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Objective lens -->
+  <circle cx="30" cy="20" r="2" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Stage -->
+  <rect x="12" y="24" width="8" height="2" fill="none" stroke="#000" stroke-width="1"/>
+  
+  <!-- Sample -->
+  <rect x="14" y="23" width="4" height="1" fill="#000"/>
+</svg>

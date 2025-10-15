@@ -1,0 +1,27 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Main building -->
+  <rect x="12" y="16" width="24" height="28" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Roof -->
+  <path d="M10 16L24 6L38 16" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Windows -->
+  <rect x="16" y="20" width="4" height="4" fill="none" stroke="#000" stroke-width="1"/>
+  <rect x="22" y="20" width="4" height="4" fill="none" stroke="#000" stroke-width="1"/>
+  <rect x="28" y="20" width="4" height="4" fill="none" stroke="#000" stroke-width="1"/>
+  
+  <rect x="16" y="26" width="4" height="4" fill="none" stroke="#000" stroke-width="1"/>
+  <rect x="22" y="26" width="4" height="4" fill="none" stroke="#000" stroke-width="1"/>
+  <rect x="28" y="26" width="4" height="4" fill="none" stroke="#000" stroke-width="1"/>
+  
+  <rect x="16" y="32" width="4" height="4" fill="none" stroke="#000" stroke-width="1"/>
+  <rect x="22" y="32" width="4" height="4" fill="none" stroke="#000" stroke-width="1"/>
+  <rect x="28" y="32" width="4" height="4" fill="none" stroke="#000" stroke-width="1"/>
+  
+  <!-- Door -->
+  <rect x="20" y="36" width="8" height="8" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Flag -->
+  <line x1="38" y1="16" x2="38" y2="12" stroke="#000" stroke-width="2"/>
+  <path d="M38 12L44 12L42 14L44 16L38 16Z" fill="none" stroke="#000" stroke-width="1"/>
+</svg>

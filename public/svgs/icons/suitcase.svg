@@ -1,0 +1,20 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Suitcase body -->
+  <rect x="12" y="16" width="24" height="20" rx="2" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Handle -->
+  <rect x="18" y="12" width="12" height="4" rx="2" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Lock -->
+  <rect x="20" y="32" width="8" height="6" rx="1" fill="none" stroke="#000" stroke-width="2"/>
+  <circle cx="24" cy="30" r="2" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Wheels -->
+  <circle cx="16" cy="38" r="2" fill="none" stroke="#000" stroke-width="2"/>
+  <circle cx="32" cy="38" r="2" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Details -->
+  <line x1="16" y1="20" x2="32" y2="20" stroke="#000" stroke-width="1"/>
+  <line x1="16" y1="24" x2="28" y2="24" stroke="#000" stroke-width="1"/>
+  <line x1="16" y1="28" x2="32" y2="28" stroke="#000" stroke-width="1"/>
+</svg>

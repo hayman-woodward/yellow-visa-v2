@@ -1,0 +1,94 @@
+/* Dashboard Theme Variables - Isolado do site público */
+
+.dashboard-dark {
+  --dashboard-bg: #000000;
+  --dashboard-sidebar: #0a0a0a;
+  --dashboard-card: #1a1a1a;
+  --dashboard-border: #2a2a2a;
+  --dashboard-hover: #2a2a2a;
+  --dashboard-text: #ffffff;
+  --dashboard-muted: #6b7280;
+  --dashboard-accent: #ffbd1a;
+}
+
+.dashboard-light {
+  --dashboard-bg: #f9fafb;
+  --dashboard-sidebar: #ffffff;
+  --dashboard-card: #ffffff;
+  --dashboard-border: #e5e7eb;
+  --dashboard-hover: #f3f4f6;
+  --dashboard-text: #111827;
+  --dashboard-muted: #6b7280;
+  --dashboard-accent: #ffbd1a;
+}
+
+/* Logo filter baseado no tema */
+.dashboard-dark .dashboard-logo-filter {
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s ease;
+}
+
+.dashboard-light .dashboard-logo-filter {
+  filter: none;
+  transition: filter 0.3s ease;
+}
+
+/* Utility classes */
+.bg-dashboard-bg {
+  background-color: var(--dashboard-bg);
+}
+
+.bg-dashboard-sidebar {
+  background-color: var(--dashboard-sidebar);
+}
+
+.bg-dashboard-card {
+  background-color: var(--dashboard-card);
+}
+
+.border-dashboard {
+  border-color: var(--dashboard-border);
+}
+
+.bg-dashboard-hover {
+  background-color: var(--dashboard-hover);
+}
+
+.text-dashboard {
+  color: var(--dashboard-text);
+}
+
+.text-dashboard-muted {
+  color: var(--dashboard-muted);
+}
+/* Page Transitions - Replicando Nuxt mode: 'out-in' */
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.3s;
+}
+
+.page-enter-active {
+  animation: pageEnter 0.3s ease-out;
+}
+
+.page-leave-active {
+  animation: pageLeave 0.3s ease-out;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pageLeave {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

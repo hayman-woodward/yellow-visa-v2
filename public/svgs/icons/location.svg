@@ -1,0 +1,10 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Location pin -->
+  <path d="M24 4C16.268 4 10 10.268 10 18C10 28 24 44 24 44S38 28 38 18C38 10.268 31.732 4 24 4Z" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Inner circle -->
+  <circle cx="24" cy="18" r="6" fill="none" stroke="#000" stroke-width="2"/>
+  
+  <!-- Center dot -->
+  <circle cx="24" cy="18" r="2" fill="#000"/>
+</svg>
