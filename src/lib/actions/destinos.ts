@@ -21,6 +21,7 @@ export type DestinoData = {
   highlights?: string;
   status: string;
   // Campos das principais cidades
+  cityEnabled: boolean;
   cityTitle?: string;
   cityDescription?: string;
   city1Title?: string;
@@ -72,6 +73,7 @@ export async function getDestinoBySlug(slug: string): Promise<DestinoData | null
         highlights: true,
         status: true,
         // Campos das principais cidades
+        cityEnabled: true,
         cityTitle: true,
         cityDescription: true,
         city1Title: true,
@@ -104,6 +106,7 @@ export async function getDestinoBySlug(slug: string): Promise<DestinoData | null
       highlights: destino.highlights || undefined,
       status: destino.status,
       // Campos das principais cidades
+      cityEnabled: destino.cityEnabled || false,
       cityTitle: destino.cityTitle || undefined,
       cityDescription: destino.cityDescription || undefined,
       city1Title: destino.city1Title || undefined,

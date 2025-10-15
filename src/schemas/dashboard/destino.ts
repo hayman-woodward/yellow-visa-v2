@@ -12,6 +12,7 @@ export const destinoSchema = z.object({
   highlights: z.string().optional(),
   status: z.enum(['draft', 'published']),
   // Campos das principais cidades
+  cityEnabled: z.boolean().default(false),
   cityTitle: z.string().optional(),
   cityDescription: z.string().optional(),
   city1Title: z.string().optional(),

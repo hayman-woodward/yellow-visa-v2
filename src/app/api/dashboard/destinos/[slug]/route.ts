@@ -23,6 +23,22 @@ export async function GET(
         continent: true,
         highlights: true,
         status: true,
+        // Campos das principais cidades
+        cityEnabled: true,
+        cityTitle: true,
+        cityDescription: true,
+        city1Title: true,
+        city1Description: true,
+        city1Image: true,
+        city2Title: true,
+        city2Description: true,
+        city2Image: true,
+        city3Title: true,
+        city3Description: true,
+        city3Image: true,
+        city4Title: true,
+        city4Description: true,
+        city4Image: true,
         createdAt: true,
         updatedAt: true
       }
@@ -90,7 +106,23 @@ export async function PUT(
         country: validated.country,
         continent: validated.continent,
         highlights: validated.highlights || null,
-        status: validated.status
+        status: validated.status,
+        // Campos das principais cidades
+        cityEnabled: validated.cityEnabled || false,
+        cityTitle: validated.cityTitle || null,
+        cityDescription: validated.cityDescription || null,
+        city1Title: validated.city1Title || null,
+        city1Description: validated.city1Description || null,
+        city1Image: validated.city1Image || null,
+        city2Title: validated.city2Title || null,
+        city2Description: validated.city2Description || null,
+        city2Image: validated.city2Image || null,
+        city3Title: validated.city3Title || null,
+        city3Description: validated.city3Description || null,
+        city3Image: validated.city3Image || null,
+        city4Title: validated.city4Title || null,
+        city4Description: validated.city4Description || null,
+        city4Image: validated.city4Image || null
       }
     });
 

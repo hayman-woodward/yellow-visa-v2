@@ -61,7 +61,23 @@ export async function POST(request: NextRequest) {
         country: validated.country,
         continent: validated.continent,
         highlights: validated.highlights || null,
-        status: validated.status
+        status: validated.status,
+        // Campos das principais cidades
+        cityEnabled: validated.cityEnabled || false,
+        cityTitle: validated.cityTitle || null,
+        cityDescription: validated.cityDescription || null,
+        city1Title: validated.city1Title || null,
+        city1Description: validated.city1Description || null,
+        city1Image: validated.city1Image || null,
+        city2Title: validated.city2Title || null,
+        city2Description: validated.city2Description || null,
+        city2Image: validated.city2Image || null,
+        city3Title: validated.city3Title || null,
+        city3Description: validated.city3Description || null,
+        city3Image: validated.city3Image || null,
+        city4Title: validated.city4Title || null,
+        city4Description: validated.city4Description || null,
+        city4Image: validated.city4Image || null
       }
     });
 

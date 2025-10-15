@@ -257,6 +257,7 @@ model Destino {
   highlights  String?
   status      String   @default("draft")
   // Campos das principais cidades
+  cityEnabled Boolean  @default(false) @map("city_enabled")
   cityTitle       String?  @map("city_title")
   cityDescription String?  @map("city_description")
   city1Title      String?  @map("city1_title")

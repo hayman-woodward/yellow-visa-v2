@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { YVTextField, YVSelect, YVUploadImg } from '@/components/YV';
+import { YVTextField, YVSelect, YVUploadImg, YVSwitch } from '@/components/YV';
 import YVTinyMCEEditor from '@/components/editor/YVTinyMCEEditor';
 import { Label } from '@/components/ui/label';
 import { MapPin, Globe, Tag, Image as ImageIcon, Star, Building2 } from 'lucide-react';
@@ -27,6 +27,7 @@ type DestinoFormProps = {
     highlights?: string;
     status?: string;
     // Campos das principais cidades
+    cityEnabled?: boolean;
     cityTitle?: string;
     cityDescription?: string;
     city1Title?: string;
@@ -88,6 +89,7 @@ export default function DestinoForm({
       highlights: defaultValues?.highlights || '',
       status: (defaultValues?.status as 'draft' | 'published') || 'draft',
       // Campos das principais cidades
+      cityEnabled: defaultValues?.cityEnabled || false,
       cityTitle: defaultValues?.cityTitle || '',
       cityDescription: defaultValues?.cityDescription || '',
       city1Title: defaultValues?.city1Title || '',
@@ -125,6 +127,7 @@ export default function DestinoForm({
         highlights: data.highlights || '',
         status: data.status,
         // Campos das principais cidades
+        cityEnabled: data.cityEnabled || false,
         cityTitle: data.cityTitle || '',
         cityDescription: data.cityDescription || '',
         city1Title: data.city1Title || '',
@@ -332,10 +335,19 @@ export default function DestinoForm({
                     <p className='text-sm text-gray-500'>Configure as cidades de destino</p>
                   </div>
                 </div>
-                <div className={`transform transition-transform ${cidadesExpanded ? 'rotate-180' : ''}`}>
-                  <svg className='w-5 h-5 text-gray-500' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
-                  </svg>
+                <div className='flex items-center space-x-4'>
+                  <YVSwitch
+                    checked={watchedFields.cityEnabled || false}
+                    onCheckedChange={(checked) => setValue('cityEnabled', checked)}
+                    label="Exibir na página"
+                    size="sm"
+                    variant="primary"
+                  />
+                  <div className={`transform transition-transform ${cidadesExpanded ? 'rotate-180' : ''}`}>
+                    <svg className='w-5 h-5 text-gray-500' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+                    </svg>
+                  </div>
                 </div>
               </button>
 

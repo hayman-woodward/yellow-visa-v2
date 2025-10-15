@@ -24,6 +24,22 @@ interface Destino {
   highlights?: string;
   status: string;
   imageUrl?: string;
+  // Campos das principais cidades
+  cityEnabled?: boolean;
+  cityTitle?: string;
+  cityDescription?: string;
+  city1Title?: string;
+  city1Description?: string;
+  city1Image?: string;
+  city2Title?: string;
+  city2Description?: string;
+  city2Image?: string;
+  city3Title?: string;
+  city3Description?: string;
+  city3Image?: string;
+  city4Title?: string;
+  city4Description?: string;
+  city4Image?: string;
 }
 
 interface Historia {
