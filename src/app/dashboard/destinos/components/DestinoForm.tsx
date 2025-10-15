@@ -623,7 +623,7 @@ export default function DestinoForm({
                               id={`diferencial${diferencialNum}Title`}
                               type='text'
                               placeholder={`Ex: Diferencial ${diferencialNum}`}
-                              {...register(`diferencial${diferencialNum}Title` as keyof FormData)}
+                              {...register(`diferencial${diferencialNum}Title` as any)}
                               disabled={isSubmitting}
                               error={errors[`diferencial${diferencialNum}Title` as keyof typeof errors]?.message as string}
                               variant='modern'
@@ -638,7 +638,7 @@ export default function DestinoForm({
                             <textarea
                               id={`diferencial${diferencialNum}Description`}
                               placeholder={`Ex: Descrição do diferencial ${diferencialNum}...`}
-                              {...register(`diferencial${diferencialNum}Description` as keyof FormData)}
+                              {...register(`diferencial${diferencialNum}Description` as any)}
                               disabled={isSubmitting}
                               rows={2}
                               className='w-full px-2 py-1 text-xs rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-1 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors'
@@ -656,7 +656,7 @@ export default function DestinoForm({
                             </Label>
                             <YVUploadImg
                               value={watchedFields[`diferencial${diferencialNum}Image` as keyof typeof watchedFields] as string || ''}
-                              onChange={(url: string) => setValue(`diferencial${diferencialNum}Image` as keyof FormData, url)}
+                              onChange={(url: string) => setValue(`diferencial${diferencialNum}Image` as any, url)}
                               disabled={isSubmitting}
                               error={errors[`diferencial${diferencialNum}Image` as keyof typeof errors]?.message as string}
                               placeholder={`https://exemplo.com/diferencial${diferencialNum}.jpg`}
@@ -988,7 +988,7 @@ export default function DestinoForm({
                             <textarea
                               id={`requisito${requisitoNum}Icon`}
                               placeholder={`Cole o código SVG do ícone...`}
-                              {...register(`requisito${requisitoNum}Icon` as keyof FormData)}
+                              {...register(`requisito${requisitoNum}Icon` as any)}
                               disabled={isSubmitting}
                               rows={4}
                               className='w-full px-2 py-1 text-xs rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-1 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors font-mono'
@@ -1003,7 +1003,7 @@ export default function DestinoForm({
                               id={`requisito${requisitoNum}Title`}
                               type='text'
                               placeholder={`Ex: Título do requisito ${requisitoNum}...`}
-                              {...register(`requisito${requisitoNum}Title` as keyof FormData)}
+                              {...register(`requisito${requisitoNum}Title` as any)}
                               disabled={isSubmitting}
                               error={errors[`requisito${requisitoNum}Title` as keyof typeof errors]?.message as string}
                               variant='modern'
@@ -1018,7 +1018,7 @@ export default function DestinoForm({
                             <textarea
                               id={`requisito${requisitoNum}Description`}
                               placeholder={`Ex: Descrição do requisito ${requisitoNum}...`}
-                              {...register(`requisito${requisitoNum}Description` as keyof FormData)}
+                              {...register(`requisito${requisitoNum}Description` as any)}
                               disabled={isSubmitting}
                               rows={2}
                               className='w-full px-2 py-1 text-xs rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-1 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors'
@@ -1204,7 +1204,7 @@ export default function DestinoForm({
                             <textarea
                               id={`beneficio${beneficioNum}Icon`}
                               placeholder={`Cole o código SVG do ícone...`}
-                              {...register(`beneficio${beneficioNum}Icon` as keyof FormData)}
+                              {...register(`beneficio${beneficioNum}Icon` as any)}
                               disabled={isSubmitting}
                               rows={4}
                               className='w-full px-2 py-1 text-xs rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-1 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors font-mono'
@@ -1224,7 +1224,7 @@ export default function DestinoForm({
                               id={`beneficio${beneficioNum}Title`}
                               type='text'
                               placeholder={`Ex: Título do benefício ${beneficioNum}...`}
-                              {...register(`beneficio${beneficioNum}Title` as keyof FormData)}
+                              {...register(`beneficio${beneficioNum}Title` as any)}
                               disabled={isSubmitting}
                               error={errors[`beneficio${beneficioNum}Title` as keyof typeof errors]?.message as string}
                               variant='modern'
@@ -1239,7 +1239,7 @@ export default function DestinoForm({
                             <textarea
                               id={`beneficio${beneficioNum}Description`}
                               placeholder={`Ex: Descrição do benefício ${beneficioNum}...`}
-                              {...register(`beneficio${beneficioNum}Description` as keyof FormData)}
+                              {...register(`beneficio${beneficioNum}Description` as any)}
                               disabled={isSubmitting}
                               rows={2}
                               className='w-full px-2 py-1 text-xs rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-1 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors'
