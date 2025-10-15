@@ -10,24 +10,24 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-YV  flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#FFBD1A]/5 via-white to-[#C04]/5 flex items-center justify-center px-4">
       <div className="max-w-md mx-auto text-center">
-       
+        
         <div className="mb-12">
           <YVLogo className="justify-center" />
         </div>
 
-       
+        
         <h1 className="text-8xl font-black text-[#0F0005] mb-4">
           404
         </h1>
 
-     
+        
         <h2 className="text-xl font-medium text-[#0F0005] mb-3">
           Página não encontrada
         </h2>
 
-      
+        
         <YVText
           variant="body"
           className="text-gray-600 mb-8"
@@ -37,14 +37,13 @@ export default function NotFound() {
 
         {/* Botão */}
         <div className="flex justify-center">
-        <Link href="/">
-          <YVButton            
+          <YVButton
+            href="/"
             variant="primary"
             size="xl"
           >
             Voltar ao início
           </YVButton>
-          </Link>
         </div>
       </div>
     </div>

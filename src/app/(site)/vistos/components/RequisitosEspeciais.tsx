@@ -11,7 +11,12 @@ import {
   YVCarousel
 } from '@/components/YV';
 
-export default function RequisitosEspeciais() {
+interface RequisitosEspeciaisProps {
+  showButton?: boolean;
+}
+
+export default function RequisitosEspeciais( { showButton = true }: RequisitosEspeciaisProps ) {
+
   const requisitosCards = [
     {
       id: '1',
@@ -103,10 +108,12 @@ export default function RequisitosEspeciais() {
                 Descrição Phasellus netus natoque ante eget at condimentum
                 eget.Descrição
               </YVText>
+              {showButton && (
               <YVButton variant='outline' className='hidden md:flex' href='/requisitos-especiais'>
                 <YVIcon name='arrow-right' />
                 Conheça todos os requisitos especiais
               </YVButton>
+              )}
             </div>
           </div>
           {/* col 02 - Desktop Grid */}
