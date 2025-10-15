@@ -17,7 +17,7 @@ const bannerImages = [
   },
   {
     src: '/imgs/cta/desktop/cta-banner-04.jpg',
-    srcMobile: '/imgs/historias-imigracao-mobile.jpg',
+    srcMobile: '/imgs/cta-banner-04.jpg',
     alt: 'Descubra o melhor caminho para viver fora'
   },
   {
