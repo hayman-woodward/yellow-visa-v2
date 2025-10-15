@@ -47,7 +47,7 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
   }
 
   return (
-    <div>
+    <div className='bg-white min-h-screen'>
       <HeroDestinos 
         title={destino.name}
         slug={destino.slug}
@@ -58,7 +58,7 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
         excerpt={destino.description}
         content={destino.content}
       />
-      <PerguntasFrequentes slug='guia-do-imigrante' />
+      
       <CTABanner />
       <BeneficiosSection />
       <DicasENoticias />
