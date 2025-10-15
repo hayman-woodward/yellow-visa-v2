@@ -20,19 +20,36 @@ export async function generateMetadata({ params }: DestinoPageProps): Promise<Me
 
   if (!destino) notFound();
 
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://yellowvisa.netlify.app';
+  const ogImage = destino.imageUrl || `${baseUrl}/imgs/destinos/destinos-banner.jpg`;
+
   return {
     title: `${destino.name} | Yellow Visa`,
     description: destino.description || `Informações sobre ${destino.name} - viver, estudar e trabalhar.`,
     openGraph: {
       title: `${destino.name} | Yellow Visa`,
       description: destino.description || `Informações sobre ${destino.name} - viver, estudar e trabalhar.`,
-      images: ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/og-image.png'],
+      url: `${baseUrl}/destinos/${destino.slug}`,
+      siteName: 'Yellow Visa',
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: destino.name,
+        },
+      ],
+      locale: 'pt_BR',
+      type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
       title: `${destino.name} | Yellow Visa`,
       description: destino.description || `Informações sobre ${destino.name} - viver, estudar e trabalhar.`,
-      images: ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/og-image.png'],
+      images: [ogImage],
+    },
+    alternates: {
+      canonical: `${baseUrl}/destinos/${destino.slug}`,
     },
   };
 }
