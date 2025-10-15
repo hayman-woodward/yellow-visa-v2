@@ -13,7 +13,7 @@ interface DiferenciaisProps {
 }
 
 export default function Diferenciais({ 
-  diferenciaisTitle = "Por que escolher este destino?",
+  diferenciaisTitle = "Todo mundo promete o mesmo. A gente entrega diferente",
   diferenciaisDescription,
   diferenciais = []
 }: DiferenciaisProps) {
@@ -29,7 +29,7 @@ export default function Diferenciais({
         {/* Mobile Layout - Carousel */}
         <div className='block lg:hidden'>
           <div data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
-            <YVBreadcrumbs disabled items={[{ label: 'Diferenciais', href: '/destinos' }]} className='pb-4' />
+            <YVBreadcrumbs disabled items={[{ label: 'Diferenciais', href: '/vistos' }]} className='pb-4' />
           </div>
           <div data-aos="fade-up" data-aos-delay="400" data-aos-duration="800">
             <YVTitle className='text-2xl mb-6'>
@@ -58,7 +58,7 @@ export default function Diferenciais({
         <div className='hidden lg:flex flex-col lg:flex-row md:gap-10 xl:gap-15'>
           <div className='md:w-[320px] md:pr-7 xl:pr-0 xl:w-[400px] lg:flex-shrink-0'>
             <div data-aos="fade-right" data-aos-delay="200" data-aos-duration="800">
-              <YVBreadcrumbs disabled items={[{ label: 'Diferenciais', href: '/destinos' }]} className='pb-4' />
+              <YVBreadcrumbs disabled items={[{ label: 'Diferenciais', href: '/vistos' }]} className='pb-4' />
             </div>
             <div data-aos="fade-right" data-aos-delay="400" data-aos-duration="800">
               <YVTitle className='mb-4 md:mb-6'>
@@ -80,7 +80,7 @@ export default function Diferenciais({
               gap='24px'
               showTitles={true}
               showDescriptions={true}
-              aspectRatio='16/9'
+              aspectRatio='auto'
               imageClassName='w-full h-[200px] object-cover rounded-lg'
               className='w-full xl:columns-2'
             />

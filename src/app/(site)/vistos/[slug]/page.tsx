@@ -3,7 +3,7 @@ import { getVistoBySlug } from '@/lib/actions/vistos';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import DescricaoVisto from './components/DescricaoVisto';
-import Diferenciais from './components/Diferenciais';
+import Diferenciais from '@/components/shared/Diferenciais';
 import HeroVistos from './components/HeroVistos';
 import OutrosVistos from './components/OutrosVistos';
 import PrincipaisCidades from './components/PrincipaisCidades';

@@ -1,14 +1,13 @@
 import BeneficiosSection from '@/components/shared/BeneficiosSection';
 import CTABanner from '@/components/shared/CTABanner';
 import DicasENoticias from '@/components/shared/DicasENoticias';
-import PerguntasFrequentes from '@/components/shared/PerguntasFrequentes';
-import HeroDestinos from './components/HeroDestinos';
 import { getDestinoBySlug } from '@/lib/actions/destinos';
-import DescricaoDestinos from './components/DescricaoDesatinos';
-import Diferenciais from './components/Diferenciais';
-import PrincipaisCidades from './components/PrincipaisCidades';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import DescricaoDestinos from './components/DescricaoDesatinos';
+import Diferenciais from '@/components/shared/Diferenciais';
+import HeroDestinos from './components/HeroDestinos';
+import PrincipaisCidades from './components/PrincipaisCidades';
 
 interface DestinoPageProps {
   params: Promise<{
