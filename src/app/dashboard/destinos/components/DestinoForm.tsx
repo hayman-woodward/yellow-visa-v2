@@ -8,10 +8,8 @@ import { YVTextField, YVSelect, YVUploadImg, YVSwitch } from '@/components/YV';
 import YVTinyMCEEditor from '@/components/editor/YVTinyMCEEditor';
 import { Label } from '@/components/ui/label';
 import { MapPin, Globe, Tag, Image as ImageIcon, Star, Building2 } from 'lucide-react';
-import { destinoSchema } from '@/schemas/dashboard/destino';
+import { destinoSchema, type DestinoFormData } from '@/schemas/dashboard/destino';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type FormValues = Record<string, any>;
 
 type DestinoFormProps = {
   defaultValues?: {
@@ -250,7 +248,7 @@ export default function DestinoForm({
     beneficio1Icon: watchedFields.beneficio1Icon,
   });
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: DestinoFormData) => {
     setIsSubmitting(true);
     setServerError(null);
     setServerSuccess(null);
@@ -623,6 +621,7 @@ export default function DestinoForm({
                               id={`diferencial${diferencialNum}Title`}
                               type='text'
                               placeholder={`Ex: Diferencial ${diferencialNum}`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
                               {...register(`diferencial${diferencialNum}Title` as any)}
                               disabled={isSubmitting}
                               error={errors[`diferencial${diferencialNum}Title` as keyof typeof errors]?.message as string}
@@ -638,6 +637,7 @@ export default function DestinoForm({
                             <textarea
                               id={`diferencial${diferencialNum}Description`}
                               placeholder={`Ex: Descrição do diferencial ${diferencialNum}...`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
                               {...register(`diferencial${diferencialNum}Description` as any)}
                               disabled={isSubmitting}
                               rows={2}
@@ -656,6 +656,7 @@ export default function DestinoForm({
                             </Label>
                             <YVUploadImg
                               value={watchedFields[`diferencial${diferencialNum}Image` as keyof typeof watchedFields] as string || ''}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
                               onChange={(url: string) => setValue(`diferencial${diferencialNum}Image` as any, url)}
                               disabled={isSubmitting}
                               error={errors[`diferencial${diferencialNum}Image` as keyof typeof errors]?.message as string}
@@ -988,6 +989,7 @@ export default function DestinoForm({
                             <textarea
                               id={`requisito${requisitoNum}Icon`}
                               placeholder={`Cole o código SVG do ícone...`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
                               {...register(`requisito${requisitoNum}Icon` as any)}
                               disabled={isSubmitting}
                               rows={4}
@@ -1003,6 +1005,7 @@ export default function DestinoForm({
                               id={`requisito${requisitoNum}Title`}
                               type='text'
                               placeholder={`Ex: Título do requisito ${requisitoNum}...`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
                               {...register(`requisito${requisitoNum}Title` as any)}
                               disabled={isSubmitting}
                               error={errors[`requisito${requisitoNum}Title` as keyof typeof errors]?.message as string}
@@ -1018,6 +1021,7 @@ export default function DestinoForm({
                             <textarea
                               id={`requisito${requisitoNum}Description`}
                               placeholder={`Ex: Descrição do requisito ${requisitoNum}...`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
                               {...register(`requisito${requisitoNum}Description` as any)}
                               disabled={isSubmitting}
                               rows={2}
@@ -1204,6 +1208,7 @@ export default function DestinoForm({
                             <textarea
                               id={`beneficio${beneficioNum}Icon`}
                               placeholder={`Cole o código SVG do ícone...`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
                               {...register(`beneficio${beneficioNum}Icon` as any)}
                               disabled={isSubmitting}
                               rows={4}
@@ -1224,6 +1229,7 @@ export default function DestinoForm({
                               id={`beneficio${beneficioNum}Title`}
                               type='text'
                               placeholder={`Ex: Título do benefício ${beneficioNum}...`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
                               {...register(`beneficio${beneficioNum}Title` as any)}
                               disabled={isSubmitting}
                               error={errors[`beneficio${beneficioNum}Title` as keyof typeof errors]?.message as string}
@@ -1239,6 +1245,7 @@ export default function DestinoForm({
                             <textarea
                               id={`beneficio${beneficioNum}Description`}
                               placeholder={`Ex: Descrição do benefício ${beneficioNum}...`}
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
                               {...register(`beneficio${beneficioNum}Description` as any)}
                               disabled={isSubmitting}
                               rows={2}
