@@ -28,20 +28,18 @@ export default function ResultadoProvisorioParteDoTime() {
         {/* Conteúdo posicionado à esquerda como no Figma */}
         <div className='relative z-10 text-left self-start py-10 px-4 max-w-[70%]'>
           <h2 className='text-3xl lg:text-4xl font-bold text-black mb-4'>
-            Nosso time já está com seus<br /> dados e vai revisar com cuidado
+            Nosso time já está com seus dados e vai revisar com cuidado.
           </h2>
           <p className='text-black/80 mb-8 leading-relaxed'>
-            Lorem ipsum dolor sit amet consectetur. Dui amet donec suscipit sit.
-            Urna vitae consequat in eget. Suspendisse viverra et quis sit
-            libero.
+            Se você quiser adiantar o atendimento, é só clicar no botão abaixo e falar direto com um de nossos especialistas. Quanto mais cedo começarmos, mais rápido o seu plano sai do papel.
           </p>
           <YVButton
             variant='secondary'
-            href='/comecar'
+            href='https://wa.me/12032337905'
             size='lg'
             className='bg-[#CC0044] hover:bg-[#CC0044]/90 text-white px-8'
           >
-             Refazer o teste
+             Fale com um especialista
           </YVButton>
         </div>      
       </div>
