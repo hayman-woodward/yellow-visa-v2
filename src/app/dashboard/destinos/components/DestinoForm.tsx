@@ -60,8 +60,6 @@ type DestinoFormProps = {
     diferencial4Image?: string;
     // Campos dos benefícios
     beneficiosEnabled?: boolean;
-    beneficiosTitle?: string;
-    beneficiosDescription?: string;
     beneficio1Title?: string;
     beneficio1Description?: string;
     beneficio1Icon?: string;
@@ -71,15 +69,6 @@ type DestinoFormProps = {
     beneficio3Title?: string;
     beneficio3Description?: string;
     beneficio3Icon?: string;
-    beneficio4Title?: string;
-    beneficio4Description?: string;
-    beneficio4Icon?: string;
-    beneficio5Title?: string;
-    beneficio5Description?: string;
-    beneficio5Icon?: string;
-    beneficio6Title?: string;
-    beneficio6Description?: string;
-    beneficio6Icon?: string;
     // Campos dos requisitos especiais
     requisitosEnabled?: boolean;
     requisitosTitle?: string;
@@ -130,6 +119,7 @@ export default function DestinoForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cidadesExpanded, setCidadesExpanded] = useState(false);
   const [diferenciaisExpanded, setDiferenciaisExpanded] = useState(false);
+  const [beneficiosExpanded, setBeneficiosExpanded] = useState(false);
   const [requisitosExpanded, setRequisitosExpanded] = useState(false);
   const [requisitosCount, setRequisitosCount] = useState(1);
   const [ctaExpanded, setCtaExpanded] = useState(false);
@@ -201,8 +191,6 @@ export default function DestinoForm({
       diferencial4Image: defaultValues?.diferencial4Image || '',
       // Campos dos benefícios
       beneficiosEnabled: defaultValues?.beneficiosEnabled || false,
-      beneficiosTitle: defaultValues?.beneficiosTitle || '',
-      beneficiosDescription: defaultValues?.beneficiosDescription || '',
       beneficio1Title: defaultValues?.beneficio1Title || '',
       beneficio1Description: defaultValues?.beneficio1Description || '',
       beneficio1Icon: defaultValues?.beneficio1Icon || '',
@@ -212,15 +200,6 @@ export default function DestinoForm({
       beneficio3Title: defaultValues?.beneficio3Title || '',
       beneficio3Description: defaultValues?.beneficio3Description || '',
       beneficio3Icon: defaultValues?.beneficio3Icon || '',
-      beneficio4Title: defaultValues?.beneficio4Title || '',
-      beneficio4Description: defaultValues?.beneficio4Description || '',
-      beneficio4Icon: defaultValues?.beneficio4Icon || '',
-      beneficio5Title: defaultValues?.beneficio5Title || '',
-      beneficio5Description: defaultValues?.beneficio5Description || '',
-      beneficio5Icon: defaultValues?.beneficio5Icon || '',
-      beneficio6Title: defaultValues?.beneficio6Title || '',
-      beneficio6Description: defaultValues?.beneficio6Description || '',
-      beneficio6Icon: defaultValues?.beneficio6Icon || '',
       // Campos dos requisitos especiais
       requisitosEnabled: defaultValues?.requisitosEnabled || false,
       requisitosTitle: defaultValues?.requisitosTitle || '',
@@ -262,13 +241,23 @@ export default function DestinoForm({
   });
 
   const watchedFields = watch();
+  
+  // Debug: Verificar se os campos de benefícios estão sendo observados
+  console.log('Campos observados - Benefícios:', {
+    beneficiosEnabled: watchedFields.beneficiosEnabled,
+    beneficio1Title: watchedFields.beneficio1Title,
+    beneficio1Description: watchedFields.beneficio1Description,
+    beneficio1Icon: watchedFields.beneficio1Icon,
+  });
 
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
     setServerError(null);
     setServerSuccess(null);
 
+
     try {
+
       const payload = {
         name: data.name,
         slug: data.slug,
@@ -312,6 +301,17 @@ export default function DestinoForm({
         diferencial4Title: data.diferencial4Title || '',
         diferencial4Description: data.diferencial4Description || '',
         diferencial4Image: data.diferencial4Image || '',
+        // Campos dos benefícios
+        beneficiosEnabled: data.beneficiosEnabled || false,
+        beneficio1Title: data.beneficio1Title || '',
+        beneficio1Description: data.beneficio1Description || '',
+        beneficio1Icon: data.beneficio1Icon || '',
+        beneficio2Title: data.beneficio2Title || '',
+        beneficio2Description: data.beneficio2Description || '',
+        beneficio2Icon: data.beneficio2Icon || '',
+        beneficio3Title: data.beneficio3Title || '',
+        beneficio3Description: data.beneficio3Description || '',
+        beneficio3Icon: data.beneficio3Icon || '',
         // Campos dos requisitos especiais
         requisitosEnabled: data.requisitosEnabled || false,
         requisitosTitle: data.requisitosTitle || '',
@@ -1146,6 +1146,113 @@ export default function DestinoForm({
                         size='md'
                       />
                     </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Seção Benefícios - ÚLTIMA SEÇÃO */}
+            <div className='mb-6 mt-4'>
+              <div className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg'>
+                <div className='flex items-center space-x-3'>
+                  <svg className='w-6 h-6 text-[#FFBD1A]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
+                  </svg>
+                  <div className='text-left'>
+                    <h3 className='text-lg font-semibold text-dashboard'>Benefícios</h3>
+                    <p className='text-sm text-gray-500'>Configure os benefícios deste destino</p>
+                  </div>
+                </div>
+                <div className='flex items-center space-x-4'>
+                  <YVSwitch
+                    checked={watchedFields.beneficiosEnabled}
+                    onCheckedChange={(checked) => setValue('beneficiosEnabled', checked)}
+                    label="Exibir na página"
+                    size="sm"
+                    variant="primary"
+                  />
+                  <button
+                    type='button'
+                    onClick={() => setBeneficiosExpanded(!beneficiosExpanded)}
+                    className='text-gray-600 hover:text-gray-900 transition-colors'
+                  >
+                    <svg className={`w-5 h-5 transition-transform ${beneficiosExpanded ? 'rotate-180' : ''}`} fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {beneficiosExpanded && (
+                <div className='mt-4 space-y-6 p-4 bg-white border border-gray-200 rounded-lg'>
+                  {/* Benefícios - Layout 2 colunas */}
+                  <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+                    {[1, 2, 3].map((beneficioNum) => (
+                      <div key={beneficioNum} className='border border-gray-200 rounded-lg p-3 bg-gray-50'>
+                        <h4 className='text-sm font-medium text-gray-900 mb-3 flex items-center'>
+                          <span className='w-6 h-6 bg-[#FFBD1A] text-white rounded-full flex items-center justify-center text-xs font-bold mr-2'>
+                            {beneficioNum}
+                          </span>
+                          Benefício {beneficioNum}
+                        </h4>
+
+                        <div className='space-y-3'>
+                          <div>
+                            <Label htmlFor={`beneficio${beneficioNum}Icon`} className='mb-1 block text-xs font-medium'>
+                              Ícone SVG (opcional)
+                            </Label>
+                            <textarea
+                              id={`beneficio${beneficioNum}Icon`}
+                              placeholder={`Cole o código SVG do ícone...`}
+                              {...register(`beneficio${beneficioNum}Icon` as any)}
+                              disabled={isSubmitting}
+                              rows={4}
+                              className='w-full px-2 py-1 text-xs rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-1 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors font-mono'
+                            />
+                            {errors[`beneficio${beneficioNum}Icon` as keyof typeof errors] && (
+                              <p className='text-xs text-red-600 mt-1'>
+                                {errors[`beneficio${beneficioNum}Icon` as keyof typeof errors]?.message as string}
+                              </p>
+                            )}
+                          </div>
+
+                          <div>
+                            <Label htmlFor={`beneficio${beneficioNum}Title`} className='mb-1 block text-xs font-medium'>
+                              Título
+                            </Label>
+                            <YVTextField
+                              id={`beneficio${beneficioNum}Title`}
+                              type='text'
+                              placeholder={`Ex: Título do benefício ${beneficioNum}...`}
+                              {...register(`beneficio${beneficioNum}Title` as any)}
+                              disabled={isSubmitting}
+                              error={errors[`beneficio${beneficioNum}Title` as keyof typeof errors]?.message as string}
+                              variant='modern'
+                              size='sm'
+                            />
+                          </div>
+
+                          <div>
+                            <Label htmlFor={`beneficio${beneficioNum}Description`} className='mb-1 block text-xs font-medium'>
+                              Descrição
+                            </Label>
+                            <textarea
+                              id={`beneficio${beneficioNum}Description`}
+                              placeholder={`Ex: Descrição do benefício ${beneficioNum}...`}
+                              {...register(`beneficio${beneficioNum}Description` as any)}
+                              disabled={isSubmitting}
+                              rows={2}
+                              className='w-full px-2 py-1 text-xs rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-1 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors'
+                            />
+                            {errors[`beneficio${beneficioNum}Description` as keyof typeof errors] && (
+                              <p className='text-xs text-red-600 mt-1'>
+                                {errors[`beneficio${beneficioNum}Description` as keyof typeof errors]?.message as string}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}

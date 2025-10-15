@@ -242,14 +242,7 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
         />
       )}
 
-      {destino.ctaEnabled && (
-        <CTABanner
-          titulo={destino.ctaTitle}
-          texto={destino.ctaDescription}
-          buttonText={destino.ctaButtonText}
-          buttonLink={destino.ctaButtonUrl}
-        />
-      )}
+   
       
       {destino.cityEnabled && (
         <PrincipaisCidades
@@ -259,8 +252,16 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
           showButton={false}
         />
       )}
+         {destino.ctaEnabled && (
+        <CTABanner
+          titulo={destino.ctaTitle}
+          texto={destino.ctaDescription}
+          buttonText={destino.ctaButtonText}
+          buttonLink={destino.ctaButtonUrl}
+        />
+      )}
       
-      <CTABanner />
+     
       <BeneficiosSection />
       <DicasENoticias />
     </div>

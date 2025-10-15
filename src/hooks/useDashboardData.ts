@@ -56,6 +56,17 @@ interface Destino {
   diferencial4Title?: string;
   diferencial4Description?: string;
   diferencial4Image?: string;
+  // Campos dos benefícios
+  beneficiosEnabled?: boolean;
+  beneficio1Title?: string;
+  beneficio1Description?: string;
+  beneficio1Icon?: string;
+  beneficio2Title?: string;
+  beneficio2Description?: string;
+  beneficio2Icon?: string;
+  beneficio3Title?: string;
+  beneficio3Description?: string;
+  beneficio3Icon?: string;
   // Campos dos requisitos especiais
   requisitosEnabled?: boolean;
   requisitosTitle?: string;

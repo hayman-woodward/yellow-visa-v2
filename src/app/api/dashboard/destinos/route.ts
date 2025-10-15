@@ -18,6 +18,17 @@ export async function GET() {
         continent: true,
         highlights: true,
         status: true,
+        // Campos dos benefícios
+        beneficiosEnabled: true,
+        beneficio1Title: true,
+        beneficio1Description: true,
+        beneficio1Icon: true,
+        beneficio2Title: true,
+        beneficio2Description: true,
+        beneficio2Icon: true,
+        beneficio3Title: true,
+        beneficio3Description: true,
+        beneficio3Icon: true,
         createdAt: true,
         updatedAt: true
       }
@@ -37,6 +48,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    
     const validated = destinoSchema.parse(body);
 
     // Verificar se slug já existe
@@ -94,6 +106,17 @@ export async function POST(request: NextRequest) {
         diferencial4Title: validated.diferencial4Title || null,
         diferencial4Description: validated.diferencial4Description || null,
         diferencial4Image: validated.diferencial4Image || null,
+        // Campos dos benefícios
+        beneficiosEnabled: validated.beneficiosEnabled || false,
+        beneficio1Title: validated.beneficio1Title || null,
+        beneficio1Description: validated.beneficio1Description || null,
+        beneficio1Icon: validated.beneficio1Icon || null,
+        beneficio2Title: validated.beneficio2Title || null,
+        beneficio2Description: validated.beneficio2Description || null,
+        beneficio2Icon: validated.beneficio2Icon || null,
+        beneficio3Title: validated.beneficio3Title || null,
+        beneficio3Description: validated.beneficio3Description || null,
+        beneficio3Icon: validated.beneficio3Icon || null,
         // Campos dos requisitos especiais
         requisitosEnabled: validated.requisitosEnabled || false,
         requisitosTitle: validated.requisitosTitle || null,

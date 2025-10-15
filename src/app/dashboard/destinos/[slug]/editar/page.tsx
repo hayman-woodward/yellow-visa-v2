@@ -167,6 +167,17 @@ export default function EditarDestinoPage({ params }: PageProps) {
             diferencial4Title: destino.diferencial4Title || '',
             diferencial4Description: destino.diferencial4Description || '',
             diferencial4Image: destino.diferencial4Image || '',
+            // Campos dos benefícios
+            beneficiosEnabled: destino.beneficiosEnabled || false,
+            beneficio1Title: destino.beneficio1Title || '',
+            beneficio1Description: destino.beneficio1Description || '',
+            beneficio1Icon: destino.beneficio1Icon || '',
+            beneficio2Title: destino.beneficio2Title || '',
+            beneficio2Description: destino.beneficio2Description || '',
+            beneficio2Icon: destino.beneficio2Icon || '',
+            beneficio3Title: destino.beneficio3Title || '',
+            beneficio3Description: destino.beneficio3Description || '',
+            beneficio3Icon: destino.beneficio3Icon || '',
             // Campos dos requisitos especiais
             requisitosEnabled: destino.requisitosEnabled || false,
             requisitosTitle: destino.requisitosTitle || '',
