@@ -202,7 +202,12 @@ export default async function VistoPage({ params }: VistoPageProps) {
   }
 
   // Preparar dados dos requisitos especiais
-  const requisitos = [];
+  const requisitos: Array<{
+    id: string;
+    icon?: string;
+    title: string;
+    description: string;
+  }> = [];
   for (let i = 1; i <= 8; i++) {
     const title = visto[`requisito${i}Title` as keyof typeof visto] as string;
     const description = visto[`requisito${i}Description` as keyof typeof visto] as string;
@@ -210,6 +215,7 @@ export default async function VistoPage({ params }: VistoPageProps) {
     
     if (title && description) {
       requisitos.push({
+        id: `requisito-${i}`,
         icon: icon || '',
         title,
         description
