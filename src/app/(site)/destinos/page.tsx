@@ -1,11 +1,10 @@
-import SimplificamosSeuVisto from '@/components/shared/SimplificamosSeuVisto';
-import BeneficiosSection from '@/components/shared/BeneficiosSection';
-import DicasENoticias from '@/components/shared/DicasENoticias';
-import PerguntasFrequentes from '@/components/shared/PerguntasFrequentes';
-import CTABanner from '@/components/shared/CTABanner';
 import Contadores from '@/app/(site)/sobre/components/contadores';
-import Banner from './components/banner';
+import BeneficiosSection from '@/components/shared/BeneficiosSection';
+import CTABanner from '@/components/shared/CTABanner';
+import DicasENoticias from '@/components/shared/DicasENoticias';
+import SimplificamosSeuVisto from '@/components/shared/SimplificamosSeuVisto';
 import HeroDestinos from './components/HeroDestinos';
+import Banner from './components/banner';
 
 export const metadata = {
   title: 'Destinos: EUA e Portugal | Viver, estudar e trabalhar',
@@ -21,10 +20,10 @@ export default function Destinos() {
       <SimplificamosSeuVisto />
 
       <Contadores />
-      <PerguntasFrequentes slug='guia-do-imigrante' />
+     
       <CTABanner />
-      <BeneficiosSection />
-      <DicasENoticias />
+      <BeneficiosSection />   
+
     </div>
   );
 }

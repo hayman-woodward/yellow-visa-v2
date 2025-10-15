@@ -1,9 +1,8 @@
 import { YVButton } from '@/components/YV';
-import Image from 'next/image';
 
-export default function FacaParteDoNossoTime() {
+export default function ResultadoProvisorioParteDoTime() {
   return (
-    <div className='w-full max-w-[1248px] mx-auto px-4 md:px-0 py-16'>
+    <div className='w-full max-w-4xl mx-auto px-4 md:px-0 py-16'>
       <div
         className='relative rounded-3xl max-h-[320px]  flex flex-col justify-center items-center gap-6 md:p-8'
         style={{
@@ -29,32 +28,20 @@ export default function FacaParteDoNossoTime() {
         {/* Conteúdo posicionado à esquerda como no Figma */}
         <div className='relative z-10 text-left self-start py-10 px-4 max-w-[70%]'>
           <h2 className='text-3xl lg:text-4xl font-bold text-black mb-4'>
-            Nosso time já está com seus<br /> dados e vai revisar com cuidado
+            Nosso time já está com seus dados e vai revisar com cuidado.
           </h2>
           <p className='text-black/80 mb-8 leading-relaxed'>
-            Vem fazer parte do nosso time!
+            Se você quiser adiantar o atendimento, é só clicar no botão abaixo e falar direto com um de nossos especialistas. Quanto mais cedo começarmos, mais rápido o seu plano sai do papel.
           </p>
           <YVButton
             variant='secondary'
-            href='mailto:contato@yellowvisa.com'
+            href='https://wa.me/12032337905'
             size='lg'
             className='bg-[#CC0044] hover:bg-[#CC0044]/90 text-white px-8'
           >
-            Mande-nos um e-mail
+             Fale com um especialista
           </YVButton>
-        </div>
-
-        {/* Imagem do homem no lado direito - apenas desktop */}
-        <div className='hidden md:block absolute right-0 top-0 h-full w-1/2'>
-          <Image
-            src='/imgs/sobre/desktop/bg-time.png'
-            alt='Time Yellow Visa'
-            fill
-            className='object-cover object-right'
-            style={{ objectPosition: 'right 0%' }}
-            priority
-          />
-        </div>
+        </div>      
       </div>
     </div>
   );

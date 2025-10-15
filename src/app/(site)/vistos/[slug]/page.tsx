@@ -267,7 +267,7 @@ export default async function VistoPage({ params }: VistoPageProps) {
           requisitosTitle={visto.requisitosTitle || "A gente acredita em soluções que cabem na vida real"}
           requisitosDescription={visto.requisitosDescription}
           requisitosBreadcrumb={visto.requisitosBreadcrumb || "ESPECIAIS"}
-          requisitosButtonText={visto.requisitosButtonText || "Conheça todos os requisitos especiais"}
+          requisitosButtonText={visto.requisitosButtonText || ""}
           requisitosButtonUrl={visto.requisitosButtonUrl || "/requisitos"}
           requisitos={requisitos}
         />

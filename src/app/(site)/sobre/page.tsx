@@ -7,6 +7,7 @@ import HeroSobre from './components/heroSobre';
 import NossaMissao from './components/nossa-missao';
 import NossoTime from './components/nosso-time';
 import SobreNos from './components/sobre-nos';
+import FacaParteDoNossoTime from './components/FacaParteDoNossoTime';
 
 export const metadata = {
   title: 'Sobre a Yellow Visa | Quem somos e nossa missão',
@@ -24,6 +25,7 @@ export default function Sobre() {
       <NossaMissao />
       <Banner />
       <NossoTime />
+      <FacaParteDoNossoTime />
 
       <Contadores />
       {/* <PerguntasFrequentes slug='guia-do-imigrante' /> */}
