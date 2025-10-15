@@ -83,6 +83,12 @@ export type DestinoData = {
   requisito8Title?: string;
   requisito8Description?: string;
   requisito8Icon?: string;
+  // Campos do CTA
+  ctaEnabled: boolean;
+  ctaTitle?: string;
+  ctaDescription?: string;
+  ctaButtonText?: string;
+  ctaButtonUrl?: string;
 };
 
 export async function getPublishedDestinos(): Promise<DestinoSummary[]> {
@@ -181,7 +187,13 @@ export async function getDestinoBySlug(slug: string): Promise<DestinoData | null
         requisito7Icon: true,
         requisito8Title: true,
         requisito8Description: true,
-        requisito8Icon: true
+        requisito8Icon: true,
+        // Campos do CTA
+        ctaEnabled: true,
+        ctaTitle: true,
+        ctaDescription: true,
+        ctaButtonText: true,
+        ctaButtonUrl: true
       }
     });
 
@@ -261,7 +273,13 @@ export async function getDestinoBySlug(slug: string): Promise<DestinoData | null
       requisito7Icon: destino.requisito7Icon || undefined,
       requisito8Title: destino.requisito8Title || undefined,
       requisito8Description: destino.requisito8Description || undefined,
-      requisito8Icon: destino.requisito8Icon || undefined
+      requisito8Icon: destino.requisito8Icon || undefined,
+      // Campos do CTA
+      ctaEnabled: destino.ctaEnabled || false,
+      ctaTitle: destino.ctaTitle || undefined,
+      ctaDescription: destino.ctaDescription || undefined,
+      ctaButtonText: destino.ctaButtonText || undefined,
+      ctaButtonUrl: destino.ctaButtonUrl || undefined
     };
   } catch (error) {
     console.error('Failed to load destino by slug:', error);

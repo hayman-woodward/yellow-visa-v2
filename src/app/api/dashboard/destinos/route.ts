@@ -124,7 +124,13 @@ export async function POST(request: NextRequest) {
         requisito7Icon: validated.requisito7Icon || null,
         requisito8Title: validated.requisito8Title || null,
         requisito8Description: validated.requisito8Description || null,
-        requisito8Icon: validated.requisito8Icon || null
+        requisito8Icon: validated.requisito8Icon || null,
+        // Campos do CTA
+        ctaEnabled: validated.ctaEnabled || false,
+        ctaTitle: validated.ctaTitle || null,
+        ctaDescription: validated.ctaDescription || null,
+        ctaButtonText: validated.ctaButtonText || null,
+        ctaButtonUrl: validated.ctaButtonUrl || null
       }
     });
 

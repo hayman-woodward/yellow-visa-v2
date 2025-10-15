@@ -43,6 +43,28 @@ export const destinoSchema = z.object({
   diferencial4Title: z.string().optional(),
   diferencial4Description: z.string().optional(),
   diferencial4Image: z.string().url('URL inválida').optional().or(z.literal('')),
+  // Campos dos benefícios
+  beneficiosEnabled: z.boolean().default(false),
+  beneficiosTitle: z.string().optional(),
+  beneficiosDescription: z.string().optional(),
+  beneficio1Title: z.string().optional(),
+  beneficio1Description: z.string().optional(),
+  beneficio1Icon: z.string().optional(),
+  beneficio2Title: z.string().optional(),
+  beneficio2Description: z.string().optional(),
+  beneficio2Icon: z.string().optional(),
+  beneficio3Title: z.string().optional(),
+  beneficio3Description: z.string().optional(),
+  beneficio3Icon: z.string().optional(),
+  beneficio4Title: z.string().optional(),
+  beneficio4Description: z.string().optional(),
+  beneficio4Icon: z.string().optional(),
+  beneficio5Title: z.string().optional(),
+  beneficio5Description: z.string().optional(),
+  beneficio5Icon: z.string().optional(),
+  beneficio6Title: z.string().optional(),
+  beneficio6Description: z.string().optional(),
+  beneficio6Icon: z.string().optional(),
   // Campos dos requisitos especiais
   requisitosEnabled: z.boolean().default(false),
   requisitosTitle: z.string().optional(),
@@ -73,7 +95,13 @@ export const destinoSchema = z.object({
   requisito7Icon: z.string().optional(),
   requisito8Title: z.string().optional(),
   requisito8Description: z.string().optional(),
-  requisito8Icon: z.string().optional()
+  requisito8Icon: z.string().optional(),
+  // Campos do CTA
+  ctaEnabled: z.boolean().default(false),
+  ctaTitle: z.string().max(100, 'Título do CTA deve ter no máximo 100 caracteres').optional(),
+  ctaDescription: z.string().max(300, 'Descrição do CTA deve ter no máximo 300 caracteres').optional(),
+  ctaButtonText: z.string().max(50, 'Texto do botão deve ter no máximo 50 caracteres').optional(),
+  ctaButtonUrl: z.string().optional()
 });
 
 export type DestinoFormData = z.infer<typeof destinoSchema>;

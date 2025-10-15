@@ -58,6 +58,28 @@ type DestinoFormProps = {
     diferencial4Title?: string;
     diferencial4Description?: string;
     diferencial4Image?: string;
+    // Campos dos benefícios
+    beneficiosEnabled?: boolean;
+    beneficiosTitle?: string;
+    beneficiosDescription?: string;
+    beneficio1Title?: string;
+    beneficio1Description?: string;
+    beneficio1Icon?: string;
+    beneficio2Title?: string;
+    beneficio2Description?: string;
+    beneficio2Icon?: string;
+    beneficio3Title?: string;
+    beneficio3Description?: string;
+    beneficio3Icon?: string;
+    beneficio4Title?: string;
+    beneficio4Description?: string;
+    beneficio4Icon?: string;
+    beneficio5Title?: string;
+    beneficio5Description?: string;
+    beneficio5Icon?: string;
+    beneficio6Title?: string;
+    beneficio6Description?: string;
+    beneficio6Icon?: string;
     // Campos dos requisitos especiais
     requisitosEnabled?: boolean;
     requisitosTitle?: string;
@@ -89,6 +111,12 @@ type DestinoFormProps = {
     requisito8Title?: string;
     requisito8Description?: string;
     requisito8Icon?: string;
+    // Campos do CTA
+    ctaEnabled?: boolean;
+    ctaTitle?: string;
+    ctaDescription?: string;
+    ctaButtonText?: string;
+    ctaButtonUrl?: string;
   };
   isEditing?: boolean;
 };
@@ -104,6 +132,7 @@ export default function DestinoForm({
   const [diferenciaisExpanded, setDiferenciaisExpanded] = useState(false);
   const [requisitosExpanded, setRequisitosExpanded] = useState(false);
   const [requisitosCount, setRequisitosCount] = useState(1);
+  const [ctaExpanded, setCtaExpanded] = useState(false);
   const router = useRouter();
 
   // Helper function to get city field name with proper typing
@@ -170,6 +199,28 @@ export default function DestinoForm({
       diferencial4Title: defaultValues?.diferencial4Title || '',
       diferencial4Description: defaultValues?.diferencial4Description || '',
       diferencial4Image: defaultValues?.diferencial4Image || '',
+      // Campos dos benefícios
+      beneficiosEnabled: defaultValues?.beneficiosEnabled || false,
+      beneficiosTitle: defaultValues?.beneficiosTitle || '',
+      beneficiosDescription: defaultValues?.beneficiosDescription || '',
+      beneficio1Title: defaultValues?.beneficio1Title || '',
+      beneficio1Description: defaultValues?.beneficio1Description || '',
+      beneficio1Icon: defaultValues?.beneficio1Icon || '',
+      beneficio2Title: defaultValues?.beneficio2Title || '',
+      beneficio2Description: defaultValues?.beneficio2Description || '',
+      beneficio2Icon: defaultValues?.beneficio2Icon || '',
+      beneficio3Title: defaultValues?.beneficio3Title || '',
+      beneficio3Description: defaultValues?.beneficio3Description || '',
+      beneficio3Icon: defaultValues?.beneficio3Icon || '',
+      beneficio4Title: defaultValues?.beneficio4Title || '',
+      beneficio4Description: defaultValues?.beneficio4Description || '',
+      beneficio4Icon: defaultValues?.beneficio4Icon || '',
+      beneficio5Title: defaultValues?.beneficio5Title || '',
+      beneficio5Description: defaultValues?.beneficio5Description || '',
+      beneficio5Icon: defaultValues?.beneficio5Icon || '',
+      beneficio6Title: defaultValues?.beneficio6Title || '',
+      beneficio6Description: defaultValues?.beneficio6Description || '',
+      beneficio6Icon: defaultValues?.beneficio6Icon || '',
       // Campos dos requisitos especiais
       requisitosEnabled: defaultValues?.requisitosEnabled || false,
       requisitosTitle: defaultValues?.requisitosTitle || '',
@@ -200,7 +251,13 @@ export default function DestinoForm({
       requisito7Icon: defaultValues?.requisito7Icon || '',
       requisito8Title: defaultValues?.requisito8Title || '',
       requisito8Description: defaultValues?.requisito8Description || '',
-      requisito8Icon: defaultValues?.requisito8Icon || ''
+      requisito8Icon: defaultValues?.requisito8Icon || '',
+      // Campos do CTA
+      ctaEnabled: defaultValues?.ctaEnabled || false,
+      ctaTitle: defaultValues?.ctaTitle || '',
+      ctaDescription: defaultValues?.ctaDescription || '',
+      ctaButtonText: defaultValues?.ctaButtonText || '',
+      ctaButtonUrl: defaultValues?.ctaButtonUrl || ''
     }
   });
 
@@ -285,7 +342,13 @@ export default function DestinoForm({
         requisito7Icon: data.requisito7Icon || '',
         requisito8Title: data.requisito8Title || '',
         requisito8Description: data.requisito8Description || '',
-        requisito8Icon: data.requisito8Icon || ''
+        requisito8Icon: data.requisito8Icon || '',
+        // Campos do CTA
+        ctaEnabled: data.ctaEnabled || false,
+        ctaTitle: data.ctaTitle || '',
+        ctaDescription: data.ctaDescription || '',
+        ctaButtonText: data.ctaButtonText || '',
+        ctaButtonUrl: data.ctaButtonUrl || ''
       };
 
       const url = isEditing && defaultValues?.slug 
@@ -744,6 +807,7 @@ export default function DestinoForm({
               )}
             </div>
 
+         
             {/* Seção Requisitos Especiais */}
             <div className='border-t pt-6'>
               <button
@@ -968,6 +1032,120 @@ export default function DestinoForm({
                         </div>
                       </div>
                     )})}
+                  </div>
+                </div>
+              )}
+            </div>
+   {/* Seção CTA */}
+   <div className='border-t pt-6'>
+              <button
+                type='button'
+                onClick={() => setCtaExpanded(!ctaExpanded)}
+                className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors'
+              >
+                <div className='flex items-center space-x-3'>
+                  <svg className='w-6 h-6 text-[#FFBD1A]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z' />
+                  </svg>
+                  <div className='text-left'>
+                    <h3 className='text-lg font-semibold text-dashboard'>CTA</h3>
+                    <p className='text-sm text-gray-500'>Configure o CTA personalizado</p>
+                  </div>
+                </div>
+                <div className='flex items-center space-x-4'>
+                  <YVSwitch
+                    checked={watchedFields.ctaEnabled || false}
+                    onCheckedChange={(checked) => setValue('ctaEnabled', checked)}
+                    label="Exibir na página"
+                    size="sm"
+                    variant="primary"
+                  />
+                  <svg
+                    className={`w-5 h-5 text-gray-400 transition-transform ${
+                      ctaExpanded ? 'rotate-180' : ''
+                    }`}
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'
+                  >
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+                  </svg>
+                </div>
+              </button>
+
+              {ctaExpanded && (
+                <div className='mt-4 space-y-6 p-4 bg-white border border-gray-200 rounded-lg'>
+                  {/* Título e Descrição */}
+                  <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                    <div>
+                      <Label htmlFor='ctaTitle' className='mb-2 block'>
+                        Título do CTA
+                      </Label>
+                      <YVTextField
+                        id='ctaTitle'
+                        type='text'
+                        placeholder='Ex: Pronto para começar sua jornada?'
+                        {...register('ctaTitle')}
+                        disabled={isSubmitting}
+                        error={errors.ctaTitle?.message as string}
+                        variant='modern'
+                        size='md'
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor='ctaDescription' className='mb-2 block'>
+                        Descrição do CTA
+                      </Label>
+                      <textarea
+                        id='ctaDescription'
+                        placeholder='Ex: Descrição do CTA...'
+                        {...register('ctaDescription')}
+                        disabled={isSubmitting}
+                        rows={3}
+                        className='w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors'
+                      />
+                      {errors.ctaDescription && (
+                        <p className='text-sm text-red-600 mt-1.5'>
+                          {errors.ctaDescription.message as string}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Botão */}
+                  <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                    <div>
+                      <Label htmlFor='ctaButtonText' className='mb-2 block'>
+                        Texto do Botão
+                      </Label>
+                      <YVTextField
+                        id='ctaButtonText'
+                        type='text'
+                        placeholder='Ex: Começar agora'
+                        {...register('ctaButtonText')}
+                        disabled={isSubmitting}
+                        error={errors.ctaButtonText?.message as string}
+                        variant='modern'
+                        size='md'
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor='ctaButtonUrl' className='mb-2 block'>
+                        URL do Botão
+                      </Label>
+                      <YVTextField
+                        id='ctaButtonUrl'
+                        type='text'
+                        placeholder='Ex: /comecar'
+                        {...register('ctaButtonUrl')}
+                        disabled={isSubmitting}
+                        error={errors.ctaButtonUrl?.message as string}
+                        variant='modern'
+                        size='md'
+                      />
+                    </div>
                   </div>
                 </div>
               )}

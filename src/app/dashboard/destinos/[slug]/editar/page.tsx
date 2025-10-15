@@ -197,7 +197,13 @@ export default function EditarDestinoPage({ params }: PageProps) {
             requisito7Icon: destino.requisito7Icon || '',
             requisito8Title: destino.requisito8Title || '',
             requisito8Description: destino.requisito8Description || '',
-            requisito8Icon: destino.requisito8Icon || ''
+            requisito8Icon: destino.requisito8Icon || '',
+            // Campos do CTA
+            ctaEnabled: destino.ctaEnabled || false,
+            ctaTitle: destino.ctaTitle || '',
+            ctaDescription: destino.ctaDescription || '',
+            ctaButtonText: destino.ctaButtonText || '',
+            ctaButtonUrl: destino.ctaButtonUrl || ''
           }}
           isEditing
         />

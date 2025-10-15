@@ -86,6 +86,12 @@ export async function GET(
         requisito8Title: true,
         requisito8Description: true,
         requisito8Icon: true,
+        // Campos do CTA
+        ctaEnabled: true,
+        ctaTitle: true,
+        ctaDescription: true,
+        ctaButtonText: true,
+        ctaButtonUrl: true,
         createdAt: true,
         updatedAt: true
       }
@@ -216,7 +222,13 @@ export async function PUT(
         requisito7Icon: validated.requisito7Icon || null,
         requisito8Title: validated.requisito8Title || null,
         requisito8Description: validated.requisito8Description || null,
-        requisito8Icon: validated.requisito8Icon || null
+        requisito8Icon: validated.requisito8Icon || null,
+        // Campos do CTA
+        ctaEnabled: validated.ctaEnabled || false,
+        ctaTitle: validated.ctaTitle || null,
+        ctaDescription: validated.ctaDescription || null,
+        ctaButtonText: validated.ctaButtonText || null,
+        ctaButtonUrl: validated.ctaButtonUrl || null
       }
     });
 

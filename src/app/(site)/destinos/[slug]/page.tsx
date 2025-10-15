@@ -241,6 +241,15 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
           requisitos={requisitos}
         />
       )}
+
+      {destino.ctaEnabled && (
+        <CTABanner
+          titulo={destino.ctaTitle}
+          texto={destino.ctaDescription}
+          buttonText={destino.ctaButtonText}
+          buttonLink={destino.ctaButtonUrl}
+        />
+      )}
       
       {destino.cityEnabled && (
         <PrincipaisCidades

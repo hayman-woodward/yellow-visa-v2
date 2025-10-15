@@ -87,6 +87,12 @@ interface Destino {
   requisito8Title?: string;
   requisito8Description?: string;
   requisito8Icon?: string;
+  // Campos do CTA
+  ctaEnabled?: boolean;
+  ctaTitle?: string;
+  ctaDescription?: string;
+  ctaButtonText?: string;
+  ctaButtonUrl?: string;
 }
 
 interface Historia {
