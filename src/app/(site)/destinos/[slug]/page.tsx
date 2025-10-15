@@ -5,6 +5,7 @@ import PerguntasFrequentes from '@/components/shared/PerguntasFrequentes';
 import HeroDestinos from './components/HeroDestinos';
 import { getDestinoBySlug } from '@/lib/actions/destinos';
 import DescricaoDestinos from './components/DescricaoDesatinos';
+import PrincipaisCidades from './components/PrincipaisCidades';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
@@ -63,6 +64,45 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
     notFound();
   }
 
+  // Preparar dados das cidades
+  const cities = [];
+  if (destino.city1Title) {
+    cities.push({
+      id: '1',
+      src: destino.city1Image || '/imgs/destinos/galeria-01.jpg',
+      alt: destino.city1Title,
+      title: destino.city1Title,
+      description: destino.city1Description || ''
+    });
+  }
+  if (destino.city2Title) {
+    cities.push({
+      id: '2',
+      src: destino.city2Image || '/imgs/destinos/galeria-02.jpg',
+      alt: destino.city2Title,
+      title: destino.city2Title,
+      description: destino.city2Description || ''
+    });
+  }
+  if (destino.city3Title) {
+    cities.push({
+      id: '3',
+      src: destino.city3Image || '/imgs/destinos/galeria-01.jpg',
+      alt: destino.city3Title,
+      title: destino.city3Title,
+      description: destino.city3Description || ''
+    });
+  }
+  if (destino.city4Title) {
+    cities.push({
+      id: '4',
+      src: destino.city4Image || '/imgs/destinos/galeria-02.jpg',
+      alt: destino.city4Title,
+      title: destino.city4Title,
+      description: destino.city4Description || ''
+    });
+  }
+
   return (
     <div className='bg-white min-h-screen'>
       <HeroDestinos 
@@ -75,6 +115,15 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
         excerpt={destino.description}
         content={destino.content}
       />
+      
+      {destino.cityEnabled && (
+        <PrincipaisCidades
+          cityTitle={destino.cityTitle}
+          cityDescription={destino.cityDescription}
+          cities={cities}
+          showButton={false}
+        />
+      )}
       
       <CTABanner />
       <BeneficiosSection />
