@@ -52,6 +52,37 @@ export type DestinoData = {
   diferencial4Title?: string;
   diferencial4Description?: string;
   diferencial4Image?: string;
+  // Campos dos requisitos especiais
+  requisitosEnabled: boolean;
+  requisitosTitle?: string;
+  requisitosDescription?: string;
+  requisitosBreadcrumb?: string;
+  requisitosButtonText?: string;
+  requisitosButtonUrl?: string;
+  requisito1Title?: string;
+  requisito1Description?: string;
+  requisito1Icon?: string;
+  requisito2Title?: string;
+  requisito2Description?: string;
+  requisito2Icon?: string;
+  requisito3Title?: string;
+  requisito3Description?: string;
+  requisito3Icon?: string;
+  requisito4Title?: string;
+  requisito4Description?: string;
+  requisito4Icon?: string;
+  requisito5Title?: string;
+  requisito5Description?: string;
+  requisito5Icon?: string;
+  requisito6Title?: string;
+  requisito6Description?: string;
+  requisito6Icon?: string;
+  requisito7Title?: string;
+  requisito7Description?: string;
+  requisito7Icon?: string;
+  requisito8Title?: string;
+  requisito8Description?: string;
+  requisito8Icon?: string;
 };
 
 export async function getPublishedDestinos(): Promise<DestinoSummary[]> {
@@ -119,7 +150,38 @@ export async function getDestinoBySlug(slug: string): Promise<DestinoData | null
         diferencial3Image: true,
         diferencial4Title: true,
         diferencial4Description: true,
-        diferencial4Image: true
+        diferencial4Image: true,
+        // Campos dos requisitos especiais
+        requisitosEnabled: true,
+        requisitosTitle: true,
+        requisitosDescription: true,
+        requisitosBreadcrumb: true,
+        requisitosButtonText: true,
+        requisitosButtonUrl: true,
+        requisito1Title: true,
+        requisito1Description: true,
+        requisito1Icon: true,
+        requisito2Title: true,
+        requisito2Description: true,
+        requisito2Icon: true,
+        requisito3Title: true,
+        requisito3Description: true,
+        requisito3Icon: true,
+        requisito4Title: true,
+        requisito4Description: true,
+        requisito4Icon: true,
+        requisito5Title: true,
+        requisito5Description: true,
+        requisito5Icon: true,
+        requisito6Title: true,
+        requisito6Description: true,
+        requisito6Icon: true,
+        requisito7Title: true,
+        requisito7Description: true,
+        requisito7Icon: true,
+        requisito8Title: true,
+        requisito8Description: true,
+        requisito8Icon: true
       }
     });
 
@@ -168,7 +230,38 @@ export async function getDestinoBySlug(slug: string): Promise<DestinoData | null
       diferencial3Image: destino.diferencial3Image || undefined,
       diferencial4Title: destino.diferencial4Title || undefined,
       diferencial4Description: destino.diferencial4Description || undefined,
-      diferencial4Image: destino.diferencial4Image || undefined
+      diferencial4Image: destino.diferencial4Image || undefined,
+      // Campos dos requisitos especiais
+      requisitosEnabled: destino.requisitosEnabled || false,
+      requisitosTitle: destino.requisitosTitle || undefined,
+      requisitosDescription: destino.requisitosDescription || undefined,
+      requisitosBreadcrumb: destino.requisitosBreadcrumb || undefined,
+      requisitosButtonText: destino.requisitosButtonText || undefined,
+      requisitosButtonUrl: destino.requisitosButtonUrl || undefined,
+      requisito1Title: destino.requisito1Title || undefined,
+      requisito1Description: destino.requisito1Description || undefined,
+      requisito1Icon: destino.requisito1Icon || undefined,
+      requisito2Title: destino.requisito2Title || undefined,
+      requisito2Description: destino.requisito2Description || undefined,
+      requisito2Icon: destino.requisito2Icon || undefined,
+      requisito3Title: destino.requisito3Title || undefined,
+      requisito3Description: destino.requisito3Description || undefined,
+      requisito3Icon: destino.requisito3Icon || undefined,
+      requisito4Title: destino.requisito4Title || undefined,
+      requisito4Description: destino.requisito4Description || undefined,
+      requisito4Icon: destino.requisito4Icon || undefined,
+      requisito5Title: destino.requisito5Title || undefined,
+      requisito5Description: destino.requisito5Description || undefined,
+      requisito5Icon: destino.requisito5Icon || undefined,
+      requisito6Title: destino.requisito6Title || undefined,
+      requisito6Description: destino.requisito6Description || undefined,
+      requisito6Icon: destino.requisito6Icon || undefined,
+      requisito7Title: destino.requisito7Title || undefined,
+      requisito7Description: destino.requisito7Description || undefined,
+      requisito7Icon: destino.requisito7Icon || undefined,
+      requisito8Title: destino.requisito8Title || undefined,
+      requisito8Description: destino.requisito8Description || undefined,
+      requisito8Icon: destino.requisito8Icon || undefined
     };
   } catch (error) {
     console.error('Failed to load destino by slug:', error);

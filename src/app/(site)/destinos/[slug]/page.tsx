@@ -8,6 +8,7 @@ import DescricaoDestinos from './components/DescricaoDesatinos';
 import Diferenciais from '@/components/shared/Diferenciais';
 import HeroDestinos from './components/HeroDestinos';
 import PrincipaisCidades from './components/PrincipaisCidades';
+import RequisitosEspeciais from '@/components/shared/RequisitosEspeciais';
 
 interface DestinoPageProps {
   params: Promise<{
@@ -142,6 +143,73 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
     });
   }
 
+  // Preparar dados dos requisitos especiais
+  const requisitos = [];
+  if (destino.requisito1Title) {
+    requisitos.push({
+      id: '1',
+      icon: destino.requisito1Icon || 'check',
+      title: destino.requisito1Title,
+      description: destino.requisito1Description || ''
+    });
+  }
+  if (destino.requisito2Title) {
+    requisitos.push({
+      id: '2',
+      icon: destino.requisito2Icon || 'check',
+      title: destino.requisito2Title,
+      description: destino.requisito2Description || ''
+    });
+  }
+  if (destino.requisito3Title) {
+    requisitos.push({
+      id: '3',
+      icon: destino.requisito3Icon || 'check',
+      title: destino.requisito3Title,
+      description: destino.requisito3Description || ''
+    });
+  }
+  if (destino.requisito4Title) {
+    requisitos.push({
+      id: '4',
+      icon: destino.requisito4Icon || 'check',
+      title: destino.requisito4Title,
+      description: destino.requisito4Description || ''
+    });
+  }
+  if (destino.requisito5Title) {
+    requisitos.push({
+      id: '5',
+      icon: destino.requisito5Icon || 'check',
+      title: destino.requisito5Title,
+      description: destino.requisito5Description || ''
+    });
+  }
+  if (destino.requisito6Title) {
+    requisitos.push({
+      id: '6',
+      icon: destino.requisito6Icon || 'check',
+      title: destino.requisito6Title,
+      description: destino.requisito6Description || ''
+    });
+  }
+  if (destino.requisito7Title) {
+    requisitos.push({
+      id: '7',
+      icon: destino.requisito7Icon || 'check',
+      title: destino.requisito7Title,
+      description: destino.requisito7Description || ''
+    });
+  }
+  if (destino.requisito8Title) {
+    requisitos.push({
+      id: '8',
+      icon: destino.requisito8Icon || 'check',
+      title: destino.requisito8Title,
+      description: destino.requisito8Description || ''
+    });
+  }
+
   return (
     <div className='bg-white min-h-screen'>
       <HeroDestinos 
@@ -160,6 +228,17 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
           diferenciaisTitle={destino.diferenciaisTitle}
           diferenciaisDescription={destino.diferenciaisDescription}
           diferenciais={diferenciais}
+        />
+      )}
+
+      {destino.requisitosEnabled && (
+        <RequisitosEspeciais
+          requisitosTitle={destino.requisitosTitle}
+          requisitosDescription={destino.requisitosDescription}
+          requisitosBreadcrumb={destino.requisitosBreadcrumb}
+          requisitosButtonText={destino.requisitosButtonText}
+          requisitosButtonUrl={destino.requisitosButtonUrl}
+          requisitos={requisitos}
         />
       )}
       

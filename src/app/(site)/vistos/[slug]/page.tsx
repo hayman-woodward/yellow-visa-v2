@@ -11,7 +11,7 @@ import VistoBanner from './components/VistoBanner';
 import VistoBeneficios from './components/VistoBeneficios';
 import VistoFAQ from './components/VistoFAQ';
 import VistoVideo from './components/VistoVideo';
-import VistoRequisitos from './components/VistoRequisitos';
+import RequisitosEspeciais from '@/components/shared/RequisitosEspeciais';
 
 interface VistoPageProps {
   params: Promise<{
@@ -251,11 +251,11 @@ export default async function VistoPage({ params }: VistoPageProps) {
       )}
 
       {visto.requisitosEnabled && (
-        <VistoRequisitos
+        <RequisitosEspeciais
           requisitosTitle={visto.requisitosTitle || "A gente acredita em soluções que cabem na vida real"}
           requisitosDescription={visto.requisitosDescription}
           requisitosBreadcrumb={visto.requisitosBreadcrumb || "ESPECIAIS"}
-          requisitosButtonText={visto.requisitosButtonText || ""}
+          requisitosButtonText={visto.requisitosButtonText || "Conheça todos os requisitos especiais"}
           requisitosButtonUrl={visto.requisitosButtonUrl || "/requisitos"}
           requisitos={requisitos}
         />

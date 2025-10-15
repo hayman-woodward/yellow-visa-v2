@@ -56,6 +56,37 @@ interface Destino {
   diferencial4Title?: string;
   diferencial4Description?: string;
   diferencial4Image?: string;
+  // Campos dos requisitos especiais
+  requisitosEnabled?: boolean;
+  requisitosTitle?: string;
+  requisitosDescription?: string;
+  requisitosBreadcrumb?: string;
+  requisitosButtonText?: string;
+  requisitosButtonUrl?: string;
+  requisito1Title?: string;
+  requisito1Description?: string;
+  requisito1Icon?: string;
+  requisito2Title?: string;
+  requisito2Description?: string;
+  requisito2Icon?: string;
+  requisito3Title?: string;
+  requisito3Description?: string;
+  requisito3Icon?: string;
+  requisito4Title?: string;
+  requisito4Description?: string;
+  requisito4Icon?: string;
+  requisito5Title?: string;
+  requisito5Description?: string;
+  requisito5Icon?: string;
+  requisito6Title?: string;
+  requisito6Description?: string;
+  requisito6Icon?: string;
+  requisito7Title?: string;
+  requisito7Description?: string;
+  requisito7Icon?: string;
+  requisito8Title?: string;
+  requisito8Description?: string;
+  requisito8Icon?: string;
 }
 
 interface Historia {
