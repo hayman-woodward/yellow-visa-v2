@@ -5,6 +5,7 @@ import PerguntasFrequentes from '@/components/shared/PerguntasFrequentes';
 import HeroDestinos from './components/HeroDestinos';
 import { getDestinoBySlug } from '@/lib/actions/destinos';
 import DescricaoDestinos from './components/DescricaoDesatinos';
+import Diferenciais from './components/Diferenciais';
 import PrincipaisCidades from './components/PrincipaisCidades';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -103,6 +104,45 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
     });
   }
 
+  // Preparar dados dos diferenciais
+  const diferenciais = [];
+  if (destino.diferencial1Title) {
+    diferenciais.push({
+      id: '1',
+      src: destino.diferencial1Image || '/imgs/vistos/visto/visto-01.jpg',
+      alt: destino.diferencial1Title,
+      title: destino.diferencial1Title,
+      description: destino.diferencial1Description || ''
+    });
+  }
+  if (destino.diferencial2Title) {
+    diferenciais.push({
+      id: '2',
+      src: destino.diferencial2Image || '/imgs/vistos/visto/visto-02.jpg',
+      alt: destino.diferencial2Title,
+      title: destino.diferencial2Title,
+      description: destino.diferencial2Description || ''
+    });
+  }
+  if (destino.diferencial3Title) {
+    diferenciais.push({
+      id: '3',
+      src: destino.diferencial3Image || '/imgs/vistos/visto/visto-03.jpg',
+      alt: destino.diferencial3Title,
+      title: destino.diferencial3Title,
+      description: destino.diferencial3Description || ''
+    });
+  }
+  if (destino.diferencial4Title) {
+    diferenciais.push({
+      id: '4',
+      src: destino.diferencial4Image || '/imgs/vistos/visto/visto-04.jpg',
+      alt: destino.diferencial4Title,
+      title: destino.diferencial4Title,
+      description: destino.diferencial4Description || ''
+    });
+  }
+
   return (
     <div className='bg-white min-h-screen'>
       <HeroDestinos 
@@ -115,6 +155,14 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
         excerpt={destino.description}
         content={destino.content}
       />
+      
+      {destino.diferenciaisEnabled && (
+        <Diferenciais
+          diferenciaisTitle={destino.diferenciaisTitle}
+          diferenciaisDescription={destino.diferenciaisDescription}
+          diferenciais={diferenciais}
+        />
+      )}
       
       {destino.cityEnabled && (
         <PrincipaisCidades
