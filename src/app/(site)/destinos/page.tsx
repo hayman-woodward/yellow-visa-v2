@@ -17,7 +17,7 @@ export default function Destinos() {
     <div className='min-h-screen bg-white'>
       <HeroDestinos />
       <Banner />
-      <SimplificamosSeuVisto />
+      <SimplificamosSeuVisto  showButton={false}/>
 
       <Contadores />
      
