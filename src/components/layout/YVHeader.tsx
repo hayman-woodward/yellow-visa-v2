@@ -7,7 +7,7 @@ import type { VistoSummary } from '@/lib/actions/vistos';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-export default function YVHeader({ vistos }: { vistos?: VistoSummary[] }) {
+export default function YVHeader({ vistos, disableComecarButton = false }: { vistos?: VistoSummary[]; disableComecarButton?: boolean }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
@@ -93,8 +93,12 @@ export default function YVHeader({ vistos }: { vistos?: VistoSummary[] }) {
                 Log in
               </YVButton> */}
 
-              <YVButton variant='secondary' href='/comecar
-              '>
+              <YVButton 
+                variant='secondary' 
+                href={disableComecarButton ? '#' : '/comecar'}
+                disabled={disableComecarButton}
+                className={disableComecarButton ? 'opacity-50 cursor-not-allowed' : ''}
+              >
                 Comece agora
               </YVButton>
             </div>
@@ -345,8 +349,9 @@ export default function YVHeader({ vistos }: { vistos?: VistoSummary[] }) {
                 <div className='w-full'>                  
                   <YVButton
                     variant='secondary'
-                    href='/comecar'
-                    className='w-full justify-center'
+                    href={disableComecarButton ? '#' : '/comecar'}
+                    disabled={disableComecarButton}
+                    className={`w-full justify-center ${disableComecarButton ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
                     Comece agora
                   </YVButton>                  
