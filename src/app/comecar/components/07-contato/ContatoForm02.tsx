@@ -2,6 +2,7 @@
 
 import { YVBanner, YVButton, YVTitle, YVIcon, YVTextField, YVPhoneInput } from '@/components/YV';
 import { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'react-hook-form';
+import type { Value } from 'react-phone-number-input';
 import ProgressBar from '../ProgressBar';
 
 interface FormData {
@@ -33,7 +34,7 @@ export default function ContatoForm02({
   etapaAtual,
   totalEtapas
 }: ContatoForm02Props) {
-  const handlePhoneChange = (value: string | undefined) => {
+  const handlePhoneChange = (value?: Value) => {
     setValue('telefone', value || '');
   };
 
@@ -71,7 +72,7 @@ export default function ContatoForm02({
               error={errors.email?.message}
             />
             <YVPhoneInput
-              value={watch('telefone')}
+              value={watch('telefone') as Value}
               onChange={handlePhoneChange}
               placeholder="Telefone"
               error={!!errors.telefone}
