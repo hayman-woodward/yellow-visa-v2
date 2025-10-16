@@ -40,6 +40,8 @@ export default function ContatoForm03({
 }: ContatoForm03Props) {
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const [isCountryOpen, setIsCountryOpen] = useState(false);
+  const [countrySearch, setCountrySearch] = useState('');
+  const [languageSearch, setLanguageSearch] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
   const countryDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -57,9 +59,32 @@ export default function ContatoForm03({
       .sort((a, b) => a.label.localeCompare(b.label, 'pt-BR'));
   }, []);
 
+  // Filtrar países baseado na busca
+  const filteredCountries = useMemo(() => {
+    if (!countrySearch.trim()) return countryOptions;
+    return countryOptions.filter(country =>
+      country.label.toLowerCase().includes(countrySearch.toLowerCase())
+    );
+  }, [countryOptions, countrySearch]);
+
+  // Filtrar idiomas baseado na busca
+  const filteredLanguages = useMemo(() => {
+    if (!languageSearch.trim()) return idiomas;
+    return idiomas.filter(idioma =>
+      idioma.label.toLowerCase().includes(languageSearch.toLowerCase())
+    );
+  }, [idiomas, languageSearch]);
+
   const handleIdiomaSelect = (idioma: string) => {
     setValue('idioma', idioma);
     setIsLanguageOpen(false);
+    setLanguageSearch('');
+  };
+
+  const handleCountrySelect = (country: string) => {
+    setValue('pais', country);
+    setIsCountryOpen(false);
+    setCountrySearch('');
   };
 
   // Fechar dropdowns quando clicar fora
@@ -109,7 +134,10 @@ export default function ContatoForm03({
             <div className="relative" ref={countryDropdownRef}>
               <button
                 type="button"
-                onClick={() => setIsCountryOpen(!isCountryOpen)}
+                onClick={() => {
+                  setIsCountryOpen(!isCountryOpen);
+                  if (!isCountryOpen) setCountrySearch('');
+                }}
                 className="mb-2 w-full text-left p-0 pl-4 text-gray-900 text-base border-0 border-b border-black focus:border-black active:border-black outline-none transition-colors duration-300 rounded-none bg-transparent focus:outline-none active:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                 style={{
                   outline: 'none !important',
@@ -132,27 +160,45 @@ export default function ContatoForm03({
               </button>
 
               {isCountryOpen && (
-                <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
-                  {countryOptions.map((country) => (
-                    <button
-                      key={country.value}
-                      type="button"
-                      onClick={() => {
-                        setValue('pais', country.value);
-                        setIsCountryOpen(false);
-                      }}
-                      className="w-full text-left px-4 py-3 hover:bg-gray-50 text-base"
-                    >
-                      {country.label}
-                    </button>
-                  ))}
+                <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-hidden">
+                  <div className="p-3 border-b border-gray-200">
+                    <input
+                      type="text"
+                      placeholder="Buscar país..."
+                      value={countrySearch}
+                      onChange={(e) => setCountrySearch(e.target.value)}
+                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      autoFocus
+                    />
+                  </div>
+                  <div className="max-h-48 overflow-y-auto">
+                    {filteredCountries.length > 0 ? (
+                      filteredCountries.map((country) => (
+                        <button
+                          key={country.value}
+                          type="button"
+                          onClick={() => handleCountrySelect(country.value)}
+                          className="w-full text-left px-4 py-3 hover:bg-gray-50 text-base"
+                        >
+                          {country.label}
+                        </button>
+                      ))
+                    ) : (
+                      <div className="px-4 py-3 text-gray-500 text-sm">
+                        Nenhum país encontrado
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
             <div className="relative" ref={dropdownRef}>
               <button
                 type="button"
-                onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+                onClick={() => {
+                  setIsLanguageOpen(!isLanguageOpen);
+                  if (!isLanguageOpen) setLanguageSearch('');
+                }}
                 className="w-full text-left p-0 pl-4 text-gray-900 text-base border-0 border-b border-black focus:border-black active:border-black outline-none transition-colors duration-300 rounded-none bg-transparent focus:outline-none active:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                 style={{
                   outline: 'none !important',
@@ -175,17 +221,35 @@ export default function ContatoForm03({
               </button>
 
               {isLanguageOpen && (
-                <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
-                  {idiomas.map((idioma: IdiomaOption) => (
-                    <button
-                      key={idioma.value}
-                      type="button"
-                      onClick={() => handleIdiomaSelect(idioma.value)}
-                      className="w-full text-left px-4 py-3 hover:bg-gray-50  text-base"
-                    >
-                      {idioma.label}
-                    </button>
-                  ))}
+                <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-hidden">
+                  <div className="p-3 border-b border-gray-200">
+                    <input
+                      type="text"
+                      placeholder="Buscar idioma..."
+                      value={languageSearch}
+                      onChange={(e) => setLanguageSearch(e.target.value)}
+                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      autoFocus
+                    />
+                  </div>
+                  <div className="max-h-48 overflow-y-auto">
+                    {filteredLanguages.length > 0 ? (
+                      filteredLanguages.map((idioma: IdiomaOption) => (
+                        <button
+                          key={idioma.value}
+                          type="button"
+                          onClick={() => handleIdiomaSelect(idioma.value)}
+                          className="w-full text-left px-4 py-3 hover:bg-gray-50 text-base"
+                        >
+                          {idioma.label}
+                        </button>
+                      ))
+                    ) : (
+                      <div className="px-4 py-3 text-gray-500 text-sm">
+                        Nenhum idioma encontrado
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
