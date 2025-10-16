@@ -1,10 +1,11 @@
 'use client';
 
-import { YVBanner, YVButton, YVTitle, YVIcon, YVTextField } from '@/components/YV';
+import { YVBanner, YVButton, YVTitle, YVIcon, YVTextField, YVSelect } from '@/components/YV';
 import { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'react-hook-form';
 import ProgressBar from '../ProgressBar';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { getIdiomasCompletos, getIdiomaPorValor, type Idioma } from '@/lib/idiomas';
+import countriesData from '@/lib/locales/countries.json';
 
 interface FormData {
   nomeCompleto?: string;
@@ -25,6 +26,8 @@ interface ContatoForm03Props {
   totalEtapas: number;
 }
 
+
+
 export default function ContatoForm03({
   register,
   errors,
@@ -40,6 +43,16 @@ export default function ContatoForm03({
 
   const idiomas = getIdiomasCompletos();
   const idiomaSelecionado = getIdiomaPorValor(watch('idioma') || '');
+  
+  // Memoizar as opções de países para evitar recriação a cada render
+  const countryOptions = useMemo(() => {
+    return Object.entries(countriesData)
+      .map(([key, value]) => ({
+        value: key,
+        label: value
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label, 'pt-BR'));
+  }, []);
 
   const handleIdiomaSelect = (idioma: string) => {
     setValue('idioma', idioma);
@@ -85,12 +98,12 @@ export default function ContatoForm03({
             Me fale onde você está e seu idioma preferencial
           </YVTitle>
           <div className="space-y-6 mb-8 max-w-[400px]">
-            <YVTextField
-              {...register('pais')}
+            <YVSelect
+              value={watch('pais') || ''}
+              onChange={(value) => setValue('pais', value)}
               placeholder="Com qual país você se identifica?"
-              variant="underline"
-              className="text-gray-900 text-xl placeholder:text-gray-900"
               error={errors.pais?.message}
+              options={countryOptions}
             />
             <div className="relative" ref={dropdownRef}>
               <button
