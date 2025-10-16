@@ -152,7 +152,31 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
 
   // Salvar dados automaticamente no localStorage
   useEffect(() => {
-    localStorage.setItem('stepperData', JSON.stringify(watchedFields));
+    try {
+      // Criar um objeto limpo apenas com os valores dos campos
+      const cleanData = {
+        destino: watchedFields.destino || '',
+        objetivo: watchedFields.objetivo || '',
+        estudanteOpcao: watchedFields.estudanteOpcao || '',
+        turismoOpcao: watchedFields.turismoOpcao || '',
+        profissionalOpcao: watchedFields.profissionalOpcao || '',
+        maisInfoEstudante: watchedFields.maisInfoEstudante || '',
+        maisInfoProfissional: watchedFields.maisInfoProfissional || '',
+        maisInfoTurista: watchedFields.maisInfoTurista || '',
+        quantasPessoas: watchedFields.quantasPessoas || '',
+        quantoTempo: watchedFields.quantoTempo || '',
+        renda: watchedFields.renda || '',
+        nomeCompleto: watchedFields.nomeCompleto || '',
+        email: watchedFields.email || '',
+        telefone: watchedFields.telefone || '',
+        pais: watchedFields.pais || '',
+        idioma: watchedFields.idioma || ''
+      };
+      
+      localStorage.setItem('stepperData', JSON.stringify(cleanData));
+    } catch (error) {
+      console.error('Erro ao salvar dados no localStorage:', error);
+    }
   }, [watchedFields]);
 
   // Sincronizar com URL params e redirecionar se necessário

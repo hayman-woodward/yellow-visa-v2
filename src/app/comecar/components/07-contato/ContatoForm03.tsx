@@ -73,7 +73,9 @@ export default function ContatoForm03({
     };
   }, []);
 
-  const podeAvancar = watch('pais')?.trim() && watch('idioma')?.trim();
+  const paisValue = watch('pais');
+  const idiomaValue = watch('idioma');
+  const podeAvancar = paisValue && idiomaValue && String(paisValue).trim() && String(idiomaValue).trim();
 
   return (
     <div className="w-full grid grid-cols-1 grid-rows-[1.2fr_1.8fr] lg:grid-cols-[1fr_2fr] lg:grid-rows-1 relative overflow-hidden min-h-screen max-h-[90vh]">
@@ -100,7 +102,7 @@ export default function ContatoForm03({
           <div className="space-y-6 mb-8 max-w-[400px]">
             <YVSelect
               value={watch('pais') || ''}
-              onChange={(value) => setValue('pais', value)}
+              onChange={(e) => setValue('pais', e.target.value)}
               placeholder="Com qual país você se identifica?"
               error={errors.pais?.message}
               options={countryOptions}
