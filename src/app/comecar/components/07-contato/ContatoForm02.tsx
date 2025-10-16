@@ -1,9 +1,8 @@
 'use client';
 
-import { YVBanner, YVButton, YVTitle, YVIcon, YVTextField } from '@/components/YV';
+import { YVBanner, YVButton, YVTitle, YVIcon, YVTextField, YVPhoneInput } from '@/components/YV';
 import { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'react-hook-form';
 import ProgressBar from '../ProgressBar';
-import { formatMask, getMaskPlaceholder } from '@/lib/mask';
 
 interface FormData {
   nomeCompleto?: string;
@@ -34,9 +33,8 @@ export default function ContatoForm02({
   etapaAtual,
   totalEtapas
 }: ContatoForm02Props) {
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatMask(e.target.value, 'phone');
-    setValue('telefone', formatted);
+  const handlePhoneChange = (value: string | undefined) => {
+    setValue('telefone', value || '');
   };
 
   const podeAvancar = watch('email')?.trim() && watch('telefone')?.trim();
@@ -72,15 +70,16 @@ export default function ContatoForm02({
               className="text-gray-900 text-xl placeholder:text-gray-900"
               error={errors.email?.message}
             />
-            <YVTextField
-              value={watch('telefone') || ''}
+            <YVPhoneInput
+              value={watch('telefone')}
               onChange={handlePhoneChange}
-              placeholder={getMaskPlaceholder('phone')}
-              variant="underline"
-              type="text"
-              className="text-gray-900 text-xl placeholder:text-gray-900"
-              error={errors.telefone?.message}
+              placeholder="Telefone"
+              error={!!errors.telefone}
+              className="w-full"
             />
+            {errors.telefone && (
+              <p className="text-red-500 text-sm mt-1">{errors.telefone.message || 'Telefone é obrigatório'}</p>
+            )}
           </div>
           <div className="flex items-center justify-between md:justify-end gap-4">
             <YVButton
