@@ -109,7 +109,7 @@ export default function ContatoForm03({
               <button
                 type="button"
                 onClick={() => setIsCountryOpen(!isCountryOpen)}
-                className="w-full text-left p-0 pl-4 text-gray-900 text-base border-0 border-b border-black focus:border-black active:border-black outline-none transition-colors duration-300 rounded-none bg-transparent focus:outline-none active:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="mb-2 w-full text-left p-0 pl-4 text-gray-900 text-base border-0 border-b border-black focus:border-black active:border-black outline-none transition-colors duration-300 rounded-none bg-transparent focus:outline-none active:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                 style={{
                   outline: 'none !important',
                   boxShadow: 'none !important',
@@ -122,7 +122,12 @@ export default function ContatoForm03({
                   borderBottom: '1px solid #000 !important'
                 }}
               >
-                {watch('pais') ? countryOptions.find(c => c.value === watch('pais'))?.label : 'Com qual país você se identifica?'}
+                <span className="flex justify-between items-center w-full">
+                  <span className="flex-1">{watch('pais') ? countryOptions.find(c => c.value === watch('pais'))?.label : 'Com qual país você se identifica?'}</span>
+                  <svg className="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </span>
               </button>
 
               {isCountryOpen && (
@@ -160,7 +165,12 @@ export default function ContatoForm03({
                   borderBottom: '1px solid #000 !important'
                 }}
               >
-                {idiomaSelecionado ? idiomaSelecionado.label : 'Selecione o idioma'}
+                <span className="flex justify-between items-center w-full">
+                  <span className="flex-1">{idiomaSelecionado ? idiomaSelecionado.label : 'Selecione o idioma'}</span>
+                  <svg className="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </span>
               </button>
 
               {isLanguageOpen && (
