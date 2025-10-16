@@ -38,8 +38,10 @@ export default function ContatoForm03({
   etapaAtual,
   totalEtapas
 }: ContatoForm03Props) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [isCountryOpen, setIsCountryOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const countryDropdownRef = useRef<HTMLDivElement>(null);
 
   const idiomas = getIdiomasCompletos();
   const idiomaSelecionado = getIdiomaPorValor(watch('idioma') || '');
@@ -56,14 +58,17 @@ export default function ContatoForm03({
 
   const handleIdiomaSelect = (idioma: string) => {
     setValue('idioma', idioma);
-    setIsOpen(false);
+    setIsLanguageOpen(false);
   };
 
-  // Fechar dropdown quando clicar fora
+  // Fechar dropdowns quando clicar fora
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+        setIsLanguageOpen(false);
+      }
+      if (countryDropdownRef.current && !countryDropdownRef.current.contains(event.target as Node)) {
+        setIsCountryOpen(false);
       }
     };
 
@@ -100,17 +105,48 @@ export default function ContatoForm03({
             Me fale onde você está e seu idioma preferencial
           </YVTitle>
           <div className="space-y-6 mb-8 max-w-[400px]">
-            <YVSelect
-              value={watch('pais') || ''}
-              onChange={(e) => setValue('pais', e.target.value)}
-              placeholder="Com qual país você se identifica?"
-              error={errors.pais?.message}
-              options={countryOptions}
-            />
+            <div className="relative" ref={countryDropdownRef}>
+              <button
+                type="button"
+                onClick={() => setIsCountryOpen(!isCountryOpen)}
+                className="w-full text-left p-0 pl-4 text-gray-900 text-base border-0 border-b border-black focus:border-black active:border-black outline-none transition-colors duration-300 rounded-none bg-transparent focus:outline-none active:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                style={{
+                  outline: 'none !important',
+                  boxShadow: 'none !important',
+                  borderColor: 'transparent !important',
+                  borderBottomColor: '#000 !important',
+                  backgroundColor: 'transparent !important',
+                  borderTop: 'none !important',
+                  borderLeft: 'none !important',
+                  borderRight: 'none !important',
+                  borderBottom: '1px solid #000 !important'
+                }}
+              >
+                {watch('pais') ? countryOptions.find(c => c.value === watch('pais'))?.label : 'Com qual país você se identifica?'}
+              </button>
+
+              {isCountryOpen && (
+                <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+                  {countryOptions.map((country) => (
+                    <button
+                      key={country.value}
+                      type="button"
+                      onClick={() => {
+                        setValue('pais', country.value);
+                        setIsCountryOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-3 hover:bg-gray-50 text-base"
+                    >
+                      {country.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
             <div className="relative" ref={dropdownRef}>
               <button
                 type="button"
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => setIsLanguageOpen(!isLanguageOpen)}
                 className="w-full text-left p-0 pl-4 text-gray-900 text-base border-0 border-b border-black focus:border-black active:border-black outline-none transition-colors duration-300 rounded-none bg-transparent focus:outline-none active:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                 style={{
                   outline: 'none !important',
@@ -127,7 +163,7 @@ export default function ContatoForm03({
                 {idiomaSelecionado ? idiomaSelecionado.label : 'Selecione o idioma'}
               </button>
 
-              {isOpen && (
+              {isLanguageOpen && (
                 <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
                   {idiomas.map((idioma) => (
                     <button
