@@ -26,7 +26,7 @@ export default function Sobre() {
       <RequisitosEspeciais showButton={false} requisitos={[]} />
       <Contadores />
       <PerguntasFrequentes slug='guia-do-imigrante' />
-      <CTABanner />
+      <CTABanner buttonLink="/comecar" />
       <BeneficiosSection />
       <DicasENoticias />
     </div>
