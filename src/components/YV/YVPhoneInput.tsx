@@ -4,10 +4,11 @@ import { forwardRef } from 'react';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import { phoneCountries } from '@/lib/phoneCountries';
+import type { Country, Value } from 'react-phone-number-input';
 
 interface YVPhoneInputProps {
-  value?: string;
-  onChange?: (value: string | undefined) => void;
+  value?: Value;
+  onChange: (value?: Value) => void;
   placeholder?: string;
   className?: string;
   disabled?: boolean;
@@ -23,7 +24,7 @@ const YVPhoneInput = forwardRef<HTMLInputElement, YVPhoneInputProps>(
           onChange={onChange}
           placeholder={placeholder}
           disabled={disabled}
-          countries={phoneCountries as string[]}
+          countries={phoneCountries}
           international
           countryCallingCodeEditable={true}
           className="w-full"
