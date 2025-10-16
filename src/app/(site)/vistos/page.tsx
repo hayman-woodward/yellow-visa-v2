@@ -4,7 +4,7 @@ import Banner from './components/banner';
 import RequisitosEspeciais from '@/components/shared/RequisitosEspeciais';
 import BeneficiosSection from '@/components/shared/BeneficiosSection';
 import DicasENoticias from '@/components/shared/DicasENoticias';
-import PerguntasFrequentes from '@/components/shared/PerguntasFrequentes';
+// import PerguntasFrequentes from '@/components/shared/PerguntasFrequentes';
 import CTABanner from '@/components/shared/CTABanner';
 import Vistos from './components/Vistos';
 import Contadores from '../sobre/components/contadores';
@@ -25,7 +25,7 @@ export default function Sobre() {
       <SimplificamosSeuVisto showButton={false} />
       <RequisitosEspeciais showButton={false} requisitos={[]} />
       <Contadores />
-      <PerguntasFrequentes slug='guia-do-imigrante' />
+      {/* <PerguntasFrequentes slug='guia-do-imigrante' /> */}
       <CTABanner buttonLink="/comecar" />
       <BeneficiosSection />
       <DicasENoticias />
