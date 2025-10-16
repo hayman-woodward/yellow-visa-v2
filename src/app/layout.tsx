@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     siteName: 'Yellow Visa',
     images: [
       {
-        url: 'https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/og-image.png',
+        url: 'https://yellowvisa.com/imgs/yellowvisa-og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Yellow Visa - A única empresa 100% digital em imigração',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Yellow Visa - A única empresa 100% digital em imigração',
     description: 'Descubra vistos, viagens e mobilidade global conosco. Simplificamos o processo de visto e exploramos destinos como Portugal e os EUA.',
-    images: ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/og-image.png'],
+    images: ['https://yellowvisa.com/imgs/yellowvisa-og-image.jpg'],
   },
 };
 

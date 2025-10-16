@@ -9,7 +9,7 @@ import OutrosVistos from './components/OutrosVistos';
 import PrincipaisCidades from './components/PrincipaisCidades';
 import VistoBanner from './components/VistoBanner';
 import VistoBeneficios from './components/VistoBeneficios';
-import VistoFAQ from './components/VistoFAQ';
+// import VistoFAQ from './components/VistoFAQ';
 import VistoVideo from './components/VistoVideo';
 import RequisitosEspeciais from '@/components/shared/RequisitosEspeciais';
 
@@ -31,12 +31,12 @@ export async function generateMetadata({ params }: VistoPageProps): Promise<Meta
     openGraph: {
       title: visto.ogTitle || visto.title,
       description: visto.ogDescription || visto.description,
-      images: visto.ogImage ? [visto.ogImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/og-image.png'],
+      images: visto.ogImage ? [visto.ogImage] : ['https://yellowvisa.com/imgs/yellowvisa-og-image.jpg'],
     },
     twitter: {
       title: visto.twitterTitle || visto.title,
       description: visto.twitterDescription || visto.description,
-      images: visto.twitterImage ? [visto.twitterImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/og-image.png'],
+      images: visto.twitterImage ? [visto.twitterImage] : ['https://yellowvisa.com/imgs/yellowvisa-og-image.jpg'],
     },
   };
 }
@@ -280,14 +280,14 @@ export default async function VistoPage({ params }: VistoPageProps) {
       />
       <OutrosVistos currentSlug={slug} />
       {/* <HistoriasImigracao /> */}
-      {visto.faqEnabled && (
+      {/* {visto.faqEnabled && (
         <VistoFAQ
           faqTitle={visto.faqTitle}
           faqDescription={visto.faqDescription}
           faqItems={faqItems}
           vistoSlug={slug}
         />
-      )}
+      )} */}
       <CTABanner 
       
         titulo={visto.ctaTitle || 'Descubra o melhor caminho para viver fora'}

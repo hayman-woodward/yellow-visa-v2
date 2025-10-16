@@ -1,8 +1,8 @@
 import { MetadataRoute } from 'next'
 import { getPublishedVistos } from '@/lib/actions/vistos'
 import { getPublishedDestinos } from '@/lib/actions/destinos'
-import { getRecentBlogPosts } from '@/lib/actions/blog'
-import { getAllFaqGroups } from '@/lib/actions/faq'
+// import { getRecentBlogPosts } from '@/lib/actions/blog'
+// import { getAllFaqGroups } from '@/lib/actions/faq'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://yellowvisa.com'
@@ -33,18 +33,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly' as const,
       priority: 0.9,
     },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/guia-do-imigrante`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    },
+    // {
+    //   url: `${baseUrl}/blog`,
+    //   lastModified: new Date(),
+    //   changeFrequency: 'daily' as const,
+    //   priority: 0.8,
+    // },
+    // {
+    //   url: `${baseUrl}/guia-do-imigrante`,
+    //   lastModified: new Date(),
+    //   changeFrequency: 'weekly' as const,
+    //   priority: 0.8,
+    // },
     {
       url: `${baseUrl}/contato`,
       lastModified: new Date(),
@@ -78,28 +78,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   // Páginas dinâmicas - Blog
-  const blogPosts = await getRecentBlogPosts(100) // Pegar mais posts para o sitemap
-  const blogPages = blogPosts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: post.publishedAt ? new Date(post.publishedAt) : new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.6,
-  }))
+  // const blogPosts = await getRecentBlogPosts(100) // Pegar mais posts para o sitemap
+  // const blogPages = blogPosts.map((post) => ({
+  //   url: `${baseUrl}/blog/${post.slug}`,
+  //   lastModified: post.publishedAt ? new Date(post.publishedAt) : new Date(),
+  //   changeFrequency: 'weekly' as const,
+  //   priority: 0.6,
+  // }))
 
   // Páginas dinâmicas - Guia do Imigrante (FAQ Groups)
-  const faqGroups = await getAllFaqGroups()
-  const guiaPages = faqGroups.map((group) => ({
-    url: `${baseUrl}/guia-do-imigrante/${group.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.6,
-  }))
+  // const faqGroups = await getAllFaqGroups()
+  // const guiaPages = faqGroups.map((group) => ({
+  //   url: `${baseUrl}/guia-do-imigrante/${group.slug}`,
+  //   lastModified: new Date(),
+  //   changeFrequency: 'monthly' as const,
+  //   priority: 0.6,
+  // }))
 
   return [
     ...staticPages,
     ...vistosPages,
     ...destinosPages,
-    ...blogPages,
-    ...guiaPages,
+    // ...blogPages,
+    // ...guiaPages,
   ]
 }
