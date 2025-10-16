@@ -165,7 +165,7 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
         maisInfoTurista: watchedFields.maisInfoTurista || '',
         quantasPessoas: watchedFields.quantasPessoas || '',
         quantoTempo: watchedFields.quantoTempo || '',
-        renda: watchedFields.renda || '',
+        rendaAnual: watchedFields.rendaAnual || '',
         nomeCompleto: watchedFields.nomeCompleto || '',
         email: watchedFields.email || '',
         telefone: watchedFields.telefone || '',
