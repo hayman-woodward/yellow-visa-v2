@@ -1,9 +1,4 @@
-export interface IdiomaOption {
-  value: string;
-  label: string;
-}
-
-const idiomasData = {
+{
   "Alemão": "Deutsch (Alemão)",
   "Árabe": "العربية (Árabe)",
   "Bengali": "বাংলা (Bengali)",
@@ -32,18 +27,4 @@ const idiomasData = {
   "Turco": "Türkçe (Turco)",
   "Ucraniano": "Українська (Ucraniano)",
   "Vietnamita": "Tiếng Việt (Vietnamita)"
-};
-
-export function getIdiomaOptions(): IdiomaOption[] {
-  return Object.entries(idiomasData)
-    .map(([key, value]) => ({
-      value: key,
-      label: value
-    }))
-    .sort((a, b) => a.label.localeCompare(b.label, 'pt-BR'));
-}
-
-export function getIdiomaPorValor(valor: string): IdiomaOption | undefined {
-  const options = getIdiomaOptions();
-  return options.find(idioma => idioma.value === valor);
 }
