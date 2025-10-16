@@ -237,7 +237,7 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
           requisitosDescription={destino.requisitosDescription}
           requisitosBreadcrumb={destino.requisitosBreadcrumb}
           requisitosButtonText={destino.requisitosButtonText}
-          requisitosButtonUrl={destino.requisitosButtonUrl}
+          requisitosButtonUrl={destino.requisitosButtonUrl || ""}
           requisitos={requisitos}
         />
       )}

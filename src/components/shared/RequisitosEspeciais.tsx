@@ -31,7 +31,7 @@ export default function RequisitosEspeciais({
   requisitosDescription,
   requisitosBreadcrumb = "ESPECIAIS",
   requisitosButtonText = "Conheça todos os requisitos especiais",
-  requisitosButtonUrl = "/requisitos-especiais",
+  requisitosButtonUrl = "",
   requisitos = [],
   showButton = true
 }: RequisitosEspeciaisProps) {
@@ -39,6 +39,9 @@ export default function RequisitosEspeciais({
   if (!requisitos || requisitos.length === 0) {
     return null;
   }
+
+  // Se não há URL do botão, não mostra o botão
+  const shouldShowButton = showButton && requisitosButtonUrl && requisitosButtonUrl.trim() !== '';
 
   return (
     <YVSection className='bg-white'>
@@ -66,7 +69,7 @@ export default function RequisitosEspeciais({
                   {requisitosDescription}
                 </YVText>
               )}
-              {showButton && (
+              {shouldShowButton && (
                 <YVButton variant='outline' className='hidden md:flex' href={requisitosButtonUrl}>
                   <YVIcon name='arrow-right' />
                   {requisitosButtonText}
@@ -120,7 +123,7 @@ export default function RequisitosEspeciais({
             />
 
             {/* CTA abaixo dos bullets (mobile only) */}
-            {showButton && (
+            {shouldShowButton && (
               <div className='mt-4'>
                 <YVButton variant='outline' className='w-full' href={requisitosButtonUrl}>
                   <YVIcon name='arrow-right' />
