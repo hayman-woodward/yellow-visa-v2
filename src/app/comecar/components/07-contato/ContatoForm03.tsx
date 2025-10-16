@@ -4,7 +4,7 @@ import { YVBanner, YVButton, YVTitle, YVIcon, YVTextField, YVSelect } from '@/co
 import { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'react-hook-form';
 import ProgressBar from '../ProgressBar';
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { getIdiomasCompletos, getIdiomaPorValor, type Idioma } from '@/lib/idiomas';
+import { getIdiomaOptions, getIdiomaPorValor, type IdiomaOption } from '@/lib/idiomas';
 import countriesData from '@/lib/locales/countries.json';
 
 interface FormData {
@@ -43,7 +43,8 @@ export default function ContatoForm03({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const countryDropdownRef = useRef<HTMLDivElement>(null);
 
-  const idiomas = getIdiomasCompletos();
+  // Memoizar as opções de idiomas para evitar recriação a cada render
+  const idiomas = useMemo(() => getIdiomaOptions(), []);
   const idiomaSelecionado = getIdiomaPorValor(watch('idioma') || '');
   
   // Memoizar as opções de países para evitar recriação a cada render
@@ -175,7 +176,7 @@ export default function ContatoForm03({
 
               {isLanguageOpen && (
                 <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
-                  {idiomas.map((idioma) => (
+                  {idiomas.map((idioma: IdiomaOption) => (
                     <button
                       key={idioma.value}
                       type="button"
