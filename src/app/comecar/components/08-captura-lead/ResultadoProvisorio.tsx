@@ -4,7 +4,7 @@ export default function ResultadoProvisorioParteDoTime() {
   return (
     <div className='w-full max-w-4xl mx-auto px-4 md:px-0 py-16'>
       <div
-        className='relative rounded-3xl max-h-[320px]  flex flex-col justify-center items-center gap-6 md:p-8'
+        className='relative rounded-3xl md:max-h-[320px]  flex flex-col justify-center items-center gap-6 md:p-8'
         style={{
           borderRadius: 'var(--card-radius-corner-lg, 24px)',
           background:
