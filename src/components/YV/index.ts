@@ -16,6 +16,7 @@ export { YVSwitch } from './YVSwitch';
 export { YVModal } from './YVModal';
 export { YVText } from './YVText';
 export { YVTextField } from './YVTextField';
+export { default as YVPhoneInput } from './YVPhoneInput';
 export { YVTitle } from './YVTitle';
 export { YVYouTubePlayer } from './YVYouTubePlayer';
 export { default as YVUploadImg } from './YVUploadImg';
