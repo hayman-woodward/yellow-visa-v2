@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Red_Hat_Display } from 'next/font/google';
 import './globals.css';
 import AOSProvider from '@/components/AOSProvider';
 import GoogleTagManager, { GoogleTagManagerNoScript } from '@/components/integrations/GoogleTagManager';
+import SegmentAnalytics from '@/components/integrations/SegmentAnalytics';
+import MicrosoftClarity from '@/components/integrations/MicrosoftClarity';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -50,17 +52,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-KV7PFQ27';
+  const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+  const SEGMENT_KEY = process.env.NEXT_PUBLIC_SEGMENT_KEY;
+  const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID;
   
   return (
     <html lang='pt-BR'>
       <head>
-        <GoogleTagManager gtmId={GTM_ID} />
+        {GTM_ID && <GoogleTagManager gtmId={GTM_ID} />}
+        {SEGMENT_KEY && <SegmentAnalytics segmentKey={SEGMENT_KEY} />}
+        {CLARITY_ID && <MicrosoftClarity clarityId={CLARITY_ID} />}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${redHatDisplay.variable} antialiased`}
       >
-        <GoogleTagManagerNoScript gtmId={GTM_ID} />
+        {GTM_ID && <GoogleTagManagerNoScript gtmId={GTM_ID} />}
         <AOSProvider />
         {children}
       </body>
