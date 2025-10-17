@@ -56,8 +56,66 @@ export async function POST(request: NextRequest) {
         })
       }
     });
-    // Lead criado com sucesso
 
+    // Enviar para Salesforce (API antiga)
+    try {
+      const salesforceResponse = await fetch('https://api.yellowvisa.com/api/usa-ai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: validatedData.nomeCompleto?.split(' ')[0] || '',
+          lastName: validatedData.nomeCompleto?.split(' ').slice(1).join(' ') || '',
+          email: validatedData.email,
+          country: validatedData.pais || 'Brasil',
+          nationality: validatedData.pais || 'Brasil',
+          phone: validatedData.telefone || '',
+          service: validatedData.objetivo || 'visto',
+          subSource: 'Stepper Form',
+          academicBackground: 'Não informado',
+          leadSource: 'Website',
+          migrateTo: validatedData.destino || 'Estados Unidos',
+          occupation: validatedData.maisInfoProfissional || 'Não informado',
+          language: validatedData.idioma || 'Português',
+          timeExperience: validatedData.maisInfoProfissional || 'Não informado',
+          contactChannel: 'Email',
+          additionalInfo: body.utm_data ? JSON.stringify(body.utm_data) : '',
+          whatsapp: validatedData.telefone || '',
+          annualIncome: validatedData.rendaAnual || 'Não informado',
+          utm: body.utm_data?.utm_source || '',
+          source: body.utm_data?.utm_source || '',
+          medium: body.utm_data?.utm_medium || '',
+          term: body.utm_data?.utm_term || '',
+          refer: body.utm_data?.refer || '',
+          sellerId: null, // Será definido pela API
+        }),
+      });
+
+      if (salesforceResponse.ok) {
+        const salesforceData = await salesforceResponse.json();
+        console.log('Lead enviado para Salesforce:', salesforceData);
+        
+        // Atualizar lead com ID do Salesforce se disponível
+        if (salesforceData.id) {
+          const updatedNotes = JSON.parse(lead.notes || '{}');
+          updatedNotes.salesforce_id = salesforceData.id;
+          updatedNotes.lead_owner = salesforceData.user?.leadOwner;
+          
+          await prisma.lead.update({
+            where: { id: lead.id },
+            data: { 
+              notes: JSON.stringify(updatedNotes)
+            }
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Erro ao enviar para Salesforce:', error);
+      // Não falha o processo principal se Salesforce der erro
+    }
+
+    // Lead criado com sucesso
     return NextResponse.json({ 
       success: true, 
       lead: {

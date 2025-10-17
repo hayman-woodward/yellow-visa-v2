@@ -1,7 +1,6 @@
 'use client';
 
-import { YVGallery, YVSection, YVText, YVTitle } from '@/components/YV';
-import Link from 'next/link';
+import { YVText, YVTitle } from '@/components/YV';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ResultadoProvisorio from './ResultadoProvisorio';
@@ -61,6 +60,49 @@ export default function ResultadoPage() {
         })
         .catch(error => {
           console.error('Erro ao salvar lead:', error);
+        });
+
+      // Enviar também para Salesforce 
+      const utmParsed = utmData ? JSON.parse(utmData) : {};
+      
+      fetch('https://api.yellowvisa.com/api/usa-ai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: parsedData.nomeCompleto?.split(' ')[0] || '',
+          lastName: parsedData.nomeCompleto?.split(' ').slice(1).join(' ') || '',
+          email: parsedData.email,
+          country: parsedData.pais || 'Brasil',
+          nationality: parsedData.pais || 'Brasil',
+          phone: parsedData.telefone || '',
+          service: parsedData.objetivo || 'visto',
+          subSource: 'Stepper Form',
+          academicBackground: 'Não informado',
+          leadSource: 'Website',
+          migrateTo: parsedData.destino || 'Estados Unidos',
+          occupation: parsedData.maisInfoProfissional || 'Não informado',
+          language: parsedData.idioma || 'Português',
+          timeExperience: parsedData.maisInfoProfissional || 'Não informado',
+          contactChannel: 'Email',
+          additionalInfo: utmParsed ? JSON.stringify(utmParsed) : '',
+          whatsapp: parsedData.telefone || '',
+          annualIncome: parsedData.rendaAnual || 'Não informado',
+          utm: utmParsed.utm_source || '',
+          source: utmParsed.utm_source || '',
+          medium: utmParsed.utm_medium || '',
+          term: utmParsed.utm_term || '',
+          refer: utmParsed.refer || '',
+          sellerId: null, // Deixa a API do Salesforce definir automaticamente
+        }),
+      })
+        .then(response => response.json())
+        .then(salesforceResult => {
+          console.log('Lead enviado para Salesforce:', salesforceResult);
+        })
+        .catch(error => {
+          console.error('Erro ao enviar para Salesforce:', error);
         });
     }
 

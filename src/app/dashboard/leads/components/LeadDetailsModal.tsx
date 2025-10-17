@@ -19,6 +19,8 @@ interface StepperData {
   profissionalOpcao?: string;
   pais?: string;
   idioma?: string;
+  salesforce_id?: string;
+  lead_owner?: string;
   utm_data?: {
     utm_source?: string;
     utm_medium?: string;
@@ -382,12 +384,33 @@ export default function LeadDetailsModal({ isOpen, onClose, lead }: LeadDetailsM
             )}
             
             {stepperData?.utm_data?.refer && (
-              <div className="flex items-center justify-between py-1">
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
                 <div className="flex items-center gap-2">
                   <Globe className="w-3 h-3 text-[#FF6700]" />
                   <span className="text-xs text-gray-600">Referência:</span>
                 </div>
                 <span className="text-xs font-medium text-gray-900">{stepperData.utm_data.refer}</span>
+              </div>
+            )}
+
+            {/* Dados do Salesforce */}
+            {stepperData?.salesforce_id && (
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Briefcase className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Salesforce ID:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{stepperData.salesforce_id}</span>
+              </div>
+            )}
+            
+            {stepperData?.lead_owner && (
+              <div className="flex items-center justify-between py-1">
+                <div className="flex items-center gap-2">
+                  <Users className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Lead Owner:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{stepperData.lead_owner}</span>
               </div>
             )}
             </div>
