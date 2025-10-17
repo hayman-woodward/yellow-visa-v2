@@ -5,6 +5,7 @@ import AOSProvider from '@/components/AOSProvider';
 import GoogleTagManager, { GoogleTagManagerNoScript } from '@/components/integrations/GoogleTagManager';
 import SegmentAnalytics from '@/components/integrations/SegmentAnalytics';
 import MicrosoftClarity from '@/components/integrations/MicrosoftClarity';
+import UTMTracker from '@/components/integrations/UTMTracker';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -67,6 +68,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${redHatDisplay.variable} antialiased`}
       >
         {GTM_ID && <GoogleTagManagerNoScript gtmId={GTM_ID} />}
+        <UTMTracker />
         <AOSProvider />
         {children}
       </body>

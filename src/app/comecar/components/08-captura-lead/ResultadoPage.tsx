@@ -37,13 +37,19 @@ export default function ResultadoPage() {
       const parsedData = JSON.parse(savedData);
       setFormData(parsedData);
 
+      // Pegar UTMs do localStorage
+      const utmData = localStorage.getItem('utm_data');
+      
       // Salvar lead via API Route
       fetch('/api/leads', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(parsedData),
+        body: JSON.stringify({
+          ...parsedData,
+          utm_data: utmData ? JSON.parse(utmData) : null
+        }),
       })
         .then(response => response.json())
         .then(result => {
