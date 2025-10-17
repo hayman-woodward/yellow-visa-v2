@@ -15,6 +15,7 @@ export const YVLogo = ({ className = '' }: YVLogoProps) => {
         width={184}
         height={28}
         className='hidden md:block flex-shrink-0'
+        priority
       />
 
       {/* Logo compacto - Mobile */}
@@ -24,6 +25,7 @@ export const YVLogo = ({ className = '' }: YVLogoProps) => {
         width={40}
         height={40}
         className='md:hidden flex-shrink-0'
+        priority
       />
     </div>
   );
