@@ -24,6 +24,7 @@ interface YVBannerProps {
   className?: string;
   height?: 'sm' | 'md' | 'lg' | 'xl';
   priority?: boolean;
+  lazy?: boolean; // Nova prop para lazy loading
   quality?: number;
   // Nova prop para múltiplas imagens
   images?: {
@@ -41,6 +42,7 @@ const YVBanner = ({
   className = '',
   height = 'md',
   priority = false,
+  lazy = false,
   quality = 85,
   images
 }: YVBannerProps) => {
@@ -48,6 +50,9 @@ const YVBanner = ({
   const desktopImg = images?.desktop || src;
   const desktop2xImg = images?.desktop2x || src2x;
   const mobileImg = images?.mobile || srcMobile;
+  
+  // Determinar loading strategy
+  const loadingStrategy = lazy ? 'lazy' : (priority ? 'eager' : 'lazy');
 
   return (
     <div 
@@ -66,6 +71,7 @@ const YVBanner = ({
             fill
             className='object-cover hidden md:block'
             priority={priority}
+            loading={loadingStrategy}
             quality={quality}
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw'
           />
@@ -77,6 +83,7 @@ const YVBanner = ({
           fill
           className='object-cover hidden md:block'
           priority={priority}
+          loading={loadingStrategy}
           quality={quality}
           sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw'
         />
@@ -90,6 +97,7 @@ const YVBanner = ({
           fill
           className='object-cover block md:hidden'
           priority={priority}
+          loading={loadingStrategy}
           quality={quality}
           sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw'
         />

@@ -66,7 +66,7 @@ export default function CTABanner({
             alt={randomImage.alt}
             fill
             className='object-cover hidden md:block'
-            priority
+            loading="lazy"
           />
 
           {/* Imagem de fundo - Mobile */}
@@ -75,7 +75,7 @@ export default function CTABanner({
             alt={randomImage.alt}
             fill
             className='object-cover block md:hidden'
-            priority
+            loading="lazy"
           />
 
           {/* Overlay escuro - exatamente como no Figma */}
