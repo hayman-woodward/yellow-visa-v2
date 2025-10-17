@@ -1,65 +1,81 @@
 'use client';
 
 import { useState } from 'react';
-import { Download, FileSpreadsheet, Mail, ChevronDown } from 'lucide-react';
+import { Download, Mail, FileSpreadsheet, Copy, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 interface ExportDropdownProps {
-  leads: any[];
   onExportExcel: () => void;
   onSendEmail: () => void;
+  onCopyData: () => void;
+  isLoading?: boolean;
 }
 
-export default function ExportDropdown({ leads, onExportExcel, onSendEmail }: ExportDropdownProps) {
-  const [isLoading, setIsLoading] = useState(false);
+export default function ExportDropdown({ onExportExcel, onSendEmail, onCopyData, isLoading = false }: ExportDropdownProps) {
+  const [loading, setLoading] = useState<string | null>(null);
 
-  const handleExportExcel = async () => {
-    setIsLoading(true);
+  const handleAction = async (action: string, fn: () => Promise<void>) => {
+    console.log('Dropdown action clicked:', action);
+    setLoading(action);
     try {
-      await onExportExcel();
+      await fn();
     } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSendEmail = async () => {
-    setIsLoading(true);
-    try {
-      await onSendEmail();
-    } finally {
-      setIsLoading(false);
+      setLoading(null);
     }
   };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button 
-          variant="outline" 
-          size="sm" 
-          disabled={isLoading || leads.length === 0}
+        <Button
+          variant="outline"
+          size="sm"
+          disabled={isLoading}
           className="flex items-center gap-2"
         >
           <Download size={16} />
-          {isLoading ? 'Processando...' : 'Exportar'}
-          <ChevronDown size={14} />
+          Exportar
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuItem 
-          onClick={handleExportExcel}
-          className="flex items-center gap-2 cursor-pointer"
+        <DropdownMenuItem
+          onClick={() => handleAction('excel', onExportExcel)}
+          disabled={loading === 'excel'}
+          className="flex items-center gap-2 py-2 cursor-pointer"
         >
-          <FileSpreadsheet size={16} className="text-green-600" />
-          <span>Salvar como Excel</span>
+          {loading === 'excel' ? (
+            <Loader2 size={14} className="animate-spin" />
+          ) : (
+            <FileSpreadsheet size={14} className="text-green-600" />
+          )}
+          <span>Salvar como CSV</span>
         </DropdownMenuItem>
-        <DropdownMenuItem 
-          onClick={handleSendEmail}
-          className="flex items-center gap-2 cursor-pointer"
+        
+        <DropdownMenuItem
+          onClick={() => handleAction('email', onSendEmail)}
+          disabled={loading === 'email'}
+          className="flex items-center gap-2 py-2 cursor-pointer"
         >
-          <Mail size={16} className="text-blue-600" />
-          <span>Enviar leads do dia por email</span>
+          {loading === 'email' ? (
+            <Loader2 size={14} className="animate-spin" />
+          ) : (
+            <Mail size={14} className="text-blue-600" />
+          )}
+          <span>Mandar leads do dia por email</span>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => handleAction('copy', onCopyData)}
+          disabled={loading === 'copy'}
+          className="flex items-center gap-2 py-2 cursor-pointer"
+        >
+          {loading === 'copy' ? (
+            <Loader2 size={14} className="animate-spin" />
+          ) : (
+            <Copy size={14} className="text-orange-600" />
+          )}
+          <span>Copiar dados para clipboard</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

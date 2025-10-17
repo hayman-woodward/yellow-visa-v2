@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import DashboardHeader from '@/components/shared/DashboardHeader';
 import LeadDetailsModal from './components/LeadDetailsModal';
+import ExportDropdown from './components/ExportDropdown';
 
 interface Lead {
   id: string;
@@ -101,19 +102,100 @@ export default function LeadsPage() {
     setSelectedLead(null);
   };
 
+  const handleExportExcel = async () => {
+    try {
+      const response = await fetch('/api/dashboard/leads/export-excel');
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `leads-${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } else {
+        console.error('Erro ao exportar Excel');
+      }
+    } catch (error) {
+      console.error('Erro ao exportar Excel:', error);
+    }
+  };
+
+  const handleSendEmail = async () => {
+    try {
+      const response = await fetch('/api/dashboard/leads/send-daily-email', {
+        method: 'POST',
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        alert(`✅ ${result.message}`);
+      } else {
+        const error = await response.json();
+        alert(`❌ ${error.message}`);
+      }
+    } catch (error) {
+      console.error('Erro ao enviar email:', error);
+      alert('❌ Erro ao enviar email dos leads');
+    }
+  };
+
+  const handleCopyData = async () => {
+    try {
+      // Buscar leads do dia
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      const response = await fetch(`/api/dashboard/leads?startDate=${today.toISOString()}&endDate=${tomorrow.toISOString()}`);
+      const dailyLeads = await response.json();
+
+      if (dailyLeads.length === 0) {
+        alert('📭 Nenhum lead encontrado para hoje');
+        return;
+      }
+
+      // Formatar dados para clipboard
+      const dataText = dailyLeads.map((lead: Lead) => {
+        const stepperData = lead.notes ? JSON.parse(lead.notes) : null;
+        return `${lead.name || 'Sem nome'} | ${lead.email} | ${lead.phone || '-'} | ${getSourceLabel(lead.source)} | ${getStatusLabel(lead.status)} | ${new Date(lead.createdAt).toLocaleString('pt-BR')}`;
+      }).join('\n');
+
+      await navigator.clipboard.writeText(dataText);
+      alert(`✅ ${dailyLeads.length} leads copiados para o clipboard!`);
+    } catch (error) {
+      console.error('Erro ao copiar dados:', error);
+      alert('❌ Erro ao copiar dados');
+    }
+  };
+
   return (
     <div className='space-y-6'>
       {/* Header */}
-      <DashboardHeader
-        title="Leads"
-        icon={User}
-        count={filteredLeads.length}
-        countLabel="leads"
-        buttonText="Exportar"
-        buttonVariant='outline'
-        buttonIcon={Download}
-        buttonOnClick={() => console.log('Exportar leads')}
-      />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-[#FF6700] rounded-lg">
+              <User size={24} className="text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Leads</h1>
+              <p className="text-sm text-gray-600">{filteredLeads.length} leads encontrados</p>
+            </div>
+          </div>
+        </div>
+        
+        <ExportDropdown
+          onExportExcel={handleExportExcel}
+          onSendEmail={handleSendEmail}
+          onCopyData={handleCopyData}
+          isLoading={loading}
+        />
+      </div>
 
       {/* Filtros */}
       <div className='flex items-center gap-4'>
