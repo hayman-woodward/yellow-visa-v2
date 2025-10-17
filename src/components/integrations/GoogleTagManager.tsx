@@ -1,12 +1,25 @@
 'use client';
 
 import Script from 'next/script';
+import { useEffect } from 'react';
+
+declare global {
+  interface Window {
+    dataLayer: Record<string, any>[];
+  }
+}
 
 interface GoogleTagManagerProps {
   gtmId: string;
 }
 
 export default function GoogleTagManager({ gtmId }: GoogleTagManagerProps) {
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !window.dataLayer) {
+      window.dataLayer = [];
+    }
+  }, []);
+
   return (
     <Script
       id="gtm-script"
@@ -32,7 +45,7 @@ export function GoogleTagManagerNoScript({ gtmId }: GoogleTagManagerProps) {
         height="0"
         width="0"
         style={{ display: 'none', visibility: 'hidden' }}
-      />
+      ></iframe>
     </noscript>
   );
 }
