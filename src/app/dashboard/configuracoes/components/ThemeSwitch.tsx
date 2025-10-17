@@ -1,8 +1,9 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useDashboardTheme } from '../../context/ThemeContext';
 
-export default function ThemeSwitch() {
+function ThemeSwitchButton() {
   const { theme, toggleTheme } = useDashboardTheme();
   const isDark = theme === 'dark';
 
@@ -21,4 +22,22 @@ export default function ThemeSwitch() {
       />
     </button>
   );
+}
+
+export default function ThemeSwitch() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="relative w-14 h-7 rounded-full bg-gray-300">
+        <span className="absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow-md" />
+      </div>
+    );
+  }
+
+  return <ThemeSwitchButton />;
 }
