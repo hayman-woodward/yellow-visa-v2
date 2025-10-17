@@ -179,9 +179,7 @@ export default function LeadsPage() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-[#FF6700] rounded-lg">
-              <User size={24} className="text-white" />
-            </div>
+            <User size={24} className="text-[#FFBD1A]" />
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Leads</h1>
               <p className="text-sm text-gray-600">{filteredLeads.length} leads encontrados</p>
