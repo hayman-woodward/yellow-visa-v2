@@ -27,7 +27,7 @@ export default function Sobre() {
       <NossoTime />
       <FacaParteDoNossoTime />
 
-      <Contadores />
+      {/* <Contadores /> */}
       {/* <PerguntasFrequentes slug='guia-do-imigrante' /> */}
       <CTABanner titulo="Seu visto pode estar mais perto do que você imagina"
         texto="Faça sua avaliação gratuita 100% personalizada para sua rotina e dê o primeiro passo. Vamos nessa?"

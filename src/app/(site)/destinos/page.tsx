@@ -17,7 +17,7 @@ export default function Destinos() {
       <Banner />
       <SimplificamosSeuVisto  showButton={false}/>
 
-      <Contadores />
+      {/* <Contadores /> */}
      
       <CTABanner />
       {/* <BeneficiosSection />    */}
