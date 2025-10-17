@@ -102,7 +102,7 @@ export default function LeadsPage() {
     setSelectedLead(null);
   };
 
-  const handleExportExcel = async () => {
+  const handleExportExcel = async (): Promise<void> => {
     try {
       const response = await fetch('/api/dashboard/leads/export-excel');
       if (response.ok) {
@@ -123,7 +123,7 @@ export default function LeadsPage() {
     }
   };
 
-  const handleSendEmail = async () => {
+  const handleSendEmail = async (): Promise<void> => {
     try {
       const response = await fetch('/api/dashboard/leads/send-daily-email', {
         method: 'POST',
@@ -142,7 +142,7 @@ export default function LeadsPage() {
     }
   };
 
-  const handleCopyData = async () => {
+  const handleCopyData = async (): Promise<void> => {
     try {
       // Buscar leads do dia
       const today = new Date();

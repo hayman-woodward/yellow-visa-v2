@@ -15,11 +15,28 @@ interface ExportDropdownProps {
 export default function ExportDropdown({ onExportExcel, onSendEmail, onCopyData, isLoading = false }: ExportDropdownProps) {
   const [loading, setLoading] = useState<string | null>(null);
 
-  const handleAction = async (action: string, fn: () => Promise<void>) => {
-    console.log('Dropdown action clicked:', action);
-    setLoading(action);
+  const handleExcel = async () => {
+    setLoading('excel');
     try {
-      await fn();
+      await onExportExcel();
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  const handleEmail = async () => {
+    setLoading('email');
+    try {
+      await onSendEmail();
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  const handleCopy = async () => {
+    setLoading('copy');
+    try {
+      await onCopyData();
     } finally {
       setLoading(null);
     }
@@ -40,7 +57,7 @@ export default function ExportDropdown({ onExportExcel, onSendEmail, onCopyData,
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuItem
-          onClick={() => handleAction('excel', onExportExcel)}
+          onClick={handleExcel}
           disabled={loading === 'excel'}
           className="flex items-center gap-2 py-2 cursor-pointer"
         >
@@ -49,11 +66,11 @@ export default function ExportDropdown({ onExportExcel, onSendEmail, onCopyData,
           ) : (
             <FileSpreadsheet size={14} className="text-green-600" />
           )}
-          <span>Salvar como CSV</span>
+          <span>Baixar Excel</span>
         </DropdownMenuItem>
         
         <DropdownMenuItem
-          onClick={() => handleAction('email', onSendEmail)}
+          onClick={handleEmail}
           disabled={loading === 'email'}
           className="flex items-center gap-2 py-2 cursor-pointer"
         >
@@ -62,11 +79,11 @@ export default function ExportDropdown({ onExportExcel, onSendEmail, onCopyData,
           ) : (
             <Mail size={14} className="text-blue-600" />
           )}
-          <span>Mandar leads do dia por email</span>
+          <span>Mandar leads por email</span>
         </DropdownMenuItem>
 
         <DropdownMenuItem
-          onClick={() => handleAction('copy', onCopyData)}
+          onClick={handleCopy}
           disabled={loading === 'copy'}
           className="flex items-center gap-2 py-2 cursor-pointer"
         >
