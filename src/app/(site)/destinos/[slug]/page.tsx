@@ -259,11 +259,10 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
           buttonText={destino.ctaButtonText}
           buttonLink={destino.ctaButtonUrl}
         />
-      )}
-      
+      )}     
      
       <BeneficiosSection />
-      <DicasENoticias />
+     
     </div>
   );
 }
