@@ -52,21 +52,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-KV7PFQ27';
-  const SEGMENT_KEY = process.env.NEXT_PUBLIC_SEGMENT_KEY || 'QFpyTLLfbYhnJ0xwmZqI3vDgl4mmpGeH';
-  const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID || 'j27dr3dcpx';
+  const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+  const SEGMENT_KEY = process.env.NEXT_PUBLIC_SEGMENT_KEY;
+  const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID;
   
   return (
     <html lang='pt-BR'>
       <head>
-        <GoogleTagManager gtmId={GTM_ID} />
-        <SegmentAnalytics segmentKey={SEGMENT_KEY} />
-        <MicrosoftClarity clarityId={CLARITY_ID} />
+        {GTM_ID && <GoogleTagManager gtmId={GTM_ID} />}
+        {SEGMENT_KEY && <SegmentAnalytics segmentKey={SEGMENT_KEY} />}
+        {CLARITY_ID && <MicrosoftClarity clarityId={CLARITY_ID} />}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${redHatDisplay.variable} antialiased`}
       >
-        <GoogleTagManagerNoScript gtmId={GTM_ID} />
+        {GTM_ID && <GoogleTagManagerNoScript gtmId={GTM_ID} />}
         <AOSProvider />
         {children}
       </body>
