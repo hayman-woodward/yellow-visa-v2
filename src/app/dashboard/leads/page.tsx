@@ -204,17 +204,10 @@ export default function LeadsPage() {
                       <MoreHorizontal size={16} />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem className='flex items-center gap-2 py-2'>
-                      <Mail size={14} className='flex-shrink-0' />
-                      <span>Enviar Email</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className='flex items-center gap-2 py-2'>
-                      <Phone size={14} className='flex-shrink-0' />
-                      <span>Ligar</span>
-                    </DropdownMenuItem>
+                  <DropdownMenuContent align="end" >             
+                  
                     <DropdownMenuItem
-                      className='flex items-center gap-2 py-2'
+                      className='flex items-center gap-2 py-2 cursor-pointer'
                       onClick={() => handleViewDetails(lead)}
                     >
                       <User size={14} className='flex-shrink-0' />

@@ -59,7 +59,6 @@ const YVModal = ({
       <DialogContent
         showCloseButton={false}
         className={cn(yvModalVariants({ size }), 'p-0 gap-0', className)}
-        style={{ maxWidth: '700px', width: '100%' }}
       >
         {/* Header */}
         {(title || description) && (
