@@ -35,11 +35,11 @@ const cmsItems = [
     icon: MapPin,
     label: 'Destinos'
   },
-  {
-    href: '/dashboard/team',
-    icon: UserCheck,
-    label: 'Equipe'
-  },
+  // {
+  //   href: '/dashboard/team',
+  //   icon: UserCheck,
+  //   label: 'Equipe'
+  // },
   {
     href: '/dashboard/faqs',
     icon: HelpCircle,

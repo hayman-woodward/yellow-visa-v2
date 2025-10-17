@@ -35,6 +35,7 @@ export default function ComoFunciona() {
           <div className='mb-5 text-center'>
             <div className='flex justify-center' data-aos="fade-down" data-aos-delay="100" data-aos-duration="600">
               <YVBreadcrumbs
+                disabled
                 className='pb-4 md:pb-5'
                 items={[{ label: 'Como Funciona', href: '/como-funciona' }]}
               />
