@@ -172,9 +172,7 @@ export default async function VistoPage({ params }: VistoPageProps) {
   }
 
   // Debug: Log dos diferenciais para verificar se estão sendo carregados
-  console.log('Diferenciais carregados:', diferenciais.length);
-  console.log('Diferencial 3 title:', visto.diferencial3Title);
-  console.log('Diferencial 4 title:', visto.diferencial4Title);
+  // Debug logs removed
 
 
   // Preparar dados dos benefícios

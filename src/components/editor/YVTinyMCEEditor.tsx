@@ -22,7 +22,7 @@ export default function YVTinyMCEEditor({
   const editorRef = useRef<HTMLTextAreaElement | null>(null);
 
   const handleEditorChange = useCallback((content: string) => {
-    console.log('Editor content changed:', content);
+    // Editor content changed
     onChange(content);
   }, [onChange]);
 

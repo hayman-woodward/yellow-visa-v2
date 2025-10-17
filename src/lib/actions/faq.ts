@@ -103,12 +103,9 @@ export async function getAllFaqGroups(excludeSlug?: string): Promise<FaqGroupDat
 // Função específica para buscar dados do guia do imigrante
 export async function getGuiaDoImigranteData(slug: string) {
   try {
-    console.log('🔍 Buscando dados para slug:', slug);
     const faqGroup = await getFaqGroupBySlug(slug);
-    console.log('📊 FAQ Group encontrado:', faqGroup);
     
     if (!faqGroup) {
-      console.log('❌ Nenhum FAQ group encontrado para slug:', slug);
       return null;
     }
 
@@ -117,8 +114,6 @@ export async function getGuiaDoImigranteData(slug: string) {
       subtitle: faqGroup.description || 'Descrição do guia do imigrante',
       slug: faqGroup.slug
     };
-    
-    console.log('✅ Dados retornados:', result);
     return result;
   } catch (error) {
     console.error('❌ Failed to load guia do imigrante data:', error);
