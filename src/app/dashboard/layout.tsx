@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 import { YVContainer } from '@/components/YV';
 import { DashboardThemeProvider } from './context/ThemeContext';
 import { DashboardLogo } from './components/DashboardLogo';
@@ -18,6 +19,18 @@ export default async function DashboardLayout({
   if (!session) {
     redirect('/yv-admin');
   }
+
+  // Buscar dados completos do usuário incluindo avatar
+  const user = await prisma.user.findUnique({
+    where: { id: session.userId },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      avatar: true,
+      role: true
+    }
+  });
 
   return (
     <DashboardThemeProvider>
@@ -38,15 +51,25 @@ export default async function DashboardLayout({
           {/* User info + Logout */}
           <div className='p-4 border-t border-dashboard'>
             <div className='flex items-center gap-3 mb-3'>
-              <div className='w-10 h-10 rounded-full bg-[#FFBD1A] flex items-center justify-center text-black font-bold'>
-                {session.name.charAt(0)}
-              </div>
+              {user?.avatar ? (
+                <div className='w-10 h-10 rounded-full overflow-hidden border-2 border-dashboard-border'>
+                  <img
+                    src={user.avatar}
+                    alt={user.name}
+                    className='w-full h-full object-cover object-center'
+                  />
+                </div>
+              ) : (
+                <div className='w-10 h-10 rounded-full bg-[#FFBD1A] flex items-center justify-center text-black font-bold'>
+                  {user?.name?.charAt(0) || session.name.charAt(0)}
+                </div>
+              )}
               <div className='flex-1 min-w-0'>
                 <p className='font-medium text-sm truncate text-dashboard'>
-                  {session.name}
+                  {user?.name || session.name}
                 </p>
                 <p className='text-xs text-dashboard-muted truncate'>
-                  {session.email}
+                  {user?.email || session.email}
                 </p>
               </div>
             </div>

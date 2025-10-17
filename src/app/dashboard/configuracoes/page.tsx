@@ -1,9 +1,25 @@
 import { YVText } from '@/components/YV';
-import { Settings, Moon, Sun } from 'lucide-react';
+import { Settings, Moon, Sun, User } from 'lucide-react';
+import { getSession } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 import ThemeSwitch from './components/ThemeSwitch';
+import AvatarUpload from './components/AvatarUpload';
 import DashboardHeader from '@/components/shared/DashboardHeader';
 
-export default function ConfiguracoesPage() {
+export default async function ConfiguracoesPage() {
+  const session = await getSession();
+  
+  // Buscar dados completos do usuário incluindo avatar
+  const user = await prisma.user.findUnique({
+    where: { id: session?.userId },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      avatar: true,
+      role: true
+    }
+  });
   return (
     <div className='space-y-6'>
       {/* Header */}
@@ -13,6 +29,27 @@ export default function ConfiguracoesPage() {
       />
 
 
+
+      {/* Profile Section */}
+      <div className='bg-dashboard-card rounded-lg border border-dashboard p-6'>
+        <div className='flex items-center gap-3 mb-4'>
+          <div className='w-10 h-10 rounded-lg bg-[#FFBD1A]/20 flex items-center justify-center'>
+            <User className='text-[#FFBD1A]' size={20} />
+          </div>
+          <div>
+            <h3 className='font-semibold text-base text-dashboard'>
+              Perfil
+            </h3>
+            <p className='text-sm text-dashboard-muted'>
+              Gerencie suas informações pessoais
+            </p>
+          </div>
+        </div>
+
+        <div className='mt-6'>
+          <AvatarUpload currentAvatar={user?.avatar || undefined} />
+        </div>
+      </div>
 
       {/* Appearance Section */}
       <div className='bg-dashboard-card rounded-lg border border-dashboard p-6'>
