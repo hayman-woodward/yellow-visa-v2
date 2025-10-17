@@ -41,16 +41,7 @@ export default function Vistos() {
           </svg>
 
         </div>
-        <div className='absolute inset-0 top-10 z-0 rounded-3xl pointer-events-none md:hidden'>
-          <Image
-            src='/svgs/home-vistos-laco.svg'
-            alt='Laço decorativo'
-            width={1969}
-            height={640}
-            className='top-0 left-0'
-            priority
-          />
-        </div>
+      
         <div data-aos="fade-right" data-aos-delay="200" data-aos-duration="800">
           <YVBreadcrumbs
             className='pb-4 md:pb-5'
