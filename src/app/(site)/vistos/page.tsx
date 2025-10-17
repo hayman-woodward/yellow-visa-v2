@@ -24,7 +24,7 @@ export default function Sobre() {
       <Vistos />
       <SimplificamosSeuVisto showButton={false} />
       <RequisitosEspeciais showButton={false} requisitos={[]} />
-      <Contadores />
+      {/* <Contadores /> */}
       {/* <PerguntasFrequentes slug='guia-do-imigrante' /> */}
       <CTABanner buttonLink="/comecar" />
       <BeneficiosSection />

@@ -22,7 +22,7 @@ export default function Home() {
       <Vistos />
       <Destinos />
       <ComoFunciona />     
-      <Contadores />
+      {/* <Contadores /> */}
       
       {/* <PerguntasFrequentes slug='guia-do-imigrante' /> */}
       <CTABanner   
