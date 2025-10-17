@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Red_Hat_Display } from 'next/font/google';
 import './globals.css';
 import AOSProvider from '@/components/AOSProvider';
+import GoogleTagManager, { GoogleTagManagerNoScript } from '@/components/integrations/GoogleTagManager';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -49,11 +50,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-KV7PFQ27';
+  
   return (
     <html lang='pt-BR'>
+      <head>
+        <GoogleTagManager gtmId={GTM_ID} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${redHatDisplay.variable} antialiased`}
       >
+        <GoogleTagManagerNoScript gtmId={GTM_ID} />
         <AOSProvider />
         {children}
       </body>

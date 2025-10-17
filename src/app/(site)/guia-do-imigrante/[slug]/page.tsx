@@ -49,7 +49,7 @@ export default async function GDIPostPage({ params }: GDIPostPageProps) {
 
   // Se não encontrar dados, mostrar página 404 ou fallback
   if (!guiaData) {
-    console.log('❌ GuiaData é null, mostrando fallback');
+    // Debug log removed
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -61,7 +61,7 @@ export default async function GDIPostPage({ params }: GDIPostPageProps) {
     );
   }
 
-  console.log('✅ GuiaData encontrado:', guiaData);
+  // Debug log removed
 
   return (
     <div className='bg-white'>

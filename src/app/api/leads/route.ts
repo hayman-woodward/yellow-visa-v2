@@ -25,14 +25,8 @@ const leadSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('=== API LEADS - INÍCIO ===');
     const body = await request.json();
-    console.log('Body recebido:', body);
-    
     const validatedData = leadSchema.parse(body);
-    console.log('Dados validados:', validatedData);
-    
-    console.log('Tentando conectar com Prisma...');
     const lead = await prisma.lead.create({
       data: {
         name: validatedData.nomeCompleto || null,
@@ -58,7 +52,7 @@ export async function POST(request: NextRequest) {
         })
       }
     });
-    console.log('Lead criado com sucesso:', lead);
+    // Lead criado com sucesso
 
     return NextResponse.json({ 
       success: true, 
