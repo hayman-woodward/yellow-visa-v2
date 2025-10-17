@@ -13,6 +13,7 @@ export default function Banner() {
         srcMobile='/imgs/sobre/mobile/photo-banner.jpg'
         alt='Mulher sorrindo com jaqueta amarela'
         className='object-cover h-[400px] md:h-[600px] xl:h-[768px]'
+        priority
       />
     </div>
   );
