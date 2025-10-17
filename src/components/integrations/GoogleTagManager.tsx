@@ -4,9 +4,8 @@ import Script from 'next/script';
 import { useEffect } from 'react';
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interface Window {
-    dataLayer: Record<string, any>[];
+    dataLayer: Array<Record<string, unknown>>;
   }
 }
 
