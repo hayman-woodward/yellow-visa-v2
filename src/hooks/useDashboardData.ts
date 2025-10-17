@@ -123,6 +123,7 @@ interface Usuario {
   name: string;
   email: string;
   role: string;
+  avatar?: string;
   createdAt: string;
 }
 

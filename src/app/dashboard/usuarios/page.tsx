@@ -47,7 +47,17 @@ export default function UsuariosPage() {
           <YVTableRow key={usuario.id} className='py-4'>
             <YVTableCell className='col-span-3'>
               <div className='flex items-center gap-4'>
-                <YVTableAvatar icon={<Users size={16} />} />
+                {usuario.avatar ? (
+                  <div className='w-10 h-10 rounded-full overflow-hidden border-2 border-gray-200'>
+                    <img
+                      src={usuario.avatar}
+                      alt={usuario.name}
+                      className='w-full h-full object-cover object-center'
+                    />
+                  </div>
+                ) : (
+                  <YVTableAvatar icon={<Users size={16} />} />
+                )}
                 <div className='font-medium text-gray-900 text-base'>{usuario.name}</div>
               </div>
             </YVTableCell>
