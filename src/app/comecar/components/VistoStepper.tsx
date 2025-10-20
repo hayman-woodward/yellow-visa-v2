@@ -140,11 +140,13 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
       try {
         const parsedData = JSON.parse(savedData);
         // Restaurar dados no formulário
-        Object.keys(parsedData).forEach(key => {
-          if (parsedData[key]) {
-            setValue(key as keyof StepperFormData, parsedData[key]);
-          }
-        });
+        if (parsedData && typeof parsedData === 'object') {
+          Object.keys(parsedData).forEach(key => {
+            if (parsedData[key]) {
+              setValue(key as keyof StepperFormData, parsedData[key]);
+            }
+          });
+        }
       } catch (error) {
         console.error('Erro ao carregar dados do localStorage:', error);
       }

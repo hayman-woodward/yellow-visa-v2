@@ -134,11 +134,18 @@ export type VistoData = {
 
 export async function getPublishedVistos(): Promise<VistoSummary[]> {
   try {
-    const vistos = await prisma.visto.findMany({
+    // Adicionar timeout para evitar travamento na Netlify
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('Database query timeout')), 5000);
+    });
+
+    const queryPromise = prisma.visto.findMany({
       where: { status: 'published' },
       orderBy: { title: 'asc' },
       select: { title: true, slug: true, country: true }
     });
+
+    const vistos = await Promise.race([queryPromise, timeoutPromise]);
 
     return vistos.map((v: { title: string; slug: string; country: string }) => ({ label: v.title, slug: v.slug, country: v.country }));
   } catch (error) {
@@ -150,7 +157,12 @@ export async function getPublishedVistos(): Promise<VistoSummary[]> {
 
 export async function getVistoBySlug(slug: string): Promise<VistoData | null> {
   try {
-    const visto = await prisma.visto.findUnique({
+    // Adicionar timeout para evitar travamento na Netlify
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('Database query timeout')), 8000);
+    });
+
+    const queryPromise = prisma.visto.findUnique({
       where: { 
         slug,
         status: 'published'
@@ -279,6 +291,8 @@ export async function getVistoBySlug(slug: string): Promise<VistoData | null> {
         twitterImage: true
       }
     });
+
+    const visto = await Promise.race([queryPromise, timeoutPromise]);
 
     if (!visto) return null;
 
