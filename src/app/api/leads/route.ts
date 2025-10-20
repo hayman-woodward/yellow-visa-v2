@@ -57,7 +57,8 @@ export async function POST(request: NextRequest) {
       }
     });
 
-    // Enviar para Salesforce (API antiga)
+    // Enviar para Salesforce (API antiga) - COMENTADO TEMPORARIAMENTE
+    /*
     try {
       const salesforceResponse = await fetch('https://api.yellowvisa.com/api/usa-ai', {
         method: 'POST',
@@ -114,6 +115,7 @@ export async function POST(request: NextRequest) {
       console.error('Erro ao enviar para Salesforce:', error);
       // Não falha o processo principal se Salesforce der erro
     }
+    */
 
     // Lead criado com sucesso
     return NextResponse.json({ 
