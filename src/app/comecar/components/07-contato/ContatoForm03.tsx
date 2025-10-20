@@ -8,7 +8,7 @@ import { getIdiomaOptions, getIdiomaPorValor, type IdiomaOption } from '@/lib/id
 import countriesData from '@/lib/locales/countries.json';
 
 interface FormData {
-  nomeCompleto: string;
+  nomeCompleto?: string;
   email?: string;
   telefone?: string;
   pais?: string;

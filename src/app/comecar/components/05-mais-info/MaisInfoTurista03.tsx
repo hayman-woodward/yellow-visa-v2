@@ -6,7 +6,7 @@ import { UseFormSetValue } from 'react-hook-form';
 import ProgressBar from '../ProgressBar';
 
 interface StepperFormData {
-  nomeCompleto: string;
+  nomeCompleto?: string;
   maisInfoTurista?: string;
   quantasPessoas?: string;
   quantoTempo?: string;
