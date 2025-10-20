@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
       }
     });
 
-    // Enviar para Salesforce (API antiga) - COMENTADO TEMPORARIAMENTE
+    // Enviar para Salesforce (API antiga) - COMENTADO PARA TESTE AMANHÃ
     /*
     try {
       const salesforceResponse = await fetch('https://api.yellowvisa.com/api/usa-ai', {
@@ -75,16 +75,28 @@ export async function POST(request: NextRequest) {
           country: validatedData.pais || 'Brasil',
           nationality: validatedData.pais || 'Brasil',
           phone: validatedData.telefone || '',
-          service: validatedData.objetivo || 'visto',
+          service: 'visto', // Fixo como no sistema antigo
           subSource: 'Stepper Form',
-          academicBackground: 'Não informado',
+          academicBackground: 'Não informado', // Fixo como no sistema antigo
           leadSource: 'Website',
           migrateTo: validatedData.destino || 'Estados Unidos',
-          occupation: validatedData.maisInfoProfissional || 'Não informado',
+          occupation: 'Não informado', // Fixo como no sistema antigo
           language: validatedData.idioma || 'Português',
-          timeExperience: validatedData.maisInfoProfissional || 'Não informado',
+          timeExperience: 'de-5-a-10-anos', // Fixo como no sistema antigo
           contactChannel: 'Email',
-          additionalInfo: body.utm_data ? JSON.stringify(body.utm_data) : '',
+          additionalInfo: JSON.stringify({
+            objetivo: validatedData.objetivo,
+            estudanteOpcao: validatedData.estudanteOpcao,
+            turismoOpcao: validatedData.turismoOpcao,
+            profissionalOpcao: validatedData.profissionalOpcao,
+            maisInfoEstudante: validatedData.maisInfoEstudante,
+            maisInfoProfissional: validatedData.maisInfoProfissional,
+            maisInfoTurista: validatedData.maisInfoTurista,
+            quantasPessoas: validatedData.quantasPessoas,
+            quantoTempo: validatedData.quantoTempo,
+            tipoVisto: validatedData.tipoVisto,
+            utm_data: body.utm_data
+          }),
           whatsapp: validatedData.telefone || '',
           annualIncome: validatedData.rendaAnual || 'Não informado',
           utm: body.utm_data?.utm_source || '',
