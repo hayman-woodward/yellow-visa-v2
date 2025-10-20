@@ -36,6 +36,7 @@ export default function RendaOptions({
   const [selectedOpcao, setSelectedOpcao] = useState<string>('');
 
   const handleOpcaoSelect = (opcao: string) => {
+    console.log('Renda selecionada:', opcao);
     setSelectedOpcao(opcao);
     setValue('rendaAnual', opcao);
   };
