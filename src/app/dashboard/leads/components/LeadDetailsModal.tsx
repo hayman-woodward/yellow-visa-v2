@@ -106,10 +106,10 @@ export default function LeadDetailsModal({ isOpen, onClose, lead }: LeadDetailsM
 
   const getRendaLabel = (renda: string) => {
     const rendas: { [key: string]: string } = {
-      'menos-50k': 'Menos de $50.000',
-      '50k-199k': '$50.000 a $199.999',
-      '200k-499k': '$200.000 a $499.999',
-      'acima-500k': 'Acima de $500.000'
+      'menos-50k': 'Menos de R$50.000',
+      '50k-199k': 'R$50.000 a R$199.999',
+      '200k-499k': 'R$200.000 a R$499.999',
+      'acima-500k': 'Acima de R$500.000'
     };
     return rendas[renda] || renda;
   };
