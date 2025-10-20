@@ -33,23 +33,30 @@ export default function ResultadoPage() {
     // Capturar dados do localStorage
     const savedData = localStorage.getItem('stepperData');
     if (savedData) {
-      const parsedData = JSON.parse(savedData);
-      setFormData(parsedData);
+      try {
+        const parsedData = JSON.parse(savedData);
+        setFormData(parsedData);
 
-      // Pegar UTMs do localStorage
-      const utmData = localStorage.getItem('utm_data');
-      
-      // Salvar lead via API Route
-      fetch('/api/leads', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...(parsedData || {}),
-          utm_data: utmData ? JSON.parse(utmData) : null
-        }),
-      })
+        // Pegar UTMs do localStorage
+        const utmData = localStorage.getItem('utm_data');
+        
+        // Salvar lead via API Route
+        fetch('/api/leads', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...(parsedData || {}),
+            utm_data: utmData ? (() => {
+              try {
+                return JSON.parse(utmData);
+              } catch {
+                return null;
+              }
+            })() : null
+          }),
+        })
         .then(response => response.json())
         .then(result => {
           if (result.success) {
@@ -61,6 +68,10 @@ export default function ResultadoPage() {
         .catch(error => {
           console.error('Erro ao salvar lead:', error);
         });
+      } catch (error) {
+        console.error('Erro ao parsear dados salvos:', error);
+        setFormData({});
+      }
     }
 
     // Limpar localStorage após capturar (processo finalizado)
