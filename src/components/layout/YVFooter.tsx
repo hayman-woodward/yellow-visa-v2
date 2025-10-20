@@ -22,11 +22,14 @@ export default async function Footer({
   const vistosPT = vistos.filter(v => v.country.toLowerCase().includes('portugal'));
   
   // Cria array com subtítulos e itens misturados
-  const vistosComSubtitulos = [
+  const vistosComSubtitulos: Array<
+    | { id: string; label: string; isHeading: true }
+    | { id: string; label: string; href: string; isHeading: false }
+  > = [
     { id: 'heading-usa', label: 'Estados Unidos', isHeading: true },
-    ...vistosUSA.map((v) => ({ id: v.slug, label: v.label, href: `/vistos/${v.slug}`, isHeading: false })),
+    ...vistosUSA.map((v) => ({ id: v.slug, label: v.label, href: `/vistos/${v.slug}`, isHeading: false as const })),
     { id: 'heading-pt', label: 'Portugal', isHeading: true },
-    ...vistosPT.map((v) => ({ id: v.slug, label: v.label, href: `/vistos/${v.slug}`, isHeading: false }))
+    ...vistosPT.map((v) => ({ id: v.slug, label: v.label, href: `/vistos/${v.slug}`, isHeading: false as const }))
   ];
 
   const destinos = ['Portugal', 'Estados Unidos'];
@@ -126,7 +129,7 @@ export default async function Footer({
                   return (
                     <Link
                       key={item.id}
-                      href={item.href!}
+                      href={item.href}
                       className='group flex items-center justify-between text-sm hover:text-gray-600 transition-all duration-300 relative px-4 -mx-4 py-2 md:py-4 max-w-[168px] md:max-w-[188px]'
                     >
                       <span className='relative z-10'>{item.label}</span>
