@@ -64,10 +64,7 @@ export default function Vistos() {
               Descrição Phasellus netus natoque ante eget at condimentum eget
               Descrição
             </YVText>
-            <YVButton variant='outline' href='/vistos'>
-              <YVIcon name='arrow-right' />
-              Conheça todos os visots
-            </YVButton>
+          
           </div>
 
           {/* Carousel - Full width */}

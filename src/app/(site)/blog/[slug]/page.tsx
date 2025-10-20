@@ -3,7 +3,7 @@ import BlogHeader from "./components/BlogHeader";
 import BlogPost from "./components/BlogPost";
 import FeaturedImg from "./components/FeaturedImg";
 import BeneficiosSection from "@/components/shared/BeneficiosSection";
-import OutrosDestaques from "../destinos/components/OutrosDestaques";
+import OutrosDestaques from "../locais/components/OutrosDestaques";
 import { getBlogPostBySlug } from "@/lib/actions/blog";
 import { Metadata } from "next";
 
@@ -30,12 +30,12 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
     openGraph: {
       title: post.ogTitle || post.title,
       description: post.ogDescription || post.excerpt || undefined,
-      images: post.ogImage ? [post.ogImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/og-image.png'],
+      images: post.ogImage ? [post.ogImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yellowvisa-og-image.jpg'],
     },
     twitter: {
       title: post.twitterTitle || post.title,
       description: post.twitterDescription || post.excerpt || undefined,
-      images: post.twitterImage ? [post.twitterImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/og-image.png'],
+      images: post.twitterImage ? [post.twitterImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yellowvisa-og-image.jpg'],
     },
   };
 }

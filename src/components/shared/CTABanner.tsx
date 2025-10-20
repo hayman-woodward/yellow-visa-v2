@@ -17,7 +17,7 @@ const bannerImages = [
   },
   {
     src: '/imgs/cta/desktop/cta-banner-04.jpg',
-    srcMobile: '/imgs/historias-imigracao-mobile.jpg',
+    srcMobile: '/imgs/cta/mobile/cta-vistos-mobile.jpg',
     alt: 'Descubra o melhor caminho para viver fora'
   },
   {
@@ -48,6 +48,9 @@ export default function CTABanner({
   // Seleção aleatória de imagem a cada render (F5)
   const randomImage =
     bannerImages[Math.floor(Math.random() * bannerImages.length)];
+  
+  // Garantir que o link seja absoluto (comece com /)
+  const absoluteLink = buttonLink.startsWith('/') ? buttonLink : `/${buttonLink}`;
   return (
     <YVSection className='bg-white pt-10 pb-0 md:pb-10 px-0 md:py-[40px] md:px-20 xl:px-0'>
       <div className='max-w-[1248px] px-4 md:px-0 w-full mx-auto'>
@@ -63,7 +66,7 @@ export default function CTABanner({
             alt={randomImage.alt}
             fill
             className='object-cover hidden md:block'
-            priority
+            loading="lazy"
           />
 
           {/* Imagem de fundo - Mobile */}
@@ -72,7 +75,7 @@ export default function CTABanner({
             alt={randomImage.alt}
             fill
             className='object-cover block md:hidden'
-            priority
+            loading="lazy"
           />
 
           {/* Overlay escuro - exatamente como no Figma */}
@@ -100,7 +103,7 @@ export default function CTABanner({
               </div>
 
               <div data-aos="fade-up" data-aos-delay="800" data-aos-duration="800">
-                <Link href={buttonLink}>
+                <Link href={absoluteLink}>
                   <YVButton
                     variant='secondary'
                     className='w-fit'

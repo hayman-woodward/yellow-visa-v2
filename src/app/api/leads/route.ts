@@ -20,19 +20,14 @@ const leadSchema = z.object({
   estudanteOpcao: z.string().optional(),
   turismoOpcao: z.string().optional(),
   profissionalOpcao: z.string().optional(),
-  source: z.string().optional()
+  source: z.string().optional(),
+  utm_data: z.record(z.string(), z.string()).optional().nullable()
 });
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('=== API LEADS - INÍCIO ===');
     const body = await request.json();
-    console.log('Body recebido:', body);
-    
     const validatedData = leadSchema.parse(body);
-    console.log('Dados validados:', validatedData);
-    
-    console.log('Tentando conectar com Prisma...');
     const lead = await prisma.lead.create({
       data: {
         name: validatedData.nomeCompleto || null,
@@ -41,6 +36,7 @@ export async function POST(request: NextRequest) {
         status: 'new',
         source: validatedData.source || 'stepper',
         notes: JSON.stringify({
+          // Dados do formulário
           destino: validatedData.destino,
           objetivo: validatedData.objetivo,
           tipoVisto: validatedData.tipoVisto,
@@ -54,11 +50,13 @@ export async function POST(request: NextRequest) {
           turismoOpcao: validatedData.turismoOpcao,
           profissionalOpcao: validatedData.profissionalOpcao,
           pais: validatedData.pais,
-          idioma: validatedData.idioma
+          idioma: validatedData.idioma,
+          // UTM Parameters (capturados do localStorage)
+          utm_data: body.utm_data || null
         })
       }
     });
-    console.log('Lead criado com sucesso:', lead);
+    // Lead criado com sucesso
 
     return NextResponse.json({ 
       success: true, 

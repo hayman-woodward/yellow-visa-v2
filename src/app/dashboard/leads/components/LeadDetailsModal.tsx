@@ -1,7 +1,7 @@
 'use client';
 
-import { YVModal, YVButton } from '@/components/YV';
-import { Briefcase, Clock, DollarSign, Globe, GraduationCap, MapPin, MessageSquare, Plane, Target, Users } from 'lucide-react';
+import { YVModal, YVButton, YVTable, YVTableRow, YVTableCell } from '@/components/YV';
+import { Briefcase, Clock, ChevronDown, ChevronUp, DollarSign, Globe, GraduationCap, MapPin, MessageSquare, Phone, Plane, Target, Users } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface StepperData {
@@ -19,6 +19,15 @@ interface StepperData {
   profissionalOpcao?: string;
   pais?: string;
   idioma?: string;
+  utm_data?: {
+    utm_source?: string;
+    utm_medium?: string;
+    utm_campaign?: string;
+    utm_term?: string;
+    utm_content?: string;
+    refer?: string;
+    client_id?: string;
+  };
 }
 
 interface LeadDetailsModalProps {
@@ -38,6 +47,7 @@ interface LeadDetailsModalProps {
 
 export default function LeadDetailsModal({ isOpen, onClose, lead }: LeadDetailsModalProps) {
   const [stepperData, setStepperData] = useState<StepperData | null>(null);
+  const [isJsonExpanded, setIsJsonExpanded] = useState(false);
 
   useEffect(() => {
     if (lead?.notes) {
@@ -170,205 +180,242 @@ export default function LeadDetailsModal({ isOpen, onClose, lead }: LeadDetailsM
     return idiomas[idioma] || idioma;
   };
 
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'new': return 'Novo';
+      case 'contacted': return 'Contatado';
+      case 'qualified': return 'Qualificado';
+      case 'converted': return 'Convertido';
+      case 'lost': return 'Perdido';
+      default: return status;
+    }
+  };
+
+  const getSourceLabel = (source: string) => {
+    switch (source) {
+      case 'website': return 'Website';
+      case 'social': return 'Redes Sociais';
+      case 'referral': return 'Indicação';
+      case 'ads': return 'Anúncios';
+      case 'stepper': return 'Stepper';
+      case 'newsletter': return 'Newsletter';
+      default: return source;
+    }
+  };
+
   if (!lead) return null;
 
   return (
     <YVModal
       open={isOpen}
       onOpenChange={onClose}
-      size="7xl"
+      
       title="Detalhes do Lead"
       description={`${lead.name || 'Sem nome'} • ${lead.email}`}
+      className="lg:!w-[800px] !max-w-none"
     >
-      <div className="space-y-6">
-        {/* Informações Básicas */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <h4 className="font-semibold text-gray-900 flex items-center gap-2 text-base">
-              <MessageSquare className="w-4 h-4" />
-              Informações Básicas
-            </h4>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-                <span className="text-gray-600 font-medium">Nome:</span>
-                <span className="font-semibold text-gray-900">{lead.name || 'Não informado'}</span>
+      <div className="space-y-4">
+        {/* Lista compacta com todas as informações */}
+        <div className="bg-white rounded-lg border border-gray-200 p-3">
+          <h4 className="font-semibold text-sm mb-2 text-gray-800 flex items-center gap-2">
+            <Target size={14} className="text-[#FF6700]" />
+            Informações do Lead
+          </h4>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Coluna 1 - Informações básicas */}
+            <div className="space-y-1">
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Users className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Nome:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{lead.name || 'Sem nome'}</span>
               </div>
-              <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-                <span className="text-gray-600 font-medium">Email:</span>
-                <span className="font-semibold text-gray-900">{lead.email}</span>
+              
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <MessageSquare className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Email:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{lead.email}</span>
               </div>
-              <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-                <span className="text-gray-600 font-medium">Telefone:</span>
-                <span className="font-semibold text-gray-900">{lead.phone || 'Não informado'}</span>
+              
+              {lead.phone && (
+                <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                  <div className="flex items-center gap-2">
+                    <Phone className="w-3 h-3 text-[#FF6700]" />
+                    <span className="text-xs text-gray-600">Telefone:</span>
+                  </div>
+                  <span className="text-xs font-medium text-gray-900">{lead.phone}</span>
+                </div>
+              )}
+              
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Status:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{getStatusLabel(lead.status)}</span>
               </div>
-              <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-                <span className="text-gray-600 font-medium">Fonte:</span>
-                <span className="font-semibold text-gray-900 capitalize">{lead.source}</span>
+              
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Target className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Fonte:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{getSourceLabel(lead.source)}</span>
               </div>
-              <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-                <span className="text-gray-600 font-medium">Status:</span>
-                <span className="font-semibold text-gray-900 capitalize">{lead.status}</span>
+              
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Criado em:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{new Date(lead.createdAt).toLocaleDateString('pt-BR')}</span>
               </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="text-gray-600 font-medium">Criado em:</span>
-                <span className="font-semibold text-gray-900">
-                  {new Date(lead.createdAt).toLocaleDateString('pt-BR')}
-                </span>
+
+              {/* UTMs na coluna 1 para balancear */}
+              {stepperData?.utm_data?.utm_source && (
+                <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                  <div className="flex items-center gap-2">
+                    <Globe className="w-3 h-3 text-[#FF6700]" />
+                    <span className="text-xs text-gray-600">Fonte UTM:</span>
+                  </div>
+                  <span className="text-xs font-medium text-gray-900">{stepperData.utm_data.utm_source}</span>
+                </div>
+              )}
+              
+              {stepperData?.utm_data?.utm_medium && (
+                <div className="flex items-center justify-between py-1">
+                  <div className="flex items-center gap-2">
+                    <Target className="w-3 h-3 text-[#FF6700]" />
+                    <span className="text-xs text-gray-600">Mídia UTM:</span>
+                  </div>
+                  <span className="text-xs font-medium text-gray-900">{stepperData.utm_data.utm_medium}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Coluna 2 - Dados do Stepper */}
+            <div className="space-y-1">
+            {/* Dados do Stepper */}
+            {stepperData?.destino && (
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Destino:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{getDestinoLabel(stepperData.destino)}</span>
               </div>
+            )}
+            
+            {stepperData?.objetivo && (
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Target className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Objetivo:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{getObjetivoLabel(stepperData.objetivo)}</span>
+              </div>
+            )}
+            
+            {stepperData?.tipoVisto && (
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Briefcase className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Tipo de Visto:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{getTipoVistoLabel(stepperData.tipoVisto)}</span>
+              </div>
+            )}
+            
+            {stepperData?.rendaAnual && (
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <DollarSign className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Renda Anual:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{getRendaLabel(stepperData.rendaAnual)}</span>
+              </div>
+            )}
+            
+            {stepperData?.maisInfoProfissional && (
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Briefcase className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Experiência:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{getMaisInfoProfissionalLabel(stepperData.maisInfoProfissional)}</span>
+              </div>
+            )}
+            
+            {stepperData?.pais && (
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Globe className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">País:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{stepperData.pais}</span>
+              </div>
+            )}
+            
+            {stepperData?.idioma && (
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <MessageSquare className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Idioma:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{getIdiomaLabel(stepperData.idioma)}</span>
+              </div>
+            )}
+
+            {/* UTMs restantes na coluna 2 */}
+            {stepperData?.utm_data?.utm_campaign && (
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Briefcase className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Campanha UTM:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{stepperData.utm_data.utm_campaign}</span>
+              </div>
+            )}
+            
+            {stepperData?.utm_data?.refer && (
+              <div className="flex items-center justify-between py-1">
+                <div className="flex items-center gap-2">
+                  <Globe className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Referência:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">{stepperData.utm_data.refer}</span>
+              </div>
+            )}
             </div>
           </div>
-
-          {/* Dados do Stepper */}
-          {stepperData && (
-            <div className="space-y-4">
-              <h4 className="font-semibold text-gray-900 flex items-center gap-2 text-base">
-                <Target className="w-4 h-4" />
-                Dados do Stepper
-              </h4>
-              <div className="space-y-3">
-                {stepperData.destino && (
-                  <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-                    <span className="text-gray-600 font-medium flex items-center gap-2">
-                      <MapPin className="w-4 h-4" />
-                      Destino:
-                    </span>
-                    <span className="font-semibold text-gray-900">{getDestinoLabel(stepperData.destino)}</span>
-                  </div>
-                )}
-
-                {stepperData.objetivo && (
-                  <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-                    <span className="text-gray-600 font-medium flex items-center gap-2">
-                      <Target className="w-4 h-4" />
-                      Objetivo:
-                    </span>
-                    <span className="font-semibold text-gray-900">{getObjetivoLabel(stepperData.objetivo)}</span>
-                  </div>
-                )}
-
-                {stepperData.tipoVisto && (
-                  <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-                    <span className="text-gray-600 font-medium flex items-center gap-2">
-                      <Briefcase className="w-4 h-4" />
-                      Tipo de Visto:
-                    </span>
-                    <span className="font-semibold text-gray-900">{getTipoVistoLabel(stepperData.tipoVisto)}</span>
-                  </div>
-                )}
-
-                {stepperData.rendaAnual && (
-                  <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-                    <span className="text-gray-600 font-medium flex items-center gap-2">
-                      <DollarSign className="w-4 h-4" />
-                      Renda Anual:
-                    </span>
-                    <span className="font-semibold text-gray-900">{getRendaLabel(stepperData.rendaAnual)}</span>
-                  </div>
-                )}
-
-                {stepperData.maisInfoEstudante && (
-                  <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-                    <span className="text-gray-600 font-medium flex items-center gap-2">
-                      <GraduationCap className="w-4 h-4" />
-                      Nível de Estudo:
-                    </span>
-                    <span className="font-semibold text-gray-900">{getMaisInfoEstudanteLabel(stepperData.maisInfoEstudante)}</span>
-                  </div>
-                )}
-
-                {stepperData.maisInfoProfissional && (
-                  <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-                    <span className="text-gray-600 font-medium flex items-center gap-2">
-                      <Briefcase className="w-4 h-4" />
-                      Área Profissional:
-                    </span>
-                    <span className="font-semibold text-gray-900">{getMaisInfoProfissionalLabel(stepperData.maisInfoProfissional)}</span>
-                  </div>
-                )}
-
-                {stepperData.maisInfoTurista && (
-                  <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-                    <span className="text-gray-600 font-medium flex items-center gap-2">
-                      <Plane className="w-4 h-4" />
-                      Acompanhamento:
-                    </span>
-                    <span className="font-semibold text-gray-900">{getMaisInfoTuristaLabel(stepperData.maisInfoTurista)}</span>
-                  </div>
-                )}
-
-                {stepperData.quantasPessoas && (
-                  <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-                    <span className="text-gray-600 font-medium flex items-center gap-2">
-                      <Users className="w-4 h-4" />
-                      Quantas Pessoas:
-                    </span>
-                    <span className="font-semibold text-gray-900">{getQuantasPessoasLabel(stepperData.quantasPessoas)}</span>
-                  </div>
-                )}
-
-                {stepperData.quantoTempo && (
-                  <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-                    <span className="text-gray-600 font-medium flex items-center gap-2">
-                      <Clock className="w-4 h-4" />
-                      Tempo de Permanência:
-                    </span>
-                    <span className="font-semibold text-gray-900">{getQuantoTempoLabel(stepperData.quantoTempo)}</span>
-                  </div>
-                )}
-
-                {stepperData.pais && (
-                  <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
-                    <span className="text-gray-600 font-medium flex items-center gap-2">
-                      <Globe className="w-4 h-4" />
-                      País:
-                    </span>
-                    <span className="font-semibold text-gray-900">{stepperData.pais}</span>
-                  </div>
-                )}
-
-                {stepperData.idioma && (
-                  <div className="flex justify-between items-center py-2">
-                    <span className="text-gray-600 font-medium flex items-center gap-2">
-                      <MessageSquare className="w-4 h-4" />
-                      Idioma:
-                    </span>
-                    <span className="font-semibold text-gray-900">{getIdiomaLabel(stepperData.idioma)}</span>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
         </div>
 
-        {/* Dados Raw (para debug) */}
+
+        {/* Dados Raw (expansível) */}
         {stepperData && (
-          <div className="space-y-4">
-            <h4 className="font-semibold text-gray-900">Dados Completos (JSON)</h4>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <pre className="text-xs text-gray-600 overflow-x-auto">
-                {JSON.stringify(stepperData, null, 2)}
-              </pre>
-            </div>
+          <div className="space-y-2">
+            <button
+              onClick={() => setIsJsonExpanded(!isJsonExpanded)}
+              className="flex items-center gap-2 text-sm font-semibold text-gray-800 hover:text-[#FF6700] transition-colors"
+            >
+              <MessageSquare size={14} className="text-[#FF6700]" />
+              Dados Completos (JSON)
+              {isJsonExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+            </button>
+            {isJsonExpanded && (
+              <div className="bg-gray-50 p-3 rounded-lg">
+                <pre className="text-xs text-gray-600 overflow-x-auto">
+                  {JSON.stringify(stepperData, null, 2)}
+                </pre>
+              </div>
+            )}
           </div>
         )}
 
-        {/* Botão Salesforce (placeholder) */}
-        <div className="pt-3 border-t border-gray-200">
-          <YVButton
-            onClick={() => {
-              console.log('Lead para Salesforce:', lead);
-              alert('Funcionalidade do Salesforce será implementada em breve!');
-            }}
-            variant="outline-secondary"
-            size="sm"
-            className="w-full"
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-            </svg>
-            Enviar para Salesforce (em breve)
-          </YVButton>
-        </div>
       </div>
     </YVModal>
   );

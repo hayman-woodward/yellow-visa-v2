@@ -1,16 +1,17 @@
 import CTABanner from '@/components/shared/CTABanner';
 import { getVistoBySlug } from '@/lib/actions/vistos';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import DescricaoVisto from './components/DescricaoVisto';
-import Diferenciais from './components/Diferenciais';
+import Diferenciais from '@/components/shared/Diferenciais';
 import HeroVistos from './components/HeroVistos';
 import OutrosVistos from './components/OutrosVistos';
 import PrincipaisCidades from './components/PrincipaisCidades';
 import VistoBanner from './components/VistoBanner';
 import VistoBeneficios from './components/VistoBeneficios';
-import VistoFAQ from './components/VistoFAQ';
+// import VistoFAQ from './components/VistoFAQ';
 import VistoVideo from './components/VistoVideo';
-import VistoRequisitos from './components/VistoRequisitos';
+import RequisitosEspeciais from '@/components/shared/RequisitosEspeciais';
 
 interface VistoPageProps {
   params: Promise<{
@@ -22,12 +23,7 @@ export async function generateMetadata({ params }: VistoPageProps): Promise<Meta
   const { slug } = await params;
   const visto = await getVistoBySlug(slug);
 
-  if (!visto) {
-    return {
-      title: 'Visto não encontrado | Yellow Visa',
-      description: 'O visto solicitado não foi encontrado.',
-    };
-  }
+  if (!visto) notFound();
 
   return {
     title: visto.metaTitle || `${visto.title} | Yellow Visa`,
@@ -35,12 +31,12 @@ export async function generateMetadata({ params }: VistoPageProps): Promise<Meta
     openGraph: {
       title: visto.ogTitle || visto.title,
       description: visto.ogDescription || visto.description,
-      images: visto.ogImage ? [visto.ogImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/og-image.png'],
+      images: visto.ogImage ? [visto.ogImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yellowvisa-og-image.jpg'],
     },
     twitter: {
       title: visto.twitterTitle || visto.title,
       description: visto.twitterDescription || visto.description,
-      images: visto.twitterImage ? [visto.twitterImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/og-image.png'],
+      images: visto.twitterImage ? [visto.twitterImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yellowvisa-og-image.jpg'],
     },
   };
 }
@@ -53,15 +49,7 @@ export default async function VistoPage({ params }: VistoPageProps) {
 
   // Se não encontrar o visto, mostrar página 404
   if (!visto) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Visto não encontrado</h1>
-          <p className="text-gray-600">O visto solicitado não foi encontrado.</p>
-          <p className="text-sm text-gray-500 mt-2">Slug: {slug}</p>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
 
@@ -184,9 +172,7 @@ export default async function VistoPage({ params }: VistoPageProps) {
   }
 
   // Debug: Log dos diferenciais para verificar se estão sendo carregados
-  console.log('Diferenciais carregados:', diferenciais.length);
-  console.log('Diferencial 3 title:', visto.diferencial3Title);
-  console.log('Diferencial 4 title:', visto.diferencial4Title);
+  // Debug logs removed
 
 
   // Preparar dados dos benefícios
@@ -214,7 +200,12 @@ export default async function VistoPage({ params }: VistoPageProps) {
   }
 
   // Preparar dados dos requisitos especiais
-  const requisitos = [];
+  const requisitos: Array<{
+    id: string;
+    icon?: string;
+    title: string;
+    description: string;
+  }> = [];
   for (let i = 1; i <= 8; i++) {
     const title = visto[`requisito${i}Title` as keyof typeof visto] as string;
     const description = visto[`requisito${i}Description` as keyof typeof visto] as string;
@@ -222,6 +213,7 @@ export default async function VistoPage({ params }: VistoPageProps) {
     
     if (title && description) {
       requisitos.push({
+        id: `requisito-${i}`,
         icon: icon || '',
         title,
         description
@@ -263,12 +255,12 @@ export default async function VistoPage({ params }: VistoPageProps) {
       )}
 
       {visto.requisitosEnabled && (
-        <VistoRequisitos
+        <RequisitosEspeciais
           requisitosTitle={visto.requisitosTitle || "A gente acredita em soluções que cabem na vida real"}
           requisitosDescription={visto.requisitosDescription}
           requisitosBreadcrumb={visto.requisitosBreadcrumb || "ESPECIAIS"}
           requisitosButtonText={visto.requisitosButtonText || "Conheça todos os requisitos especiais"}
-          requisitosButtonUrl={visto.requisitosButtonUrl || "/requisitos"}
+          requisitosButtonUrl={visto.requisitosButtonUrl || ""}
           requisitos={requisitos}
         />
       )}
@@ -286,14 +278,14 @@ export default async function VistoPage({ params }: VistoPageProps) {
       />
       <OutrosVistos currentSlug={slug} />
       {/* <HistoriasImigracao /> */}
-      {visto.faqEnabled && (
+      {/* {visto.faqEnabled && (
         <VistoFAQ
           faqTitle={visto.faqTitle}
           faqDescription={visto.faqDescription}
           faqItems={faqItems}
           vistoSlug={slug}
         />
-      )}
+      )} */}
       <CTABanner 
       
         titulo={visto.ctaTitle || 'Descubra o melhor caminho para viver fora'}

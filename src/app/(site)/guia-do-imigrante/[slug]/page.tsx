@@ -4,7 +4,7 @@ import DicasENoticias from '@/components/shared/DicasENoticias';
 import { getGuiaQuestionHeader } from '@/lib/actions/faq';
 import GuiaHeader from './components/GuiaHeader';
 import GuiaContent from './components/GuiaContent';
-import OutrosDestaques from '../../blog/destinos/components/OutrosDestaques';
+import OutrosDestaques from '../../blog/locais/components/OutrosDestaques';
 import { Metadata } from 'next';
 
 interface GDIPostPageProps {
@@ -30,13 +30,13 @@ export async function generateMetadata({ params }: GDIPostPageProps): Promise<Me
     openGraph: {
       title: `${guiaData.title} | Yellow Visa`,
       description: guiaData.subtitle || `Perguntas frequentes sobre ${guiaData.title} - Guia do Imigrante.`,
-      images: ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/og-image.png'],
+      images: ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yellowvisa-og-image.jpg'],
     },
     twitter: {
       card: 'summary_large_image',
       title: `${guiaData.title} | Yellow Visa`,
       description: guiaData.subtitle || `Perguntas frequentes sobre ${guiaData.title} - Guia do Imigrante.`,
-      images: ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/og-image.png'],
+      images: ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yellowvisa-og-image.jpg'],
     },
   };
 }
@@ -49,7 +49,7 @@ export default async function GDIPostPage({ params }: GDIPostPageProps) {
 
   // Se não encontrar dados, mostrar página 404 ou fallback
   if (!guiaData) {
-    console.log('❌ GuiaData é null, mostrando fallback');
+    // Debug log removed
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -61,7 +61,7 @@ export default async function GDIPostPage({ params }: GDIPostPageProps) {
     );
   }
 
-  console.log('✅ GuiaData encontrado:', guiaData);
+  // Debug log removed
 
   return (
     <div className='bg-white'>

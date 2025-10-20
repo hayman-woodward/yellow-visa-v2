@@ -1,10 +1,10 @@
 import HeroVistos from './components/HeroVistos';
 import Banner from './components/banner';
 
-import RequisitosEspeciais from './components/RequisitosEspeciais';
+import RequisitosEspeciais from '@/components/shared/RequisitosEspeciais';
 import BeneficiosSection from '@/components/shared/BeneficiosSection';
 import DicasENoticias from '@/components/shared/DicasENoticias';
-import PerguntasFrequentes from '@/components/shared/PerguntasFrequentes';
+// import PerguntasFrequentes from '@/components/shared/PerguntasFrequentes';
 import CTABanner from '@/components/shared/CTABanner';
 import Vistos from './components/Vistos';
 import Contadores from '../sobre/components/contadores';
@@ -18,15 +18,15 @@ export const metadata = {
 
 export default function Sobre() {
   return (
-    <div>
+    <div className='bg-white'>
       <HeroVistos />
       <Banner />
       <Vistos />
-      <SimplificamosSeuVisto />
-      <RequisitosEspeciais />
-      <Contadores />
-      <PerguntasFrequentes slug='guia-do-imigrante' />
-      <CTABanner />
+      <SimplificamosSeuVisto showButton={false} />
+      <RequisitosEspeciais showButton={false} requisitos={[]} />
+      {/* <Contadores /> */}
+      {/* <PerguntasFrequentes slug='guia-do-imigrante' /> */}
+      <CTABanner buttonLink="/comecar" />
       <BeneficiosSection />
       <DicasENoticias />
     </div>

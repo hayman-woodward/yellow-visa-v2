@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { cva } from 'class-variance-authority';
+import Link from 'next/link';
 
 const yvButtonVariants = cva(
   'rounded-[999px] font-bold transition-all duration-200 focus:outline-none active:scale-95 flex items-center justify-center gap-1 h-12 px-6 w-fit cursor-pointer',
@@ -55,7 +56,7 @@ const YVButton = ({
       className={cn(yvButtonVariants({ variant, size }), className)}
       disabled={disabled}
     >
-      {href ? <a href={href}>{children}</a> : children}
+      {href ? <Link href={href}>{children}</Link> : children}
     </Button>
   );
 };

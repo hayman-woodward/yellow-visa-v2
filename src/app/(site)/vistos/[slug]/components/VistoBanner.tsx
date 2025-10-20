@@ -48,6 +48,7 @@ export default function VistoBanner({
               <YVBreadcrumbs items={[{ label: slug, href: slug }]} disabled className="pb-4 md:pb-5" />
 
               <YVTitle
+                tag="h1"
                 title={bannerTitle || title}
                 variant="hero"
                 className='text-white max-w-[400px]'

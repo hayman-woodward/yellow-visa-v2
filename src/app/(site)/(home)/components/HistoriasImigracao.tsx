@@ -118,7 +118,7 @@ export default function HistoriasImigracao() {
           </div>
         </div>
       </section>
-      <Contadores />
+      {/* <Contadores /> */}
     </>
   );
 }

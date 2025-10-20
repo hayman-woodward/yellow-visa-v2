@@ -8,7 +8,11 @@ import {
   YVTitle
 } from '@/components/YV';
 
-export default function SimplificamosSeuVisto() {
+interface SimplificamosSeuVistoProps {
+  showButton?: boolean;
+}
+
+export default function SimplificamosSeuVisto({ showButton = true }: SimplificamosSeuVistoProps) {
   const galleryItems = [
     {
       id: '1',
@@ -41,10 +45,12 @@ export default function SimplificamosSeuVisto() {
                 Descrição Phasellus netus natoque ante eget at condimentum
                 eget.Descrição
               </YVText>
+              {showButton && (
               <YVButton variant='outline' href='/destinos'>
                 <YVIcon name='arrow-right' />
-                Conheça todos os destinos
-              </YVButton>
+                  Conheça todos os destinos
+                </YVButton>
+              )}
             </div>
           </div>
 

@@ -24,6 +24,86 @@ interface Destino {
   highlights?: string;
   status: string;
   imageUrl?: string;
+  // Campos das principais cidades
+  cityEnabled?: boolean;
+  cityTitle?: string;
+  cityDescription?: string;
+  city1Title?: string;
+  city1Description?: string;
+  city1Image?: string;
+  city2Title?: string;
+  city2Description?: string;
+  city2Image?: string;
+  city3Title?: string;
+  city3Description?: string;
+  city3Image?: string;
+  city4Title?: string;
+  city4Description?: string;
+  city4Image?: string;
+  // Campos dos diferenciais
+  diferenciaisEnabled?: boolean;
+  diferenciaisTitle?: string;
+  diferenciaisDescription?: string;
+  diferencial1Title?: string;
+  diferencial1Description?: string;
+  diferencial1Image?: string;
+  diferencial2Title?: string;
+  diferencial2Description?: string;
+  diferencial2Image?: string;
+  diferencial3Title?: string;
+  diferencial3Description?: string;
+  diferencial3Image?: string;
+  diferencial4Title?: string;
+  diferencial4Description?: string;
+  diferencial4Image?: string;
+  // Campos dos benefícios
+  beneficiosEnabled?: boolean;
+  beneficio1Title?: string;
+  beneficio1Description?: string;
+  beneficio1Icon?: string;
+  beneficio2Title?: string;
+  beneficio2Description?: string;
+  beneficio2Icon?: string;
+  beneficio3Title?: string;
+  beneficio3Description?: string;
+  beneficio3Icon?: string;
+  // Campos dos requisitos especiais
+  requisitosEnabled?: boolean;
+  requisitosTitle?: string;
+  requisitosDescription?: string;
+  requisitosBreadcrumb?: string;
+  requisitosButtonText?: string;
+  requisitosButtonUrl?: string;
+  requisito1Title?: string;
+  requisito1Description?: string;
+  requisito1Icon?: string;
+  requisito2Title?: string;
+  requisito2Description?: string;
+  requisito2Icon?: string;
+  requisito3Title?: string;
+  requisito3Description?: string;
+  requisito3Icon?: string;
+  requisito4Title?: string;
+  requisito4Description?: string;
+  requisito4Icon?: string;
+  requisito5Title?: string;
+  requisito5Description?: string;
+  requisito5Icon?: string;
+  requisito6Title?: string;
+  requisito6Description?: string;
+  requisito6Icon?: string;
+  requisito7Title?: string;
+  requisito7Description?: string;
+  requisito7Icon?: string;
+  requisito8Title?: string;
+  requisito8Description?: string;
+  requisito8Icon?: string;
+  // Campos do CTA
+  ctaEnabled?: boolean;
+  ctaTitle?: string;
+  ctaDescription?: string;
+  ctaButtonText?: string;
+  ctaButtonUrl?: string;
 }
 
 interface Historia {
@@ -43,6 +123,7 @@ interface Usuario {
   name: string;
   email: string;
   role: string;
+  avatar?: string;
   createdAt: string;
 }
 

@@ -4,6 +4,7 @@ import { YVGallery, YVSection, YVText, YVTitle } from '@/components/YV';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import ResultadoProvisorio from './ResultadoProvisorio';
 
 interface StepperFormDataInterface {
   destino?: string;
@@ -36,13 +37,19 @@ export default function ResultadoPage() {
       const parsedData = JSON.parse(savedData);
       setFormData(parsedData);
 
+      // Pegar UTMs do localStorage
+      const utmData = localStorage.getItem('utm_data');
+      
       // Salvar lead via API Route
       fetch('/api/leads', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(parsedData),
+        body: JSON.stringify({
+          ...parsedData,
+          utm_data: utmData ? JSON.parse(utmData) : null
+        }),
       })
         .then(response => response.json())
         .then(result => {
@@ -133,19 +140,20 @@ export default function ResultadoPage() {
             Agora que você respondeu nosso quiz, temos um caminho inicial pensado especialmente para o seu perfil. Vamos te explicar o que pode funcionar melhor pra você, e o que fazer a seguir.
             Lembre-se: imigração não é só um processo, é um plano de vida, e a gente tá aqui pra construir isso junto com você. 💛
           </YVText>
-          <div className='py-[12px]'>
+          {/* <div className='py-[12px]'>
             <Link
               href="/comecar"
               className="text-[#CC0044] hover:text-orange-700  text-xs font-bold "
             >
               Refazer o teste
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
+      <ResultadoProvisorio />
 
       {/* Seção de recomendações */}
-      <div>
+      {/* <div>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <YVTitle variant='subtitle' className='mt-5 mb-4'>
             Com seu histórico profissional e tempo de experiência, você pode ser um ótimo candidato para processos como:
@@ -172,16 +180,16 @@ export default function ResultadoPage() {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
 
-          <YVText className='py-4'>
+          {/* <YVText className='py-4'>
             Nos próximos passos, vamos analisar seus detalhes mais a fundo e indicar o melhor
             caminho com base no seu potencial real de elegibilidade.
-          </YVText>
+          </YVText> */}
 
 
           {/* Pessoas com seu perfil foram para: */}
-          <div className='bg-white py-10  max-w-4xl mx-auto'>
+          {/* <div className='bg-white py-10  max-w-4xl mx-auto'>
 
             <div className='flex flex-col'>
               <div className='md:pr-7 xl:pr-20'>
@@ -207,12 +215,8 @@ export default function ResultadoPage() {
             </div>
 
           </div>
-        </div>
-
-      </div>
-
-
-
+        </div> */}
+      {/* </div> */}      
     </div>
   );
 }
