@@ -40,7 +40,7 @@ export default function ResultadoPage() {
       // Pegar UTMs do localStorage
       const utmData = localStorage.getItem('utm_data');
       
-      // Salvar lead via API Route
+      // POST 1: Sistema atual
       fetch('/api/leads', {
         method: 'POST',
         headers: {
@@ -62,6 +62,51 @@ export default function ResultadoPage() {
         .catch(error => {
           console.error('Erro ao salvar lead:', error);
         });
+
+      // TODO: POST 2: Enviar para /api/usa-ai (formato deles)
+      // const nameParts = parsedData.nomeCompleto?.split(' ') || [];
+      // const firstName = nameParts[0] || '';
+      // const lastName = nameParts.slice(1).join(' ') || '';
+
+      // fetch('/api/usa-ai', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     firstName: firstName,
+      //     lastName: lastName,
+      //     email: parsedData.email,
+      //     country: parsedData.pais,
+      //     nationality: parsedData.pais,
+      //     phone: parsedData.telefone,
+      //     service: parsedData.objetivo,
+      //     subSource: 'Stepper Form',
+      //     academicBackground: parsedData.maisInfoEstudante || parsedData.maisInfoProfissional || '',
+      //     leadSource: 'Website',
+      //     migrateTo: parsedData.destino || 'USA',
+      //     occupation: parsedData.estudanteOpcao ? 'Estudante' : parsedData.profissionalOpcao ? 'Profissional' : parsedData.turismoOpcao ? 'Turista' : '',
+      //     language: parsedData.idioma,
+      //     timeExperience: parsedData.maisInfoProfissional || '',
+      //     contactChannel: 'email',
+      //     additionalInfo: parsedData.quantasPessoas || parsedData.quantoTempo || '',
+      //     whatsapp: parsedData.telefone,
+      //     annualIncome: parsedData.rendaAnual,
+      //     utm: utmData ? JSON.parse(utmData).utm_campaign : '',
+      //     source: utmData ? JSON.parse(utmData).utm_source : 'stepper',
+      //     medium: utmData ? JSON.parse(utmData).utm_medium : '',
+      //     term: utmData ? JSON.parse(utmData).utm_term : '',
+      //     refer: utmData ? JSON.parse(utmData).refer : '',
+      //     sellerId: utmData ? JSON.parse(utmData).seller : ''
+      //   }),
+      // })
+      //   .then(response => response.json())
+      //   .then(result => {
+      //     console.log('Dados enviados para usa-ai:', result);
+      //   })
+      //   .catch(error => {
+      //     console.error('Erro ao enviar para usa-ai:', error);
+      //   });
     }
 
     // Limpar localStorage após capturar (processo finalizado)
