@@ -5,7 +5,7 @@ import { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'rea
 import ProgressBar from '../ProgressBar';
 
 interface FormData {
-  nomeCompleto?: string;
+  nomeCompleto: string;
   email?: string;
   telefone?: string;
   pais?: string;
@@ -33,7 +33,7 @@ export default function ContatoForm01({
   etapaAtual,
   totalEtapas
 }: ContatoForm01Props) {
-  const podeAvancar = watch('nomeCompleto')?.trim();
+  const podeAvancar = watch('nomeCompleto')?.trim() && watch('nomeCompleto')?.trim().includes(' ');
 
   return (
     <div className="w-full grid grid-cols-1 grid-rows-[1.2fr_1.8fr] lg:grid-cols-[1fr_2fr] lg:grid-rows-1 relative overflow-hidden min-h-screen max-h-[90vh]">

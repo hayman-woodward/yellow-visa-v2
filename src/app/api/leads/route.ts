@@ -3,7 +3,10 @@ import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
 
 const leadSchema = z.object({
-  nomeCompleto: z.string().optional(),
+  nomeCompleto: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres').refine(
+    (nome) => nome.trim().includes(' '), 
+    'Por favor, digite seu nome completo'
+  ),
   email: z.string().email('Email inválido'),
   telefone: z.string().optional(),
   pais: z.string().optional(),
