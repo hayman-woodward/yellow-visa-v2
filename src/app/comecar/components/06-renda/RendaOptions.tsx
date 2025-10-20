@@ -44,22 +44,22 @@ export default function RendaOptions({
     {
       id: 'menos-50k',
       icon: 'dollar-coin',
-      title: 'Menos de $50.000'
+      title: 'Menos de R$50.000'
     },
     {
       id: '50k-199k',
       icon: 'dollar-coin',
-      title: '$50.000 a $199.999'
+      title: 'R$50.000 a R$199.999'
     },
     {
       id: '200k-499k',
       icon: 'dollar-coin',
-      title: '$200.000 a $499.999'
+      title: 'R$200.000 a R$499.999'
     },
     {
       id: 'acima-500k',
       icon: 'dollar-coin',
-      title: 'Acima de $500.000'
+      title: 'Acima de R$500.000'
     }
   ];
 
