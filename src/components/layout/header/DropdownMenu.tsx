@@ -7,8 +7,9 @@ import { YVText } from '@/components/YV';
 interface DropdownItem {
   id: string;
   label: string;
-  href: string;
+  href?: string;
   icon?: string;
+  isHeading?: boolean;
 }
 
 interface DropdownColumn {
@@ -104,7 +105,7 @@ const DropdownMenu = ({
             <div className='flex gap-10 items-start'>
               {/* Imagem à esquerda */}
               <div className='w-1/3 flex-shrink-0'>
-                <div className='w-[289px] xl:w-[389px] h-[386px] xl:h-[516px] bg-gray-200 overflow-hidden'>
+                <div className='w-[289px] xl:w-[389px] h-[396px] xl:h-[530px] bg-gray-200 overflow-hidden'>
                   <Image
                     src='/imgs/vistos-e-destinos-dropdown.jpg'
                     alt='Imigração'
@@ -134,30 +135,36 @@ const DropdownMenu = ({
                     <ul className='space-y-4 pt-3 gap-4'>
                       {column.items.map((item) => (
                         <li key={item.id} className='max-w-[240px]'>
-                          <a
-                            href={item.href}
-                            className='flex items-center justify-between group hover:bg-gray-50 rounded-md px-3 py-2 -mx-3 -my-2 transition-colors duration-150'
-                          >
-                            <YVText
-                              variant='small'
-                              className='text-gray-700 group-hover:text-gray-900 font-medium text-base'
-                            >
+                          {item.isHeading ? (
+                            <YVText variant="small" className='font-semibold text-sm mb-1'>
                               {item.label}
                             </YVText>
-                            <svg
-                              className='w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors duration-150'
-                              fill='none'
-                              stroke='currentColor'
-                              viewBox='0 0 24 24'
+                          ) : (
+                            <a
+                              href={item.href}
+                              className='flex items-center justify-between group hover:bg-gray-50 rounded-md px-3 py-2 -mx-3 -my-2 transition-colors duration-150'
                             >
-                              <path
-                                strokeLinecap='round'
-                                strokeLinejoin='round'
-                                strokeWidth={2}
-                                d='M9 5l7 7-7 7'
-                              />
-                            </svg>
-                          </a>
+                              <YVText
+                                variant='small'
+                                className='text-gray-700 group-hover:text-gray-900 font-medium text-base'
+                              >
+                                {item.label}
+                              </YVText>
+                              <svg
+                                className='w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors duration-150'
+                                fill='none'
+                                stroke='currentColor'
+                                viewBox='0 0 24 24'
+                              >
+                                <path
+                                  strokeLinecap='round'
+                                  strokeLinejoin='round'
+                                  strokeWidth={2}
+                                  d='M9 5l7 7-7 7'
+                                />
+                              </svg>
+                            </a>
+                          )}
                         </li>
                       ))}
                     </ul>
