@@ -6,6 +6,7 @@ import { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'rea
 import ProgressBar from '../ProgressBar';
 
 interface FormData {
+  nomeCompleto: string;
   maisInfoTurista?: string;
   quantasPessoas?: string;
   quantoTempo?: string;
