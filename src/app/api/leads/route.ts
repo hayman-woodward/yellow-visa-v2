@@ -2,6 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
 
+// Função para converter ID da renda para valor formatado
+function getRendaFormattedValue(rendaId: string | undefined): string {
+  const rendas: { [key: string]: string } = {
+    'menos-50k': 'Menos de R$ 50.000',
+    '50k-199k': 'R$ 50.000 a R$ 199.999',
+    '200k-499k': 'R$ 200.000 a R$ 499.999',
+    'acima-500k': 'Acima de R$ 500.000'
+  };
+  return rendas[rendaId || ''] || 'Não informado';
+}
+
 const leadSchema = z.object({
   nomeCompleto: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres').refine(
     (nome) => nome.trim().includes(' '), 
@@ -98,7 +109,7 @@ export async function POST(request: NextRequest) {
             utm_data: body.utm_data
           }),
           whatsapp: validatedData.telefone || '',
-          annualIncome: validatedData.rendaAnual || 'Não informado',
+          annualIncome: getRendaFormattedValue(validatedData.rendaAnual) || 'Não informado',
           utm: body.utm_data?.utm_source || '',
           source: body.utm_data?.utm_source || '',
           medium: body.utm_data?.utm_medium || '',
