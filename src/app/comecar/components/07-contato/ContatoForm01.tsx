@@ -33,7 +33,8 @@ export default function ContatoForm01({
   etapaAtual,
   totalEtapas
 }: ContatoForm01Props) {
-  const podeAvancar = watch('nomeCompleto')?.trim();
+  const nomeCompleto = watch('nomeCompleto')?.trim();
+  const podeAvancar = nomeCompleto && nomeCompleto.split(/\s+/).length >= 2;
 
   return (
     <div className="w-full grid grid-cols-1 grid-rows-[1.2fr_1.8fr] lg:grid-cols-[1fr_2fr] lg:grid-rows-1 relative overflow-hidden min-h-screen max-h-[90vh]">

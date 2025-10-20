@@ -52,7 +52,14 @@ const formSchema = z.object({
   tipoVisto: z.string().optional(),
 
   // Etapa 7 - Contato
-  nomeCompleto: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres').optional(),
+  nomeCompleto: z.string()
+    .min(2, 'Nome deve ter pelo menos 2 caracteres')
+    .refine((nome) => {
+      if (!nome) return true; // Permitir campo vazio se for opcional
+      const partes = nome.trim().split(/\s+/);
+      return partes.length >= 2;
+    }, 'Digite seu nome completo (nome e sobrenome)')
+    .optional(),
   email: z.string().email('Email inválido').optional(),
   telefone: z.string().min(10, 'Telefone deve ter pelo menos 10 dígitos').optional(),
   pais: z.string().min(2, 'País deve ter pelo menos 2 caracteres').optional(),
