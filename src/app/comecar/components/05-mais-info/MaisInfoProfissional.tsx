@@ -43,17 +43,12 @@ export default function MaisInfoProfissional({
 
   const opcoes = [
     {
-      id: 'menos-3-anos',
+      id: 'menos-5-anos',
       icon: 'calendar',
-      title: 'Menos de 3 anos'
+      title: 'Menos de 5 anos'
     },
     {
-      id: 'entre-3-e-5-anos',
-      icon: 'calendar',
-      title: 'Entre 3 e 5 anos'
-    },
-    {
-      id: 'de-5-a-10-anos',
+      id: '5-a-10-anos',
       icon: 'calendar',
       title: 'De 5 a 10 anos'
     },
