@@ -16,6 +16,18 @@ export default async function Footer({
 
   // Get all VISTOS (use passed prop if available)
   const vistos = vistosFromProps ?? (await getPublishedVistos());
+  
+  // Divide por país na mesma coluna com subtítulos (igual ao header)
+  const vistosUSA = vistos.filter(v => v.country.toLowerCase().includes('eua') || v.country.toLowerCase().includes('estados unidos'));
+  const vistosPT = vistos.filter(v => v.country.toLowerCase().includes('portugal'));
+  
+  // Cria array com subtítulos e itens misturados
+  const vistosComSubtitulos = [
+    { id: 'heading-usa', label: 'Estados Unidos', isHeading: true },
+    ...vistosUSA.map((v) => ({ id: v.slug, label: v.label, href: `/vistos/${v.slug}`, isHeading: false })),
+    { id: 'heading-pt', label: 'Portugal', isHeading: true },
+    ...vistosPT.map((v) => ({ id: v.slug, label: v.label, href: `/vistos/${v.slug}`, isHeading: false }))
+  ];
 
   const destinos = ['Portugal', 'Estados Unidos'];
 
@@ -102,17 +114,27 @@ export default async function Footer({
                 Vistos
               </Link>
               <div className='space-y-2 '>
-                {vistos.map((item) => (
-                  <Link
-                    key={item.slug}
-                    href={`/vistos/${item.slug}`}
-                    className='group flex items-center justify-between text-sm hover:text-gray-600 transition-all duration-300 relative px-4 -mx-4 py-2 md:py-4 max-w-[168px] md:max-w-[188px]'
-                  >
-                    <span className='relative z-10'>{item.label}</span>
-                    <span className='text-xs relative z-10'>›</span>
-                    <div className='absolute inset-0 bg-white transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-center rounded'></div>
-                  </Link>
-                ))}
+                {vistosComSubtitulos.map((item) => {
+                  if (item.isHeading) {
+                    return (
+                      <YVText key={item.id} variant="small" className='font-semibold mt-4'>
+                        {item.label}
+                      </YVText>
+                    );
+                  }
+                  
+                  return (
+                    <Link
+                      key={item.id}
+                      href={item.href!}
+                      className='group flex items-center justify-between text-sm hover:text-gray-600 transition-all duration-300 relative px-4 -mx-4 py-2 md:py-4 max-w-[168px] md:max-w-[188px]'
+                    >
+                      <span className='relative z-10'>{item.label}</span>
+                      <span className='text-xs relative z-10'>›</span>
+                      <div className='absolute inset-0 bg-white transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-center rounded'></div>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -133,7 +155,7 @@ export default async function Footer({
                     href='#'
                     className='group flex items-center justify-between text-sm hover:text-gray-600 transition-all duration-300 relative px-4 -mx-4 py-2 md:py-4 max-w-[168px] md:max-w-[188px]'
                   >
-                    <span className='relative z-10'>{item}</span>
+                    <span className='relative z-10 '>{item}</span>
                     <span className='text-xs relative z-10'>›</span>
                     <div className='absolute inset-0 bg-white transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-center rounded'></div>
                   </Link>
