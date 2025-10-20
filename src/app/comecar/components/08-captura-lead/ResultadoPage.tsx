@@ -46,7 +46,7 @@ export default function ResultadoPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...parsedData,
+          ...(parsedData || {}),
           utm_data: utmData ? JSON.parse(utmData) : null
         }),
       })
