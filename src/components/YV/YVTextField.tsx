@@ -58,7 +58,7 @@ const YVTextField = forwardRef<HTMLInputElement, YVTextFieldProps>(
     },
     ref
   ) => {
-    const finalVariant = error
+    const finalVariant = error && variant !== 'underline'
       ? 'error'
       : showSuccess
         ? 'success'
@@ -89,19 +89,19 @@ const YVTextField = forwardRef<HTMLInputElement, YVTextFieldProps>(
                 yvTextFieldVariants({ variant: finalVariant, size }),
                 leftIcon && 'pl-10',
                 (rightIcon || showSuccess || error) && 'pr-10',
-                finalVariant === 'underline' && 'ring-0 focus:ring-0 active:ring-0 focus-visible:ring-0 bg-transparent focus:outline-none active:outline-none outline-none focus:ring-offset-0 focus-visible:ring-offset-0 [&:focus]:ring-0 [&:focus]:ring-offset-0 [&:focus]:outline-none',
+                finalVariant === 'underline' && 'ring-0 focus:ring-0 active:ring-0 focus-visible:ring-0 bg-transparent focus:outline-none active:outline-none outline-none focus:ring-offset-0 focus-visible:ring-offset-0',
                 className
               )}
               style={finalVariant === 'underline' ? {
                 outline: 'none !important',
                 boxShadow: 'none !important',
                 borderColor: 'transparent !important',
-                borderBottomColor: '#000 !important',
+                borderBottomColor: error ? '#ef4444 !important' : '#000 !important',
                 backgroundColor: 'transparent !important',
                 borderTop: 'none !important',
                 borderLeft: 'none !important',
                 borderRight: 'none !important',
-                borderBottom: '1px solid #000 !important'
+                borderBottom: `1px solid ${error ? '#ef4444' : '#000'} !important`
               } : undefined}
             />
             {showSuccess && !error && (
