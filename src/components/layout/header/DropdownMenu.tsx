@@ -9,6 +9,7 @@ interface DropdownItem {
   label: string;
   href: string;
   icon?: string;
+  isSubtitle?: boolean;
 }
 
 interface DropdownColumn {
@@ -131,33 +132,44 @@ const DropdownMenu = ({
                         {column.title}
                       </YVText>
                     )}
-                    <ul className='space-y-4 pt-3 gap-4'>
+                    <ul className='space-y-4 pt-3 gap-4 pb-3'>
                       {column.items.map((item) => (
                         <li key={item.id} className='max-w-[240px]'>
-                          <a
-                            href={item.href}
-                            className='flex items-center justify-between group hover:bg-gray-50 rounded-md px-3 py-2 -mx-3 -my-2 transition-colors duration-150'
-                          >
-                            <YVText
-                              variant='small'
-                              className='text-gray-700 group-hover:text-gray-900 font-medium text-base'
+                          {item.isSubtitle ? (
+                            <div className='py-1'>
+                              <YVText
+                                variant='small'
+                                className='text-gray-900 !font-semibold text-sm uppercase tracking-wide'
+                              >
+                                {item.label}
+                              </YVText>
+                            </div>
+                          ) : (
+                            <a
+                              href={item.href}
+                              className='flex items-center justify-between group hover:bg-gray-50 rounded-md px-3 py-2 -mx-3 -my-2 transition-colors duration-150'
                             >
-                              {item.label}
-                            </YVText>
-                            <svg
-                              className='w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors duration-150'
-                              fill='none'
-                              stroke='currentColor'
-                              viewBox='0 0 24 24'
-                            >
-                              <path
-                                strokeLinecap='round'
-                                strokeLinejoin='round'
-                                strokeWidth={2}
-                                d='M9 5l7 7-7 7'
-                              />
-                            </svg>
-                          </a>
+                              <YVText
+                                variant='small'
+                                className='text-gray-700 group-hover:text-gray-900 font-medium text-base'
+                              >
+                                {item.label}
+                              </YVText>
+                              <svg
+                                className='w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors duration-150'
+                                fill='none'
+                                stroke='currentColor'
+                                viewBox='0 0 24 24'
+                              >
+                                <path
+                                  strokeLinecap='round'
+                                  strokeLinejoin='round'
+                                  strokeWidth={2}
+                                  d='M9 5l7 7-7 7'
+                                />
+                              </svg>
+                            </a>
+                          )}
                         </li>
                       ))}
                     </ul>

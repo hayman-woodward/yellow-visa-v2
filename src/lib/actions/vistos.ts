@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 export type VistoSummary = {
   label: string;
   slug: string;
+  country: string;
 };
 
 export type VistoData = {
@@ -136,10 +137,14 @@ export async function getPublishedVistos(): Promise<VistoSummary[]> {
     const vistos = await prisma.visto.findMany({
       where: { status: 'published' },
       orderBy: { title: 'asc' },
-      select: { title: true, slug: true }
+      select: { title: true, slug: true, country: true }
     });
 
-    return vistos.map((v: { title: string; slug: string }) => ({ label: v.title, slug: v.slug }));
+    return vistos.map((v: { title: string; slug: string; country: string }) => ({ 
+      label: v.title, 
+      slug: v.slug, 
+      country: v.country 
+    }));
   } catch (error) {
     console.error('Failed to load published vistos:', error);
     // Evita quebrar a página caso o banco esteja indisponível
