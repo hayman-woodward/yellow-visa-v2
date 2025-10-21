@@ -63,10 +63,20 @@ export default function ResultadoPage() {
           console.error('Erro ao salvar lead:', error);
         });
 
-      // TODO: POST 2: Enviar para /api/usa-ai (formato deles)
+      // TODO: POST 2: Enviar para Salesforce (formato do site antigo) - COMENTADO PARA EVITAR QUEBRAR API
       // const nameParts = parsedData.nomeCompleto?.split(' ') || [];
       // const firstName = nameParts[0] || '';
       // const lastName = nameParts.slice(1).join(' ') || '';
+
+      // // Mapear service baseado nas opções selecionadas
+      // let service = '';
+      // if (parsedData.estudanteOpcao) {
+      //   service = 'Student Visa';
+      // } else if (parsedData.turismoOpcao) {
+      //   service = 'Tourist Visa';
+      // } else if (parsedData.profissionalOpcao) {
+      //   service = 'Immigrant Visa';
+      // }
 
       // fetch('/api/usa-ai', {
       //   method: 'POST',
@@ -80,7 +90,7 @@ export default function ResultadoPage() {
       //     country: parsedData.pais,
       //     nationality: parsedData.pais,
       //     phone: parsedData.telefone,
-      //     service: parsedData.objetivo,
+      //     service: service,
       //     subSource: 'Stepper Form',
       //     academicBackground: parsedData.maisInfoEstudante || parsedData.maisInfoProfissional || '',
       //     leadSource: 'Website',
@@ -102,10 +112,10 @@ export default function ResultadoPage() {
       // })
       //   .then(response => response.json())
       //   .then(result => {
-      //     console.log('Dados enviados para usa-ai:', result);
+      //     console.log('Dados enviados para Salesforce:', result);
       //   })
       //   .catch(error => {
-      //     console.error('Erro ao enviar para usa-ai:', error);
+      //     console.error('Erro ao enviar para Salesforce:', error);
       //   });
     }
 
