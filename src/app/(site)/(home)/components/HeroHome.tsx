@@ -70,15 +70,15 @@ export default function HeroHome() {
           </div>
 
           {/* Coluna Direita - Imagem Desktop */}
-          <div className='relative -ml-20 flex-col justify-end hidden lg:flex'>
+          <div className='relative flex-col justify-end hidden lg:flex lg:-ml-32'>
             <div className='w-full lg:h-[750px] relative overflow-visible' data-aos="fade-left" data-aos-delay="400" data-aos-duration="1600">
               <Image
                 src='/imgs/home/hero-woman.png'
                 alt='Mulher com cabelo colorido - Desktop'
-                width={600}
-                height={750}
-                className='w-full h-full object-cover object-bottom absolute bottom-0 right-0 lg:-ml-12 xl:-ml-16'
-                style={{ objectPosition: 'center bottom' }}
+                width={900}
+                height={900}
+                className='w-full h-full object-cover absolute bottom-0 right-0 '
+                style={{ objectPosition: 'left center' }}
                 priority
               />
             </div>
