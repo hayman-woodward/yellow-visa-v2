@@ -47,17 +47,12 @@ export default function MaisInfoProfissionalFormacao({
       id: 'High School (Ensino Medio)',
       icon: 'study',
       title: 'Ensino Médio'
-    },
-    {
-      id: 'Professional Certificates / Certificados Profissionais',
-      icon: 'hard-hat',
-      title: 'Certificados Profissionais'
-    },
-    {
-      id: 'Technician / College (Nivel tecnico)',
-      icon: 'hard-hat',
-      title: 'Nível técnico'
-    },
+    },   
+    // {
+    //   id: 'Technician / College (Nivel tecnico)',
+    //   icon: 'hard-hat',
+    //   title: 'Nível técnico'
+    // },
     {
       id: 'Baccalaureate Degree (Nivel Superior / Bacharelado)',
       icon: 'study',
@@ -68,21 +63,21 @@ export default function MaisInfoProfissionalFormacao({
       icon: 'study',
       title: 'Pós Graduação'
     },
-    {
-      id: 'Master Degree (Mestrado)',
-      icon: 'study',
-      title: 'Mestrado'
-    },
+    // {
+    //   id: 'Master Degree (Mestrado)',
+    //   icon: 'study',
+    //   title: 'Mestrado'
+    // },
     {
       id: 'Doctorate Degree (Doutorado)',
       icon: 'study',
       title: 'Doutorado'
     },
-    {
-      id: 'Post Doctorate (Pos Doutorado)',
-      icon: 'study',
-      title: 'Pós Doutorado'
-    }
+    // {
+    //   id: 'Post Doctorate (Pos Doutorado)',
+    //   icon: 'study',
+    //   title: 'Pós Doutorado'
+    // }
   ];
 
   const podeAvancar = selectedOpcao;
