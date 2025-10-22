@@ -70,7 +70,7 @@ export default function HeroHome() {
           </div>
 
           {/* Coluna Direita - Imagem Desktop */}
-          <div className='relative flex-col justify-end hidden lg:flex lg:-ml-32'>
+          <div className='relative flex-col justify-end hidden lg:flex lg:-ml-28'>
             <div className='w-full lg:h-[750px] relative overflow-visible' data-aos="fade-left" data-aos-delay="400" data-aos-duration="1600">
               <Image
                 src='/imgs/home/hero-woman.png'
