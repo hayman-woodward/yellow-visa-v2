@@ -14,7 +14,7 @@ interface FormData {
   quantoTempo?: string;
 }
 
-interface MaisInfoProfissionalProps {
+interface MaisInfoProfissionalFormacaoProps {
   register: UseFormRegister<FormData>;
   errors: FieldErrors<FormData>;
   watch: UseFormWatch<FormData>;
@@ -25,7 +25,7 @@ interface MaisInfoProfissionalProps {
   totalEtapas: number;
 }
 
-export default function MaisInfoProfissional({
+export default function MaisInfoProfissionalFormacao({
   register,
   errors,
   watch,
@@ -34,29 +34,54 @@ export default function MaisInfoProfissional({
   onVoltar,
   etapaAtual,
   totalEtapas
-}: MaisInfoProfissionalProps) {
+}: MaisInfoProfissionalFormacaoProps) {
   const [selectedOpcao, setSelectedOpcao] = useState<string>('');
 
   const handleOpcaoSelect = (opcao: string) => {
     setSelectedOpcao(opcao);
-    setValue('maisInfoProfissional', opcao);
+    setValue('maisInfoProfissionalFormacao', opcao);
   };
 
   const opcoes = [
     {
-      id: 'menos-5-anos',
-      icon: 'calendar',
-      title: 'Menos de 5 anos'
+      id: 'High School (Ensino Medio)',
+      icon: 'study',
+      title: 'Ensino Médio'
     },
     {
-      id: '5-a-10-anos',
-      icon: 'calendar',
-      title: 'De 5 a 10 anos'
+      id: 'Professional Certificates / Certificados Profissionais',
+      icon: 'hard-hat',
+      title: 'Certificados Profissionais'
     },
     {
-      id: 'mais-de-10-anos',
-      icon: 'calendar',
-      title: 'Mais de 10 anos'
+      id: 'Technician / College (Nivel tecnico)',
+      icon: 'hard-hat',
+      title: 'Nível técnico'
+    },
+    {
+      id: 'Baccalaureate Degree (Nivel Superior / Bacharelado)',
+      icon: 'study',
+      title: 'Nível Superior / Bacharelado'
+    },
+    {
+      id: 'Post Graduation (Pos Graduacao)',
+      icon: 'study',
+      title: 'Pós Graduação'
+    },
+    {
+      id: 'Master Degree (Mestrado)',
+      icon: 'study',
+      title: 'Mestrado'
+    },
+    {
+      id: 'Doctorate Degree (Doutorado)',
+      icon: 'study',
+      title: 'Doutorado'
+    },
+    {
+      id: 'Post Doctorate (Pos Doutorado)',
+      icon: 'study',
+      title: 'Pós Doutorado'
     }
   ];
 
@@ -68,9 +93,9 @@ export default function MaisInfoProfissional({
       {/* Coluna Esquerda - Imagem (33% da largura) */}
       <div className="row-start-1 px-0 md:px-0 md:relative md:overflow-hidden lg:col-start-1 lg:row-start-1 lg:order-1">
         <YVBanner
-          src='/imgs/stepper-form/bg-etapa-05-profissional.jpg'
-          srcMobile='/imgs/stepper-form/bg-etapa-05-profissional-mobile.jpg'
-          alt='Hero Mais Info Profissional'
+          src='/imgs/stepper-form/bg-etapa-05-profissional-formacao.jpg'
+          srcMobile='/imgs/stepper-form/bg-etapa-05-profissional-formacao-mobile.jpg'
+          alt='Hero Formação Profissional'
           className='object-cover object-center h-full md:min-h-[100vh]'
           priority
           quality={85}
@@ -87,15 +112,15 @@ export default function MaisInfoProfissional({
           <ProgressBar
             etapaAtual={etapaAtual}
             totalEtapas={totalEtapas}
-            titulo="Renda"
+            titulo="Formação"
           />
 
           {/* Título da pergunta */}
           <YVTitle className="mb-8">
-            Quanto tempo de experiência você tem na sua área?
+            Qual é o seu nível de formação acadêmica?
           </YVTitle>
 
-          {/* Opções de experiência */}
+          {/* Opções de formação */}
           <div className="space-y-4 mb-8">
             {opcoes.map((opcao) => (
               <div key={opcao.id}>

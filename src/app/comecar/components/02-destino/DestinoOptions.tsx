@@ -28,17 +28,10 @@ export default function DestinoOptions({
   totalEtapas
 }: DestinoOptionsProps) {
   const [selectedDestino, setSelectedDestino] = useState<string>('');
-  const [outroDestino, setOutroDestino] = useState<string>('');
 
   const handleDestinoSelect = (destino: string) => {
     setSelectedDestino(destino);
     setValue('destino', destino);
-  };
-
-  const handleOutroDestinoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const valor = e.target.value;
-    setOutroDestino(valor);
-    setValue('destino', valor);
   };
 
   const destinos = [
@@ -55,17 +48,10 @@ export default function DestinoOptions({
       title: 'Quero começar uma nova história em Portugal',
       description: 'Portugal - Cultura, história e qualidade de vida',
       color: 'from-green-500 to-red-500'
-    },
-    {
-      id: 'outro',
-      icon: 'other-places',
-      title: 'Outro lugar me chama...',
-      description: 'Especifique seu destino dos sonhos',
-      color: 'from-purple-500 to-pink-500'
     }
   ];
 
-  const podeAvancar = selectedDestino && (selectedDestino !== 'outro' || outroDestino.trim());
+  const podeAvancar = selectedDestino;
 
   return (
     <div className="w-full grid grid-cols-1 grid-rows-[1.2fr_1.8fr] lg:grid-cols-[1fr_2fr] lg:grid-rows-1 relative overflow-hidden min-h-screen max-h-[90vh]">
@@ -131,18 +117,6 @@ export default function DestinoOptions({
                   </div>
                 </div>
 
-                {/* Input para "Outro" destino */}
-                {destino.id === 'outro' && selectedDestino === 'outro' && (
-                  <div className="mt-4 ml-20">
-                    <input
-                      type="text"
-                      placeholder="Qual país te chama?"
-                      value={outroDestino}
-                      onChange={handleOutroDestinoChange}
-                      className="w-full px-4 py-3 rounded-md border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 focus:outline-none"
-                    />
-                  </div>
-                )}
               </div>
             ))}
           </div>

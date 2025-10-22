@@ -14,6 +14,7 @@ import EstudanteOptions from './04-tipo-de-visto/EstudanteOptions';
 import TurismoOptions from './04-tipo-de-visto/TurismoOptions';
 import ProfissionalOptions from './04-tipo-de-visto/ProfissionalOptions';
 import MaisInfoEstudante from './05-mais-info/MaisInfoEstudante';
+import MaisInfoProfissionalFormacao from './05-mais-info/MaisInfoProfissionalFormacao';
 import MaisInfoProfissional from './05-mais-info/MaisInfoProfissional';
 import MaisInfoTurista from './05-mais-info/MaisInfoTurista01';
 import MaisInfoTurista02 from './05-mais-info/MaisInfoTurista02';
@@ -43,6 +44,7 @@ const formSchema = z.object({
   // Etapa 5 - Mais Info
   maisInfoEstudante: z.string().optional(),
   maisInfoProfissional: z.string().optional(),
+  maisInfoProfissionalFormacao: z.string().optional(),
   maisInfoTurista: z.string().optional(),
   quantasPessoas: z.string().optional(),
   quantoTempo: z.string().optional(),
@@ -89,6 +91,7 @@ export interface StepperFormDataInterface {
   // Etapa 5 - Mais Info
   maisInfoEstudante?: string;
   maisInfoProfissional?: string;
+  maisInfoProfissionalFormacao?: string;
   maisInfoTurista?: string;
   quantasPessoas?: string;
   quantoTempo?: string;
@@ -105,17 +108,18 @@ export interface StepperFormDataInterface {
   idioma?: string;
 }
 
-// Definição das 7 etapas
+// Definição das etapas
 const etapas = [
   { id: 1, title: 'Início', description: 'Bem-vindo', slug: 'inicio' },
   { id: 2, title: 'Destino', description: 'Seu sonho', slug: 'destino' },
   { id: 3, title: 'Objetivo', description: 'Sua motivação', slug: 'objetivo' },
   { id: 4, title: 'Tipo de Visto', description: 'Sua categoria', slug: 'tipo-visto' },
-  { id: 5, title: 'Mais Info', description: 'Mais informações', slug: 'mais-info' },
-  { id: 6, title: 'Renda', description: 'Sua renda', slug: 'renda' },
-  { id: 7, title: 'Contato', description: 'Seus dados', slug: 'contato' },
-  { id: 8, title: 'Captura Lead', description: 'Confirmação', slug: 'captura-lead' },
-  { id: 9, title: 'Resultado', description: 'Sua jornada', slug: 'resultado' }
+  { id: 5, title: 'Formação', description: 'Sua formação', slug: 'formacao' },
+  { id: 6, title: 'Experiência', description: 'Sua experiência', slug: 'experiencia' },
+  { id: 7, title: 'Renda', description: 'Sua renda', slug: 'renda' },
+  { id: 8, title: 'Contato', description: 'Seus dados', slug: 'contato' },
+  { id: 9, title: 'Captura Lead', description: 'Confirmação', slug: 'captura-lead' },
+  { id: 10, title: 'Resultado', description: 'Sua jornada', slug: 'resultado' }
 ];
 
 interface VistoStepperProps {
@@ -169,6 +173,7 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
         profissionalOpcao: watchedFields.profissionalOpcao || '',
         maisInfoEstudante: watchedFields.maisInfoEstudante || '',
         maisInfoProfissional: watchedFields.maisInfoProfissional || '',
+        maisInfoProfissionalFormacao: watchedFields.maisInfoProfissionalFormacao || '',
         maisInfoTurista: watchedFields.maisInfoTurista || '',
         quantasPessoas: watchedFields.quantasPessoas || '',
         quantoTempo: watchedFields.quantoTempo || '',
@@ -242,6 +247,19 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
           }
         }
 
+        // Lógica para etapa 6 - experiência (só para profissional)
+        if (novaEtapa === 6) {
+          const objetivo = watch('objetivo');
+          if (objetivo === 'crescer-profissionalmente' || objetivo === 'empreender-investir') {
+            router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&tipo=profissional`);
+            return;
+          } else {
+            // Para outros fluxos, pular direto para renda
+            router.push(`/comecar?etapa=07-${etapas.find(e => e.id === 7)?.slug}`);
+            return;
+          }
+        }
+
         // Lógica para etapa 5 - navegação do turista
         if (etapaAtual === 5) {
           const sub = searchParams.get('sub');
@@ -272,8 +290,8 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
           }
         }
 
-        // Lógica especial para etapa 8 - redirecionar para /result
-        if (novaEtapa === 8) {
+        // Lógica especial para etapa 9 - redirecionar para /result
+        if (novaEtapa === 9) {
           router.push('/result');
           return;
         }
@@ -425,8 +443,8 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
         return <div>Etapa 4 - Tipo de Visto (em breve)</div>;
       case 5:
         // Lógica condicional baseada no parâmetro da URL
-        const tipo = searchParams.get('tipo');
-        if (tipo === 'estudante') {
+        const tipoFormacao = searchParams.get('tipo');
+        if (tipoFormacao === 'estudante') {
           return (
             <MaisInfoEstudante
               register={register}
@@ -439,9 +457,9 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
               totalEtapas={etapas.length}
             />
           );
-        } else if (tipo === 'profissional') {
+        } else if (tipoFormacao === 'profissional') {
           return (
-            <MaisInfoProfissional
+            <MaisInfoProfissionalFormacao
               register={register}
               errors={errors}
               watch={watch}
@@ -452,7 +470,7 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
               totalEtapas={etapas.length}
             />
           );
-        } else if (tipo === 'turista') {
+        } else if (tipoFormacao === 'turista') {
           const sub = searchParams.get('sub');
           if (sub === 'quantas-pessoas') {
             return (
@@ -492,8 +510,25 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
             );
           }
         }
-        return <div>Etapa 5 - Renda (em breve)</div>;
+        return <div>Etapa 5 - Formação (em breve)</div>;
       case 6:
+        // Lógica condicional baseada no parâmetro da URL
+        const tipoExperiencia = searchParams.get('tipo');
+        if (tipoExperiencia === 'profissional') {
+          return (
+            <MaisInfoProfissional
+              register={register}
+              errors={errors}
+              watch={watch}
+              setValue={setValue}
+              onProximo={proximaEtapa}
+              onVoltar={etapaAnterior}
+              etapaAtual={etapaAtual}
+              totalEtapas={etapas.length}
+            />
+          );
+        }
+        // Para outros fluxos, pular direto para a próxima etapa
         return (
           <RendaOptions
             register={register}
@@ -507,6 +542,19 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
           />
         );
       case 7:
+        return (
+          <RendaOptions
+            register={register}
+            errors={errors}
+            watch={watch}
+            setValue={setValue}
+            onProximo={proximaEtapa}
+            onVoltar={etapaAnterior}
+            etapaAtual={etapaAtual}
+            totalEtapas={etapas.length}
+          />
+        );
+      case 8:
         const contatoSub = searchParams.get('sub');
         if (contatoSub === 'contato-01') {
           return (
@@ -515,7 +563,7 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
               errors={errors}
               watch={watch}
               setValue={setValue}
-              onProximo={() => router.push('/comecar?etapa=07-contato&sub=contato-02')}
+              onProximo={() => router.push('/comecar?etapa=08-contato&sub=contato-02')}
               onVoltar={etapaAnterior}
               etapaAtual={etapaAtual}
               totalEtapas={etapas.length}
@@ -528,7 +576,7 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
               errors={errors}
               watch={watch}
               setValue={setValue}
-              onProximo={() => router.push('/comecar?etapa=07-contato&sub=contato-03')}
+              onProximo={() => router.push('/comecar?etapa=08-contato&sub=contato-03')}
               onVoltar={etapaAnterior}
               etapaAtual={etapaAtual}
               totalEtapas={etapas.length}
@@ -555,17 +603,17 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
               errors={errors}
               watch={watch}
               setValue={setValue}
-              onProximo={() => router.push('/comecar?etapa=07-contato&sub=contato-02')}
+              onProximo={() => router.push('/comecar?etapa=08-contato&sub=contato-02')}
               onVoltar={etapaAnterior}
               etapaAtual={etapaAtual}
               totalEtapas={etapas.length}
             />
           );
         }
-      case 8:
-        return <ResultadoPage />;
       case 9:
-        return <div>Etapa 9 - Resultado (em breve)</div>;
+        return <ResultadoPage />;
+      case 10:
+        return <ResultadoPage />;
       default:
         return null;
     }
