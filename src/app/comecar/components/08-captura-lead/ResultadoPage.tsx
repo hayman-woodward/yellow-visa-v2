@@ -40,6 +40,18 @@ const serviceMapping: { [key: string]: string } = {
   "empreender-investir": "Visto de Investimento",
   "estudar-fora": "Student Visa (Visto de Estudante)",
   "conhecer-mundo": "Tourist Visa (Visto de Turista)",
+  // Opções específicas do turismo
+  "momentos-inesqueciveis": "Tourist Visa (Visto de Turista)",
+  "explorar-encontrar-amor": "Tourist Visa (Visto de Turista)",
+  "respiro-reconectar": "Tourist Visa (Visto de Turista)",
+  // Opções específicas do estudante
+  "formacao-exterior": "Student Visa (Visto de Estudante)",
+  "morar-fora-estudando": "Student Visa (Visto de Estudante)",
+  "pos-mestrado": "Student Visa (Visto de Estudante)",
+  "explorando-opcoes": "Student Visa (Visto de Estudante)",
+  // Opções específicas do profissional (são valores livres, então mapeamos para trabalho)
+  "profissional-tecnico": "Visto Temporario de Trabalho",
+  "especialista-conhecimento": "Visto Temporario de Trabalho",
   // Adicionando outras opções que podem aparecer
   "green-card": "Green card ou outro Visto de Residência Permantente",
   "familia": "Pedido de Visto por Relação Familiar",
@@ -57,7 +69,11 @@ const academicBackgroundMapping: { [key: string]: string } = {
   "Post Graduation (Pos Graduacao)": "Post Graduation (Pos Graduacao)",
   "Master Degree (Mestrado)": "Master Degree (Mestrado)",
   "Doctorate Degree (Doutorado)": "Doctorate Degree (Doutorado)",
-  "Post Doctorate (Pos Doutorado)": "Post Doctorate (Pos Doutorado)"
+  "Post Doctorate (Pos Doutorado)": "Post Doctorate (Pos Doutorado)",
+  // Mapeamento para estudante
+  "ja-tenho-graduacao": "Baccalaureate Degree (Nivel Superior / Bacharelado)",
+  "formacao-tecnica": "Technician / College (Nivel tecnico)",
+  "construindo-trajetoria": "High School (Ensino Medio)",
 };
 
 const dependantsMapping: { [key: string]: string } = {
@@ -68,6 +84,15 @@ const dependantsMapping: { [key: string]: string } = {
   "4": "4",
   "5": "5",
   "MoreThan5": "Mais que 5"
+};
+
+const turismoMapping: { [key: string]: string } = {
+  "sozinho": "Sozinho",
+  "em-familia": "Com a família",
+  "com-amigos": "Com amigos",
+  "momentos-inesqueciveis": "Momentos inesquecíveis com quem amo",
+  "explorar-encontrar-amor": "Explorar novos lugares, sabores e culturas",
+  "respiro-reconectar": "Preciso de um respiro, me reconectar"
 };
 
 const incomeMapping: { [key: string]: string } = {
@@ -127,16 +152,23 @@ export default function ResultadoPage() {
       country: data.destino ? countryMapping[data.destino] || 'USA' : 'USA',
       nationality: data.pais ? countryMapping[data.pais] || 'USA' : 'USA',
       phone: data.telefone || '',
-      service: data.objetivo ? serviceMapping[data.objetivo] || 'Visto Temporario de Trabalho' : 'Visto Temporario de Trabalho',
+      service: data.objetivo ? serviceMapping[data.objetivo] : 
+               data.turismoOpcao ? serviceMapping[data.turismoOpcao] : 
+               data.estudanteOpcao ? serviceMapping[data.estudanteOpcao] :
+               data.profissionalOpcao ? serviceMapping[data.profissionalOpcao] : 'Visto Temporario de Trabalho',
       subSource: 'AI Form',
-      academicBackground: data.maisInfoProfissionalFormacao ? academicBackgroundMapping[data.maisInfoProfissionalFormacao] || 'Baccalaureate Degree (Nivel Superior / Bacharelado)' : 'Baccalaureate Degree (Nivel Superior / Bacharelado)',
+      academicBackground: data.maisInfoProfissionalFormacao ? academicBackgroundMapping[data.maisInfoProfissionalFormacao] : 
+                          data.maisInfoEstudante ? academicBackgroundMapping[data.maisInfoEstudante] : 
+                          'Baccalaureate Degree (Nivel Superior / Bacharelado)',
       leadSource: 'Website',
       migrateTo: data.destino ? countryMapping[data.destino] || 'USA' : 'USA',
-      occupation: data.profissionalOpcao || 'Professional',
+      occupation: data.profissionalOpcao || data.estudanteOpcao || 'Tourist',
       language: data.idioma ? languageMapping[data.idioma] || 'English - Ingles' : 'English - Ingles',
       timeExperience: data.quantoTempo ? experienceTimeMapping[data.quantoTempo] || 'From 5 to 10 years' : 'From 5 to 10 years',
       contactChannel: 'Contact by email',
-      additionalInfo: data.quantasPessoas ? dependantsMapping[data.quantasPessoas] || 'Adultos' : 'Adultos',
+      additionalInfo: data.quantasPessoas ? dependantsMapping[data.quantasPessoas] : 
+                      data.maisInfoTurista ? turismoMapping[data.maisInfoTurista] : 
+                      data.turismoOpcao ? turismoMapping[data.turismoOpcao] : 'Adultos',
       whatsapp: Boolean(data.telefone),
       annualIncome: data.rendaAnual ? incomeMapping[data.rendaAnual] || '$50,000 to $199,999' : '$50,000 to $199,999',
       utm: typeof window !== 'undefined' ? localStorage.getItem('utm') || '' : '',
