@@ -18,6 +18,7 @@ import MaisInfoProfissionalFormacao from './05-mais-info/MaisInfoProfissionalFor
 import MaisInfoProfissional from './05-mais-info/MaisInfoProfissional';
 import MaisInfoTurista from './05-mais-info/MaisInfoTurista01';
 import MaisInfoTurista02 from './05-mais-info/MaisInfoTurista02';
+import MaisInfoTuristaFormacao from './05-mais-info/MaisInfoTuristaFormacao';
 
 import RendaOptions from './06-renda/RendaOptions';
 
@@ -242,7 +243,8 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
             router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&tipo=profissional`);
             return;
           } else if (objetivo === 'conhecer-mundo') {
-            router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&tipo=turista`);
+            // Para turismo, primeiro vai para formação
+            router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&tipo=turista&sub=formacao`);
             return;
           }
         }
@@ -252,6 +254,10 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
           const objetivo = watch('objetivo');
           if (objetivo === 'crescer-profissionalmente' || objetivo === 'empreender-investir') {
             router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&tipo=profissional`);
+            return;
+          } else if (objetivo === 'conhecer-mundo') {
+            // Para turismo, pular direto para renda
+            router.push(`/comecar?etapa=07-${etapas.find(e => e.id === 7)?.slug}`);
             return;
           } else {
             // Para outros fluxos, pular direto para renda
@@ -267,8 +273,13 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
           const maisInfoTurista = watch('maisInfoTurista');
 
           if (objetivo === 'conhecer-mundo') {
+            // Se está na etapa de formação, vai para quantas-pessoas
+            if (sub === 'formacao') {
+              router.push(`/comecar?etapa=05-mais-info&tipo=turista&sub=quantas-pessoas`);
+              return;
+            }
             // Se não tem sub, é a primeira vez na etapa 5
-            if (!sub) {
+            else if (!sub) {
               if (maisInfoTurista === 'em-familia' || maisInfoTurista === 'com-amigos') {
                 router.push(`/comecar?etapa=05-mais-info&tipo=turista&sub=quantas-pessoas`);
                 return;
@@ -472,7 +483,20 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
           );
         } else if (tipoFormacao === 'turista') {
           const sub = searchParams.get('sub');
-          if (sub === 'quantas-pessoas') {
+          if (sub === 'formacao') {
+            return (
+              <MaisInfoTuristaFormacao
+                register={register}
+                errors={errors}
+                watch={watch}
+                setValue={setValue}
+                onProximo={proximaEtapa}
+                onVoltar={etapaAnterior}
+                etapaAtual={etapaAtual}
+                totalEtapas={etapas.length}
+              />
+            );
+          } else if (sub === 'quantas-pessoas') {
             return (
               <MaisInfoTurista02
                 register={register}
