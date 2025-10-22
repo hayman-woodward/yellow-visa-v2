@@ -104,13 +104,12 @@ const countryMapping: { [key: string]: string } = {
 };
 
 export default function ResultadoPage() {
-  const searchParams = useSearchParams();
   const [formData, setFormData] = useState<StepperFormDataInterface>({});
 
 
   // Função para filtrar campos vazios antes de enviar para Salesforce
-  const filterEmptyFields = (data: any) => {
-    const filtered: any = {};
+  const filterEmptyFields = (data: Record<string, unknown>) => {
+    const filtered: Record<string, unknown> = {};
     Object.keys(data).forEach(key => {
       if (data[key] !== '' && data[key] !== null && data[key] !== undefined) {
         filtered[key] = data[key];
@@ -125,27 +124,28 @@ export default function ResultadoPage() {
       firstName: data.nomeCompleto?.split(' ')[0] || '',
       lastName: data.nomeCompleto?.split(' ').slice(1).join(' ') || '',
       email: data.email || '',
-      country: countryMapping[data.destino] || 'USA',
-      nationality: countryMapping[data.pais] || 'USA',
+      country: data.destino ? countryMapping[data.destino] || 'USA' : 'USA',
+      nationality: data.pais ? countryMapping[data.pais] || 'USA' : 'USA',
       phone: data.telefone || '',
-      service: serviceMapping[data.objetivo] || 'Visto Temporario de Trabalho',
+      service: data.objetivo ? serviceMapping[data.objetivo] || 'Visto Temporario de Trabalho' : 'Visto Temporario de Trabalho',
       subSource: 'AI Form',
-      academicBackground: academicBackgroundMapping[data.maisInfoProfissional] || 'Baccalaureate Degree (Nivel Superior / Bacharelado)',
+      academicBackground: data.maisInfoProfissionalFormacao ? academicBackgroundMapping[data.maisInfoProfissionalFormacao] || 'Baccalaureate Degree (Nivel Superior / Bacharelado)' : 'Baccalaureate Degree (Nivel Superior / Bacharelado)',
       leadSource: 'Website',
-      migrateTo: countryMapping[data.destino] || 'USA',
-      occupation: data.maisInfoProfissional || 'Professional',
-      language: languageMapping[data.idioma] || 'English - Ingles',
-      timeExperience: experienceTimeMapping[data.quantoTempo] || 'From 5 to 10 years',
+      migrateTo: data.destino ? countryMapping[data.destino] || 'USA' : 'USA',
+      occupation: data.profissionalOpcao || 'Professional',
+      language: data.idioma ? languageMapping[data.idioma] || 'English - Ingles' : 'English - Ingles',
+      timeExperience: data.quantoTempo ? experienceTimeMapping[data.quantoTempo] || 'From 5 to 10 years' : 'From 5 to 10 years',
       contactChannel: 'Contact by email',
-      additionalInfo: dependantsMapping[data.quantasPessoas] || 'Adultos',
+      additionalInfo: data.quantasPessoas ? dependantsMapping[data.quantasPessoas] || 'Adultos' : 'Adultos',
       whatsapp: Boolean(data.telefone),
-      annualIncome: incomeMapping[data.rendaAnual] || '$50,000 to $199,999',
+      annualIncome: data.rendaAnual ? incomeMapping[data.rendaAnual] || '$50,000 to $199,999' : '$50,000 to $199,999',
       utm: typeof window !== 'undefined' ? localStorage.getItem('utm') || '' : '',
       source: typeof window !== 'undefined' ? localStorage.getItem('source') || '' : '',
       medium: typeof window !== 'undefined' ? localStorage.getItem('medium') || '' : '',
       term: typeof window !== 'undefined' ? localStorage.getItem('term') || '' : '',
       refer: typeof window !== 'undefined' ? localStorage.getItem('refer') || '' : '',
-      sellerId: typeof window !== 'undefined' ? localStorage.getItem('seller') || 'seller_123' : 'seller_123'
+      campaign: typeof window !== 'undefined' ? localStorage.getItem('utm') || '' : '',
+      sellerId: typeof window !== 'undefined' ? localStorage.getItem('seller') || '005UJ0000089qqnYAA' : '005UJ0000089qqnYAA'
     };
   };
 
@@ -155,20 +155,16 @@ export default function ResultadoPage() {
     
     // Capturar dados do localStorage
     const savedData = localStorage.getItem('stepperData');
-    console.log('Dados salvos no localStorage:', savedData);
     
     // Se não há dados salvos, não fazer nada
     if (!savedData) {
-      console.log('Nenhum dado encontrado no localStorage');
       return;
     }
 
     let parsedData;
     try {
       parsedData = JSON.parse(savedData);
-      console.log('Dados parseados do localStorage:', parsedData);
-    } catch (error) {
-      console.error('Erro ao parsear dados do localStorage:', error);
+    } catch {
       return;
     }
     
@@ -182,8 +178,6 @@ export default function ResultadoPage() {
 
       const fetchData = async () => {
         try {
-          console.log("Iniciando primeira requisição...");
-          console.log("Dados que serão enviados:", filteredData);
           const response = await fetch("/api/usa-ai", {
             method: "POST",
             headers: {
@@ -192,19 +186,14 @@ export default function ResultadoPage() {
             body: JSON.stringify(filteredData),
           });
 
-          console.log("Status da primeira requisição:", response.status);
-
           if (response.status === 200 || response.status === 201) {
             const data = await response.json();
-            console.log("Dados da primeira requisição:", data);
 
             const leadOwner = data?.user?.leadOwner;
             if (!leadOwner) throw new Error("leadOwner não encontrado!");
 
             const sellerIdToUse = localStorage.getItem('seller') || leadOwner;
-            console.log("Seller ID a ser usado:", sellerIdToUse);
 
-            console.log("Iniciando segunda requisição para seller...");
             const sellerResponse = await fetch(
               `https://api.yellowvisa.com/api/get-seller/${sellerIdToUse}`
             );
@@ -216,14 +205,13 @@ export default function ResultadoPage() {
             }
 
             const sellerData = await sellerResponse.json();
-            console.log("Dados do vendedor obtidos:", sellerData);
 
             localStorage.setItem("seller_phone", sellerData.phone);
           } else {
             throw new Error(`API Error: ${response.statusText}`);
           }
-        } catch (error) {
-          console.error("Erro ao fazer o fetch:", error);
+        } catch {
+          // Erro silencioso
         }
       };
 
@@ -257,38 +245,8 @@ export default function ResultadoPage() {
       }
     ];
   };
-  const cidadesData = [
-    {
-      id: '01',
-      src: '/imgs/vistos/visto/visto-01.jpg',
-      alt: 'Cidade de Nova Iorque, NY',
-      title: 'Cidade de Nova Iorque, NY',
-      description: 'Oportunidades Profissionais: Sendo o centro financeiro do país, a Cidade de Nova York oferece inúmeras oportunidades profissionais, especialmente em finanças, mídia e tecnologia.',
-    },
-    {
-      id: '02',
-      src: '/imgs/vistos/visto/visto-01.jpg',
-      alt: 'São Francisco, CA',
-      title: 'São Francisco, CA',
-      description: 'Inovação e Tecnologia: Como um polo tecnológico, São Francisco atrai profissionais de tecnologia devido à presença de empresas renomadas no Vale do Silício.',
-    },
-    {
-      id: '03',
-      src: '/imgs/vistos/visto/visto-01.jpg',
-      alt: 'Austin, TX',
-      title: 'Austin, TX',
-      description: 'Crescimento Econômico: Austin tem experimentado um rápido crescimento econômico impulsionado pela presença de empresas de tecnologia e uma cultura empreendedora vibrante.',
-    },
-    {
-      id: '04',
-      src: '/imgs/vistos/visto/visto-01.jpg',
-      alt: 'Denver, CO',
-      title: 'Denver, CO',
-      description: 'Qualidade de Vida: Denver é frequentemente elogiada por sua alta qualidade de vida, com fácil acesso às Montanhas Rochosas para atividades ao ar livre durante todo o ano.',
-    }
-  ];
 
-  const vistosRecomendados = getRecommendedVistos();
+  // const vistosRecomendados = getRecommendedVistos();
 
   return (
     <div className="w-full min-h-screen bg-white">
