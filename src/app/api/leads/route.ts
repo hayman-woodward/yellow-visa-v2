@@ -7,9 +7,9 @@ const leadSchema = z.object({
   email: z.string().email('Email inválido'),
   telefone: z.string().optional(),
   pais: z.string().optional(),
-  idioma: z.string().optional(),
+  language: z.string().optional(),
   destino: z.string().optional(),
-  objetivo: z.string().optional(),
+  service: z.string().optional(),
   tipoVisto: z.string().optional(),
   rendaAnual: z.string().optional(),
   maisInfoEstudante: z.string().optional(),
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
         notes: JSON.stringify({
           // Dados do formulário
           destino: validatedData.destino,
-          objetivo: validatedData.objetivo,
+          objetivo: validatedData.service, // Mapear service para objetivo no banco
           tipoVisto: validatedData.tipoVisto,
           rendaAnual: validatedData.rendaAnual,
           maisInfoEstudante: validatedData.maisInfoEstudante,
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
           turismoOpcao: validatedData.turismoOpcao,
           profissionalOpcao: validatedData.profissionalOpcao,
           pais: validatedData.pais,
-          idioma: validatedData.idioma,
+          idioma: validatedData.language, // Mapear language para idioma no banco
           // UTM Parameters (capturados do localStorage)
           utm_data: body.utm_data || null
         })

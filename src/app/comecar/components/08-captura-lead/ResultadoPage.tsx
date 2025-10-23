@@ -1,13 +1,12 @@
 'use client';
 
 import { YVText, YVTitle } from '@/components/YV';
-import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ResultadoProvisorio from './ResultadoProvisorio';
 
 interface StepperFormDataInterface {
   destino?: string;
-  objetivo?: string;
+  service?: string;
   estudanteOpcao?: string;
   turismoOpcao?: string;
   profissionalOpcao?: string;
@@ -23,7 +22,7 @@ interface StepperFormDataInterface {
   email?: string;
   telefone?: string;
   pais?: string;
-  idioma?: string;
+  language?: string;
   academicBackground?: string;
   contactChannel?: string;
   utm_data?: {
@@ -35,30 +34,6 @@ interface StepperFormDataInterface {
   };
 }
 
-const serviceMapping: { [key: string]: string } = {
-  "crescer-profissionalmente": "Visto Temporario de Trabalho",
-  "empreender-investir": "Visto de Investimento",
-  "estudar-fora": "Student Visa (Visto de Estudante)",
-  "conhecer-mundo": "Tourist Visa (Visto de Turista)",
-  // Opções específicas do turismo
-  "momentos-inesqueciveis": "Tourist Visa (Visto de Turista)",
-  "explorar-encontrar-amor": "Tourist Visa (Visto de Turista)",
-  "respiro-reconectar": "Tourist Visa (Visto de Turista)",
-  // Opções específicas do estudante
-  "formacao-exterior": "Student Visa (Visto de Estudante)",
-  "morar-fora-estudando": "Student Visa (Visto de Estudante)",
-  "pos-mestrado": "Student Visa (Visto de Estudante)",
-  "explorando-opcoes": "Student Visa (Visto de Estudante)",
-  // Opções específicas do profissional (são valores livres, então mapeamos para trabalho)
-  "profissional-tecnico": "Visto Temporario de Trabalho",
-  "especialista-conhecimento": "Visto Temporario de Trabalho",
-  // Adicionando outras opções que podem aparecer
-  "green-card": "Green card ou outro Visto de Residência Permantente",
-  "familia": "Pedido de Visto por Relação Familiar",
-  "corporativo": "Vistos Corporativos",
-  "europeu": "Vistos para País Europeu",
-  "asilo": "Asilo"
-};
 
 // Mapeamentos de respostas do stepper para Salesforce
 const academicBackgroundMapping: { [key: string]: string } = {
@@ -105,12 +80,11 @@ const incomeMapping: { [key: string]: string } = {
 };
 
 const languageMapping: { [key: string]: string } = {
-  "Portuguese - Português": "Portuguese - Portugues",
-  "Spanish - Espanhol": "Spanish - Espanhol", 
-  "English - Inglês": "English - Ingles",
+  "Portuguese - Português": "Portuguese - Português",
+  "Spanish - Espanhol": "Spanish - Espanhol",
+  "English - Inglês": "English - Inglês",
   "Turkish - Turco": "Turkish - Turco",
-  "Mandarin Chinese - Mandarin": "Mandarin Chinese - Mandarin",
-  "Inglês": "English - Ingles"
+  "Mandarin Chinese - Mandarin": "Mandarin Chinese - Mandarin"
 };
 
 const experienceTimeMapping: { [key: string]: string } = {
@@ -152,10 +126,7 @@ export default function ResultadoPage() {
       country: data.destino ? countryMapping[data.destino] || 'USA' : 'USA',
       nationality: data.pais ? countryMapping[data.pais] || 'USA' : 'USA',
       phone: data.telefone || '',
-      service: data.objetivo ? serviceMapping[data.objetivo] : 
-               data.turismoOpcao ? serviceMapping[data.turismoOpcao] : 
-               data.estudanteOpcao ? serviceMapping[data.estudanteOpcao] :
-               data.profissionalOpcao ? serviceMapping[data.profissionalOpcao] : 'Visto Temporario de Trabalho',
+      service: data.service || 'Immigrant Visa',
       subSource: 'AI Form',
       academicBackground: data.maisInfoProfissionalFormacao ? academicBackgroundMapping[data.maisInfoProfissionalFormacao] : 
                           data.maisInfoEstudante ? academicBackgroundMapping[data.maisInfoEstudante] : 
@@ -163,7 +134,7 @@ export default function ResultadoPage() {
       leadSource: 'Website',
       migrateTo: data.destino ? countryMapping[data.destino] || 'USA' : 'USA',
       occupation: data.profissionalOpcao || data.estudanteOpcao || 'Tourist',
-      language: data.idioma ? languageMapping[data.idioma] || 'English - Ingles' : 'English - Ingles',
+      language: data.language ? languageMapping[data.language] || 'English - Inglês' : 'English - Inglês',
       timeExperience: data.quantoTempo ? experienceTimeMapping[data.quantoTempo] || 'From 5 to 10 years' : 'From 5 to 10 years',
       contactChannel: 'Contact by email',
       additionalInfo: data.quantasPessoas ? dependantsMapping[data.quantasPessoas] : 
@@ -193,7 +164,7 @@ export default function ResultadoPage() {
       return;
     }
 
-    let parsedData;
+    let parsedData: StepperFormDataInterface;
     try {
       parsedData = JSON.parse(savedData);
     } catch {
@@ -248,6 +219,49 @@ export default function ResultadoPage() {
       };
 
       fetchData();
+      
+      // Salvar no banco local também
+      const saveToLocalDatabase = async () => {
+        try {
+          const leadData = {
+            nomeCompleto: parsedData.nomeCompleto,
+            email: parsedData.email,
+            telefone: parsedData.telefone,
+            pais: parsedData.pais,
+            idioma: parsedData.language, // Mapear language para idioma no banco
+            destino: parsedData.destino,
+            objetivo: parsedData.service, // Mapear service para objetivo no banco
+            tipoVisto: parsedData.tipoVisto,
+            rendaAnual: parsedData.rendaAnual,
+            maisInfoEstudante: parsedData.maisInfoEstudante,
+            maisInfoProfissional: parsedData.maisInfoProfissional,
+            maisInfoTurista: parsedData.maisInfoTurista,
+            quantasPessoas: parsedData.quantasPessoas,
+            quantoTempo: parsedData.quantoTempo,
+            estudanteOpcao: parsedData.estudanteOpcao,
+            turismoOpcao: parsedData.turismoOpcao,
+            profissionalOpcao: parsedData.profissionalOpcao,
+            source: 'stepper',
+            utm_data: parsedData.utm_data
+          };
+
+          const response = await fetch('/api/leads', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(leadData),
+          });
+
+          if (response.ok) {
+            console.log('Lead salvo no banco local com sucesso');
+          }
+        } catch (error) {
+          console.error('Erro ao salvar lead no banco local:', error);
+        }
+      };
+
+      saveToLocalDatabase();
       
       // Limpar localStorage após capturar (processo finalizado)
       localStorage.removeItem('stepperData');

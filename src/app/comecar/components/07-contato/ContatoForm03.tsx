@@ -12,7 +12,7 @@ interface FormData {
   email?: string;
   telefone?: string;
   pais?: string;
-  idioma?: string;
+  language?: string;
 }
 
 interface ContatoForm03Props {
@@ -47,7 +47,7 @@ export default function ContatoForm03({
 
   // Memoizar as opções de idiomas para evitar recriação a cada render
   const idiomas = useMemo(() => getIdiomaOptions(), []);
-  const idiomaSelecionado = getIdiomaPorValor(watch('idioma') || '');
+  const idiomaSelecionado = getIdiomaPorValor(watch('language') || '');
   
   // Memoizar as opções de países para evitar recriação a cada render
   const countryOptions = useMemo(() => {
@@ -76,7 +76,7 @@ export default function ContatoForm03({
   }, [idiomas, languageSearch]);
 
   const handleIdiomaSelect = (idioma: string) => {
-    setValue('idioma', idioma);
+    setValue('language', idioma);
     setIsLanguageOpen(false);
     setLanguageSearch('');
   };
@@ -105,8 +105,8 @@ export default function ContatoForm03({
   }, []);
 
   const paisValue = watch('pais');
-  const idiomaValue = watch('idioma');
-  const podeAvancar = paisValue && idiomaValue && String(paisValue).trim() && String(idiomaValue).trim();
+  const languageValue = watch('language');
+  const podeAvancar = paisValue && languageValue && String(paisValue).trim() && String(languageValue).trim();
 
   return (
     <div className="w-full grid grid-cols-1 grid-rows-[1.2fr_1.8fr] lg:grid-cols-[1fr_2fr] lg:grid-rows-1 relative overflow-hidden min-h-screen max-h-[90vh]">

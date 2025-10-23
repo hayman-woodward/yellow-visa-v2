@@ -34,8 +34,8 @@ const formSchema = z.object({
   // Etapa 2 - Destino
   destino: z.string().optional(),
 
-  // Etapa 3 - Objetivo
-  objetivo: z.string().optional(),
+  // Etapa 3 - Service (antigo objetivo)
+  service: z.string().optional(),
 
   // Etapa 4 - Tipo de Visto
   estudanteOpcao: z.string().optional(),
@@ -66,7 +66,7 @@ const formSchema = z.object({
   email: z.string().email('Email inválido').optional(),
   telefone: z.string().min(10, 'Telefone deve ter pelo menos 10 dígitos').optional(),
   pais: z.string().min(2, 'País deve ter pelo menos 2 caracteres').optional(),
-  idioma: z.string().min(1, 'Idioma é obrigatório').optional()
+  language: z.string().min(1, 'Idioma é obrigatório').optional()
 });
 
 type StepperFormData = z.infer<typeof formSchema>;
@@ -81,8 +81,8 @@ export interface StepperFormDataInterface {
   // Etapa 2 - Destino
   destino?: string;
 
-  // Etapa 3 - Objetivo
-  objetivo?: string;
+  // Etapa 3 - Service (antigo objetivo)
+  service?: string;
 
   // Etapa 4 - Tipo de Visto
   estudanteOpcao?: string;
@@ -106,7 +106,7 @@ export interface StepperFormDataInterface {
   email?: string;
   telefone?: string;
   pais?: string;
-  idioma?: string;
+  language?: string;
 }
 
 // Definição das etapas
@@ -168,7 +168,7 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
       // Criar um objeto limpo apenas com os valores dos campos
       const cleanData = {
         destino: watchedFields.destino || '',
-        objetivo: watchedFields.objetivo || '',
+        service: watchedFields.service || '',
         estudanteOpcao: watchedFields.estudanteOpcao || '',
         turismoOpcao: watchedFields.turismoOpcao || '',
         profissionalOpcao: watchedFields.profissionalOpcao || '',
@@ -183,7 +183,7 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
         email: watchedFields.email || '',
         telefone: watchedFields.telefone || '',
         pais: watchedFields.pais || '',
-        idioma: watchedFields.idioma || ''
+        language: watchedFields.language || ''
       };
       
       localStorage.setItem('stepperData', JSON.stringify(cleanData));
@@ -220,14 +220,14 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
 
         // Lógica para etapa 4 - adicionar parâmetro de tipo de visto
         if (novaEtapa === 4) {
-          const objetivo = watch('objetivo');
-          if (objetivo === 'estudar-fora') {
+          const service = watch('service');
+          if (service === 'Student Visa') {
             router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&visto=estudante`);
             return;
-          } else if (objetivo === 'conhecer-mundo') {
+          } else if (service === 'Tourist Visa') {
             router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&visto=turista`);
             return;
-          } else if (objetivo === 'crescer-profissionalmente' || objetivo === 'empreender-investir') {
+          } else if (service === 'Immigrant Visa') {
             router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&visto=profissional`);
             return;
           }
@@ -235,14 +235,14 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
 
         // Lógica para etapa 5 - mais info
         if (novaEtapa === 5) {
-          const objetivo = watch('objetivo');
-          if (objetivo === 'estudar-fora') {
+          const service = watch('service');
+          if (service === 'Student Visa') {
             router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&tipo=estudante`);
             return;
-          } else if (objetivo === 'crescer-profissionalmente' || objetivo === 'empreender-investir') {
+          } else if (service === 'Immigrant Visa') {
             router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&tipo=profissional`);
             return;
-          } else if (objetivo === 'conhecer-mundo') {
+          } else if (service === 'Tourist Visa') {
             // Para turismo, primeiro vai para formação
             router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&tipo=turista&sub=formacao`);
             return;
@@ -251,11 +251,11 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
 
         // Lógica para etapa 6 - experiência (só para profissional)
         if (novaEtapa === 6) {
-          const objetivo = watch('objetivo');
-          if (objetivo === 'crescer-profissionalmente' || objetivo === 'empreender-investir') {
+          const service = watch('service');
+          if (service === 'Immigrant Visa') {
             router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&tipo=profissional`);
             return;
-          } else if (objetivo === 'conhecer-mundo') {
+          } else if (service === 'Tourist Visa') {
             // Para turismo, pular direto para renda
             router.push(`/comecar?etapa=07-${etapas.find(e => e.id === 7)?.slug}`);
             return;
@@ -269,10 +269,10 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
         // Lógica para etapa 5 - navegação do turista
         if (etapaAtual === 5) {
           const sub = searchParams.get('sub');
-          const objetivo = watch('objetivo');
+          const service = watch('service');
           const maisInfoTurista = watch('maisInfoTurista');
 
-          if (objetivo === 'conhecer-mundo') {
+          if (service === 'Tourist Visa') {
             // Se está na etapa de formação, vai para quantas-pessoas
             if (sub === 'formacao') {
               router.push(`/comecar?etapa=05-mais-info&tipo=turista&sub=quantas-pessoas`);
@@ -339,14 +339,14 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
 
         // Lógica para etapa 6 (Renda) voltar para etapa 5 com tipo correto
         if (etapaAtual === 6) {
-          const objetivo = watch('objetivo');
-          if (objetivo === 'estudar-fora') {
+          const service = watch('service');
+          if (service === 'Student Visa') {
             router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&tipo=estudante`);
             return;
-          } else if (objetivo === 'crescer-profissionalmente' || objetivo === 'empreender-investir') {
+          } else if (service === 'Immigrant Visa') {
             router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&tipo=profissional`);
             return;
-          } else if (objetivo === 'conhecer-mundo') {
+          } else if (service === 'Tourist Visa') {
             router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&tipo=turista`);
             return;
           }

@@ -6,7 +6,7 @@ import { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'rea
 import ProgressBar from '../ProgressBar';
 
 interface FormData {
-  objetivo?: string;
+  service?: string;
   destino?: string;
   estudanteOpcao?: string;
   turismoOpcao?: string;
@@ -38,7 +38,18 @@ export default function ObjetivoOptions({
 
   const handleObjetivoSelect = (objetivo: string) => {
     setSelectedObjetivo(objetivo);
-    setValue('objetivo', objetivo);
+    
+    // Mapear objetivo para service
+    let service = '';
+    if (objetivo === 'crescer-profissionalmente' || objetivo === 'empreender-investir') {
+      service = 'Immigrant Visa';
+    } else if (objetivo === 'estudar-fora') {
+      service = 'Student Visa';
+    } else if (objetivo === 'conhecer-mundo') {
+      service = 'Tourist Visa';
+    }
+    
+    setValue('service', service);
   };
 
   const objetivos = [
