@@ -3,8 +3,8 @@
 
 declare global {
   interface Window {
-    gtag?: (...args: any[]) => void;
-    fbq?: (...args: any[]) => void;
+    gtag?: (...args: unknown[]) => void;
+    fbq?: (...args: unknown[]) => void;
   }
 }
 
@@ -13,7 +13,7 @@ interface TrackingEvent {
   event_category: string;
   event_label?: string;
   value?: number;
-  custom_parameters?: Record<string, any>;
+  custom_parameters?: Record<string, unknown>;
 }
 
 export function useStepperTracking() {
@@ -69,7 +69,7 @@ export function useStepperTracking() {
   };
 
   // Evento de progresso por etapa
-  const trackStepProgress = (stepNumber: number, stepName: string, stepData?: any) => {
+  const trackStepProgress = (stepNumber: number, stepName: string, stepData?: unknown) => {
     trackEvent({
       event_name: 'form_step',
       event_category: 'form_progress',
@@ -85,7 +85,7 @@ export function useStepperTracking() {
   };
 
   // Evento de conversão final
-  const trackConversion = (leadData?: any) => {
+  const trackConversion = (leadData?: unknown) => {
     trackEvent({
       event_name: 'form_conversion',
       event_category: 'conversion',
