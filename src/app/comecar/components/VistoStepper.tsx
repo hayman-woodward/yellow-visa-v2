@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { z } from 'zod';
+import { useStepperTracking } from '@/hooks/tracks/useStepperTracking';
 
 // Import dos componentes das etapas
 import HeroInicio from './01-inicio/HeroInicio';
@@ -131,6 +132,7 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [etapaAtual, setEtapaAtual] = useState(etapaInicial);
+  const { trackFormStart, trackStepProgress, trackAbandonment } = useStepperTracking();
 
   const {
     register,
@@ -161,6 +163,34 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
       }
     }
   }, [setValue]);
+
+  // Tracking de início do formulário
+  useEffect(() => {
+    if (etapaInicial === 1) {
+      trackFormStart();
+    }
+  }, [etapaInicial, trackFormStart]);
+
+  // Tracking de progresso das etapas
+  useEffect(() => {
+    const etapa = etapas.find(e => e.id === etapaAtual);
+    if (etapa) {
+      trackStepProgress(etapaAtual, etapa.title, watchedFields);
+    }
+  }, [etapaAtual, trackStepProgress, watchedFields]);
+
+  // Tracking de abandono quando o usuário sai da página
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      const etapa = etapas.find(e => e.id === etapaAtual);
+      if (etapa) {
+        trackAbandonment(etapaAtual, etapa.title);
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [etapaAtual, trackAbandonment]);
 
   // Salvar dados automaticamente no localStorage
   useEffect(() => {
