@@ -3,6 +3,7 @@
 import { YVText, YVTitle } from '@/components/YV';
 import { useEffect, useState } from 'react';
 import ResultadoProvisorio from './ResultadoProvisorio';
+import { useStepperTracking } from '@/hooks/tracks/useStepperTracking';
 
 interface StepperFormDataInterface {
   destino?: string;
@@ -104,6 +105,7 @@ const countryMapping: { [key: string]: string } = {
 
 export default function ResultadoPage() {
   const [formData, setFormData] = useState<StepperFormDataInterface>({});
+  const { trackConversion } = useStepperTracking();
 
 
   // Função para filtrar campos vazios antes de enviar para Salesforce
@@ -254,7 +256,12 @@ export default function ResultadoPage() {
           });
 
           if (response.ok) {
-            console.log('Lead salvo no banco local com sucesso');
+            // Disparar evento de conversão
+            trackConversion({
+              lead_id: response.headers.get('lead-id'),
+              form_data: parsedData,
+              timestamp: new Date().toISOString()
+            });
           }
         } catch (error) {
           console.error('Erro ao salvar lead no banco local:', error);
