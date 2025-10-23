@@ -7,7 +7,7 @@ import ProgressBar from '../ProgressBar';
 
 interface FormData {
   destino?: string;
-  objetivo?: string;
+  service?: string;
   estudanteOpcao?: string;
   turismoOpcao?: string;
   profissionalOpcao?: string;

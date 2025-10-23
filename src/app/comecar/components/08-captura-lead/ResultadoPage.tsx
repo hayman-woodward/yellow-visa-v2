@@ -7,7 +7,7 @@ import ResultadoProvisorio from './ResultadoProvisorio';
 
 interface StepperFormDataInterface {
   destino?: string;
-  objetivo?: string;
+  service?: string;
   estudanteOpcao?: string;
   turismoOpcao?: string;
   profissionalOpcao?: string;
@@ -152,10 +152,7 @@ export default function ResultadoPage() {
       country: data.destino ? countryMapping[data.destino] || 'USA' : 'USA',
       nationality: data.pais ? countryMapping[data.pais] || 'USA' : 'USA',
       phone: data.telefone || '',
-      service: data.objetivo ? serviceMapping[data.objetivo] : 
-               data.turismoOpcao ? serviceMapping[data.turismoOpcao] : 
-               data.estudanteOpcao ? serviceMapping[data.estudanteOpcao] :
-               data.profissionalOpcao ? serviceMapping[data.profissionalOpcao] : 'Visto Temporario de Trabalho',
+      service: data.service || 'Immigrant Visa',
       subSource: 'AI Form',
       academicBackground: data.maisInfoProfissionalFormacao ? academicBackgroundMapping[data.maisInfoProfissionalFormacao] : 
                           data.maisInfoEstudante ? academicBackgroundMapping[data.maisInfoEstudante] : 
