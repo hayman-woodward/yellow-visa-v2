@@ -71,12 +71,9 @@ const turismoMapping: { [key: string]: string } = {
 };
 
 const incomeMapping: { [key: string]: string } = {
-  "$0 - $50,000": "< $50,000",
-  "$51,000 - $100,000": "$51,000 - $100,000",
-  "$101,000 - $200,000": "$101,000 - $200,000",
-  "$201,000 - $300,000": "$201,000 - $300,000",
-  "$301,000 - $500,000": "$301,000 - $500,000",
-  "$501,000 - $1,000,000": "$501,000 - $1,000,000",
+  "Less than $50,000": "Less than $50,000",
+  "$50,000 to $199,999": "$50,000 to $199,999",
+  "$500,000 to $999,999": "$200,000 to $999,999",
   "$1,000,000 +": "$1,000,000 +"
 };
 
@@ -97,9 +94,9 @@ const experienceTimeMapping: { [key: string]: string } = {
 // Mapeamento de países (apenas Portugal e Estados Unidos no step 1)
 const countryMapping: { [key: string]: string } = {
   "Portugal": "Portugal",
-  "United States": "USA",
-  "United States of America (USA)": "USA",
-  "estados-unidos": "USA",
+  "United States": "United States of America (USA)",
+  "United States of America (USA)": "United States of America (USA)",
+  "estados-unidos": "United States of America (USA)",
   "portugal": "Portugal"
 };
 
@@ -124,8 +121,8 @@ export default function ResultadoPage() {
       firstName: data.nomeCompleto?.split(' ')[0] || '',
       lastName: data.nomeCompleto?.split(' ').slice(1).join(' ') || '',
       email: data.email || '',
-      country: data.destino ? countryMapping[data.destino] || 'USA' : 'USA',
-      nationality: data.pais ? countryMapping[data.pais] || 'USA' : 'USA',
+      country: data.destino ? countryMapping[data.destino] || 'United States of America (USA)' : 'United States of America (USA)',
+      nationality: data.pais ? countryMapping[data.pais] || 'United States of America (USA)' : 'United States of America (USA)',
       phone: data.telefone || '',
       service: data.service || 'Immigrant Visa',
       subSource: 'AI Form',
@@ -133,7 +130,7 @@ export default function ResultadoPage() {
                           data.maisInfoEstudante ? academicBackgroundMapping[data.maisInfoEstudante] : 
                           'Baccalaureate Degree (Nivel Superior / Bacharelado)',
       leadSource: 'Website',
-      migrateTo: data.destino ? countryMapping[data.destino] || 'USA' : 'USA',
+      migrateTo: data.destino ? countryMapping[data.destino] || 'United States of America (USA)' : 'United States of America (USA)',
       occupation: data.profissionalOpcao || data.estudanteOpcao || 'Tourist',
       language: data.language ? languageMapping[data.language] || 'English - Inglês' : 'English - Inglês',
       timeExperience: data.quantoTempo ? experienceTimeMapping[data.quantoTempo] || 'From 5 to 10 years' : 'From 5 to 10 years',
@@ -142,7 +139,7 @@ export default function ResultadoPage() {
                       data.maisInfoTurista ? turismoMapping[data.maisInfoTurista] : 
                       data.turismoOpcao ? turismoMapping[data.turismoOpcao] : 'Adultos',
       whatsapp: Boolean(data.telefone),
-      annualIncome: data.rendaAnual ? incomeMapping[data.rendaAnual] || '$51,000 - $100,000' : '$51,000 - $100,000',
+      annualIncome: data.rendaAnual ? incomeMapping[data.rendaAnual] || '$50,000 to $199,999' : '$50,000 to $199,999',
       utm: typeof window !== 'undefined' ? localStorage.getItem('utm') || '' : '',
       source: typeof window !== 'undefined' ? localStorage.getItem('source') || '' : '',
       medium: typeof window !== 'undefined' ? localStorage.getItem('medium') || '' : '',
