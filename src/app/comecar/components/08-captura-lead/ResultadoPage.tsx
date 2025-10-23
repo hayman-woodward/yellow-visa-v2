@@ -164,7 +164,7 @@ export default function ResultadoPage() {
       return;
     }
 
-    let parsedData;
+    let parsedData: StepperFormDataInterface;
     try {
       parsedData = JSON.parse(savedData);
     } catch {
@@ -219,6 +219,49 @@ export default function ResultadoPage() {
       };
 
       fetchData();
+      
+      // Salvar no banco local também
+      const saveToLocalDatabase = async () => {
+        try {
+          const leadData = {
+            nomeCompleto: parsedData.nomeCompleto,
+            email: parsedData.email,
+            telefone: parsedData.telefone,
+            pais: parsedData.pais,
+            idioma: parsedData.language, // Mapear language para idioma no banco
+            destino: parsedData.destino,
+            objetivo: parsedData.service, // Mapear service para objetivo no banco
+            tipoVisto: parsedData.tipoVisto,
+            rendaAnual: parsedData.rendaAnual,
+            maisInfoEstudante: parsedData.maisInfoEstudante,
+            maisInfoProfissional: parsedData.maisInfoProfissional,
+            maisInfoTurista: parsedData.maisInfoTurista,
+            quantasPessoas: parsedData.quantasPessoas,
+            quantoTempo: parsedData.quantoTempo,
+            estudanteOpcao: parsedData.estudanteOpcao,
+            turismoOpcao: parsedData.turismoOpcao,
+            profissionalOpcao: parsedData.profissionalOpcao,
+            source: 'stepper',
+            utm_data: parsedData.utm_data
+          };
+
+          const response = await fetch('/api/leads', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(leadData),
+          });
+
+          if (response.ok) {
+            console.log('Lead salvo no banco local com sucesso');
+          }
+        } catch (error) {
+          console.error('Erro ao salvar lead no banco local:', error);
+        }
+      };
+
+      saveToLocalDatabase();
       
       // Limpar localStorage após capturar (processo finalizado)
       localStorage.removeItem('stepperData');
