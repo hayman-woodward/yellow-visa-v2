@@ -1,5 +1,5 @@
+import { YVContainer, YVSection, YVText, YVTitle } from '@/components/YV';
 import Image from 'next/image';
-import { YVBreadcrumbs, YVSection, YVText, YVTitle } from '@/components/YV';
 
 const teamMembers = [
   {
@@ -48,11 +48,10 @@ const teamMembers = [
 
 export default function NossoTime() {
   return (
-    <YVSection className='px-4'>
-      <div className='max-w-[1248px] mx-auto'>
-       
+    <YVSection className='lg:px-4'>
+      <YVContainer className='mx-auto'>      
 
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-15 items-start'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-15 items-start '>
           <div data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
             <YVTitle
               variant='heading'
@@ -61,7 +60,7 @@ export default function NossoTime() {
           </div>        
         </div>
         {/* GALERIA */}
-        <div className='pt-6 p-3 px-4 md:px-0 sm:p-6 lg:p-8 rounded-lg -mx-4 sm:-mx-6 lg:-mx-8 '>
+        <div className='pt-6 p-3 px-4  md:px-0 sm:p-6 lg:p-8 rounded-lg -mx-4 sm:-mx-6 lg:-mx-8 '>
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-1'>
             {teamMembers.map((member, index) => (
               <div 
@@ -100,7 +99,7 @@ export default function NossoTime() {
             ))}
           </div>
         </div>
-      </div>
+      </YVContainer>
     </YVSection>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 import {
   YVButton,
+  YVContainer,
   YVSection,
   YVText,
   YVTitle
@@ -53,7 +54,7 @@ export default function CTABanner({
   const absoluteLink = buttonLink.startsWith('/') ? buttonLink : `/${buttonLink}`;
   return (
     <YVSection className='bg-white pt-10 pb-0 md:pb-10 px-0 md:py-[40px] md:px-20 xl:px-0'>
-      <div className='max-w-[1248px] px-4 md:px-0 w-full mx-auto'>
+      <YVContainer className='max-w-[1248px] px-4 md:px-0 w-full mx-auto'>
         <div 
           className='relative w-full h-[400px] md:h-[520px] rounded-[20px] md:rounded-[40px] overflow-hidden'
           data-aos="fade-in"
@@ -115,7 +116,7 @@ export default function CTABanner({
             </div>
           </div>
         </div>
-      </div>
+      </YVContainer>
     </YVSection>
   );
 }

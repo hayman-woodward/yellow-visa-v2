@@ -21,7 +21,7 @@ export default function SobreNos() {
               />
             </div>
           </div>
-          <div className='space-y-6 pt-9 md:pl-6' data-aos="fade-left" data-aos-delay="500" data-aos-duration="800">
+          <div className='space-y-6 pt-2 lg:pt-9 md:pl-6' data-aos="fade-left" data-aos-delay="500" data-aos-duration="800">
 
             <div data-aos="fade-up" data-aos-delay="600" data-aos-duration="700">
               <YVText>

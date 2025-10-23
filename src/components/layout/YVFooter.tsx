@@ -17,6 +17,10 @@ export default async function Footer({
   // Get all VISTOS (use passed prop if available)
   const vistos = vistosFromProps ?? (await getPublishedVistos());
 
+  // Separar vistos por país como no header
+  const vistosEUA = vistos.filter(v => v.country === 'Estados Unidos');
+  const vistosPortugal = vistos.filter(v => v.country === 'Portugal');
+
   const destinos = ['Portugal', 'Estados Unidos'];
 
   // const profissoes = [
@@ -102,17 +106,55 @@ export default async function Footer({
                 Vistos
               </Link>
               <div className='space-y-2 '>
-                {vistos.map((item) => (
-                  <Link
-                    key={item.slug}
-                    href={`/vistos/${item.slug}`}
-                    className='group flex items-center justify-between text-sm hover:text-gray-600 transition-all duration-300 relative px-4 -mx-4 py-2 md:py-4 max-w-[168px] md:max-w-[188px]'
-                  >
-                    <span className='relative z-10'>{item.label}</span>
-                    <span className='text-xs relative z-10'>›</span>
-                    <div className='absolute inset-0 bg-white transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-center rounded'></div>
-                  </Link>
-                ))}
+                {/* Estados Unidos */}
+                {vistosEUA.length > 0 && (
+                  <>
+                    <div className='pt-3'>
+                      <YVText
+                        variant='small'
+                        className='text-gray-900 !font-bold text-sm uppercase tracking-wide'
+                      >
+                        Estados Unidos
+                      </YVText>
+                    </div>
+                    {vistosEUA.map((item) => (
+                      <Link
+                        key={item.slug}
+                        href={`/vistos/${item.slug}`}
+                        className='group flex items-center justify-between text-sm hover:text-gray-600 transition-all duration-300 relative px-4 -mx-4 py-2 md:py-4 max-w-[168px] md:max-w-[188px]'
+                      >
+                        <span className='relative z-10'>{item.label}</span>
+                        <span className='text-xs relative z-10'>›</span>
+                        <div className='absolute inset-0 bg-white transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-center rounded'></div>
+                      </Link>
+                    ))}
+                  </>
+                )}
+
+                {/* Portugal */}
+                {vistosPortugal.length > 0 && (
+                  <>
+                    <div className='py-1 mt-4'>
+                      <YVText
+                        variant='small'
+                        className='text-gray-900 !font-semibold text-sm uppercase tracking-wide'
+                      >
+                        Portugal
+                      </YVText>
+                    </div>
+                    {vistosPortugal.map((item) => (
+                      <Link
+                        key={item.slug}
+                        href={`/vistos/${item.slug}`}
+                        className='group flex items-center justify-between text-sm hover:text-gray-600 transition-all duration-300 relative px-4 -mx-4 py-2 md:py-4 max-w-[168px] md:max-w-[188px]'
+                      >
+                        <span className='relative z-10'>{item.label}</span>
+                        <span className='text-xs relative z-10'>›</span>
+                        <div className='absolute inset-0 bg-white transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-center rounded'></div>
+                      </Link>
+                    ))}
+                  </>
+                )}
               </div>
             </div>
           </div>
