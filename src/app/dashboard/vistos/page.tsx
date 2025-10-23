@@ -20,21 +20,21 @@ export default function VistosPage() {
     );
   }
 
-  // Agrupar por tipo de visto
-  const groupedByType = vistos.reduce((acc, visto) => {
-    if (!acc[visto.vistoType]) {
-      acc[visto.vistoType] = [];
+  // Agrupar por país
+  const groupedByCountry = vistos.reduce((acc, visto) => {
+    if (!acc[visto.country]) {
+      acc[visto.country] = [];
     }
-    acc[visto.vistoType].push(visto);
+    acc[visto.country].push(visto);
     return acc;
   }, {} as Record<string, typeof vistos>);
 
-  const typeLabels = {
-    turismo: 'Turismo',
-    trabalho: 'Trabalho',
-    estudo: 'Estudo',
-    investidor: 'Investidor'
+  const countryLabels = {
+    'Estados Unidos': 'Estados Unidos',
+    'Portugal': 'Portugal',
+    'Brasil': 'Brasil'
   };
+
 
   return (
     <div className='space-y-6'>
@@ -51,15 +51,30 @@ export default function VistosPage() {
       />
 
       <YVText variant='small' className='text-dashboard-muted mb-6'>
-        Gerencie os tipos de vistos disponíveis
+        Gerencie os vistos por país de destino
       </YVText>
 
-      {/* Por Tipo de Visto */}
-      {Object.entries(groupedByType).map(([type, vistosList]) => (
-        <div key={type} className='space-y-4'>
-          <h2 className='text-lg font-semibold text-dashboard'>
-            {typeLabels[type as keyof typeof typeLabels] || type}
-          </h2>
+      {/* Por País - Ordenado: EUA, Portugal, outros */}
+      {Object.entries(groupedByCountry)
+        .sort(([a], [b]) => {
+          const order = ['Estados Unidos', 'Portugal', 'Brasil'];
+          const aIndex = order.indexOf(a);
+          const bIndex = order.indexOf(b);
+          if (aIndex === -1 && bIndex === -1) return a.localeCompare(b);
+          if (aIndex === -1) return 1;
+          if (bIndex === -1) return -1;
+          return aIndex - bIndex;
+        })
+        .map(([country, vistosList]) => (
+        <div key={country} className='space-y-4'>
+          <div className='flex items-center justify-between'>
+            <h2 className='text-xl font-bold text-dashboard'>
+              {countryLabels[country as keyof typeof countryLabels] || country}
+            </h2>
+            <span className='text-sm text-dashboard-muted bg-[#FFBD1A]/10 text-[#FFBD1A] px-3 py-1 rounded-full font-medium'>
+              {vistosList.length} visto{vistosList.length !== 1 ? 's' : ''}
+            </span>
+          </div>
 
           {/* Cards Grid */}
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
