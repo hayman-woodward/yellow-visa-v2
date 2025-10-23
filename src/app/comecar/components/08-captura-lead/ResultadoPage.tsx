@@ -71,12 +71,13 @@ const turismoMapping: { [key: string]: string } = {
 };
 
 const incomeMapping: { [key: string]: string } = {
-  "Less than $50,000": "Less than $50,000",
-  "$50,000 to $199,999": "$50,000 to $199,999", 
-  "$200,000 to $499,999": "$200,000 to $499,999",
-  "$500,000 to $999,999": "$500,000 to $999,999",
-  "$1,000,000 +": "$1,000,000+",
-  "50k-199k": "$50,000 to $199,999"
+  "$0 - $50,000": "< $50,000",
+  "$51,000 - $100,000": "$51,000 - $100,000",
+  "$101,000 - $200,000": "$101,000 - $200,000",
+  "$201,000 - $300,000": "$201,000 - $300,000",
+  "$301,000 - $500,000": "$301,000 - $500,000",
+  "$501,000 - $1,000,000": "$501,000 - $1,000,000",
+  "$1,000,000 +": "$1,000,000 +"
 };
 
 const languageMapping: { [key: string]: string } = {
@@ -141,7 +142,7 @@ export default function ResultadoPage() {
                       data.maisInfoTurista ? turismoMapping[data.maisInfoTurista] : 
                       data.turismoOpcao ? turismoMapping[data.turismoOpcao] : 'Adultos',
       whatsapp: Boolean(data.telefone),
-      annualIncome: data.rendaAnual ? incomeMapping[data.rendaAnual] || '$50,000 to $199,999' : '$50,000 to $199,999',
+      annualIncome: data.rendaAnual ? incomeMapping[data.rendaAnual] || '$51,000 - $100,000' : '$51,000 - $100,000',
       utm: typeof window !== 'undefined' ? localStorage.getItem('utm') || '' : '',
       source: typeof window !== 'undefined' ? localStorage.getItem('source') || '' : '',
       medium: typeof window !== 'undefined' ? localStorage.getItem('medium') || '' : '',
