@@ -56,7 +56,7 @@ export default function NossaMissao() {
         {missaoData.map((item, index) => (
           <div
             key={item.id}
-            className={`py-10 md:py-20 lg:px-8 px-4 sm:px-6 xl:px-0 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 items-center ${
+            className={`py-5 md:py-20 lg:px-8 px-4 sm:px-6 xl:px-0 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 items-center ${
               index > 0 ? 'md:mt-20' : ''
             }`}
             data-aos="fade-up"
@@ -72,7 +72,7 @@ export default function NossaMissao() {
               <div data-aos="fade-right" data-aos-delay={300 + (index * 200)} data-aos-duration="600">
                 <YVBreadcrumbs
                   disabled
-                  className='pb-4 md:pb-5'
+                  className='pb-2 md:pb-5'
                   items={[{ label: item.breadcrumb, href: '/sobre' }]}
                 />
               </div>

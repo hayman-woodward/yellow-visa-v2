@@ -1,9 +1,9 @@
-import { YVButton } from '@/components/YV';
+import { YVButton, YVContainer } from '@/components/YV';
 import Image from 'next/image';
 
 export default function FacaParteDoNossoTime() {
   return (
-    <div className='w-full max-w-[1248px] mx-auto px-4 md:px-0 py-16'>
+    <YVContainer className='w-full max-w-[1248px] mx-auto px-4 md:px-0 md:pt-0 py-16'>
       <div
         className='relative rounded-3xl max-h-[320px]  flex flex-col justify-center items-center gap-6 md:p-8'
         style={{
@@ -29,7 +29,7 @@ export default function FacaParteDoNossoTime() {
         {/* Conteúdo posicionado à esquerda como no Figma */}
         <div className='relative z-10 text-left self-start py-10 px-4 max-w-[70%]'>
           <h2 className='text-3xl lg:text-4xl font-bold text-black mb-4'>
-            Nosso time já está com seus<br /> dados e vai revisar com cuidado
+            Faça parte do nosso time
           </h2>
           <p className='text-black/80 mb-8 leading-relaxed'>
             Vem fazer parte do nosso time!
@@ -56,6 +56,6 @@ export default function FacaParteDoNossoTime() {
           />
         </div>
       </div>
-    </div>
+    </YVContainer>
   );
 }
