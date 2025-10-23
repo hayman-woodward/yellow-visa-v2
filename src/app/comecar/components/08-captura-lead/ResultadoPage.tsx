@@ -1,7 +1,6 @@
 'use client';
 
 import { YVText, YVTitle } from '@/components/YV';
-import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ResultadoProvisorio from './ResultadoProvisorio';
 
@@ -23,7 +22,7 @@ interface StepperFormDataInterface {
   email?: string;
   telefone?: string;
   pais?: string;
-  idioma?: string;
+  language?: string;
   academicBackground?: string;
   contactChannel?: string;
   utm_data?: {
@@ -81,12 +80,11 @@ const incomeMapping: { [key: string]: string } = {
 };
 
 const languageMapping: { [key: string]: string } = {
-  "Portuguese - Português": "Portuguese - Portugues",
-  "Spanish - Espanhol": "Spanish - Espanhol", 
-  "English - Inglês": "English - Ingles",
+  "Portuguese - Português": "Portuguese - Português",
+  "Spanish - Espanhol": "Spanish - Espanhol",
+  "English - Inglês": "English - Inglês",
   "Turkish - Turco": "Turkish - Turco",
-  "Mandarin Chinese - Mandarin": "Mandarin Chinese - Mandarin",
-  "Inglês": "English - Ingles"
+  "Mandarin Chinese - Mandarin": "Mandarin Chinese - Mandarin"
 };
 
 const experienceTimeMapping: { [key: string]: string } = {
@@ -136,7 +134,7 @@ export default function ResultadoPage() {
       leadSource: 'Website',
       migrateTo: data.destino ? countryMapping[data.destino] || 'USA' : 'USA',
       occupation: data.profissionalOpcao || data.estudanteOpcao || 'Tourist',
-      language: data.idioma ? languageMapping[data.idioma] || 'English - Ingles' : 'English - Ingles',
+      language: data.language ? languageMapping[data.language] || 'English - Inglês' : 'English - Inglês',
       timeExperience: data.quantoTempo ? experienceTimeMapping[data.quantoTempo] || 'From 5 to 10 years' : 'From 5 to 10 years',
       contactChannel: 'Contact by email',
       additionalInfo: data.quantasPessoas ? dependantsMapping[data.quantasPessoas] : 

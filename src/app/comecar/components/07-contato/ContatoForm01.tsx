@@ -9,7 +9,7 @@ interface FormData {
   email?: string;
   telefone?: string;
   pais?: string;
-  idioma?: string;
+  language?: string;
 }
 
 interface ContatoForm01Props {

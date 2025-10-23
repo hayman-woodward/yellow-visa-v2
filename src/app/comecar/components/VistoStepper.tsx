@@ -66,7 +66,7 @@ const formSchema = z.object({
   email: z.string().email('Email inválido').optional(),
   telefone: z.string().min(10, 'Telefone deve ter pelo menos 10 dígitos').optional(),
   pais: z.string().min(2, 'País deve ter pelo menos 2 caracteres').optional(),
-  idioma: z.string().min(1, 'Idioma é obrigatório').optional()
+  language: z.string().min(1, 'Idioma é obrigatório').optional()
 });
 
 type StepperFormData = z.infer<typeof formSchema>;
@@ -106,7 +106,7 @@ export interface StepperFormDataInterface {
   email?: string;
   telefone?: string;
   pais?: string;
-  idioma?: string;
+  language?: string;
 }
 
 // Definição das etapas
@@ -183,7 +183,7 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
         email: watchedFields.email || '',
         telefone: watchedFields.telefone || '',
         pais: watchedFields.pais || '',
-        idioma: watchedFields.idioma || ''
+        language: watchedFields.language || ''
       };
       
       localStorage.setItem('stepperData', JSON.stringify(cleanData));
