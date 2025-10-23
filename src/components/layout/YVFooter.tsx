@@ -30,8 +30,8 @@ export default async function Footer({
   // ];
 
   const redesSociais = [
-    { name: 'facebook', href: 'https://www.instagram.com/yellowvisa/', alt: 'Facebook' },
-    { name: 'instagram', href: 'https://www.facebook.com/yellowvisa', alt: 'Instagram' },
+    { name: 'facebook', href: 'https://www.facebook.com/yellowvisa', alt: 'Facebook' },
+    { name: 'instagram', href: 'https://www.instagram.com/yellowvisa/', alt: 'Instagram' },
     { name: 'linkedin', href: 'https://www.linkedin.com/company/yellowvisa/', alt: 'LinkedIn' }
   ];
 
