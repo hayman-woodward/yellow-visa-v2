@@ -38,6 +38,7 @@ interface YVButtonProps {
   onClick?: () => void;
   href?: string;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 const YVButton = ({
@@ -47,16 +48,26 @@ const YVButton = ({
   className = '',
   onClick,
   href,
-  disabled = false
+  disabled = false,
+  loading = false
 }: YVButtonProps) => {
   return (
     <Button
-      asChild={!!href}
+      asChild={!!href && !loading}
       onClick={onClick}
       className={cn(yvButtonVariants({ variant, size }), className)}
-      disabled={disabled}
+      disabled={disabled || loading}
     >
-      {href ? <Link href={href}>{children}</Link> : children}
+      {href && !loading ? (
+        <Link href={href}>{children}</Link>
+      ) : (
+        <div className="flex items-center justify-center gap-2">
+          {loading && (
+            <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+          )}
+          {children}
+        </div>
+      )}
     </Button>
   );
 };

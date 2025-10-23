@@ -1,13 +1,21 @@
 'use client';
 
-import { useVistos } from '@/hooks/useDashboardData';
-import { YVText } from '@/components/YV';
-import Link from 'next/link';
-import { FileText, Plus } from 'lucide-react';
+import { YVText, YVButton } from '@/components/YV';
 import DashboardHeader from '@/components/shared/DashboardHeader';
+import { useVistos } from '@/hooks/useDashboardData';
+import { FileText, Plus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function VistosPage() {
-  const { vistos, loading, error } = useVistos();
+  const { vistos, error } = useVistos();
+  const [loadingEdit, setLoadingEdit] = useState<string | null>(null);
+  const router = useRouter();
+
+  const handleEditClick = (slug: string) => {
+    setLoadingEdit(slug);
+    router.push(`/dashboard/vistos/${slug}/editar`);
+  };
 
 
   if (error) {
@@ -121,14 +129,15 @@ export default function VistosPage() {
                   </p>
 
                   <div className='pt-3 border-t border-dashboard'>
-                    <Link
-                      href={`/dashboard/vistos/${visto.slug}/editar`}
-                      className='block'
+                    <YVButton
+                      onClick={() => handleEditClick(visto.slug)}
+                      loading={loadingEdit === visto.slug}
+                      variant="text"
+                      size="sm"
+                      className="w-full !h-8 !px-3 !py-2 !rounded-lg bg-dashboard-hover hover:bg-dashboard-border hover:opacity-80 text-dashboard text-xs font-medium !transition-all !duration-150 active:scale-[0.97] !cursor-pointer"
                     >
-                      <button className='w-full px-3 py-2 rounded-lg bg-dashboard-hover hover:bg-dashboard-border hover:opacity-80 text-dashboard text-xs font-medium transition-all duration-150 active:scale-[0.97] cursor-pointer'>
-                        Editar
-                      </button>
-                    </Link>
+                      Editar
+                    </YVButton>
                   </div>
                 </div>
               </div>
