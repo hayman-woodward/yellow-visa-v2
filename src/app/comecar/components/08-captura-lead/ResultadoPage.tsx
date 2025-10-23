@@ -35,30 +35,6 @@ interface StepperFormDataInterface {
   };
 }
 
-const serviceMapping: { [key: string]: string } = {
-  "crescer-profissionalmente": "Visto Temporario de Trabalho",
-  "empreender-investir": "Visto de Investimento",
-  "estudar-fora": "Student Visa (Visto de Estudante)",
-  "conhecer-mundo": "Tourist Visa (Visto de Turista)",
-  // Opções específicas do turismo
-  "momentos-inesqueciveis": "Tourist Visa (Visto de Turista)",
-  "explorar-encontrar-amor": "Tourist Visa (Visto de Turista)",
-  "respiro-reconectar": "Tourist Visa (Visto de Turista)",
-  // Opções específicas do estudante
-  "formacao-exterior": "Student Visa (Visto de Estudante)",
-  "morar-fora-estudando": "Student Visa (Visto de Estudante)",
-  "pos-mestrado": "Student Visa (Visto de Estudante)",
-  "explorando-opcoes": "Student Visa (Visto de Estudante)",
-  // Opções específicas do profissional (são valores livres, então mapeamos para trabalho)
-  "profissional-tecnico": "Visto Temporario de Trabalho",
-  "especialista-conhecimento": "Visto Temporario de Trabalho",
-  // Adicionando outras opções que podem aparecer
-  "green-card": "Green card ou outro Visto de Residência Permantente",
-  "familia": "Pedido de Visto por Relação Familiar",
-  "corporativo": "Vistos Corporativos",
-  "europeu": "Vistos para País Europeu",
-  "asilo": "Asilo"
-};
 
 // Mapeamentos de respostas do stepper para Salesforce
 const academicBackgroundMapping: { [key: string]: string } = {
