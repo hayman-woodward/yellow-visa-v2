@@ -154,7 +154,7 @@ export default function ResultadoPage() {
       refer: data.utm_data?.utm_referrer || '',
       campaign: data.utm_data?.utm_campaign || '',
       event: null, // Campo event sempre null por enquanto
-      sellerId: typeof window !== 'undefined' ? localStorage.getItem('seller') || '005UJ0000089qqnYAA' : '005UJ0000089qqnYAA'
+      // sellerId será determinado pela API baseado no idioma (roleta automática)
     };
   };
 
