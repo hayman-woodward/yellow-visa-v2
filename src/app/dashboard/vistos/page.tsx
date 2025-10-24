@@ -77,6 +77,31 @@ export default function VistosPage() {
     }
   };
 
+  const handlePermanentDelete = async (slug: string) => {
+    if (!confirm('Tem certeza que deseja deletar permanentemente? Esta ação não pode ser desfeita.')) {
+      return;
+    }
+
+    setLoadingDelete(slug);
+    try {
+      const response = await fetch(`/api/dashboard/vistos/${slug}/permanent`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        await refetch();
+        toast.success('Visto deletado permanentemente!');
+      } else {
+        const error = await response.json();
+        toast.error('Erro ao deletar visto: ' + error.message);
+      }
+    } catch (error) {
+      toast.error('Erro ao deletar visto');
+    } finally {
+      setLoadingDelete(null);
+    }
+  };
+
 
 
   if (error) {
@@ -148,9 +173,6 @@ export default function VistosPage() {
             <h2 className='text-xl font-bold text-dashboard'>
               {countryLabels[country as keyof typeof countryLabels] || country}
             </h2>
-            <span className='text-sm text-dashboard-muted bg-[#FFBD1A]/10 text-[#FFBD1A] px-3 py-1 rounded-full font-medium'>
-              {vistosList.length} visto{vistosList.length !== 1 ? 's' : ''}
-            </span>
           </div>
 
           {/* Cards Grid */}
@@ -205,10 +227,20 @@ export default function VistosPage() {
                           loading={loadingRestore === visto.slug}
                           variant="text"
                           size="sm"
-                          className="w-full !h-8 !px-3 !py-2 !rounded-lg bg-dashboard-hover hover:bg-dashboard-border hover:opacity-80 text-dashboard text-xs font-medium !transition-all !duration-150 active:scale-[0.97] !cursor-pointer"
+                          className="flex-1 !h-8 !px-3 !py-2 !rounded-lg bg-dashboard-hover hover:bg-dashboard-border hover:opacity-80 text-dashboard text-xs font-medium !transition-all !duration-150 active:scale-[0.97] !cursor-pointer"
                         >
                           <RotateCcw size={14} className='mr-1' />
                           Restaurar
+                        </YVButton>
+                        
+                        <YVButton
+                          onClick={() => handlePermanentDelete(visto.slug)}
+                          loading={loadingDelete === visto.slug}
+                          variant="outline"
+                          size="sm"
+                          className="!h-8 !px-3 !py-2 !rounded-lg border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 text-xs font-medium !transition-all !duration-150 active:scale-[0.97] !cursor-pointer"
+                        >
+                          <X size={14} />
                         </YVButton>
                       </div>
                     ) : (

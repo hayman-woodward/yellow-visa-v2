@@ -292,16 +292,9 @@ export default function EditarVistoPage({ params }: PageProps) {
         <SeoAnalysisPanel
           data={{
             title: visto.title,
-            description: visto.description,
-            metaTitle: visto.metaTitle || '',
+            content: visto.description,
             metaDescription: visto.metaDescription || '',
             metaKeywords: visto.metaKeywords || '',
-            ogTitle: visto.ogTitle || '',
-            ogDescription: visto.ogDescription || '',
-            ogImage: visto.ogImage || '',
-            twitterTitle: visto.twitterTitle || '',
-            twitterDescription: visto.twitterDescription || '',
-            twitterImage: visto.twitterImage || ''
           }}
           expanded={seoExpanded}
           onToggle={() => setSeoExpanded(!seoExpanded)}

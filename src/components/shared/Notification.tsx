@@ -101,7 +101,7 @@ export default function Notification({
 
           <YVButton
             onClick={onClose}
-            variant="ghost"
+            variant="text"
             size="sm"
             className="flex-shrink-0 p-1 hover:bg-gray-100 rounded-full"
           >

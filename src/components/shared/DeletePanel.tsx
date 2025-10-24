@@ -49,7 +49,7 @@ export function DeletePanel({
 
   return (
     <div className={`bg-white rounded-lg border border-gray-200 shadow-sm ${className}`}>
-      <div className="px-4 py-3 h-fit">
+      <div className="px-6 py-3 h-fit">
         <button
           type="button"
           onClick={onToggle}
@@ -71,7 +71,7 @@ export function DeletePanel({
         </button>
 
         {expanded && (
-          <div className="space-y-4 pb-4">
+          <div className="space-y-4 py-4">
             <div className="border border-gray-200 rounded-lg p-4">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">

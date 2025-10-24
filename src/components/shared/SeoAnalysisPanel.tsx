@@ -49,7 +49,7 @@ export function SeoAnalysisPanel({
         </button>
 
         {expanded && (
-          <div className="space-y-4 pb-4">
+          <div className="space-y-4 py-4">
             {/* Painel de Análise SEO - Estilo Yoast */}
             <div className="bg-gradient-to-r from-[#FFBD1A]/10 to-[#FFBD1A]/5 border border-[#FFBD1A]/20 rounded-lg p-4">
               <div className="flex items-center gap-3 mb-4">
