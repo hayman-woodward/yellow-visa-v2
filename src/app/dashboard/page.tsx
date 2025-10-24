@@ -37,7 +37,7 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className='min-h-screen bg-gradient-to-br '>
+      <div className='min-h-screen -my-4 lg:-my-8 bg-gradient-to-br '>
         <div className='space-y-8 p-6'>
           {/* Header Skeleton */}
           <div className='flex items-center justify-between'>
@@ -114,7 +114,7 @@ export default function DashboardPage() {
   const { usersCount, vistosCount, blogPostsCount, contactsCount, leadsCount } = stats;
 
   return (
-    <div className='min-h-screen '>
+    <div className='min-h-screen -my-4 lg:-my-8'>
       <div className='space-y-8 p-6'>
       {/* Header */}
       <div className='flex items-center justify-between'>

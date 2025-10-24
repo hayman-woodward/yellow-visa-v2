@@ -79,8 +79,8 @@ export default async function DashboardLayout({
         </aside>
 
         {/* Main Content */}
-        <main className='flex-1 ml-64 bg-dashboard-bg '>
-          <div className='w-full max-w-[80%] md:max-w-[1000px] lg:max-w-[1200px] xl:max-w-[1400px] py-8 mx-auto px-4 sm:px-6 md:px-5'>
+        <main className='flex-1 ml-64 bg-dashboard-bg'>
+          <div className='w-full max-w-[80%] md:max-w-[1000px] lg:max-w-[1200px] xl:max-w-[1400px] py-4 lg:py-8 mx-auto px-4 sm:px-6 md:px-5'>
             {children}
           </div>
         </main>
