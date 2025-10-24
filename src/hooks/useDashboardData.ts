@@ -169,26 +169,26 @@ export function useDashboardStats() {
 export function useVistos() {
   const [vistos, setVistos] = useState<VistoData[]>([]);
   const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchVistos = async () => {
+    try {
+      const response = await fetch('/api/dashboard/vistos');
+      if (!response.ok) throw new Error('Failed to fetch vistos');
+      const data = await response.json();
+      setVistos(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchVistos = async () => {
-      try {
-        const response = await fetch('/api/dashboard/vistos');
-        if (!response.ok) throw new Error('Failed to fetch vistos');
-        const data = await response.json();
-        setVistos(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchVistos();
   }, []);
 
-  return { vistos, loading, error };
+  return { vistos, loading, error, refetch: fetchVistos };
 }
 
 export function useDestinos() {

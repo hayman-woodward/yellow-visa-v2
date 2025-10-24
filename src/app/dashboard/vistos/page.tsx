@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
 export default function VistosPage() {
-  const { vistos, error } = useVistos();
+  const { vistos, error, refetch } = useVistos();
   const [loadingEdit, setLoadingEdit] = useState<string | null>(null);
   const [loadingRestore, setLoadingRestore] = useState<string | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<string | null>(null);
@@ -64,7 +64,7 @@ export default function VistosPage() {
       });
 
       if (response.ok) {
-        router.refresh();
+        await refetch();
         setActiveTab('published');
       } else {
         const error = await response.json();
