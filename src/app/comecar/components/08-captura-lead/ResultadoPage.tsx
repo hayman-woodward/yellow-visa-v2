@@ -112,7 +112,10 @@ export default function ResultadoPage() {
   const filterEmptyFields = (data: Record<string, unknown>) => {
     const filtered: Record<string, unknown> = {};
     Object.keys(data).forEach(key => {
-      if (data[key] !== '' && data[key] !== null && data[key] !== undefined) {
+      // Não filtrar campos UTM (sempre enviar, mesmo se vazios)
+      if (key === 'utm' || key === 'source' || key === 'medium' || key === 'term' || key === 'refer' || key === 'campaign' || key === 'event') {
+        filtered[key] = data[key];
+      } else if (data[key] !== '' && data[key] !== null && data[key] !== undefined) {
         filtered[key] = data[key];
       }
     });
@@ -144,12 +147,13 @@ export default function ResultadoPage() {
                       data.turismoOpcao ? turismoMapping[data.turismoOpcao] : 'Adultos',
       whatsapp: Boolean(data.telefone),
       annualIncome: data.rendaAnual ? incomeMapping[data.rendaAnual] || '$50,000 to $199,999' : '$50,000 to $199,999',
-      utm: typeof window !== 'undefined' ? localStorage.getItem('utm') || '' : '',
-      source: typeof window !== 'undefined' ? localStorage.getItem('source') || '' : '',
-      medium: typeof window !== 'undefined' ? localStorage.getItem('medium') || '' : '',
-      term: typeof window !== 'undefined' ? localStorage.getItem('term') || '' : '',
-      refer: typeof window !== 'undefined' ? localStorage.getItem('refer') || '' : '',
-      campaign: typeof window !== 'undefined' ? localStorage.getItem('utm') || '' : '',
+      utm: data.utm_data?.utm_campaign || '',
+      source: data.utm_data?.utm_source || '',
+      medium: data.utm_data?.utm_medium || '',
+      term: data.utm_data?.utm_term || '',
+      refer: data.utm_data?.utm_referrer || '',
+      campaign: data.utm_data?.utm_campaign || '',
+      event: null, // Campo event sempre null por enquanto
       sellerId: typeof window !== 'undefined' ? localStorage.getItem('seller') || '005UJ0000089qqnYAA' : '005UJ0000089qqnYAA'
     };
   };
@@ -172,14 +176,29 @@ export default function ResultadoPage() {
     } catch {
       return;
     }
+
+    // Carregar UTMs do localStorage
+    const utmData = localStorage.getItem('utm_data');
+    if (utmData) {
+      try {
+        parsedData.utm_data = JSON.parse(utmData);
+        console.log('🔍 UTMs carregados:', parsedData.utm_data);
+      } catch (error) {
+        console.error('Erro ao carregar UTMs:', error);
+      }
+    } else {
+      console.log('⚠️ Nenhum UTM encontrado no localStorage');
+    }
     
     setFormData(parsedData);
 
     // Mapear dados para Salesforce
     const salesforceData = mapDataForSalesforce(parsedData);
+    console.log('🔍 Dados mapeados para Salesforce:', salesforceData);
     
     // Filtrar campos vazios
     const filteredData = filterEmptyFields(salesforceData);
+    console.log('🔍 Dados filtrados:', filteredData);
 
       const fetchData = async () => {
         try {

@@ -66,14 +66,14 @@ export default function MaisInfoProfissional({
     <div className="w-full grid grid-cols-1 grid-rows-[1.2fr_1.8fr] lg:grid-cols-[1fr_2fr] lg:grid-rows-1 relative overflow-hidden min-h-screen max-h-[90vh]">
 
       {/* Coluna Esquerda - Imagem (33% da largura) */}
-      <div className="row-start-1 px-0 md:px-0 md:relative md:overflow-hidden lg:col-start-1 lg:row-start-1 lg:order-1">
+      <div className="row-start-1 px-0 md:px-0 relative md:overflow-hidden lg:col-start-1 lg:row-start-1 lg:order-1">
         <YVBanner
           src='/imgs/stepper-form/bg-etapa-05-profissional.jpg'
           srcMobile='/imgs/stepper-form/bg-etapa-05-profissional-mobile.jpg'
           alt='Hero Mais Info Profissional'
           className='object-cover object-center h-full md:min-h-[100vh]'
           priority
-          quality={85}
+          
         />
       </div>
 
