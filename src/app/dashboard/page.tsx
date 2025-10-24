@@ -7,8 +7,6 @@ import {
   Users,
   FileText,
   BookOpen,
-  Mail,
-  Plus,
   TrendingUp,
   Clock,
   UserPlus,
@@ -36,7 +34,7 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className='min-h-screen bg-gradient-to-br from-gray-50 via-white to-yellow-50/30'>
+      <div className='min-h-screen bg-gradient-to-br '>
         <div className='space-y-8 p-6'>
           {/* Header Skeleton */}
           <div className='flex items-center justify-between'>
@@ -95,48 +93,6 @@ export default function DashboardPage() {
             
             <div className='h-64 bg-gray-100 rounded-lg animate-pulse' />
           </div>
-
-          {/* Quick Actions Skeleton */}
-          <div className='bg-white rounded-lg p-6 border border-gray-200'>
-            <div className='flex items-center gap-2 mb-4'>
-              <div className='w-4 h-4 bg-gray-200 rounded animate-pulse' />
-              <div className='h-4 w-24 bg-gray-200 rounded animate-pulse' />
-            </div>
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className='flex items-center gap-3 p-3 rounded-lg border border-gray-200'>
-                  <div className='w-10 h-10 rounded bg-gray-200 animate-pulse' />
-                  <div>
-                    <div className='h-4 w-24 bg-gray-200 rounded animate-pulse mb-1' />
-                    <div className='h-3 w-16 bg-gray-200 rounded animate-pulse' />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Activity/Recent Skeleton */}
-          <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
-            {Array.from({ length: 2 }).map((_, i) => (
-              <div key={i} className='bg-gradient-to-br from-white to-gray-50/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm border border-white/20'>
-                <div className='flex items-center gap-2 mb-4'>
-                  <div className='w-4 h-4 bg-gray-200 rounded animate-pulse' />
-                  <div className='h-4 w-32 bg-gray-200 rounded animate-pulse' />
-                </div>
-                <div className='space-y-3'>
-                  {Array.from({ length: 3 }).map((_, j) => (
-                    <div key={j} className='flex items-start gap-3 pb-3 border-b border-gray-200/50'>
-                      <div className='w-8 h-8 rounded-full bg-gray-200 animate-pulse' />
-                      <div className='flex-1'>
-                        <div className='h-4 w-40 bg-gray-200 rounded animate-pulse mb-1' />
-                        <div className='h-3 w-16 bg-gray-200 rounded animate-pulse' />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     );
@@ -155,7 +111,7 @@ export default function DashboardPage() {
   const { usersCount, vistosCount, blogPostsCount, contactsCount, leadsCount } = stats;
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-gray-50 via-white to-yellow-50/30'>
+    <div className='min-h-screen '>
       <div className='space-y-8 p-6'>
       {/* Header */}
       <div className='flex items-center justify-between'>
@@ -381,133 +337,6 @@ export default function DashboardPage() {
               />
             </LineChart>
           </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className='bg-dashboard-card rounded-lg p-6 border border-dashboard'>
-        <h3 className='font-semibold text-base mb-4 text-dashboard flex items-center gap-2'>
-          <Plus size={18} className='text-dashboard-muted' />
-          Ações Rápidas
-        </h3>
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
-          <a
-            href='/dashboard/usuarios/novo'
-            className='flex items-center gap-3 p-3 rounded-lg border border-dashboard hover:border-[#FFBD1A] hover:bg-dashboard-hover transition-colors group'
-          >
-            <div className='w-10 h-10 rounded bg-[#FFBD1A]/20 flex items-center justify-center group-hover:bg-[#FFBD1A]/30 transition-colors'>
-              <Users className='text-[#FFBD1A]' size={18} />
-            </div>
-            <div>
-              <p className='text-sm font-medium text-dashboard'>Novo Usuário</p>
-              <p className='text-xs text-dashboard-muted'>Adicionar admin</p>
-            </div>
-          </a>
-
-          <a
-            href='/dashboard/vistos/novo'
-            className='flex items-center gap-3 p-3 rounded-lg border border-dashboard hover:border-[#C04] hover:bg-dashboard-hover transition-colors group'
-          >
-            <div className='w-10 h-10 rounded bg-[#C04]/20 flex items-center justify-center group-hover:bg-[#C04]/30 transition-colors'>
-              <FileText className='text-[#C04]' size={18} />
-            </div>
-            <div>
-              <p className='text-sm font-medium text-dashboard'>Novo Visto</p>
-              <p className='text-xs text-dashboard-muted'>Adicionar visto</p>
-            </div>
-          </a>
-
-          <a
-            href='/dashboard/blog/novo'
-            className='flex items-center gap-3 p-3 rounded-lg border border-dashboard hover:bg-dashboard-hover transition-colors group'
-          >
-            <div className='w-10 h-10 rounded bg-dashboard-hover flex items-center justify-center group-hover:bg-dashboard-border transition-colors'>
-              <BookOpen className='text-dashboard-muted' size={18} />
-            </div>
-            <div>
-              <p className='text-sm font-medium text-dashboard'>Novo Post</p>
-              <p className='text-xs text-dashboard-muted'>Escrever artigo</p>
-            </div>
-          </a>
-        </div>
-      </div>
-
-      {/* Activity / Recent */}
-      <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
-        {/* Atividade Recente */}
-        <div className='bg-gradient-to-br from-white to-gray-50/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm border border-white/20'>
-          <h3 className='font-semibold text-base mb-4 text-gray-900 flex items-center gap-2'>
-            <TrendingUp size={18} className='text-orange-600' />
-            Atividade Recente
-          </h3>
-          <div className='space-y-3'>
-            <div className='flex items-start gap-3 pb-3 border-b border-gray-200/50'>
-              <div className='w-8 h-8 rounded-full bg-gradient-to-br from-yellow-100 to-orange-100 flex items-center justify-center flex-shrink-0'>
-                <Users className='text-orange-600' size={14} />
-              </div>
-              <div className='flex-1 min-w-0'>
-                <p className='text-sm text-gray-900'>
-                  Novo usuário cadastrado
-                </p>
-                <p className='text-xs text-gray-500'>Há 2 horas</p>
-              </div>
-            </div>
-            <div className='flex items-start gap-3 pb-3 border-b border-gray-200/50'>
-              <div className='w-8 h-8 rounded-full bg-gradient-to-br from-orange-100 to-yellow-100 flex items-center justify-center flex-shrink-0'>
-                <BookOpen className='text-orange-600' size={14} />
-              </div>
-              <div className='flex-1 min-w-0'>
-                <p className='text-sm text-gray-900'>Post publicado no blog</p>
-                <p className='text-xs text-gray-500'>Há 5 horas</p>
-              </div>
-            </div>
-            <div className='flex items-start gap-3'>
-              <div className='w-8 h-8 rounded-full bg-gradient-to-br from-magenta-100 to-pink-100 flex items-center justify-center flex-shrink-0'>
-                <FileText className='text-magenta-600' size={14} />
-              </div>
-              <div className='flex-1 min-w-0'>
-                <p className='text-sm text-gray-900'>
-                  Visto atualizado: EB-2 NIW
-                </p>
-                <p className='text-xs text-gray-500'>Ontem às 15:30</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Estatísticas */}
-        <div className='bg-gradient-to-br from-white to-gray-50/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm border border-white/20'>
-          <h3 className='font-semibold text-base mb-4 text-gray-900 flex items-center gap-2'>
-            <BarChart3 size={18} className='text-magenta-600' />
-            Resumo do Site
-          </h3>
-          <div className='space-y-4'>
-            <div className='flex items-center justify-between p-3 bg-gradient-to-r from-yellow-50/50 to-orange-50/50 rounded-xl border border-yellow-200/30'>
-              <span className='text-sm font-medium text-gray-700'>Total de Usuários</span>
-              <span className='text-lg font-bold text-orange-600'>{usersCount}</span>
-            </div>
-            <div className='flex items-center justify-between p-3 bg-gradient-to-r from-magenta-50/50 to-pink-50/50 rounded-xl border border-magenta-200/30'>
-              <span className='text-sm font-medium text-gray-700'>Tipos de Vistos Ativos</span>
-              <span className='text-lg font-bold text-magenta-600'>{vistosCount}</span>
-            </div>
-            <div className='flex items-center justify-between p-3 bg-gradient-to-r from-orange-50/50 to-yellow-50/50 rounded-xl border border-orange-200/30'>
-              <span className='text-sm font-medium text-gray-700'>Posts Publicados</span>
-              <span className='text-lg font-bold text-orange-600'>{blogPostsCount}</span>
-            </div>
-            <div className='flex items-center justify-between p-3 bg-gradient-to-r from-magenta-50/50 to-pink-50/50 rounded-xl border border-magenta-200/30'>
-              <span className='text-sm font-medium text-gray-700'>Contatos Recebidos</span>
-              <span className='text-lg font-bold text-magenta-600'>{contactsCount}</span>
-            </div>
-            <div className='pt-4 border-t border-gray-200/50'>
-              <a
-                href='/'
-                target='_blank'
-                className='text-sm text-YV hover:text-orange-600 font-medium transition-colors'
-              >
-                Visitar site →
-              </a>
-            </div>
-          </div>
         </div>
       </div>
       </div>
