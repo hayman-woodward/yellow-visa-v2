@@ -1,7 +1,8 @@
 // import { auth } from '@/auth';
 
-import { YVLogo, YVText, YVTitle } from '@/components/YV';
-import YVHeader from '@/components/layout/YVHeader';
+import { YVLogo, YVText } from '@/components/YV';
+import { getSession } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
 // import { redirect } from 'next/navigation';
 
@@ -10,19 +11,22 @@ export default async function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  //   const session = await auth();
-  //   if (session) {
-  //     redirect('/');
-  //   }
+  const session = await getSession();
+
+  // SE JÁ TIVER LOGADO REDIRECIONA PRA DASHBOARD
+  if (session) {
+    redirect('/dashboard');
+  }
   return (
     <>
-      <YVHeader />
+     
       <div className='h-screen flex overflow-hidden'>
+      
         {/* Left Form */}
         <div className='flex-1 flex items-center justify-center bg-white p-8'>
           <div className='w-full max-w-sm'>
-            <div className='flex justify-center xl:justify-start mb-4 xl:mb-8'>
-
+            <div className='flex justify-center xl:justify-start pb-12 xl:mb-8'>
+           
             </div>
             {children}
           </div>
