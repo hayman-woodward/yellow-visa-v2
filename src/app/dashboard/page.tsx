@@ -307,25 +307,26 @@ export default function DashboardPage() {
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis 
                 dataKey="name" 
-                stroke="#6b7280"
+                stroke="#374151"
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis 
-                stroke="#6b7280"
+                stroke="#374151"
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
               />
               <Tooltip 
                 contentStyle={{
-                  backgroundColor: '#1f2937',
-                  border: '1px solid #374151',
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #e5e7eb',
                   borderRadius: '8px',
-                  color: '#f9fafb'
+                  color: '#374151',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
                 }}
-                labelStyle={{ color: '#f9fafb' }}
+                labelStyle={{ color: '#374151' }}
               />
               <Line 
                 type="monotone" 
@@ -333,7 +334,7 @@ export default function DashboardPage() {
                 stroke="#000000" 
                 strokeWidth={3}
                 dot={{ fill: '#000000', strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, stroke: '#10b981', strokeWidth: 2 }}
+                activeDot={{ r: 6, stroke: '#000000', strokeWidth: 2, fill: '#000000' }}
               />
             </LineChart>
           </ResponsiveContainer>
