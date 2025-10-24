@@ -9,7 +9,6 @@ import { FileText, Plus, Trash2, RotateCcw, X, Eye } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
 
 export default function VistosPage() {
   const { vistos, error, refetch } = useVistos();
@@ -17,7 +16,18 @@ export default function VistosPage() {
   const [loadingRestore, setLoadingRestore] = useState<string | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'published' | 'draft' | 'deleted'>('published');
+  const [message, setMessage] = useState<{ text: string; success: boolean } | null>(null);
   const router = useRouter();
+
+  // Limpar mensagem após 5 segundos
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   // Filtrar vistos baseado na aba ativa
   const publishedVistos = vistos.filter(visto => visto.status === 'published');
@@ -66,12 +76,13 @@ export default function VistosPage() {
       if (response.ok) {
         await refetch();
         setActiveTab('published');
+        setMessage({ text: 'Visto restaurado com sucesso!', success: true });
       } else {
         const error = await response.json();
-        toast.error('Erro ao restaurar visto: ' + error.message);
+        setMessage({ text: 'Erro ao restaurar visto: ' + error.message, success: false });
       }
     } catch (error) {
-      toast.error('Erro ao restaurar visto');
+      setMessage({ text: 'Erro ao restaurar visto', success: false });
     } finally {
       setLoadingRestore(null);
     }
@@ -90,13 +101,13 @@ export default function VistosPage() {
 
       if (response.ok) {
         await refetch();
-        toast.success('Visto deletado permanentemente!');
+        setMessage({ text: 'Visto deletado permanentemente!', success: true });
       } else {
         const error = await response.json();
-        toast.error('Erro ao deletar visto: ' + error.message);
+        setMessage({ text: 'Erro ao deletar visto: ' + error.message, success: false });
       }
     } catch (error) {
-      toast.error('Erro ao deletar visto');
+      setMessage({ text: 'Erro ao deletar visto', success: false });
     } finally {
       setLoadingDelete(null);
     }
@@ -147,6 +158,19 @@ export default function VistosPage() {
       <YVText variant='small' className='text-dashboard-muted mb-6'>
         Gerencie os vistos por país de destino
       </YVText>
+
+      {/* Mensagem de sucesso/erro */}
+      {message && (
+        <div
+          className={`mb-4 p-3 rounded-md text-sm text-center ${
+            message.success
+              ? 'bg-green-50 text-green-800 border border-green-200'
+              : 'bg-red-50 text-red-800 border border-red-200'
+          }`}
+        >
+          {message.text}
+        </div>
+      )}
 
       {/* Abas */}
       <Tabs

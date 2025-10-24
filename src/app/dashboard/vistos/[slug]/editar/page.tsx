@@ -8,7 +8,6 @@ import { SeoAnalysisPanel } from '@/components/shared/SeoAnalysisPanel';
 import { ArrowLeft, FileText, Eye, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 import VistoForm from '../../components/VistoForm';
 
 type PageProps = {
@@ -21,6 +20,7 @@ export default function EditarVistoPage({ params }: PageProps) {
   const [deleteExpanded, setDeleteExpanded] = useState(false);
   const [seoExpanded, setSeoExpanded] = useState(false);
   const [seoActiveTab, setSeoActiveTab] = useState<'general' | 'social'>('general');
+  const [message, setMessage] = useState<{ text: string; success: boolean } | null>(null);
   const router = useRouter();
 
   React.useEffect(() => {
@@ -37,14 +37,14 @@ export default function EditarVistoPage({ params }: PageProps) {
       });
 
       if (response.ok) {
-        toast.success('Visto movido para lixeira!');
-        router.push('/dashboard/vistos');
+        setMessage({ text: 'Visto movido para lixeira!', success: true });
+        setTimeout(() => router.push('/dashboard/vistos'), 1500);
       } else {
         const error = await response.json();
-        toast.error('Erro ao deletar visto: ' + error.message);
+        setMessage({ text: 'Erro ao deletar visto: ' + error.message, success: false });
       }
     } catch (error) {
-      toast.error('Erro ao deletar visto');
+      setMessage({ text: 'Erro ao deletar visto', success: false });
     } finally {
       setIsDeleting(false);
     }
@@ -155,6 +155,18 @@ export default function EditarVistoPage({ params }: PageProps) {
         </Link>
       </div>
 
+      {/* Mensagem de sucesso/erro */}
+      {message && (
+        <div
+          className={`mb-4 p-3 rounded-md text-sm text-center ${
+            message.success
+              ? 'bg-green-50 text-green-800 border border-green-200'
+              : 'bg-red-50 text-red-800 border border-red-200'
+          }`}
+        >
+          {message.text}
+        </div>
+      )}
 
       {/* Formulário de Edição */}
       <div className='bg-dashboard-card rounded-lg border border-dashboard p-6'>

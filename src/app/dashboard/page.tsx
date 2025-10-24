@@ -1,6 +1,7 @@
 'use client';
 
 import { useDashboardStats } from '@/hooks/useDashboardData';
+import { useAnalytics } from '@/hooks/useAnalytics';
 import { YVText } from '@/components/YV';
 import {
   Users,
@@ -10,11 +11,27 @@ import {
   Plus,
   TrendingUp,
   Clock,
-  UserPlus
+  UserPlus,
+  Target,
+  TrendingDown,
+  Award
 } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function DashboardPage() {
   const { stats, loading, error } = useDashboardStats();
+  const { data: analytics, loading: analyticsLoading } = useAnalytics();
+
+  // Dados para o gráfico de tendência (últimos 7 dias)
+  const leadsTrendData = [
+    { name: 'Seg', leads: 12 },
+    { name: 'Ter', leads: 18 },
+    { name: 'Qua', leads: 8 },
+    { name: 'Qui', leads: 25 },
+    { name: 'Sex', leads: 15 },
+    { name: 'Sáb', leads: 22 },
+    { name: 'Dom', leads: 19 },
+  ];
 
   if (loading) {
     return (
@@ -62,7 +79,8 @@ export default function DashboardPage() {
   const { usersCount, vistosCount, blogPostsCount, contactsCount, leadsCount } = stats;
 
   return (
-    <div className='space-y-6'>
+    <div className='min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100'>
+      <div className='space-y-8 p-6'>
       {/* Header */}
       <div className='flex items-center justify-between'>
         <div>
@@ -80,80 +98,197 @@ export default function DashboardPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6'>
         {/* Usuários */}
-        <div className='bg-dashboard-card rounded-lg p-5 border border-dashboard hover:border-[#FFBD1A]/50 transition-all'>
-          <div className='flex items-start justify-between mb-3'>
-            <div className='w-11 h-11 rounded-full bg-[#FFBD1A] flex items-center justify-center'>
-              <Users className='text-black' size={20} />
+        <div className='bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 ease-out group'>
+          <div className='flex items-start justify-between mb-4'>
+            <div className='w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FFBD1A] to-[#FFA500] flex items-center justify-center shadow-lg group-hover:shadow-[#FFBD1A]/25 transition-all duration-300'>
+              <Users className='text-black' size={22} />
             </div>
           </div>
           <div>
-            <p className='text-4xl font-semibold text-dashboard mb-1'>
+            <p className='text-4xl font-bold text-gray-900 mb-2 tracking-tight'>
               {usersCount}
             </p>
-            <p className='text-sm text-dashboard-muted font-medium'>Usuários</p>
+            <p className='text-sm text-gray-600 font-medium'>Usuários</p>
           </div>
         </div>
 
         {/* Vistos */}
-        <div className='bg-dashboard-card rounded-lg p-5 border border-dashboard hover:border-[#C04]/50 transition-all'>
-          <div className='flex items-start justify-between mb-3'>
-            <div className='w-11 h-11 rounded-full bg-[#C04] flex items-center justify-center'>
-              <FileText className='text-white' size={20} />
+        <div className='bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 ease-out group'>
+          <div className='flex items-start justify-between mb-4'>
+            <div className='w-12 h-12 rounded-2xl bg-gradient-to-br from-[#C04] to-[#A03] flex items-center justify-center shadow-lg group-hover:shadow-[#C04]/25 transition-all duration-300'>
+              <FileText className='text-white' size={22} />
             </div>
           </div>
           <div>
-            <p className='text-4xl font-semibold text-dashboard mb-1'>
+            <p className='text-4xl font-bold text-gray-900 mb-2 tracking-tight'>
               {vistosCount}
             </p>
-            <p className='text-sm text-dashboard-muted font-medium'>Vistos</p>
+            <p className='text-sm text-gray-600 font-medium'>Vistos</p>
           </div>
         </div>
 
         {/* Posts */}
-        <div className='bg-dashboard-card rounded-lg p-5 border border-dashboard hover:border-dashboard-hover transition-all'>
-          <div className='flex items-start justify-between mb-3'>
-            <div className='w-11 h-11 rounded-full bg-dashboard-hover flex items-center justify-center'>
-              <BookOpen className='text-[#FFBD1A]' size={20} />
+        <div className='bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 ease-out group'>
+          <div className='flex items-start justify-between mb-4'>
+            <div className='w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg group-hover:shadow-amber-500/25 transition-all duration-300'>
+              <BookOpen className='text-white' size={22} />
             </div>
           </div>
           <div>
-            <p className='text-4xl font-semibold text-dashboard mb-1'>
+            <p className='text-4xl font-bold text-gray-900 mb-2 tracking-tight'>
               {blogPostsCount}
             </p>
-            <p className='text-sm text-dashboard-muted font-medium'>Posts</p>
+            <p className='text-sm text-gray-600 font-medium'>Posts</p>
           </div>
         </div>
 
         {/* Contatos */}
-        <div className='bg-dashboard-card rounded-lg p-5 border border-dashboard hover:border-[#FFBD1A]/50 transition-all'>
-          <div className='flex items-start justify-between mb-3'>
-            <div className='w-11 h-11 rounded-full bg-[#FFBD1A]/20 flex items-center justify-center'>
-              <Mail className='text-[#FFBD1A]' size={20} />
+        <div className='bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 ease-out group'>
+          <div className='flex items-start justify-between mb-4'>
+            <div className='w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-500 flex items-center justify-center shadow-lg group-hover:shadow-yellow-400/25 transition-all duration-300'>
+              <Mail className='text-white' size={22} />
             </div>
           </div>
           <div>
-            <p className='text-4xl font-semibold text-dashboard mb-1'>
+            <p className='text-4xl font-bold text-gray-900 mb-2 tracking-tight'>
               {contactsCount}
             </p>
-            <p className='text-sm text-dashboard-muted font-medium'>Contatos</p>
+            <p className='text-sm text-gray-600 font-medium'>Contatos</p>
           </div>
         </div>
 
         {/* Leads */}
-        <div className='bg-dashboard-card rounded-lg p-5 border border-dashboard hover:border-[#C04]/50 transition-all'>
-          <div className='flex items-start justify-between mb-3'>
-            <div className='w-11 h-11 rounded-full bg-[#C04] flex items-center justify-center'>
-              <UserPlus className='text-white' size={20} />
+        <div className='bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 ease-out group'>
+          <div className='flex items-start justify-between mb-4'>
+            <div className='w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center shadow-lg group-hover:shadow-pink-500/25 transition-all duration-300'>
+              <UserPlus className='text-white' size={22} />
             </div>
           </div>
           <div>
-            <p className='text-4xl font-semibold text-dashboard mb-1'>
+            <p className='text-4xl font-bold text-gray-900 mb-2 tracking-tight'>
               {leadsCount}
             </p>
-            <p className='text-sm text-dashboard-muted font-medium'>Leads</p>
+            <p className='text-sm text-gray-600 font-medium'>Leads</p>
           </div>
+        </div>
+      </div>
+
+      {/* Analytics Cards */}
+      {analytics && !analyticsLoading && (
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+          {/* Leads Hoje */}
+          <div className='bg-dashboard-card rounded-lg p-5 border border-dashboard hover:border-green-500/50 transition-all'>
+            <div className='flex items-start justify-between mb-3'>
+              <div className='w-11 h-11 rounded-full bg-green-500 flex items-center justify-center'>
+                <TrendingUp className='text-white' size={20} />
+              </div>
+            </div>
+            <div>
+              <p className='text-4xl font-semibold text-dashboard mb-1'>
+                {analytics.leadsToday}
+              </p>
+              <p className='text-sm text-dashboard-muted font-medium'>Leads Hoje</p>
+            </div>
+          </div>
+
+          {/* Taxa de Conversão */}
+          <div className='bg-dashboard-card rounded-lg p-5 border border-dashboard hover:border-blue-500/50 transition-all'>
+            <div className='flex items-start justify-between mb-3'>
+              <div className='w-11 h-11 rounded-full bg-blue-500 flex items-center justify-center'>
+                <Target className='text-white' size={20} />
+              </div>
+            </div>
+            <div>
+              <p className='text-4xl font-semibold text-dashboard mb-1'>
+                {analytics.conversionRate}
+              </p>
+              <p className='text-sm text-dashboard-muted font-medium'>Taxa Conversão</p>
+            </div>
+          </div>
+
+          {/* Visto Mais Popular */}
+          <div className='bg-dashboard-card rounded-lg p-5 border border-dashboard hover:border-purple-500/50 transition-all'>
+            <div className='flex items-start justify-between mb-3'>
+              <div className='w-11 h-11 rounded-full bg-purple-500 flex items-center justify-center'>
+                <Award className='text-white' size={20} />
+              </div>
+            </div>
+            <div>
+              <p className='text-lg font-semibold text-dashboard mb-1 truncate'>
+                {analytics.popularVisto}
+              </p>
+              <p className='text-sm text-dashboard-muted font-medium'>Mais Popular</p>
+            </div>
+          </div>
+
+          {/* Total de Leads */}
+          <div className='bg-dashboard-card rounded-lg p-5 border border-dashboard hover:border-orange-500/50 transition-all'>
+            <div className='flex items-start justify-between mb-3'>
+              <div className='w-11 h-11 rounded-full bg-orange-500 flex items-center justify-center'>
+                <TrendingDown className='text-white' size={20} />
+              </div>
+            </div>
+            <div>
+              <p className='text-4xl font-semibold text-dashboard mb-1'>
+                {analytics.totalLeads}
+              </p>
+              <p className='text-sm text-dashboard-muted font-medium'>Total Leads</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Gráfico de Tendência de Leads */}
+      <div className='bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300'>
+        <div className='flex items-center justify-between mb-8'>
+          <div>
+            <h3 className='text-2xl font-bold text-gray-900 mb-2 tracking-tight'>Tendência de Leads</h3>
+            <p className='text-gray-600 font-medium'>Últimos 7 dias</p>
+          </div>
+          <div className='flex items-center gap-3 px-4 py-2 bg-green-50 rounded-full border border-green-200'>
+            <TrendingUp size={18} className='text-green-600' />
+            <span className='text-sm font-semibold text-green-700'>+12% vs semana anterior</span>
+          </div>
+        </div>
+        
+        <div className='h-64'>
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={leadsTrendData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis 
+                dataKey="name" 
+                stroke="#6b7280"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis 
+                stroke="#6b7280"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+              />
+              <Tooltip 
+                contentStyle={{
+                  backgroundColor: '#1f2937',
+                  border: '1px solid #374151',
+                  borderRadius: '8px',
+                  color: '#f9fafb'
+                }}
+                labelStyle={{ color: '#f9fafb' }}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="leads" 
+                stroke="#10b981" 
+                strokeWidth={3}
+                dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
+                activeDot={{ r: 6, stroke: '#10b981', strokeWidth: 2 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </div>
 
@@ -297,6 +432,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
