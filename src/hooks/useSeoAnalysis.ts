@@ -95,7 +95,8 @@ export function useSeoAnalysis(data: SeoAnalysisData): SeoAnalysis {
     }
 
     // Análise do conteúdo
-    const wordCount = content.split(/\s+/).filter(word => word.length > 0).length;
+    const safeContent = content || '';
+    const wordCount = safeContent.split(/\s+/).filter(word => word.length > 0).length;
     if (wordCount === 0) {
       analysis.content = { 
         score: 'bad', 

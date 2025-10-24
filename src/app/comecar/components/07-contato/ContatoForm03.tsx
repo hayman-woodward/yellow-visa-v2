@@ -110,14 +110,14 @@ export default function ContatoForm03({
 
   return (
     <div className="w-full grid grid-cols-1 grid-rows-[1.2fr_1.8fr] lg:grid-cols-[1fr_2fr] lg:grid-rows-1 relative overflow-hidden min-h-screen max-h-[90vh]">
-      <div className="row-start-1 px-0 md:px-0 md:relative md:overflow-hidden lg:col-start-1 lg:row-start-1 lg:order-1">
+      <div className="row-start-1 px-0 md:px-0 relative md:overflow-hidden lg:col-start-1 lg:row-start-1 lg:order-1">
         <YVBanner
           src='/imgs/stepper-form/bg-etapa-07.jpg'
           src2x='/imgs/stepper-form/bg-etapa-07-2x.jpg'
           alt='Hero Contato'
           className='object-cover object-center h-full md:min-h-[100vh]'
           priority
-          quality={85}
+          
         />
       </div>
       <div className="row-start-2 bg-gradient-to-br bg-YV-secondary-gradient relative flex items-center lg:col-start-2 lg:col-span-1 lg:row-start-1 lg:h-screen order-1 lg:order-2 px-1 md:pl-[10%] -mt-0 py-40 md:py-0">

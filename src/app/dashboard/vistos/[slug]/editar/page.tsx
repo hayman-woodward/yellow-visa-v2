@@ -1,10 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useVisto } from '@/hooks/useDashboardData';
-import { YVText } from '@/components/YV';
-import { ArrowLeft, FileText, Eye } from 'lucide-react';
+import { YVText, YVButton } from '@/components/YV';
+import { DeletePanel } from '@/components/shared/DeletePanel';
+import { SeoAnalysisPanel } from '@/components/shared/SeoAnalysisPanel';
+import { ArrowLeft, FileText, Eye, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import VistoForm from '../../components/VistoForm';
 
 type PageProps = {
@@ -13,12 +16,39 @@ type PageProps = {
 
 export default function EditarVistoPage({ params }: PageProps) {
   const [resolvedParams, setResolvedParams] = React.useState<{ slug: string } | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteExpanded, setDeleteExpanded] = useState(false);
+  const [seoExpanded, setSeoExpanded] = useState(false);
+  const [seoActiveTab, setSeoActiveTab] = useState<'general' | 'social'>('general');
+  const [message, setMessage] = useState<{ text: string; success: boolean } | null>(null);
+  const router = useRouter();
 
   React.useEffect(() => {
     params.then(setResolvedParams);
   }, [params]);
 
   const { visto, loading, error } = useVisto(resolvedParams?.slug || '');
+
+  const handleDelete = async (slug: string) => {
+    setIsDeleting(true);
+    try {
+      const response = await fetch(`/api/dashboard/vistos/${slug}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setMessage({ text: 'Visto movido para lixeira!', success: true });
+        setTimeout(() => router.push('/dashboard/vistos'), 1500);
+      } else {
+        const error = await response.json();
+        setMessage({ text: 'Erro ao deletar visto: ' + error.message, success: false });
+      }
+    } catch (error) {
+      setMessage({ text: 'Erro ao deletar visto', success: false });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -125,7 +155,20 @@ export default function EditarVistoPage({ params }: PageProps) {
         </Link>
       </div>
 
-      {/* Form */}
+      {/* Mensagem de sucesso/erro */}
+      {message && (
+        <div
+          className={`mb-4 p-3 rounded-md text-sm text-center ${
+            message.success
+              ? 'bg-green-50 text-green-800 border border-green-200'
+              : 'bg-red-50 text-red-800 border border-red-200'
+          }`}
+        >
+          {message.text}
+        </div>
+      )}
+
+      {/* Formulário de Edição */}
       <div className='bg-dashboard-card rounded-lg border border-dashboard p-6'>
         <VistoForm
           defaultValues={{
@@ -254,6 +297,97 @@ export default function EditarVistoPage({ params }: PageProps) {
           isEditing={true}
         />
       </div>
+
+      {/* Painéis SEO e Delete - FORA do formulário */}
+      <div className="space-y-4">
+        {/* SEO Panel */}
+        <SeoAnalysisPanel
+          data={{
+            title: visto.title,
+            content: visto.description,
+            metaDescription: visto.metaDescription || '',
+            metaKeywords: visto.metaKeywords || '',
+          }}
+          expanded={seoExpanded}
+          onToggle={() => setSeoExpanded(!seoExpanded)}
+          activeTab={seoActiveTab}
+          onTabChange={setSeoActiveTab}
+        >
+          {seoActiveTab === 'general' && (
+            <div className="space-y-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">Meta Title</label>
+                <input
+                  type="text"
+                  placeholder="Título para SEO..."
+                  defaultValue={visto.metaTitle || ''}
+                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">Meta Description</label>
+                <textarea
+                  placeholder="Descrição para SEO..."
+                  defaultValue={visto.metaDescription || ''}
+                  rows={3}
+                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">Meta Keywords</label>
+                <input
+                  type="text"
+                  placeholder="palavra-chave1, palavra-chave2..."
+                  defaultValue={visto.metaKeywords || ''}
+                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
+                />
+              </div>
+            </div>
+          )}
+          {seoActiveTab === 'social' && (
+            <div className="space-y-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">OG Title</label>
+                <input
+                  type="text"
+                  placeholder="Título para redes sociais..."
+                  defaultValue={visto.ogTitle || ''}
+                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">OG Description</label>
+                <textarea
+                  placeholder="Descrição para redes sociais..."
+                  defaultValue={visto.ogDescription || ''}
+                  rows={3}
+                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">OG Image</label>
+                <input
+                  type="text"
+                  placeholder="URL da imagem para redes sociais..."
+                  defaultValue={visto.ogImage || ''}
+                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
+                />
+              </div>
+            </div>
+          )}
+        </SeoAnalysisPanel>
+
+        {/* Delete Panel */}
+        <DeletePanel
+          expanded={deleteExpanded}
+          onToggle={() => setDeleteExpanded(!deleteExpanded)}
+          onDelete={handleDelete}
+          itemName="visto"
+          itemSlug={visto.slug}
+          isDeleting={isDeleting}
+        />
+      </div>
+
     </div>
   );
 }

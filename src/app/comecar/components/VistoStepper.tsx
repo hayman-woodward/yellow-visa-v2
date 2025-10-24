@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { z } from 'zod';
@@ -133,6 +133,7 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
   const searchParams = useSearchParams();
   const [etapaAtual, setEtapaAtual] = useState(etapaInicial);
   const { trackFormStart, trackStepProgress, trackAbandonment } = useStepperTracking();
+  const hasTrackedFormStart = useRef(false);
 
   const {
     register,
@@ -164,20 +165,13 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
     }
   }, [setValue]);
 
-  // Tracking de início do formulário
+  // Form Start apenas uma vez quando montar o componente
   useEffect(() => {
-    if (etapaInicial === 1) {
+    if (!hasTrackedFormStart.current) {
+      hasTrackedFormStart.current = true;
       trackFormStart();
     }
-  }, [etapaInicial, trackFormStart]);
-
-  // Tracking de progresso das etapas
-  useEffect(() => {
-    const etapa = etapas.find(e => e.id === etapaAtual);
-    if (etapa) {
-      trackStepProgress(etapaAtual, etapa.title, watchedFields);
-    }
-  }, [etapaAtual, trackStepProgress, watchedFields]);
+  }, [trackFormStart]);
 
   // Tracking de abandono quando o usuário sai da página
   useEffect(() => {
@@ -213,7 +207,9 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
         email: watchedFields.email || '',
         telefone: watchedFields.telefone || '',
         pais: watchedFields.pais || '',
-        language: watchedFields.language || ''
+        language: watchedFields.language || '',
+        // Adicionar UTMs do localStorage
+        utm_data: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('utm_data') || '{}') : {}
       };
       
       localStorage.setItem('stepperData', JSON.stringify(cleanData));
@@ -242,6 +238,12 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
 
   // Navegação entre etapas
   const proximaEtapa = async () => {
+    // Step Progress - trackear a etapa que foi completada
+    const etapaAtualData = etapas.find(e => e.id === etapaAtual);
+    if (etapaAtualData) {
+      trackStepProgress(etapaAtual, etapaAtualData.title, watchedFields);
+    }
+
     if (etapaAtual < etapas.length) {
       const novaEtapa = etapaAtual + 1;
       const etapa = etapas.find(e => e.id === novaEtapa);

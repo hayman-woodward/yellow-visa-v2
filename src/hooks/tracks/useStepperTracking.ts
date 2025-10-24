@@ -60,7 +60,8 @@ export function useStepperTracking() {
     trackEvent({
       event_name: 'form_start',
       event_category: 'form_interaction',
-      event_label: 'Form Started',
+      event_label: 'Visa Form Started',
+      value: 1,
       custom_parameters: {
         form_type: 'visa_form',
         timestamp: new Date().toISOString()
@@ -71,9 +72,9 @@ export function useStepperTracking() {
   // Evento de progresso por etapa
   const trackStepProgress = (stepNumber: number, stepName: string, stepData?: unknown) => {
     trackEvent({
-      event_name: 'form_step',
+      event_name: 'form_progress',
       event_category: 'form_progress',
-      event_label: `Step ${stepNumber}: ${stepName}`,
+      event_label: `step = "${stepNumber} ${stepName}"`,
       value: stepNumber,
       custom_parameters: {
         step_number: stepNumber,
@@ -87,7 +88,7 @@ export function useStepperTracking() {
   // Evento de conversão final
   const trackConversion = (leadData?: unknown) => {
     trackEvent({
-      event_name: 'form_conversion',
+      event_name: 'form_convert',
       event_category: 'conversion',
       event_label: 'Form Completed',
       value: 1,
@@ -102,7 +103,7 @@ export function useStepperTracking() {
   // Evento de abandono
   const trackAbandonment = (stepNumber: number, stepName: string) => {
     trackEvent({
-      event_name: 'form_abandonment',
+      event_name: 'form_abandon',
       event_category: 'form_interaction',
       event_label: `Abandoned at Step ${stepNumber}`,
       value: stepNumber,

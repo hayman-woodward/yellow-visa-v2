@@ -2,20 +2,117 @@
 
 import { YVText, YVButton } from '@/components/YV';
 import DashboardHeader from '@/components/shared/DashboardHeader';
+import { Tabs } from '@/components/shared/Tabs';
+import DeleteItem from '@/components/shared/DeleteItem';
 import { useVistos } from '@/hooks/useDashboardData';
-import { FileText, Plus } from 'lucide-react';
+import { FileText, Plus, Trash2, RotateCcw, X, Eye } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
 
 export default function VistosPage() {
-  const { vistos, error } = useVistos();
+  const { vistos, error, refetch } = useVistos();
   const [loadingEdit, setLoadingEdit] = useState<string | null>(null);
+  const [loadingRestore, setLoadingRestore] = useState<string | null>(null);
+  const [loadingDelete, setLoadingDelete] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'published' | 'draft' | 'deleted'>('published');
+  const [message, setMessage] = useState<{ text: string; success: boolean } | null>(null);
   const router = useRouter();
+
+  // Limpar mensagem após 5 segundos
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
+  // Filtrar vistos baseado na aba ativa
+  const publishedVistos = vistos.filter(visto => visto.status === 'published');
+  const draftVistos = vistos.filter(visto => visto.status === 'draft');
+  const deletedVistos = vistos.filter(visto => visto.status === 'deleted');
+  
+  const currentVistos = activeTab === 'published' ? publishedVistos : 
+                       activeTab === 'draft' ? draftVistos : 
+                       deletedVistos;
+
+  // Configuração das abas
+  const tabs = [
+    {
+      id: 'published',
+      label: 'Publicados',
+      icon: <Eye size={16} />,
+      count: publishedVistos.length
+    },
+    {
+      id: 'draft',
+      label: 'Rascunhos',
+      icon: <FileText size={16} />,
+      count: draftVistos.length
+    },
+    {
+      id: 'deleted',
+      label: 'Lixeira',
+      icon: <Trash2 size={16} />,
+      count: deletedVistos.length
+    }
+  ];
 
   const handleEditClick = (slug: string) => {
     setLoadingEdit(slug);
     router.push(`/dashboard/vistos/${slug}/editar`);
   };
+
+
+  const handleRestore = async (slug: string) => {
+    setLoadingRestore(slug);
+    try {
+      const response = await fetch(`/api/dashboard/vistos/${slug}/restore`, {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        await refetch();
+        setActiveTab('published');
+        setMessage({ text: 'Visto restaurado com sucesso!', success: true });
+      } else {
+        const error = await response.json();
+        setMessage({ text: 'Erro ao restaurar visto: ' + error.message, success: false });
+      }
+    } catch (error) {
+      setMessage({ text: 'Erro ao restaurar visto', success: false });
+    } finally {
+      setLoadingRestore(null);
+    }
+  };
+
+  const handlePermanentDelete = async (slug: string) => {
+    if (!confirm('Tem certeza que deseja deletar permanentemente? Esta ação não pode ser desfeita.')) {
+      return;
+    }
+
+    setLoadingDelete(slug);
+    try {
+      const response = await fetch(`/api/dashboard/vistos/${slug}/permanent`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        await refetch();
+        setMessage({ text: 'Visto deletado permanentemente!', success: true });
+      } else {
+        const error = await response.json();
+        setMessage({ text: 'Erro ao deletar visto: ' + error.message, success: false });
+      }
+    } catch (error) {
+      setMessage({ text: 'Erro ao deletar visto', success: false });
+    } finally {
+      setLoadingDelete(null);
+    }
+  };
+
 
 
   if (error) {
@@ -28,14 +125,14 @@ export default function VistosPage() {
     );
   }
 
-  // Agrupar por país
-  const groupedByCountry = vistos.reduce((acc, visto) => {
+  // Agrupar por país (usando vistos filtrados)
+  const groupedByCountry = currentVistos.reduce((acc, visto) => {
     if (!acc[visto.country]) {
       acc[visto.country] = [];
     }
     acc[visto.country].push(visto);
     return acc;
-  }, {} as Record<string, typeof vistos>);
+  }, {} as Record<string, typeof currentVistos>);
 
   const countryLabels = {
     'Estados Unidos': 'Estados Unidos',
@@ -62,6 +159,27 @@ export default function VistosPage() {
         Gerencie os vistos por país de destino
       </YVText>
 
+      {/* Mensagem de sucesso/erro */}
+      {message && (
+        <div
+          className={`mb-4 p-3 rounded-md text-sm text-center ${
+            message.success
+              ? 'bg-green-50 text-green-800 border border-green-200'
+              : 'bg-red-50 text-red-800 border border-red-200'
+          }`}
+        >
+          {message.text}
+        </div>
+      )}
+
+      {/* Abas */}
+      <Tabs
+        tabs={tabs}
+        activeTab={activeTab}
+        onTabChange={(tabId) => setActiveTab(tabId as 'published' | 'draft' | 'deleted')}
+        className="mb-6"
+      />
+
       {/* Por País - Ordenado: EUA, Portugal, outros */}
       {Object.entries(groupedByCountry)
         .sort(([a], [b]) => {
@@ -79,9 +197,6 @@ export default function VistosPage() {
             <h2 className='text-xl font-bold text-dashboard'>
               {countryLabels[country as keyof typeof countryLabels] || country}
             </h2>
-            <span className='text-sm text-dashboard-muted bg-[#FFBD1A]/10 text-[#FFBD1A] px-3 py-1 rounded-full font-medium'>
-              {vistosList.length} visto{vistosList.length !== 1 ? 's' : ''}
-            </span>
           </div>
 
           {/* Cards Grid */}
@@ -129,15 +244,42 @@ export default function VistosPage() {
                   </p>
 
                   <div className='pt-3 border-t border-dashboard'>
-                    <YVButton
-                      onClick={() => handleEditClick(visto.slug)}
-                      loading={loadingEdit === visto.slug}
-                      variant="text"
-                      size="sm"
-                      className="w-full !h-8 !px-3 !py-2 !rounded-lg bg-dashboard-hover hover:bg-dashboard-border hover:opacity-80 text-dashboard text-xs font-medium !transition-all !duration-150 active:scale-[0.97] !cursor-pointer"
-                    >
-                      Editar
-                    </YVButton>
+                    {activeTab === 'deleted' ? (
+                      <div className='flex gap-2'>
+                        <YVButton
+                          onClick={() => handleRestore(visto.slug)}
+                          loading={loadingRestore === visto.slug}
+                          variant="text"
+                          size="sm"
+                          className="flex-1 !h-8 !px-3 !py-2 !rounded-lg bg-dashboard-hover hover:bg-dashboard-border hover:opacity-80 text-dashboard text-xs font-medium !transition-all !duration-150 active:scale-[0.97] !cursor-pointer"
+                        >
+                          <RotateCcw size={14} className='mr-1' />
+                          Restaurar
+                        </YVButton>
+                        
+                        <YVButton
+                          onClick={() => handlePermanentDelete(visto.slug)}
+                          loading={loadingDelete === visto.slug}
+                          variant="outline"
+                          size="sm"
+                          className="!h-8 !px-3 !py-2 !rounded-lg border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 text-xs font-medium !transition-all !duration-150 active:scale-[0.97] !cursor-pointer"
+                        >
+                          <X size={14} />
+                        </YVButton>
+                      </div>
+                    ) : (
+                      <div className='flex gap-2'>
+                        <YVButton
+                          onClick={() => handleEditClick(visto.slug)}
+                          loading={loadingEdit === visto.slug}
+                          variant="text"
+                          size="sm"
+                          className="w-full !h-8 !px-3 !py-2 !rounded-lg bg-dashboard-hover hover:bg-dashboard-border hover:opacity-80 text-dashboard text-xs font-medium !transition-all !duration-150 active:scale-[0.97] !cursor-pointer"
+                        >
+                          Editar
+                        </YVButton>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -146,10 +288,12 @@ export default function VistosPage() {
         </div>
       ))}
 
-      {vistos.length === 0 && (
+      {currentVistos.length === 0 && (
         <div className='text-center py-12 bg-dashboard-card rounded-lg border border-dashboard'>
           <YVText className='text-dashboard-muted'>
-            Nenhum visto encontrado
+            {activeTab === 'published' ? 'Nenhum visto publicado encontrado' : 
+             activeTab === 'draft' ? 'Nenhum rascunho encontrado' : 
+             'Lixeira vazia'}
           </YVText>
         </div>
       )}

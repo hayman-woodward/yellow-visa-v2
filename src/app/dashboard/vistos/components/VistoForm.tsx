@@ -756,10 +756,9 @@ export default function VistoForm({
 
             {/* Seção Diferenciais */}
             <div className='border-t pt-6'>
-              <button
-                type='button'
+              <div
                 onClick={() => setDiferenciaisExpanded(!diferenciaisExpanded)}
-                className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors'
+                className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer'
               >
                 <div className='flex items-center space-x-3'>
                   <Building2 className='w-6 h-6 text-[#FFBD1A]' />
@@ -787,7 +786,7 @@ export default function VistoForm({
                     <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
                   </svg>
                 </div>
-              </button>
+              </div>
 
               {diferenciaisExpanded && (
                 <div className='mt-4 space-y-6 p-4 bg-white border border-gray-200 rounded-lg'>
@@ -898,10 +897,9 @@ export default function VistoForm({
 
             {/* Seção Requisitos Especiais */}
             <div className='border-t pt-6'>
-              <button
-                type='button'
+              <div
                 onClick={() => setRequisitosExpanded(!requisitosExpanded)}
-                className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors'
+                className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer'
               >
                 <div className='flex items-center space-x-3'>
                   <svg className='w-6 h-6 text-[#FFBD1A]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -931,7 +929,7 @@ export default function VistoForm({
                     <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
                   </svg>
                 </div>
-              </button>
+              </div>
 
               {requisitosExpanded && (
                 <div className='mt-4 space-y-6 p-4 bg-white border border-gray-200 rounded-lg'>
@@ -1128,10 +1126,9 @@ export default function VistoForm({
 
             {/* Principais Cidades - Accordion */}
             <div className='border-t pt-6'>
-              <button
-                type='button'
+              <div
                 onClick={() => setCidadesExpanded(!cidadesExpanded)}
-                className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors'
+                className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer'
               >
                 <div className='flex items-center space-x-3'>
                   <Building2 className='w-6 h-6 text-[#FFBD1A]' />
@@ -1154,7 +1151,7 @@ export default function VistoForm({
                     </svg>
                   </div>
                 </div>
-              </button>
+              </div>
 
               {cidadesExpanded && (
                 <div className='mt-4 space-y-6 p-4 bg-white border border-gray-200 rounded-lg'>
@@ -1264,10 +1261,9 @@ export default function VistoForm({
 
               {/* Seção FAQ */}
               <div className='mb-6 mt-4'>
-                <button
-                  type='button'
+                <div
                   onClick={() => setFaqExpanded(!faqExpanded)}
-                  className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors'
+                  className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer'
                 >
                   <div className='flex items-center space-x-3'>
                     <svg className='w-6 h-6 text-[#FFBD1A]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -1292,7 +1288,7 @@ export default function VistoForm({
                       </svg>
                     </div>
                   </div>
-                </button>
+                </div>
 
                 {faqExpanded && (
                   <div className='mt-4 space-y-6 p-4 bg-white border border-gray-200 rounded-lg'>
@@ -1747,94 +1743,6 @@ export default function VistoForm({
           </div>
         </div>
 
-        {/* SEO Analysis Panel - Full Width */}
-        <div className="mt-8 col-span-full">
-          <SeoAnalysisPanel
-            data={seoData}
-            expanded={seoExpanded}
-            onToggle={() => setSeoExpanded(!seoExpanded)}
-            activeTab={seoActiveTab}
-            onTabChange={setSeoActiveTab}
-          >
-            {seoActiveTab === 'general' && (
-              <div className="space-y-6">
-                <div>
-                  <Label className="text-sm font-semibold text-gray-700 mb-2">Meta Title</Label>
-                  <YVTextField
-                    type="text"
-                    placeholder="Título para SEO..."
-                    value={watchedFields.metaTitle || ''}
-                    onChange={(e) => setValue('metaTitle', e.target.value)}
-                    variant="modern"
-                    size="md"
-                  />
-                </div>
-
-                <div>
-                  <Label className="text-sm font-semibold text-gray-700 mb-2">Meta Description</Label>
-                  <textarea
-                    placeholder="Descrição para SEO..."
-                    value={watchedFields.metaDescription || ''}
-                    onChange={(e) => setValue('metaDescription', e.target.value)}
-                    rows={3}
-                    className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
-                  />
-                </div>
-
-                <div>
-                  <Label className="text-sm font-semibold text-gray-700 mb-2">Meta Keywords</Label>
-                  <YVTextField
-                    type="text"
-                    placeholder="palavra-chave1, palavra-chave2..."
-                    value={watchedFields.metaKeywords || ''}
-                    onChange={(e) => setValue('metaKeywords', e.target.value)}
-                    variant="modern"
-                    size="md"
-                  />
-                </div>
-              </div>
-            )}
-
-            {seoActiveTab === 'social' && (
-              <div className="space-y-6">
-                <div>
-                  <Label className="text-sm font-semibold text-gray-700 mb-2">OG Title</Label>
-                  <YVTextField
-                    type="text"
-                    placeholder="Título para redes sociais..."
-                    value={watchedFields.ogTitle || ''}
-                    onChange={(e) => setValue('ogTitle', e.target.value)}
-                    variant="modern"
-                    size="md"
-                  />
-                </div>
-
-                <div>
-                  <Label className="text-sm font-semibold text-gray-700 mb-2">OG Description</Label>
-                  <textarea
-                    placeholder="Descrição para redes sociais..."
-                    value={watchedFields.ogDescription || ''}
-                    onChange={(e) => setValue('ogDescription', e.target.value)}
-                    rows={3}
-                    className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
-                  />
-                </div>
-
-                <div>
-                  <Label className="text-sm font-semibold text-gray-700 mb-2">OG Image</Label>
-                  <YVTextField
-                    type="text"
-                    placeholder="URL da imagem para redes sociais..."
-                    value={watchedFields.ogImage || ''}
-                    onChange={(e) => setValue('ogImage', e.target.value)}
-                    variant="modern"
-                    size="md"
-                  />
-                </div>
-              </div>
-            )}
-          </SeoAnalysisPanel>
-        </div>
       </div>
     </div>
   );
