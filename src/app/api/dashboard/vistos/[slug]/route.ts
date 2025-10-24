@@ -354,11 +354,13 @@ export async function DELETE(
       );
     }
 
-    await prisma.visto.delete({
-      where: { slug }
+    // Soft delete - mudar status para deleted
+    await prisma.visto.update({
+      where: { slug },
+      data: { status: 'deleted' }
     });
 
-    return NextResponse.json({ success: true, message: 'Visto deletado com sucesso' });
+    return NextResponse.json({ success: true, message: 'Visto movido para lixeira' });
   } catch (error) {
     console.error('Error deleting visto:', error);
     return NextResponse.json(
