@@ -14,7 +14,8 @@ import {
   UserPlus,
   Target,
   TrendingDown,
-  Award
+  Award,
+  BarChart3
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -79,7 +80,7 @@ export default function DashboardPage() {
   const { usersCount, vistosCount, blogPostsCount, contactsCount, leadsCount } = stats;
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100'>
+    <div className='min-h-screen bg-gradient-to-br from-gray-50 via-white to-yellow-50/30'>
       <div className='space-y-8 p-6'>
       {/* Header */}
       <div className='flex items-center justify-between'>
@@ -97,80 +98,66 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6'>
+        {/* Stats Cards */}
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
         {/* Usuários */}
-        <div className='bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 ease-out group'>
-          <div className='flex items-start justify-between mb-4'>
-            <div className='w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FFBD1A] to-[#FFA500] flex items-center justify-center shadow-lg group-hover:shadow-[#FFBD1A]/25 transition-all duration-300'>
-              <Users className='text-black' size={22} />
+        <div className='bg-white rounded-xl p-4 shadow-md'>
+          <div className='flex items-center justify-between mb-3'>
+            <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
+              <Users className='text-gray-700' size={18} />
             </div>
           </div>
           <div>
-            <p className='text-4xl font-bold text-gray-900 mb-2 tracking-tight'>
+            <p className='text-2xl font-bold text-gray-900 mb-1'>
               {usersCount}
             </p>
-            <p className='text-sm text-gray-600 font-medium'>Usuários</p>
+            <p className='text-xs text-gray-600 font-medium'>Usuários</p>
           </div>
         </div>
 
         {/* Vistos */}
-        <div className='bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 ease-out group'>
-          <div className='flex items-start justify-between mb-4'>
-            <div className='w-12 h-12 rounded-2xl bg-gradient-to-br from-[#C04] to-[#A03] flex items-center justify-center shadow-lg group-hover:shadow-[#C04]/25 transition-all duration-300'>
-              <FileText className='text-white' size={22} />
+        <div className='bg-white rounded-xl p-4 shadow-md'>
+          <div className='flex items-center justify-between mb-3'>
+            <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
+              <FileText className='text-gray-700' size={18} />
             </div>
           </div>
           <div>
-            <p className='text-4xl font-bold text-gray-900 mb-2 tracking-tight'>
+            <p className='text-2xl font-bold text-gray-900 mb-1'>
               {vistosCount}
             </p>
-            <p className='text-sm text-gray-600 font-medium'>Vistos</p>
+            <p className='text-xs text-gray-600 font-medium'>Vistos</p>
           </div>
         </div>
 
         {/* Posts */}
-        <div className='bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 ease-out group'>
-          <div className='flex items-start justify-between mb-4'>
-            <div className='w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg group-hover:shadow-amber-500/25 transition-all duration-300'>
-              <BookOpen className='text-white' size={22} />
+        <div className='bg-white rounded-xl p-4 shadow-md'>
+          <div className='flex items-center justify-between mb-3'>
+            <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
+              <BookOpen className='text-gray-700' size={18} />
             </div>
           </div>
           <div>
-            <p className='text-4xl font-bold text-gray-900 mb-2 tracking-tight'>
+            <p className='text-2xl font-bold text-gray-900 mb-1'>
               {blogPostsCount}
             </p>
-            <p className='text-sm text-gray-600 font-medium'>Posts</p>
+            <p className='text-xs text-gray-600 font-medium'>Posts</p>
           </div>
         </div>
 
-        {/* Contatos */}
-        <div className='bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 ease-out group'>
-          <div className='flex items-start justify-between mb-4'>
-            <div className='w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-500 flex items-center justify-center shadow-lg group-hover:shadow-yellow-400/25 transition-all duration-300'>
-              <Mail className='text-white' size={22} />
-            </div>
-          </div>
-          <div>
-            <p className='text-4xl font-bold text-gray-900 mb-2 tracking-tight'>
-              {contactsCount}
-            </p>
-            <p className='text-sm text-gray-600 font-medium'>Contatos</p>
-          </div>
-        </div>
 
         {/* Leads */}
-        <div className='bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 ease-out group'>
-          <div className='flex items-start justify-between mb-4'>
-            <div className='w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center shadow-lg group-hover:shadow-pink-500/25 transition-all duration-300'>
-              <UserPlus className='text-white' size={22} />
+        <div className='bg-white rounded-xl p-4 shadow-md'>
+          <div className='flex items-center justify-between mb-3'>
+            <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
+              <UserPlus className='text-gray-700' size={18} />
             </div>
           </div>
           <div>
-            <p className='text-4xl font-bold text-gray-900 mb-2 tracking-tight'>
+            <p className='text-2xl font-bold text-gray-900 mb-1'>
               {leadsCount}
             </p>
-            <p className='text-sm text-gray-600 font-medium'>Leads</p>
+            <p className='text-xs text-gray-600 font-medium'>Leads</p>
           </div>
         </div>
       </div>
@@ -179,62 +166,62 @@ export default function DashboardPage() {
       {analytics && !analyticsLoading && (
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
           {/* Leads Hoje */}
-          <div className='bg-dashboard-card rounded-lg p-5 border border-dashboard hover:border-green-500/50 transition-all'>
-            <div className='flex items-start justify-between mb-3'>
-              <div className='w-11 h-11 rounded-full bg-green-500 flex items-center justify-center'>
-                <TrendingUp className='text-white' size={20} />
+          <div className='bg-white rounded-xl p-4 shadow-md'>
+            <div className='flex items-center justify-between mb-3'>
+              <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
+                <TrendingUp className='text-gray-700' size={18} />
               </div>
             </div>
             <div>
-              <p className='text-4xl font-semibold text-dashboard mb-1'>
+              <p className='text-2xl font-bold text-gray-900 mb-1'>
                 {analytics.leadsToday}
               </p>
-              <p className='text-sm text-dashboard-muted font-medium'>Leads Hoje</p>
+              <p className='text-xs text-gray-600 font-medium'>Leads Hoje</p>
             </div>
           </div>
 
           {/* Taxa de Conversão */}
-          <div className='bg-dashboard-card rounded-lg p-5 border border-dashboard hover:border-blue-500/50 transition-all'>
-            <div className='flex items-start justify-between mb-3'>
-              <div className='w-11 h-11 rounded-full bg-blue-500 flex items-center justify-center'>
-                <Target className='text-white' size={20} />
+          <div className='bg-white rounded-xl p-4 shadow-md'>
+            <div className='flex items-center justify-between mb-3'>
+              <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
+                <Target className='text-gray-700' size={18} />
               </div>
             </div>
             <div>
-              <p className='text-4xl font-semibold text-dashboard mb-1'>
+              <p className='text-2xl font-bold text-gray-900 mb-1'>
                 {analytics.conversionRate}
               </p>
-              <p className='text-sm text-dashboard-muted font-medium'>Taxa Conversão</p>
+              <p className='text-xs text-gray-600 font-medium'>Taxa Conversão</p>
             </div>
           </div>
 
           {/* Visto Mais Popular */}
-          <div className='bg-dashboard-card rounded-lg p-5 border border-dashboard hover:border-purple-500/50 transition-all'>
-            <div className='flex items-start justify-between mb-3'>
-              <div className='w-11 h-11 rounded-full bg-purple-500 flex items-center justify-center'>
-                <Award className='text-white' size={20} />
+          <div className='bg-white rounded-xl p-4 shadow-md'>
+            <div className='flex items-center justify-between mb-3'>
+              <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
+                <Award className='text-gray-700' size={18} />
               </div>
             </div>
             <div>
-              <p className='text-lg font-semibold text-dashboard mb-1 truncate'>
+              <p className='text-2xl font-bold text-gray-900 mb-1'>
                 {analytics.popularVisto}
               </p>
-              <p className='text-sm text-dashboard-muted font-medium'>Mais Popular</p>
+              <p className='text-xs text-gray-600 font-medium'>Mais Popular</p>
             </div>
           </div>
 
           {/* Total de Leads */}
-          <div className='bg-dashboard-card rounded-lg p-5 border border-dashboard hover:border-orange-500/50 transition-all'>
-            <div className='flex items-start justify-between mb-3'>
-              <div className='w-11 h-11 rounded-full bg-orange-500 flex items-center justify-center'>
-                <TrendingDown className='text-white' size={20} />
+          <div className='bg-white rounded-xl p-4 shadow-md'>
+            <div className='flex items-center justify-between mb-3'>
+              <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
+                <TrendingDown className='text-gray-700' size={18} />
               </div>
             </div>
             <div>
-              <p className='text-4xl font-semibold text-dashboard mb-1'>
+              <p className='text-2xl font-bold text-gray-900 mb-1'>
                 {analytics.totalLeads}
               </p>
-              <p className='text-sm text-dashboard-muted font-medium'>Total Leads</p>
+              <p className='text-xs text-gray-600 font-medium'>Total Leads</p>
             </div>
           </div>
         </div>
@@ -247,9 +234,9 @@ export default function DashboardPage() {
             <h3 className='text-2xl font-bold text-gray-900 mb-2 tracking-tight'>Tendência de Leads</h3>
             <p className='text-gray-600 font-medium'>Últimos 7 dias</p>
           </div>
-          <div className='flex items-center gap-3 px-4 py-2 bg-green-50 rounded-full border border-green-200'>
-            <TrendingUp size={18} className='text-green-600' />
-            <span className='text-sm font-semibold text-green-700'>+12% vs semana anterior</span>
+          <div className='flex items-center gap-3 px-4 py-2 bg-YV/10 rounded-full border border-YV/30'>
+            <TrendingUp size={18} className='text-YV' />
+            <span className='text-sm font-semibold text-YV'>+12% vs semana anterior</span>
           </div>
         </div>
         
@@ -282,9 +269,9 @@ export default function DashboardPage() {
               <Line 
                 type="monotone" 
                 dataKey="leads" 
-                stroke="#10b981" 
+                stroke="#000000" 
                 strokeWidth={3}
-                dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
+                dot={{ fill: '#000000', strokeWidth: 2, r: 4 }}
                 activeDot={{ r: 6, stroke: '#10b981', strokeWidth: 2 }}
               />
             </LineChart>
@@ -343,89 +330,74 @@ export default function DashboardPage() {
       {/* Activity / Recent */}
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
         {/* Atividade Recente */}
-        <div className='bg-dashboard-card rounded-lg p-6 border border-dashboard'>
-          <h3 className='font-semibold text-base mb-4 text-dashboard flex items-center gap-2'>
-            <TrendingUp size={18} className='text-dashboard-muted' />
+        <div className='bg-gradient-to-br from-white to-gray-50/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm border border-white/20'>
+          <h3 className='font-semibold text-base mb-4 text-gray-900 flex items-center gap-2'>
+            <TrendingUp size={18} className='text-orange-600' />
             Atividade Recente
           </h3>
           <div className='space-y-3'>
-            <div className='flex items-start gap-3 pb-3 border-b border-dashboard'>
-              <div className='w-8 h-8 rounded-full bg-[#FFBD1A]/20 flex items-center justify-center flex-shrink-0'>
-                <Users className='text-[#FFBD1A]' size={14} />
+            <div className='flex items-start gap-3 pb-3 border-b border-gray-200/50'>
+              <div className='w-8 h-8 rounded-full bg-gradient-to-br from-yellow-100 to-orange-100 flex items-center justify-center flex-shrink-0'>
+                <Users className='text-orange-600' size={14} />
               </div>
               <div className='flex-1 min-w-0'>
-                <p className='text-sm text-dashboard'>
+                <p className='text-sm text-gray-900'>
                   Novo usuário cadastrado
                 </p>
-                <p className='text-xs text-dashboard-muted'>Há 2 horas</p>
+                <p className='text-xs text-gray-500'>Há 2 horas</p>
               </div>
             </div>
-            <div className='flex items-start gap-3 pb-3 border-b border-dashboard'>
-              <div className='w-8 h-8 rounded-full bg-dashboard-hover flex items-center justify-center flex-shrink-0'>
-                <BookOpen className='text-dashboard-muted' size={14} />
+            <div className='flex items-start gap-3 pb-3 border-b border-gray-200/50'>
+              <div className='w-8 h-8 rounded-full bg-gradient-to-br from-orange-100 to-yellow-100 flex items-center justify-center flex-shrink-0'>
+                <BookOpen className='text-orange-600' size={14} />
               </div>
               <div className='flex-1 min-w-0'>
-                <p className='text-sm text-dashboard'>Post publicado no blog</p>
-                <p className='text-xs text-dashboard-muted'>Há 5 horas</p>
+                <p className='text-sm text-gray-900'>Post publicado no blog</p>
+                <p className='text-xs text-gray-500'>Há 5 horas</p>
               </div>
             </div>
             <div className='flex items-start gap-3'>
-              <div className='w-8 h-8 rounded-full bg-[#C04]/20 flex items-center justify-center flex-shrink-0'>
-                <FileText className='text-[#C04]' size={14} />
+              <div className='w-8 h-8 rounded-full bg-gradient-to-br from-magenta-100 to-pink-100 flex items-center justify-center flex-shrink-0'>
+                <FileText className='text-magenta-600' size={14} />
               </div>
               <div className='flex-1 min-w-0'>
-                <p className='text-sm text-dashboard'>
+                <p className='text-sm text-gray-900'>
                   Visto atualizado: EB-2 NIW
                 </p>
-                <p className='text-xs text-dashboard-muted'>Ontem às 15:30</p>
+                <p className='text-xs text-gray-500'>Ontem às 15:30</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Estatísticas */}
-        <div className='bg-dashboard-card rounded-lg p-6 border border-dashboard'>
-          <h3 className='font-semibold text-base mb-4 text-dashboard'>
+        <div className='bg-gradient-to-br from-white to-gray-50/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm border border-white/20'>
+          <h3 className='font-semibold text-base mb-4 text-gray-900 flex items-center gap-2'>
+            <BarChart3 size={18} className='text-magenta-600' />
             Resumo do Site
           </h3>
           <div className='space-y-4'>
-            <div className='flex items-center justify-between'>
-              <span className='text-sm text-dashboard-muted'>
-                Total de Usuários
-              </span>
-              <span className='text-sm font-medium text-dashboard'>
-                {usersCount}
-              </span>
+            <div className='flex items-center justify-between p-3 bg-gradient-to-r from-yellow-50/50 to-orange-50/50 rounded-xl border border-yellow-200/30'>
+              <span className='text-sm font-medium text-gray-700'>Total de Usuários</span>
+              <span className='text-lg font-bold text-orange-600'>{usersCount}</span>
             </div>
-            <div className='flex items-center justify-between'>
-              <span className='text-sm text-dashboard-muted'>
-                Tipos de Vistos Ativos
-              </span>
-              <span className='text-sm font-medium text-dashboard'>
-                {vistosCount}
-              </span>
+            <div className='flex items-center justify-between p-3 bg-gradient-to-r from-magenta-50/50 to-pink-50/50 rounded-xl border border-magenta-200/30'>
+              <span className='text-sm font-medium text-gray-700'>Tipos de Vistos Ativos</span>
+              <span className='text-lg font-bold text-magenta-600'>{vistosCount}</span>
             </div>
-            <div className='flex items-center justify-between'>
-              <span className='text-sm text-dashboard-muted'>
-                Posts Publicados
-              </span>
-              <span className='text-sm font-medium text-dashboard'>
-                {blogPostsCount}
-              </span>
+            <div className='flex items-center justify-between p-3 bg-gradient-to-r from-orange-50/50 to-yellow-50/50 rounded-xl border border-orange-200/30'>
+              <span className='text-sm font-medium text-gray-700'>Posts Publicados</span>
+              <span className='text-lg font-bold text-orange-600'>{blogPostsCount}</span>
             </div>
-            <div className='flex items-center justify-between'>
-              <span className='text-sm text-dashboard-muted'>
-                Contatos Recebidos
-              </span>
-              <span className='text-sm font-medium text-dashboard'>
-                {contactsCount}
-              </span>
+            <div className='flex items-center justify-between p-3 bg-gradient-to-r from-magenta-50/50 to-pink-50/50 rounded-xl border border-magenta-200/30'>
+              <span className='text-sm font-medium text-gray-700'>Contatos Recebidos</span>
+              <span className='text-lg font-bold text-magenta-600'>{contactsCount}</span>
             </div>
-            <div className='pt-4 border-t border-dashboard'>
+            <div className='pt-4 border-t border-gray-200/50'>
               <a
                 href='/'
                 target='_blank'
-                className='text-sm text-[#FFBD1A] hover:text-dashboard font-medium transition-colors'
+                className='text-sm text-YV hover:text-orange-600 font-medium transition-colors'
               >
                 Visitar site →
               </a>

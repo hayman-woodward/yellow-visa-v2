@@ -103,7 +103,7 @@ export default function AnalyticsPage() {
       {/* Gráficos */}
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
         {/* Tendência de Leads */}
-        <div className='bg-dashboard-card rounded-lg p-6 border border-dashboard'>
+        <div className='bg-dashboard-card rounded-lg p-8 border border-dashboard'>
           <div className='flex items-center gap-2 mb-4'>
             <TrendingUp className='text-dashboard-muted' size={18} />
             <h3 className='font-semibold text-dashboard'>Tendência de Leads (7 dias)</h3>
