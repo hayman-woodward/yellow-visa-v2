@@ -3,12 +3,13 @@
 import { YVText, YVButton } from '@/components/YV';
 import DashboardHeader from '@/components/shared/DashboardHeader';
 import { Tabs } from '@/components/shared/Tabs';
+import DeleteItem from '@/components/shared/DeleteItem';
 import { useVistos } from '@/hooks/useDashboardData';
-import { FileText, Plus, MoreHorizontal, Trash2, RotateCcw, X, Eye } from 'lucide-react';
+import { FileText, Plus, Trash2, RotateCcw, X, Eye } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { toast } from 'sonner';
 
 export default function VistosPage() {
   const { vistos, error } = useVistos();
@@ -54,27 +55,6 @@ export default function VistosPage() {
     router.push(`/dashboard/vistos/${slug}/editar`);
   };
 
-  const handleDeleteClick = async (slug: string) => {
-    if (!confirm('Tem certeza que deseja mover este visto para lixeira?')) {
-      return;
-    }
-
-    try {
-      const response = await fetch(`/api/dashboard/vistos/${slug}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        router.refresh();
-        alert('Visto movido para lixeira!');
-      } else {
-        const error = await response.json();
-        alert('Erro ao mover visto para lixeira: ' + error.message);
-      }
-    } catch (error) {
-      alert('Erro ao mover visto para lixeira');
-    }
-  };
 
   const handleRestore = async (slug: string) => {
     setLoadingRestore(slug);
@@ -85,42 +65,18 @@ export default function VistosPage() {
 
       if (response.ok) {
         router.refresh();
-        alert('Visto restaurado com sucesso!');
+        setActiveTab('published');
       } else {
         const error = await response.json();
-        alert('Erro ao restaurar visto: ' + error.message);
+        toast.error('Erro ao restaurar visto: ' + error.message);
       }
     } catch (error) {
-      alert('Erro ao restaurar visto');
+      toast.error('Erro ao restaurar visto');
     } finally {
       setLoadingRestore(null);
     }
   };
 
-  const handlePermanentDelete = async (slug: string) => {
-    if (!confirm('Tem certeza que deseja deletar permanentemente? Esta ação não pode ser desfeita.')) {
-      return;
-    }
-
-    setLoadingDelete(slug);
-    try {
-      const response = await fetch(`/api/dashboard/vistos/${slug}/permanent`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        router.refresh();
-        alert('Visto deletado permanentemente!');
-      } else {
-        const error = await response.json();
-        alert('Erro ao deletar visto: ' + error.message);
-      }
-    } catch (error) {
-      alert('Erro ao deletar visto');
-    } finally {
-      setLoadingDelete(null);
-    }
-  };
 
 
   if (error) {
@@ -247,22 +203,12 @@ export default function VistosPage() {
                         <YVButton
                           onClick={() => handleRestore(visto.slug)}
                           loading={loadingRestore === visto.slug}
-                          variant="outline"
+                          variant="text"
                           size="sm"
-                          className="flex-1 !h-8 !px-3 !py-2 !rounded-lg border-green-200 text-green-600 hover:bg-green-50 hover:border-green-300 text-xs font-medium !transition-all !duration-150 active:scale-[0.97] !cursor-pointer"
+                          className="w-full !h-8 !px-3 !py-2 !rounded-lg bg-dashboard-hover hover:bg-dashboard-border hover:opacity-80 text-dashboard text-xs font-medium !transition-all !duration-150 active:scale-[0.97] !cursor-pointer"
                         >
                           <RotateCcw size={14} className='mr-1' />
                           Restaurar
-                        </YVButton>
-                        
-                        <YVButton
-                          onClick={() => handlePermanentDelete(visto.slug)}
-                          loading={loadingDelete === visto.slug}
-                          variant="outline"
-                          size="sm"
-                          className="!h-8 !px-3 !py-2 !rounded-lg border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 text-xs font-medium !transition-all !duration-150 active:scale-[0.97] !cursor-pointer"
-                        >
-                          <X size={14} />
                         </YVButton>
                       </div>
                     ) : (
@@ -272,31 +218,10 @@ export default function VistosPage() {
                           loading={loadingEdit === visto.slug}
                           variant="text"
                           size="sm"
-                          className="flex-1 !h-8 !px-3 !py-2 !rounded-lg bg-dashboard-hover hover:bg-dashboard-border hover:opacity-80 text-dashboard text-xs font-medium !transition-all !duration-150 active:scale-[0.97] !cursor-pointer"
+                          className="w-full !h-8 !px-3 !py-2 !rounded-lg bg-dashboard-hover hover:bg-dashboard-border hover:opacity-80 text-dashboard text-xs font-medium !transition-all !duration-150 active:scale-[0.97] !cursor-pointer"
                         >
                           Editar
                         </YVButton>
-                        
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button 
-                              variant="ghost" 
-                              size="sm" 
-                              className='h-8 w-8 p-0 hover:bg-dashboard-border opacity-60 hover:opacity-100'
-                            >
-                              <MoreHorizontal size={16} />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem
-                              className='flex items-center gap-2 py-2 cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50'
-                              onClick={() => handleDeleteClick(visto.slug)}
-                            >
-                              <Trash2 size={14} className='flex-shrink-0' />
-                              <span>Mover para Lixeira</span>
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
                       </div>
                     )}
                   </div>
