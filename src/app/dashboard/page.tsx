@@ -22,14 +22,17 @@ export default function DashboardPage() {
   const { data: analytics, loading: analyticsLoading } = useAnalytics();
 
   // Dados para o gráfico de tendência (últimos 7 dias)
-  const leadsTrendData = [
-    { name: 'Seg', leads: 12 },
-    { name: 'Ter', leads: 18 },
-    { name: 'Qua', leads: 8 },
-    { name: 'Qui', leads: 25 },
-    { name: 'Sex', leads: 15 },
-    { name: 'Sáb', leads: 22 },
-    { name: 'Dom', leads: 19 },
+  const leadsTrendData = analytics?.trendData?.map(item => ({
+    name: new Date(item.date).toLocaleDateString('pt-BR', { weekday: 'short' }),
+    leads: item.leads
+  })) || [
+    { name: 'Seg', leads: 0 },
+    { name: 'Ter', leads: 0 },
+    { name: 'Qua', leads: 0 },
+    { name: 'Qui', leads: 0 },
+    { name: 'Sex', leads: 0 },
+    { name: 'Sáb', leads: 0 },
+    { name: 'Dom', leads: 0 },
   ];
 
   if (loading) {
