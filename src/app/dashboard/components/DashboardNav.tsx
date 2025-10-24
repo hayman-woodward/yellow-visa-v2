@@ -3,19 +3,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { YVText } from '@/components/YV';
-import { LayoutDashboard, Users, FileText, Heart, MapPin, UserCheck, HelpCircle, BookOpen, UserPlus, BarChart3 } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Heart, MapPin, UserCheck, HelpCircle, BookOpen, UserPlus } from 'lucide-react';
 
 const menuItems = [
   {
     href: '/dashboard',
     icon: LayoutDashboard,
     label: 'Visão Geral',
-    exact: true
-  },
-  {
-    href: '/dashboard/analytics',
-    icon: BarChart3,
-    label: 'Analytics',
     exact: true
   }
 ];

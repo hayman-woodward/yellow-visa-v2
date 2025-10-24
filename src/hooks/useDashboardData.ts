@@ -149,7 +149,13 @@ export function useDashboardStats() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch('/api/dashboard/stats');
+        // Adicionar cache busting para evitar dados stale
+        const response = await fetch('/api/dashboard/stats', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache'
+          }
+        });
         if (!response.ok) throw new Error('Failed to fetch stats');
         const data = await response.json();
         setStats(data);

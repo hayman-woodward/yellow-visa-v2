@@ -10,67 +10,90 @@ export async function GET() {
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    // Leads de hoje
-    const leadsToday = await prisma.lead.count({
-      where: {
-        createdAt: {
-          gte: today,
-          lt: tomorrow
+    // Executar queries em paralelo para melhor performance
+    const [
+      leadsToday,
+      totalLeads,
+      popularVisto,
+      leadsBySource,
+      leadsTrend,
+      popularVistos
+    ] = await Promise.all([
+      // Leads de hoje
+      prisma.lead.count({
+        where: {
+          createdAt: {
+            gte: today,
+            lt: tomorrow
+          }
         }
-      }
-    });
+      }),
 
-    // Total de leads
-    const totalLeads = await prisma.lead.count();
+      // Total de leads
+      prisma.lead.count(),
+
+      // Visto mais popular (otimizado - apenas o primeiro resultado)
+      prisma.lead.findFirst({
+        where: {
+          source: {
+            contains: 'visto'
+          }
+        },
+        select: {
+          source: true
+        },
+        orderBy: {
+          createdAt: 'desc'
+        }
+      }),
+
+      // Leads por fonte (UTM) - limitado a 5
+      prisma.lead.groupBy({
+        by: ['source'],
+        _count: {
+          source: true
+        },
+        orderBy: {
+          _count: {
+            source: 'desc'
+          }
+        },
+        take: 5
+      }),
+
+      // Tendência de leads (últimos 7 dias) - apenas contagem por dia
+      prisma.lead.groupBy({
+        by: ['createdAt'],
+        where: {
+          createdAt: {
+            gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+          }
+        },
+        _count: {
+          id: true
+        }
+      }),
+
+      // Vistos mais populares (apenas campos necessários)
+      prisma.visto.findMany({
+        where: {
+          status: 'published'
+        },
+        select: {
+          title: true,
+          country: true
+        },
+        take: 5
+      })
+    ]);
 
     // Taxa de conversão (simulada - leads / 1000 visitantes estimados)
     const conversionRate = totalLeads > 0 ? ((totalLeads / 1000) * 100).toFixed(1) : '0.0';
 
-    // Visto mais popular (baseado em leads que mencionam o visto)
-    const popularVisto = await prisma.lead.findFirst({
-      where: {
-        source: {
-          contains: 'visto'
-        }
-      },
-      orderBy: {
-        createdAt: 'desc'
-      }
-    });
-
-    // Leads por fonte (UTM)
-    const leadsBySource = await prisma.lead.groupBy({
-      by: ['source'],
-      _count: {
-        source: true
-      },
-      orderBy: {
-        _count: {
-          source: 'desc'
-        }
-      },
-      take: 5
-    });
-
-    // Tendência de leads (últimos 7 dias)
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-
-    const leadsTrend = await prisma.lead.findMany({
-      where: {
-        createdAt: {
-          gte: sevenDaysAgo
-        }
-      },
-      select: {
-        createdAt: true
-      }
-    });
-
-    // Agrupar por dia
-    const leadsByDay = leadsTrend.reduce((acc, lead) => {
-      const date = lead.createdAt.toISOString().split('T')[0];
-      acc[date] = (acc[date] || 0) + 1;
+    // Processar dados de tendência de forma mais eficiente
+    const leadsByDay = leadsTrend.reduce((acc, item) => {
+      const date = item.createdAt.toISOString().split('T')[0];
+      acc[date] = (acc[date] || 0) + item._count.id;
       return acc;
     }, {} as Record<string, number>);
 
@@ -85,19 +108,6 @@ export async function GET() {
         leads: leadsByDay[dateStr] || 0
       });
     }
-
-    // Vistos mais populares (baseado em status published)
-    const popularVistos = await prisma.visto.findMany({
-      where: {
-        status: 'published'
-      },
-      select: {
-        title: true,
-        country: true,
-        status: true
-      },
-      take: 5
-    });
 
     return NextResponse.json({
       // Métricas principais

@@ -29,12 +29,29 @@ export function useAnalytics() {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const response = await fetch('/api/dashboard/analytics');
+        // Adicionar timeout para evitar travamento
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
+        const response = await fetch('/api/dashboard/analytics', {
+          signal: controller.signal,
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache'
+          }
+        });
+        
+        clearTimeout(timeoutId);
+        
         if (!response.ok) throw new Error('Failed to fetch analytics');
         const analyticsData = await response.json();
         setData(analyticsData);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
+        if (err instanceof Error && err.name === 'AbortError') {
+          setError('Timeout - dados de analytics demoraram para carregar');
+        } else {
+          setError(err instanceof Error ? err.message : 'Unknown error');
+        }
       } finally {
         setLoading(false);
       }

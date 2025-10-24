@@ -36,32 +36,107 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className='space-y-6'>
-        {/* Header Skeleton */}
-        <div className='flex items-center justify-between'>
-          <div>
-            <div className='h-8 w-32 bg-gray-200 rounded animate-pulse mb-2' />
-            <div className='h-4 w-64 bg-gray-200 rounded animate-pulse' />
+      <div className='min-h-screen bg-gradient-to-br from-gray-50 via-white to-yellow-50/30'>
+        <div className='space-y-8 p-6'>
+          {/* Header Skeleton */}
+          <div className='flex items-center justify-between'>
+            <div>
+              <div className='h-8 w-32 bg-gray-200 rounded animate-pulse mb-2' />
+              <div className='h-4 w-64 bg-gray-200 rounded animate-pulse' />
+            </div>
+            <div className='h-4 w-24 bg-gray-200 rounded animate-pulse' />
           </div>
-          <div className='h-4 w-24 bg-gray-200 rounded animate-pulse' />
-        </div>
 
-        {/* Stats Cards Skeleton */}
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div
-              key={i}
-              className='bg-dashboard-card rounded-lg p-5 border border-dashboard'
-            >
-              <div className='flex items-start justify-between mb-3'>
-                <div className='w-11 h-11 bg-gray-200 rounded-full animate-pulse' />
+          {/* Stats Cards Skeleton */}
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div
+                key={i}
+                className='bg-white rounded-xl p-4 shadow-md'
+              >
+                <div className='flex items-center justify-between mb-3'>
+                  <div className='w-10 h-10 rounded-xl bg-gray-200 animate-pulse' />
+                </div>
+                <div>
+                  <div className='h-8 w-16 bg-gray-200 rounded animate-pulse mb-1' />
+                  <div className='h-4 w-20 bg-gray-200 rounded animate-pulse' />
+                </div>
               </div>
+            ))}
+          </div>
+
+          {/* Analytics Cards Skeleton */}
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className='bg-white rounded-xl p-4 shadow-md'>
+                <div className='flex items-center justify-between mb-3'>
+                  <div className='w-10 h-10 rounded-xl bg-gray-200 animate-pulse' />
+                </div>
+                <div>
+                  <div className='h-8 w-16 bg-gray-200 rounded animate-pulse mb-1' />
+                  <div className='h-4 w-20 bg-gray-200 rounded animate-pulse' />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Gráfico de Tendência Skeleton */}
+          <div className='bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-white/20 shadow-lg'>
+            <div className='flex items-center justify-between mb-8'>
               <div>
-                <div className='h-10 w-16 bg-gray-200 rounded animate-pulse mb-1' />
-                <div className='h-4 w-20 bg-gray-200 rounded animate-pulse' />
+                <div className='h-8 w-48 bg-gray-200 rounded animate-pulse mb-2' />
+                <div className='h-4 w-32 bg-gray-200 rounded animate-pulse' />
+              </div>
+              <div className='flex items-center gap-3 px-4 py-2 bg-gray-100 rounded-full'>
+                <div className='w-4 h-4 bg-gray-200 rounded animate-pulse' />
+                <div className='h-4 w-32 bg-gray-200 rounded animate-pulse' />
               </div>
             </div>
-          ))}
+            
+            <div className='h-64 bg-gray-100 rounded-lg animate-pulse' />
+          </div>
+
+          {/* Quick Actions Skeleton */}
+          <div className='bg-white rounded-lg p-6 border border-gray-200'>
+            <div className='flex items-center gap-2 mb-4'>
+              <div className='w-4 h-4 bg-gray-200 rounded animate-pulse' />
+              <div className='h-4 w-24 bg-gray-200 rounded animate-pulse' />
+            </div>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className='flex items-center gap-3 p-3 rounded-lg border border-gray-200'>
+                  <div className='w-10 h-10 rounded bg-gray-200 animate-pulse' />
+                  <div>
+                    <div className='h-4 w-24 bg-gray-200 rounded animate-pulse mb-1' />
+                    <div className='h-3 w-16 bg-gray-200 rounded animate-pulse' />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Activity/Recent Skeleton */}
+          <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+            {Array.from({ length: 2 }).map((_, i) => (
+              <div key={i} className='bg-gradient-to-br from-white to-gray-50/50 rounded-2xl p-6 shadow-lg backdrop-blur-sm border border-white/20'>
+                <div className='flex items-center gap-2 mb-4'>
+                  <div className='w-4 h-4 bg-gray-200 rounded animate-pulse' />
+                  <div className='h-4 w-32 bg-gray-200 rounded animate-pulse' />
+                </div>
+                <div className='space-y-3'>
+                  {Array.from({ length: 3 }).map((_, j) => (
+                    <div key={j} className='flex items-start gap-3 pb-3 border-b border-gray-200/50'>
+                      <div className='w-8 h-8 rounded-full bg-gray-200 animate-pulse' />
+                      <div className='flex-1'>
+                        <div className='h-4 w-40 bg-gray-200 rounded animate-pulse mb-1' />
+                        <div className='h-3 w-16 bg-gray-200 rounded animate-pulse' />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -163,69 +238,99 @@ export default function DashboardPage() {
       </div>
 
       {/* Analytics Cards */}
-      {analytics && !analyticsLoading && (
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
-          {/* Leads Hoje */}
-          <div className='bg-white rounded-xl p-4 shadow-md'>
-            <div className='flex items-center justify-between mb-3'>
-              <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
-                <TrendingUp className='text-gray-700' size={18} />
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+        {analyticsLoading ? (
+          // Loading skeleton para analytics
+          Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className='bg-white rounded-xl p-4 shadow-md'>
+              <div className='flex items-center justify-between mb-3'>
+                <div className='w-10 h-10 rounded-xl bg-gray-200 animate-pulse' />
+              </div>
+              <div>
+                <div className='h-8 w-16 bg-gray-200 rounded animate-pulse mb-1' />
+                <div className='h-4 w-20 bg-gray-200 rounded animate-pulse' />
               </div>
             </div>
-            <div>
-              <p className='text-2xl font-bold text-gray-900 mb-1'>
-                {analytics.leadsToday}
-              </p>
-              <p className='text-xs text-gray-600 font-medium'>Leads Hoje</p>
+          ))
+        ) : analytics ? (
+          <>
+            {/* Leads Hoje */}
+            <div className='bg-white rounded-xl p-4 shadow-md'>
+              <div className='flex items-center justify-between mb-3'>
+                <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
+                  <TrendingUp className='text-gray-700' size={18} />
+                </div>
+              </div>
+              <div>
+                <p className='text-2xl font-bold text-gray-900 mb-1'>
+                  {analytics.leadsToday}
+                </p>
+                <p className='text-xs text-gray-600 font-medium'>Leads Hoje</p>
+              </div>
             </div>
-          </div>
 
-          {/* Taxa de Conversão */}
-          <div className='bg-white rounded-xl p-4 shadow-md'>
-            <div className='flex items-center justify-between mb-3'>
-              <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
-                <Target className='text-gray-700' size={18} />
+            {/* Taxa de Conversão */}
+            <div className='bg-white rounded-xl p-4 shadow-md'>
+              <div className='flex items-center justify-between mb-3'>
+                <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
+                  <Target className='text-gray-700' size={18} />
+                </div>
+              </div>
+              <div>
+                <p className='text-2xl font-bold text-gray-900 mb-1'>
+                  {analytics.conversionRate}
+                </p>
+                <p className='text-xs text-gray-600 font-medium'>Taxa Conversão</p>
               </div>
             </div>
-            <div>
-              <p className='text-2xl font-bold text-gray-900 mb-1'>
-                {analytics.conversionRate}
-              </p>
-              <p className='text-xs text-gray-600 font-medium'>Taxa Conversão</p>
-            </div>
-          </div>
 
-          {/* Visto Mais Popular */}
-          <div className='bg-white rounded-xl p-4 shadow-md'>
-            <div className='flex items-center justify-between mb-3'>
-              <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
-                <Award className='text-gray-700' size={18} />
+            {/* Visto Mais Popular */}
+            <div className='bg-white rounded-xl p-4 shadow-md'>
+              <div className='flex items-center justify-between mb-3'>
+                <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
+                  <Award className='text-gray-700' size={18} />
+                </div>
+              </div>
+              <div>
+                <p className='text-2xl font-bold text-gray-900 mb-1'>
+                  {analytics.popularVisto}
+                </p>
+                <p className='text-xs text-gray-600 font-medium'>Mais Popular</p>
               </div>
             </div>
-            <div>
-              <p className='text-2xl font-bold text-gray-900 mb-1'>
-                {analytics.popularVisto}
-              </p>
-              <p className='text-xs text-gray-600 font-medium'>Mais Popular</p>
-            </div>
-          </div>
 
-          {/* Total de Leads */}
-          <div className='bg-white rounded-xl p-4 shadow-md'>
-            <div className='flex items-center justify-between mb-3'>
-              <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
-                <TrendingDown className='text-gray-700' size={18} />
+            {/* Total de Leads */}
+            <div className='bg-white rounded-xl p-4 shadow-md'>
+              <div className='flex items-center justify-between mb-3'>
+                <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
+                  <TrendingDown className='text-gray-700' size={18} />
+                </div>
+              </div>
+              <div>
+                <p className='text-2xl font-bold text-gray-900 mb-1'>
+                  {analytics.totalLeads}
+                </p>
+                <p className='text-xs text-gray-600 font-medium'>Total Leads</p>
               </div>
             </div>
-            <div>
-              <p className='text-2xl font-bold text-gray-900 mb-1'>
-                {analytics.totalLeads}
-              </p>
-              <p className='text-xs text-gray-600 font-medium'>Total Leads</p>
+          </>
+        ) : (
+          // Fallback quando analytics falha
+          Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className='bg-white rounded-xl p-4 shadow-md border border-gray-200'>
+              <div className='flex items-center justify-between mb-3'>
+                <div className='w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center'>
+                  <BarChart3 className='text-gray-400' size={18} />
+                </div>
+              </div>
+              <div>
+                <p className='text-2xl font-bold text-gray-400 mb-1'>--</p>
+                <p className='text-xs text-gray-500 font-medium'>Dados indisponíveis</p>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          ))
+        )}
+      </div>
 
       {/* Gráfico de Tendência de Leads */}
       <div className='bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300'>
