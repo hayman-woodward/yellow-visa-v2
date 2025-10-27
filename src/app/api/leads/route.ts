@@ -22,6 +22,7 @@ const leadSchema = z.object({
   estudanteOpcao: z.string().optional(),
   turismoOpcao: z.string().optional(),
   profissionalOpcao: z.string().optional(),
+  contactChannel: z.string().optional(),
   source: z.string().optional(),
   utm_data: z.record(z.string(), z.string()).optional().nullable()
 });
@@ -64,6 +65,7 @@ export async function POST(request: NextRequest) {
           pais: validatedData.pais,
           idioma: validatedData.language, // Mapear language para idioma no banco
           whatsapp: validatedData.whatsapp,
+          contactChannel: validatedData.contactChannel,
           // UTM Parameters (capturados do localStorage)
           utm_data: body.utm_data || null
         })

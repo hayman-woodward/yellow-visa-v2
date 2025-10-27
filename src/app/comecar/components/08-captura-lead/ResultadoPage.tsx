@@ -97,6 +97,12 @@ const experienceTimeMapping: { [key: string]: string } = {
   "mais-de-10-anos": "Over 10 years"
 };
 
+const contactChannelMapping: { [key: string]: string } = {
+  "whatsapp": "Contact via WhatsApp",
+  "email": "Contact via Email",
+  "telefone": "Contact via Phone"
+};
+
 // Mapeamento de países (apenas Portugal e Estados Unidos no step 1)
 const countryMapping: { [key: string]: string } = {
   "Portugal": "Portugal",
@@ -155,7 +161,7 @@ export default function ResultadoPage() {
       occupation: data.profissionalOpcao || data.estudanteOpcao || 'Tourist',
       language: data.language ? languageMapping[data.language] || 'English - Inglês' : 'English - Inglês',
       timeExperience: data.quantoTempo ? experienceTimeMapping[data.quantoTempo] || 'From 5 to 10 years' : 'From 5 to 10 years',
-      contactChannel: 'Contact by email',
+      contactChannel: data.contactChannel ? contactChannelMapping[data.contactChannel] || 'Contact by email' : 'Contact by email',
       additionalInfo: data.quantasPessoas ? dependantsMapping[data.quantasPessoas] : 
                       data.maisInfoTurista ? turismoMapping[data.maisInfoTurista] : 
                       data.turismoOpcao ? turismoMapping[data.turismoOpcao] : 'Adultos',
@@ -278,6 +284,7 @@ export default function ResultadoPage() {
             estudanteOpcao: parsedData.estudanteOpcao,
             turismoOpcao: parsedData.turismoOpcao,
             profissionalOpcao: parsedData.profissionalOpcao,
+            contactChannel: parsedData.contactChannel,
             source: 'stepper',
             utm_data: parsedData.utm_data
           };

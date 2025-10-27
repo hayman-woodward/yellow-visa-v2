@@ -20,6 +20,7 @@ interface StepperData {
   pais?: string;
   idioma?: string;
   whatsapp?: boolean;
+  contactChannel?: string;
   utm_data?: {
     utm_source?: string;
     utm_medium?: string;
@@ -376,6 +377,21 @@ export default function LeadDetailsModal({ isOpen, onClose, lead }: LeadDetailsM
                   <span className="text-xs text-gray-600">Idioma:</span>
                 </div>
                 <span className="text-xs font-medium text-gray-900">{getIdiomaLabel(stepperData.idioma)}</span>
+              </div>
+            )}
+            
+            {stepperData?.contactChannel && (
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Phone className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Canal de Contato:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">
+                  {stepperData.contactChannel === 'whatsapp' ? 'WhatsApp' : 
+                   stepperData.contactChannel === 'email' ? 'Email' : 
+                   stepperData.contactChannel === 'telefone' ? 'Telefone' : 
+                   stepperData.contactChannel}
+                </span>
               </div>
             )}
 
