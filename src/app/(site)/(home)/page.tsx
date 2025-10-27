@@ -29,7 +29,7 @@ export default function Home() {
         titulo="Seu visto pode estar mais perto do que você imagina"
         texto="Faça sua avaliação personalizada para sua rotina e de o primeiro passo. Vamo nessa?"
         buttonText="Comece agora"
-        buttonLink="/comecar" />
+        buttonLink="/comecar?utm_medium=botao-site&utm_source=site-comecar-agora&utm_campaign=botao-site-comecar-agora" />
       <BeneficiosSectionHome />
       
       {/* <DicasENoticias /> */}
