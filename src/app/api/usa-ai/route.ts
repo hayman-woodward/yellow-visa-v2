@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     }
 
     let salesForceId;
-    let sellerPhone = '12032337905'; // Valor padrão
+    let sellerPhone;
     const championId = body.championId; // Capturar championId do body
 
     // Check if a specific seller ID was provided via URL parameter
@@ -30,10 +30,7 @@ export async function POST(request: NextRequest) {
       if (sellerResponse.ok) {
         const sellerData = await sellerResponse.json();
         salesForceId = body.sellerId;
-        sellerPhone = sellerData.phone || '12032337905'; // Capturar phone do seller
-      } else {
-        // Se falhar, usar o default
-        salesForceId = '005UJ0000089qqnYAA';
+        sellerPhone = sellerData.phone; // Capturar phone do seller
       }
     } else {
       // Requisição para obter o lead owner based on language (roleta)
@@ -56,11 +53,8 @@ export async function POST(request: NextRequest) {
         
         if (sellerPhoneResponse.ok) {
           const sellerPhoneData = await sellerPhoneResponse.json();
-          sellerPhone = sellerPhoneData.phone || '12032337905';
+          sellerPhone = sellerPhoneData.phone;
         }
-      } else {
-        // Se falhar, usar o default
-        salesForceId = '005UJ0000089qqnYAA';
       }
     }
 
