@@ -3,7 +3,7 @@ import {  YVButton, YVText, YVTitle } from '@/components/YV';
 
 export default function HeroHome() {
   return (
-    <div className='bg-YV max-h-[600px] md:max-h-[800px] h-[90vh] -mt-[88px] relative w-full overflow-hidden'>
+    <div className='bg-YV max-h-[700px] md:max-h-[800px] h-[90vh] -mt-[88px] relative w-full overflow-hidden'>
       {/* SVG Background - Desktop */}
       <div className='absolute inset-0 pointer-events-none hidden lg:block' data-aos="fade-in" data-aos-duration="2000">
         <Image
@@ -11,7 +11,7 @@ export default function HeroHome() {
           alt=''
           width={1440}
           height={758}
-          className='w-full h-full object-cover'
+          className='w-full h-full object-cover '
           priority
         />
       </div>
@@ -22,7 +22,7 @@ export default function HeroHome() {
           src='/imgs/home/yellow-visa-hero-mobile.png'
           alt='Mulher com cabelo colorido - Mobile'
           width={400}
-          height={500}
+          height={700}
           className='w-full h-full object-cover object-center'
           style={{ objectPosition: 'center top' }}
           priority
@@ -41,7 +41,7 @@ export default function HeroHome() {
       <div className='relative z-10 w-full max-w-[1248px]  m-auto px-5 sm:px-6 lg:px-8 xl:px-0'>
         <div className='grid grid-cols-1 lg:grid-cols-2 max-h-[600px] md:max-h-[800px] h-[90vh] py-0'>
           {/* Coluna Esquerda - Texto */}
-          <div className='flex flex-col lg:ml-20 max-w-[520px] md:pr-20 justify-end md:justify-center pb-[15%] md:pb-[80px] md:mt-20 relative z-20 '>
+          <div className='flex flex-col lg:ml-20 max-w-[300px] md:max-w-[520px] md:pr-20 justify-end md:justify-center  md:pb-[80px] md:mt-20 relative z-20 '>
            
             <div data-aos="fade-up" data-aos-delay="500" data-aos-duration="1400" className='md:mt-15'>
               <YVTitle
