@@ -29,13 +29,29 @@ export function useStepperTracking() {
 
     // Google Analytics / GTM via dataLayer
     if (window.dataLayer) {
-      window.dataLayer.push({
+      const eventPayload = {
         event: event_name,
-        event_category,
-        event_label,
-        value,
-        ...custom_parameters
-      });
+        event_category: event_category,
+        event_label: event_label,
+        value: value,
+        ...(custom_parameters || {})
+      };
+      
+      console.log('📊 Enviando evento para GA4 via dataLayer:', eventPayload);
+      window.dataLayer.push(eventPayload);
+    }
+
+    // Enviar também via gtag (se disponível) para ter certeza
+    if (window.gtag) {
+      const gtagPayload = {
+        event_category: event_category,
+        event_label: event_label,
+        value: value,
+        ...(custom_parameters || {})
+      };
+      
+      console.log('📊 Enviando evento para GA4 via gtag:', event_name, gtagPayload);
+      window.gtag('event', event_name, gtagPayload);
     }
 
     // Facebook Pixel
