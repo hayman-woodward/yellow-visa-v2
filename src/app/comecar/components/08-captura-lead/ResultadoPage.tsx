@@ -83,11 +83,11 @@ const incomeMapping: { [key: string]: string } = {
 };
 
 const languageMapping: { [key: string]: string } = {
-  "Portuguese - Português": "Portuguese - Português",
-  "Spanish - Espanhol": "Spanish - Espanhol",
-  "English - Inglês": "English - Inglês",
-  "Turkish - Turco": "Turkish - Turco",
-  "Mandarin Chinese - Mandarin": "Mandarin Chinese - Mandarin"
+  "Português": "Portuguese - Português",
+  "Espanhol": "Spanish - Espanhol",
+  "Inglês": "English - Inglês",
+  "Turco": "Turkish - Turco",
+  "Chinês (Mandarim)": "Mandarin Chinese - Mandarin"
 };
 
 const experienceTimeMapping: { [key: string]: string } = {
