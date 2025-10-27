@@ -27,9 +27,10 @@ export function useStepperTracking() {
 
     const { event_name, event_category, event_label, value, custom_parameters } = eventData;
 
-    // Google Analytics / GTM
-    if (window.gtag) {
-      window.gtag('event', event_name, {
+    // Google Analytics / GTM via dataLayer
+    if (window.dataLayer) {
+      window.dataLayer.push({
+        event: event_name,
         event_category,
         event_label,
         value,
