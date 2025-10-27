@@ -409,3 +409,18 @@ model Lead {
 
   @@map("leads")
 }
+
+model SystemLog {
+  id               String    @id @default(uuid())
+  title            String
+  description      String?
+  category         String    @default("update")
+  isRead           Boolean   @default(false)
+  markedByUserId   String?
+  markedByUserName String?
+  markedByUserAvatar String?
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  @@map("system_logs")
+}

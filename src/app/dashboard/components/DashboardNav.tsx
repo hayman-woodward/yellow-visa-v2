@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { YVText } from '@/components/YV';
-import { LayoutDashboard, Users, FileText, Heart, MapPin, UserCheck, HelpCircle, BookOpen, UserPlus } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Heart, MapPin, UserCheck, HelpCircle, BookOpen, UserPlus, RefreshCw } from 'lucide-react';
 
 const menuItems = [
   {
@@ -62,6 +63,24 @@ const adminItems = [
 
 export function DashboardNav() {
   const pathname = usePathname();
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    fetchUnreadCount();
+    // Atualizar a cada 30 segundos
+    const interval = setInterval(fetchUnreadCount, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchUnreadCount = async () => {
+    try {
+      const response = await fetch('/api/dashboard/updates');
+      const data = await response.json();
+      setUnreadCount(data.unreadCount || 0);
+    } catch (error) {
+      console.error('Erro ao buscar updates:', error);
+    }
+  };
 
   const isActive = (href: string, exact?: boolean) => {
     if (exact) {
@@ -97,6 +116,30 @@ export function DashboardNav() {
             </li>
           );
         })}
+
+        {/* Updates no menu */}
+        <li>
+          <Link
+            href='/dashboard/updates'
+            prefetch={true}
+            className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors relative ${
+              isActive('/dashboard/updates')
+                ? 'bg-dashboard-hover text-dashboard'
+                : 'text-dashboard-muted hover:text-dashboard hover:bg-dashboard-hover'
+            }`}
+          >
+            {isActive('/dashboard/updates') && (
+              <div className='absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-[#FFBD1A] rounded-r-full' />
+            )}
+            <RefreshCw size={20} />
+            <span className='font-medium'>Atualizações</span>
+            {unreadCount > 0 && (
+              <span className='ml-auto bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center'>
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
+            )}
+          </Link>
+        </li>
 
         <li className='pt-4 pb-2'>
           <YVText className='text-dashboard-muted text-xs font-bold px-4 opacity-60'>
