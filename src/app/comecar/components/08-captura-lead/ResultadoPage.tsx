@@ -24,6 +24,7 @@ interface StepperFormDataInterface {
   nomeCompleto?: string; // Compatibilidade com dados antigos
   email?: string;
   telefone?: string;
+  whatsapp?: boolean;
   pais?: string;
   language?: string;
   academicBackground?: string;
@@ -158,7 +159,7 @@ export default function ResultadoPage() {
       additionalInfo: data.quantasPessoas ? dependantsMapping[data.quantasPessoas] : 
                       data.maisInfoTurista ? turismoMapping[data.maisInfoTurista] : 
                       data.turismoOpcao ? turismoMapping[data.turismoOpcao] : 'Adultos',
-      whatsapp: Boolean(data.telefone),
+      whatsapp: Boolean(data.whatsapp),
       annualIncome: data.rendaAnual ? incomeMapping[data.rendaAnual] || '$50,000 to $199,999' : '$50,000 to $199,999',
       utm: data.utm_data?.utm_campaign || '',
       source: data.utm_data?.utm_source || '',
@@ -262,6 +263,7 @@ export default function ResultadoPage() {
             sobrenome: parsedData.sobrenome,
             email: parsedData.email,
             telefone: parsedData.telefone,
+            whatsapp: parsedData.whatsapp || false,
             pais: parsedData.pais,
             idioma: parsedData.language, // Mapear language para idioma no banco
             destino: parsedData.destino,

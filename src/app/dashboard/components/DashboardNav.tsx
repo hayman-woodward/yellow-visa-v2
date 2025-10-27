@@ -134,7 +134,7 @@ export function DashboardNav() {
             <RefreshCw size={20} />
             <span className='font-medium'>Atualizações</span>
             {unreadCount > 0 && (
-              <span className='ml-auto bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center'>
+              <span className='ml-auto bg-[#FFBD1A] text-[#0F0005] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center'>
                 {unreadCount > 9 ? '9+' : unreadCount}
               </span>
             )}

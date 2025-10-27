@@ -1,7 +1,7 @@
 'use client';
 
 import { YVModal, YVButton, YVTable, YVTableRow, YVTableCell } from '@/components/YV';
-import { Briefcase, Clock, ChevronDown, ChevronUp, DollarSign, Globe, GraduationCap, MapPin, MessageSquare, Phone, Plane, Target, Users } from 'lucide-react';
+import { Briefcase, Clock, ChevronDown, ChevronUp, DollarSign, Globe, GraduationCap, MapPin, MessageSquare, Phone, Plane, Target, Users, MessageCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface StepperData {
@@ -19,6 +19,7 @@ interface StepperData {
   profissionalOpcao?: string;
   pais?: string;
   idioma?: string;
+  whatsapp?: boolean;
   utm_data?: {
     utm_source?: string;
     utm_medium?: string;
@@ -247,7 +248,15 @@ export default function LeadDetailsModal({ isOpen, onClose, lead }: LeadDetailsM
                     <Phone className="w-3 h-3 text-[#FF6700]" />
                     <span className="text-xs text-gray-600">Telefone:</span>
                   </div>
-                  <span className="text-xs font-medium text-gray-900">{lead.phone}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-medium text-gray-900">{lead.phone}</span>
+                    {stepperData?.whatsapp && (
+                      <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-medium border border-green-200 inline-flex items-center gap-1">
+                        <MessageCircle size={12} className="text-green-600" />
+                        WhatsApp
+                      </span>
+                    )}
+                  </div>
                 </div>
               )}
               
