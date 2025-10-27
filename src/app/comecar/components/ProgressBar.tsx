@@ -6,57 +6,83 @@ interface ProgressBarProps {
   titulo: string;
 }
 
+// Labels para as 4 etapas visuais do Figma
+const labels = ['Destino', 'Objetivo', 'Detalhes', 'Pessoal'];
+
+// Mapeia as 10 etapas do formulário para 4 etapas visuais
+const mapToSimplified = (etapa: number) => {
+  if (etapa <= 2) return 1;      // Início, Destino
+  if (etapa <= 4) return 2;      // Objetivo, Tipo de Visto
+  if (etapa <= 7) return 3;      // Formação, Experiência, Rendas
+  if (etapa <= 9) return 4;       // Contato, Captura Lead
+  return 4;
+};
+
 export default function ProgressBar({ etapaAtual, totalEtapas, titulo }: ProgressBarProps) {
+  const etapaSimplificada = mapToSimplified(etapaAtual);
+  // Calcula progresso: 0% (etapa 1), 33% (etapa 2), 67% (etapa 3), 100% (etapa 4)
+  const progresso = ((etapaSimplificada - 1) / 3) * 100;
+  
   return (
     <div className="mb-8">
-      <div className="flex items-center justify-between mb-6">
-        <span className="text-sm font-medium text-gray-600">{titulo}</span>
-      </div>
+      <div className="relative" style={{ height: '100px' }}>
+        {/* Labels no topo */}
+        <div className="flex justify-between absolute top-0 left-0 right-0 px-3">
+          {labels.map((label, index) => (
+            <div key={index} className="text-center">
+              <span className="text-xs font-medium text-black">{label}</span>
+            </div>
+          ))}
+        </div>
 
-      {/* Progress Stepper com círculos */}
-      <div className="relative flex items-center justify-between mb-8">
-        {/* Background Line */}
-        <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 -translate-y-1/2 z-0"></div>
-
-        {/* Progress Line */}
-        <div
-          className="absolute top-1/2 left-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 -translate-y-1/2 z-10 transition-all duration-500"
-          style={{ width: `${((etapaAtual - 1) / (totalEtapas - 1)) * 100}%` }}
+        {/* Track de fundo - passa pelos centros dos círculos */}
+        <div 
+          className="absolute left-0 right-0 bg-gray-200 rounded-full"
+          style={{ 
+            top: '50%', 
+            height: '11px',
+            left: '16px',
+            right: '16px',
+            transform: 'translateY(-50%)'
+          }}
         ></div>
 
-        {/* Step Circles */}
-        {Array.from({ length: totalEtapas }, (_, index) => {
-          const stepNumber = index + 1;
-          const isCompleted = stepNumber < etapaAtual;
-          const isCurrent = stepNumber === etapaAtual;
+        {/* Track de progresso */}
+        <div 
+          className="absolute bg-gradient-to-r from-[#C04] via-pink-500 to-[#4FA3CC] rounded-full transition-all duration-500"
+          style={{ 
+            top: '50%', 
+            height: '11px',
+            width: `${progresso}%`,
+            left: '16px',
+            transform: 'translateY(-50%)',
+            zIndex: 10
+          }}
+        ></div>
 
-          return (
-            <div key={stepNumber} className="relative z-20">
-              {/* Circle - Pixel Perfect */}
-              <div
-                className={`
-                  flex flex-col justify-center items-center transition-all duration-300
-                  w-5 h-5 px-3 py-1 gap-1
-                  ${isCompleted || isCurrent
-                    ? 'bg-gradient-to-r from-[#C04] to-[#4FA3CC] bg-[length:100%_100%]'
-                    : 'bg-[#0F0005]'
-                  }
-                `}
-                style={{
-                  borderRadius: '499.5px',
-                  backgroundImage: isCompleted || isCurrent
-                    ? 'linear-gradient(90deg, #C04 0%, #4FA3CC 100%), linear-gradient(90deg, #FFBD1A 0%, #FF6700 100%)'
-                    : 'none',
-                  backgroundColor: '#0F0005'
-                }}
-              >
-                <span className="text-white text-xs font-bold">
-                  {stepNumber}
-                </span>
+        {/* Círculos */}
+        <div className="flex justify-between absolute top-1/2 left-0 right-0 px-3 -translate-y-1/2" style={{ zIndex: 30 }}>
+          {[1, 2, 3, 4].map((stepNumber) => {
+            const isCompleted = stepNumber < etapaSimplificada;
+            const isCurrent = stepNumber === etapaSimplificada;
+            
+            return (
+              <div key={stepNumber} className="relative" style={{ zIndex: stepNumber === 1 ? 30 : 20 }}>
+                <div 
+                  className={`
+                    w-6 h-6 rounded-full flex items-center justify-center
+                    ${isCompleted || isCurrent ? 'bg-black' : 'bg-gray-300'}
+                    transition-all duration-300
+                  `}
+                >
+                  <span className={`text-sm font-bold ${isCompleted || isCurrent ? 'text-[#FFBD1A]' : 'text-gray-400'}`}>
+                    {stepNumber}
+                  </span>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );
