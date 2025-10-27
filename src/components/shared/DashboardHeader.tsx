@@ -53,7 +53,7 @@ export default function DashboardHeader({
               asChild
               size="sm"
               variant={buttonVariant}
-              className={buttonVariant === 'default' ? 'bg-[#0F0005] hover:bg-[#0F0005]/90 text-[#FFBD1A]' : ''}
+              className={`cursor-pointer ${buttonVariant === 'default' ? 'bg-[#0F0005] hover:bg-[#0F0005]/90 text-[#FFBD1A]' : ''}`}
             >
               <a href={buttonHref}>
                 {buttonContent}
@@ -64,7 +64,7 @@ export default function DashboardHeader({
               size="sm"
               variant={buttonVariant}
               onClick={buttonOnClick}
-              className={buttonVariant === 'default' ? 'bg-[#0F0005] hover:bg-[#0F0005]/90 text-[#FFBD1A]' : ''}
+              className={`cursor-pointer ${buttonVariant === 'default' ? 'bg-[#0F0005] hover:bg-[#0F0005]/90 text-[#FFBD1A]' : ''}`}
             >
               {buttonContent}
             </Button>

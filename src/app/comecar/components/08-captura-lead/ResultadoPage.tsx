@@ -19,7 +19,9 @@ interface StepperFormDataInterface {
   quantoTempo?: string;
   rendaAnual?: string;
   tipoVisto?: string;
-  nomeCompleto?: string;
+  nome?: string;
+  sobrenome?: string;
+  nomeCompleto?: string; // Compatibilidade com dados antigos
   email?: string;
   telefone?: string;
   pais?: string;
@@ -124,9 +126,20 @@ export default function ResultadoPage() {
 
   // Função para mapear dados do stepper para Salesforce
   const mapDataForSalesforce = (data: StepperFormDataInterface) => {
+    // API externa (USA-AI) espera firstName e lastName SEPARADOS
+    let firstName = data.nome || '';
+    let lastName = data.sobrenome || '';
+    
+    // Se tem nomeCompleto antigo mas não tem nome/sobrenome, fazer split
+    if (data.nomeCompleto && !firstName && !lastName) {
+      const partes = data.nomeCompleto.trim().split(/\s+/);
+      firstName = partes[0] || '';
+      lastName = partes.slice(1).join(' ') || '';
+    }
+    
     return {
-      firstName: data.nomeCompleto?.split(' ')[0] || '',
-      lastName: data.nomeCompleto?.split(' ').slice(1).join(' ') || '',
+      firstName,
+      lastName,
       email: data.email || '',
       country: data.destino ? countryMapping[data.destino] || 'USA' : 'USA',
       nationality: data.pais ? countryMapping[data.pais] || 'USA' : 'USA',
@@ -245,7 +258,8 @@ export default function ResultadoPage() {
       const saveToLocalDatabase = async () => {
         try {
           const leadData = {
-            nomeCompleto: parsedData.nomeCompleto,
+            nome: parsedData.nome,
+            sobrenome: parsedData.sobrenome,
             email: parsedData.email,
             telefone: parsedData.telefone,
             pais: parsedData.pais,
@@ -328,7 +342,7 @@ export default function ResultadoPage() {
       <div className="bg-[#FFBD1A] pt-20 pb-5">
         <div className="max-w-4xl mx-auto px-4 pt-20 sm:px-6 lg:px-8 lg:pr-15">
           <YVTitle variant="hero">
-            {formData.nomeCompleto || 'Usuário'}, já demos o primeiro passo!
+            {formData.nome || 'Usuário'}, já demos o primeiro passo!
           </YVTitle>
 
           <YVText className='max-w-2xl pb-1 md:pb-2'>

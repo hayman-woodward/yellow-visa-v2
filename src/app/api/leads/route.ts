@@ -3,7 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
 
 const leadSchema = z.object({
-  nomeCompleto: z.string().optional(),
+  nome: z.string().optional(),
+  sobrenome: z.string().optional(),
   email: z.string().email('Email inválido'),
   telefone: z.string().optional(),
   pais: z.string().optional(),
@@ -28,9 +29,19 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const validatedData = leadSchema.parse(body);
+    // Juntar nome e sobrenome para salvar no banco (suporta dados antigos)
+    let nomeCompleto = null;
+    if (validatedData.nome && validatedData.sobrenome) {
+      nomeCompleto = `${validatedData.nome} ${validatedData.sobrenome}`.trim();
+    } else if (validatedData.nome) {
+      nomeCompleto = validatedData.nome;
+    } else if (validatedData.sobrenome) {
+      nomeCompleto = validatedData.sobrenome;
+    }
+
     const lead = await prisma.lead.create({
       data: {
-        name: validatedData.nomeCompleto || null,
+        name: nomeCompleto,
         email: validatedData.email,
         phone: validatedData.telefone || null,
         status: 'new',

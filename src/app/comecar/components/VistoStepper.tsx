@@ -56,14 +56,8 @@ const formSchema = z.object({
   tipoVisto: z.string().optional(),
 
   // Etapa 7 - Contato
-  nomeCompleto: z.string()
-    .min(2, 'Nome deve ter pelo menos 2 caracteres')
-    .refine((nome) => {
-      if (!nome) return true; // Permitir campo vazio se for opcional
-      const partes = nome.trim().split(/\s+/);
-      return partes.length >= 2;
-    }, 'Digite seu nome completo (nome e sobrenome)')
-    .optional(),
+  nome: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres').optional(),
+  sobrenome: z.string().min(2, 'Sobrenome deve ter pelo menos 2 caracteres').optional(),
   email: z.string().email('Email inválido').optional(),
   telefone: z.string().min(10, 'Telefone deve ter pelo menos 10 dígitos').optional(),
   pais: z.string().min(2, 'País deve ter pelo menos 2 caracteres').optional(),
@@ -103,7 +97,8 @@ export interface StepperFormDataInterface {
   tipoVisto?: string;
 
   // Etapa 7 - Contato
-  nomeCompleto?: string;
+  nome?: string;
+  sobrenome?: string;
   email?: string;
   telefone?: string;
   pais?: string;
@@ -203,7 +198,8 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
         quantasPessoas: watchedFields.quantasPessoas || '',
         quantoTempo: watchedFields.quantoTempo || '',
         rendaAnual: watchedFields.rendaAnual || '',
-        nomeCompleto: watchedFields.nomeCompleto || '',
+        nome: watchedFields.nome || '',
+        sobrenome: watchedFields.sobrenome || '',
         email: watchedFields.email || '',
         telefone: watchedFields.telefone || '',
         pais: watchedFields.pais || '',

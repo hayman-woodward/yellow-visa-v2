@@ -7,7 +7,8 @@ import ProgressBar from '../ProgressBar';
 
 interface FormData {
   rendaAnual?: string;
-  nomeCompleto?: string;
+  nome?: string;
+  sobrenome?: string;
   email?: string;
   telefone?: string;
 }
