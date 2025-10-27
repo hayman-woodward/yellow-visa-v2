@@ -1,6 +1,17 @@
+'use client';
+
 import { YVButton } from '@/components/YV';
+import { useEffect, useState } from 'react';
 
 export default function ResultadoProvisorioParteDoTime() {
+  const [whatsappUrl, setWhatsappUrl] = useState('https://wa.me/12032337905'); // Valor padrão
+
+  useEffect(() => {
+    // Pegar telefone do seller do localStorage (salvo pela API)
+    const sellerPhone = localStorage.getItem('seller_phone') || '12032337905';
+    setWhatsappUrl(`https://wa.me/${sellerPhone}`);
+  }, []);
+
   return (
     <div className='w-full max-w-4xl mx-auto px-4 md:px-0 py-16'>
       <div
@@ -43,7 +54,8 @@ export default function ResultadoProvisorioParteDoTime() {
           </p>
           <YVButton
             variant='secondary'
-            href='https://wa.me/12032337905'
+            href={whatsappUrl}
+            target='_blank'
             size='lg'
             className='bg-[#CC0044] hover:bg-[#CC0044]/90 text-white px-8'
           >
