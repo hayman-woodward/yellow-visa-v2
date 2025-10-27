@@ -45,13 +45,25 @@ export async function PATCH(request: NextRequest) {
       }
     });
 
-    const { id, markAllAsRead } = await request.json();
+    const { id, markAllAsRead, markAsNegative, notes } = await request.json();
 
     if (markAllAsRead) {
       await prisma.systemLog.updateMany({
         where: { isRead: false },
         data: { 
           isRead: true,
+          markedByUserId: session.userId,
+          markedByUserName: user?.name || session.name,
+          markedByUserAvatar: user?.avatar || null
+        }
+      });
+    } else if (markAsNegative && id) {
+      await prisma.systemLog.update({
+        where: { id },
+        data: { 
+          isRead: true,
+          isNegative: true,
+          notes: notes || null,
           markedByUserId: session.userId,
           markedByUserName: user?.name || session.name,
           markedByUserAvatar: user?.avatar || null
