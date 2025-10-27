@@ -37,7 +37,6 @@ export function useStepperTracking() {
         ...(custom_parameters || {})
       };
       
-      console.log('📊 Enviando evento para GA4 via dataLayer:', eventPayload);
       window.dataLayer.push(eventPayload);
     }
 
@@ -50,7 +49,6 @@ export function useStepperTracking() {
         ...(custom_parameters || {})
       };
       
-      console.log('📊 Enviando evento para GA4 via gtag:', event_name, gtagPayload);
       window.gtag('event', event_name, gtagPayload);
     }
 

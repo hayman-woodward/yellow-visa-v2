@@ -2,6 +2,7 @@
 
 import { YVText, YVTitle } from '@/components/YV';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import ResultadoProvisorio from './ResultadoProvisorio';
 import { useStepperTracking } from '@/hooks/tracks/useStepperTracking';
 
@@ -113,9 +114,13 @@ const countryMapping: { [key: string]: string } = {
 };
 
 export default function ResultadoPage() {
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState<StepperFormDataInterface>({});
   const { trackConversion } = useStepperTracking();
-
+  
+  // Capturar parâmetros da URL para distribuição de leads
+  const sellerId = searchParams.get('seller');
+  const championId = searchParams.get('champion');
 
   // Função para filtrar campos vazios antes de enviar para Salesforce
   const filterEmptyFields = (data: Record<string, unknown>) => {
@@ -171,10 +176,12 @@ export default function ResultadoPage() {
       source: data.utm_data?.utm_source || '',
       medium: data.utm_data?.utm_medium || '',
       term: data.utm_data?.utm_term || '',
-      refer: data.utm_data?.utm_referrer || '',
+      refer: championId || data.utm_data?.utm_referrer || '', // Champion tem prioridade sobre UTM referrer
       campaign: data.utm_data?.utm_campaign || '',
       event: null, // Campo event sempre null por enquanto
-      // sellerId será determinado pela API baseado no idioma (roleta automática)
+      // sellerId e championId serão enviados se existirem na URL
+      sellerId: sellerId || undefined,
+      championId: championId || undefined
     };
   };
 
@@ -233,24 +240,10 @@ export default function ResultadoPage() {
           if (response.status === 200 || response.status === 201) {
             const data = await response.json();
 
-            const leadOwner = data?.user?.leadOwner;
-            if (!leadOwner) throw new Error("leadOwner não encontrado!");
-
-            const sellerIdToUse = localStorage.getItem('seller') || leadOwner;
-
-            const sellerResponse = await fetch(
-              `https://api.yellowvisa.com/api/get-seller/${sellerIdToUse}`
-            );
-
-            if (!sellerResponse.ok) {
-              throw new Error(
-                `Erro na segunda requisição: ${sellerResponse.statusText}`
-              );
+            // sellerPhone já vem na resposta da API usa-ai
+            if (data.sellerPhone) {
+              localStorage.setItem("seller_phone", data.sellerPhone);
             }
-
-            const sellerData = await sellerResponse.json();
-
-            localStorage.setItem("seller_phone", sellerData.phone);
           } else {
             throw new Error(`API Error: ${response.statusText}`);
           }

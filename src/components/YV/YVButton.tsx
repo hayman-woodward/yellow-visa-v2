@@ -37,6 +37,7 @@ interface YVButtonProps {
   className?: string;
   onClick?: () => void;
   href?: string;
+  target?: string;
   disabled?: boolean;
   loading?: boolean;
 }
@@ -48,6 +49,7 @@ const YVButton = ({
   className = '',
   onClick,
   href,
+  target,
   disabled = false,
   loading = false
 }: YVButtonProps) => {
@@ -59,7 +61,7 @@ const YVButton = ({
       disabled={disabled || loading}
     >
       {href && !loading ? (
-        <Link href={href}>{children}</Link>
+        <Link href={href} target={target}>{children}</Link>
       ) : (
         <div className="flex items-center justify-center gap-2">
           {loading && (

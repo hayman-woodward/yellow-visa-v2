@@ -14,8 +14,10 @@ export async function POST(request: NextRequest) {
     }
 
     let salesForceId;
+    let sellerPhone = '12032337905'; // Valor padrão
+    let championId = body.championId; // Capturar championId do body
 
-    // Check if a specific seller ID was provided
+    // Check if a specific seller ID was provided via URL parameter
     if (body.sellerId) {
       // Fetch seller data directly using the seller ID
       const sellerResponse = await fetch(
@@ -28,12 +30,13 @@ export async function POST(request: NextRequest) {
       if (sellerResponse.ok) {
         const sellerData = await sellerResponse.json();
         salesForceId = body.sellerId;
+        sellerPhone = sellerData.phone || '12032337905'; // Capturar phone do seller
       } else {
         // Se falhar, usar o default
         salesForceId = '005UJ0000089qqnYAA';
       }
     } else {
-      // Requisição para obter o lead owner based on language
+      // Requisição para obter o lead owner based on language (roleta)
       const leadOwnerResponse = await fetch(
         `https://api.yellowvisa.com/api/sellers?language=${body.language}`,
         {
@@ -44,6 +47,17 @@ export async function POST(request: NextRequest) {
       if (leadOwnerResponse.ok) {
         const resJsonOwner = await leadOwnerResponse.json();
         salesForceId = resJsonOwner.salesForceId;
+        
+        // Buscar também o phone do seller selecionado pela roleta
+        const sellerPhoneResponse = await fetch(
+          `https://api.yellowvisa.com/api/get-seller/${salesForceId}`,
+          { method: "GET" }
+        );
+        
+        if (sellerPhoneResponse.ok) {
+          const sellerPhoneData = await sellerPhoneResponse.json();
+          sellerPhone = sellerPhoneData.phone || '12032337905';
+        }
       } else {
         // Se falhar, usar o default
         salesForceId = '005UJ0000089qqnYAA';
@@ -66,7 +80,7 @@ export async function POST(request: NextRequest) {
       subSource: body.subSource || 'AI Form',
       language: body.language || 'English - Ingles',
       nationality: body.nationality || 'USA',
-      refer: body.refer || '',
+      refer: championId || body.refer || '', // Champion tem prioridade
       utm: body.utm || '',
       source: body.source || '',
       medium: body.medium || '',
@@ -97,7 +111,11 @@ export async function POST(request: NextRequest) {
     const responseData = await responseNewApi.json();
 
     // Sucesso - não importa o status da API externa
-    return NextResponse.json(responseData, { status: 200 });
+    // Adicionar sellerPhone na resposta para o frontend usar
+    return NextResponse.json({ 
+      ...responseData, 
+      sellerPhone: sellerPhone 
+    }, { status: 200 });
     
   } catch (error) {
     return NextResponse.json(
