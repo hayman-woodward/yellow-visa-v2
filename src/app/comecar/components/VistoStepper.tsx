@@ -60,6 +60,7 @@ const formSchema = z.object({
   sobrenome: z.string().min(2, 'Sobrenome deve ter pelo menos 2 caracteres').optional(),
   email: z.string().email('Email inválido').optional(),
   telefone: z.string().min(10, 'Telefone deve ter pelo menos 10 dígitos').optional(),
+  whatsapp: z.boolean().optional(),
   pais: z.string().min(2, 'País deve ter pelo menos 2 caracteres').optional(),
   language: z.string().min(1, 'Idioma é obrigatório').optional()
 });
@@ -101,6 +102,7 @@ export interface StepperFormDataInterface {
   sobrenome?: string;
   email?: string;
   telefone?: string;
+  whatsapp?: boolean;
   pais?: string;
   language?: string;
 }
@@ -202,6 +204,7 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
         sobrenome: watchedFields.sobrenome || '',
         email: watchedFields.email || '',
         telefone: watchedFields.telefone || '',
+        whatsapp: watchedFields.whatsapp || false,
         pais: watchedFields.pais || '',
         language: watchedFields.language || '',
         // Adicionar UTMs do localStorage

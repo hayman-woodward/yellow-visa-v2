@@ -7,6 +7,7 @@ const leadSchema = z.object({
   sobrenome: z.string().optional(),
   email: z.string().email('Email inválido'),
   telefone: z.string().optional(),
+  whatsapp: z.boolean().optional(),
   pais: z.string().optional(),
   language: z.string().optional(),
   destino: z.string().optional(),
@@ -62,6 +63,7 @@ export async function POST(request: NextRequest) {
           profissionalOpcao: validatedData.profissionalOpcao,
           pais: validatedData.pais,
           idioma: validatedData.language, // Mapear language para idioma no banco
+          whatsapp: validatedData.whatsapp,
           // UTM Parameters (capturados do localStorage)
           utm_data: body.utm_data || null
         })

@@ -1,15 +1,17 @@
 'use client';
 
-import { YVBanner, YVButton, YVTitle, YVIcon, YVTextField, YVPhoneInput } from '@/components/YV';
+import { YVBanner, YVButton, YVTitle, YVIcon, YVTextField, YVPhoneInput, YVText } from '@/components/YV';
 import { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'react-hook-form';
 import type { Value } from 'react-phone-number-input';
 import ProgressBar from '../ProgressBar';
+import { Switch } from '@/components/ui/switch';
 
 interface FormData {
   nome?: string;
   sobrenome?: string;
   email?: string;
   telefone?: string;
+  whatsapp?: boolean;
   pais?: string;
   language?: string;
 }
@@ -39,6 +41,10 @@ export default function ContatoForm02({
     setValue('telefone', value || '');
   };
 
+  const handleWhatsAppToggle = (value: boolean) => {
+    setValue('whatsapp', value);
+  };
+
   const podeAvancar = watch('email')?.trim() && watch('telefone')?.trim();
 
   return (
@@ -63,22 +69,36 @@ export default function ContatoForm02({
           <YVTitle className="mb-8">
             Ótimo. Seu e-mail e telefone de contato?
           </YVTitle>
-          <div className="space-y-6 mb-8 max-w-[400px]">
-            <YVTextField
-              {...register('email')}
-              type="email"
-              placeholder="Escreva seu e-mail"
-              variant="underline"
-              className="text-gray-900 text-xl placeholder:text-gray-900"
-              error={errors.email?.message}
-            />
-            <YVPhoneInput
-              value={watch('telefone') as Value}
-              onChange={handlePhoneChange}
-              placeholder="Telefone"
-              error={!!errors.telefone}
-              className="w-full"
-            />
+          <div className="space-y-6 mb-8">
+            <div className="max-w-[400px]">
+              <YVTextField
+                {...register('email')}
+                type="email"
+                placeholder="Escreva seu e-mail"
+                variant="underline"
+                className="text-gray-900 text-xl placeholder:text-gray-900"
+                error={errors.email?.message}
+              />
+            </div>
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+              <div className="max-w-[400px] w-full md:flex-1">
+                <YVPhoneInput
+                  value={watch('telefone') as Value}
+                  onChange={handlePhoneChange}
+                  placeholder="Telefone"
+                  error={!!errors.telefone}
+                  className="w-full"
+                />
+              </div>
+              {/* Toggle WhatsApp - ao lado direito no desktop, abaixo no mobile */}
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <YVText variant="small" className="pt-2 text-base whitespace-nowrap">É WhatsApp?</YVText>
+                <Switch
+                  checked={watch('whatsapp') || false}
+                  onCheckedChange={handleWhatsAppToggle}
+                />
+              </div>
+            </div>
             {errors.telefone && (
               <p className="text-red-500 text-sm mt-1">{errors.telefone.message || 'Telefone é obrigatório'}</p>
             )}
