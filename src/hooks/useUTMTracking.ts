@@ -6,7 +6,9 @@ import { useSearchParams } from 'next/navigation';
 declare global {
   interface Window {
     dataLayer: Array<Record<string, unknown>>;
-    analytics: {
+    gtag?: (...args: unknown[]) => void;
+    fbq?: (...args: unknown[]) => void;
+    analytics?: {
       track: (event: string, properties?: Record<string, unknown>) => void;
     };
   }
@@ -51,8 +53,6 @@ export function useUTMTracking() {
 
       // Salvar no localStorage para persistência
       localStorage.setItem('utm_data', JSON.stringify(validParams));
-      
-      console.log('UTM Parameters captured:', validParams);
     }
   }, [searchParams]);
 }
