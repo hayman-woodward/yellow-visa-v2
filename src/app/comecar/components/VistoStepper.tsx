@@ -26,6 +26,7 @@ import RendaOptions from './06-renda/RendaOptions';
 import ContatoForm01 from './07-contato/ContatoForm01';
 import ContatoForm02 from './07-contato/ContatoForm02';
 import ContatoForm03 from './07-contato/ContatoForm03';
+import ContatoForm04 from './07-contato/ContatoForm04';
 import MaisInfoTurista03 from './05-mais-info/MaisInfoTurista03';
 import ResultadoPage from './08-captura-lead/ResultadoPage';
 
@@ -62,7 +63,8 @@ const formSchema = z.object({
   telefone: z.string().min(10, 'Telefone deve ter pelo menos 10 dígitos').optional(),
   whatsapp: z.boolean().optional(),
   pais: z.string().min(2, 'País deve ter pelo menos 2 caracteres').optional(),
-  language: z.string().min(1, 'Idioma é obrigatório').optional()
+  language: z.string().min(1, 'Idioma é obrigatório').optional(),
+  contactChannel: z.string().optional()
 });
 
 type StepperFormData = z.infer<typeof formSchema>;
@@ -105,6 +107,7 @@ export interface StepperFormDataInterface {
   whatsapp?: boolean;
   pais?: string;
   language?: string;
+  contactChannel?: string;
 }
 
 // Definição das etapas
@@ -207,6 +210,7 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
         whatsapp: watchedFields.whatsapp || false,
         pais: watchedFields.pais || '',
         language: watchedFields.language || '',
+        contactChannel: watchedFields.contactChannel || '',
         // Adicionar UTMs do localStorage
         utm_data: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('utm_data') || '{}') : {}
       };
@@ -388,6 +392,9 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
           const sub = searchParams.get('sub');
           if (sub === 'contato-02') {
             router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&sub=contato-01`);
+            return;
+          } else if (sub === 'contato-04') {
+            router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&sub=contato-03`);
             return;
           } else if (sub === 'contato-03') {
             router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&sub=contato-02`);
@@ -640,6 +647,19 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
         } else if (contatoSub === 'contato-03') {
           return (
             <ContatoForm03
+              register={register}
+              errors={errors}
+              watch={watch}
+              setValue={setValue}
+              onProximo={() => router.push('/comecar?etapa=08-contato&sub=contato-04')}
+              onVoltar={etapaAnterior}
+              etapaAtual={etapaAtual}
+              totalEtapas={etapas.length}
+            />
+          );
+        } else if (contatoSub === 'contato-04') {
+          return (
+            <ContatoForm04
               register={register}
               errors={errors}
               watch={watch}
