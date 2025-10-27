@@ -78,18 +78,6 @@ export default function UpdatesPage() {
     }
   };
 
-  const markAllAsRead = async () => {
-    try {
-      await fetch('/api/dashboard/updates', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ markAllAsRead: true })
-      });
-      fetchUpdates();
-    } catch (error) {
-      console.error('Erro ao marcar todos como lido:', error);
-    }
-  };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
