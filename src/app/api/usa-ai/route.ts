@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 
     let salesForceId;
     let sellerPhone = '12032337905'; // Valor padrão
-    let championId = body.championId; // Capturar championId do body
+    const championId = body.championId; // Capturar championId do body
 
     // Check if a specific seller ID was provided via URL parameter
     if (body.sellerId) {
