@@ -6,7 +6,8 @@ import type { Value } from 'react-phone-number-input';
 import ProgressBar from '../ProgressBar';
 
 interface FormData {
-  nomeCompleto?: string;
+  nome?: string;
+  sobrenome?: string;
   email?: string;
   telefone?: string;
   pais?: string;

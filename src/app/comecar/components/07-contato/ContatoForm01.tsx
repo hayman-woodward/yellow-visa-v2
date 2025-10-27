@@ -5,7 +5,8 @@ import { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'rea
 import ProgressBar from '../ProgressBar';
 
 interface FormData {
-  nomeCompleto?: string;
+  nome?: string;
+  sobrenome?: string;
   email?: string;
   telefone?: string;
   pais?: string;
@@ -33,8 +34,9 @@ export default function ContatoForm01({
   etapaAtual,
   totalEtapas
 }: ContatoForm01Props) {
-  const nomeCompleto = watch('nomeCompleto')?.trim();
-  const podeAvancar = nomeCompleto && nomeCompleto.split(/\s+/).length >= 2;
+  const nome = watch('nome')?.trim();
+  const sobrenome = watch('sobrenome')?.trim();
+  const podeAvancar = nome && sobrenome && nome.length >= 2 && sobrenome.length >= 2;
 
   return (
     <div className="w-full grid grid-cols-1 grid-rows-[1.2fr_1.8fr] lg:grid-cols-[1fr_2fr] lg:grid-rows-1 relative overflow-hidden min-h-screen max-h-[90vh]">
@@ -60,11 +62,18 @@ export default function ContatoForm01({
           </YVTitle>
           <div className="space-y-6 mb-8 max-w-[400px]">
             <YVTextField
-              {...register('nomeCompleto')}
-              placeholder="Escreva seu nome completo"
+              {...register('nome')}
+              placeholder="Escreva seu nome"
               variant="underline"
               className="text-gray-900 text-xl placeholder:text-gray-900"
-              error={errors.nomeCompleto?.message}
+              error={errors.nome?.message}
+            />
+            <YVTextField
+              {...register('sobrenome')}
+              placeholder="Escreva seu Sobrenome"
+              variant="underline"
+              className="text-gray-900 text-xl placeholder:text-gray-900"
+              error={errors.sobrenome?.message}
             />
           </div>
           <div className="flex items-center justify-between md:justify-end gap-4">
