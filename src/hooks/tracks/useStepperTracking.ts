@@ -27,9 +27,10 @@ export function useStepperTracking() {
 
     const { event_name, event_category, event_label, value, custom_parameters } = eventData;
 
-    // Google Analytics / GTM
-    if (window.gtag) {
-      window.gtag('event', event_name, {
+    // Google Analytics / GTM via dataLayer
+    if (window.dataLayer) {
+      window.dataLayer.push({
+        event: event_name,
         event_category,
         event_label,
         value,
@@ -76,7 +77,7 @@ export function useStepperTracking() {
   // Evento de progresso por etapa
   const trackStepProgress = (stepNumber: number, stepName: string, stepData?: unknown) => {
     trackEvent({
-      event_name: 'form_progress',
+      event_name: 'form_step',
       event_category: 'form_progress',
       event_label: `step = "${stepNumber} ${stepName}"`,
       value: stepNumber,
@@ -92,7 +93,7 @@ export function useStepperTracking() {
   // Evento de conversão final
   const trackConversion = (leadData?: unknown) => {
     trackEvent({
-      event_name: 'form_convert',
+      event_name: 'form_conversion',
       event_category: 'conversion',
       event_label: 'Form Completed',
       value: 1,
@@ -107,7 +108,7 @@ export function useStepperTracking() {
   // Evento de abandono
   const trackAbandonment = (stepNumber: number, stepName: string) => {
     trackEvent({
-      event_name: 'form_abandon',
+      event_name: 'form_abandonment',
       event_category: 'form_interaction',
       event_label: `Abandoned at Step ${stepNumber}`,
       value: stepNumber,
