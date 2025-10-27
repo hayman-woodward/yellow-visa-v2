@@ -62,7 +62,7 @@ export default function HeroHome() {
               <YVButton
                 variant='secondary'
                 className=' text-white px-8 py-4 text-lg font-semibold w-full md:w-fit'
-                href='/comecar'
+                href='/comecar?utm_medium=botao-site&utm_source=site-comecar-agora&utm_campaign=botao-site-comecar-agora'
               >
                 Comece agora
               </YVButton>
