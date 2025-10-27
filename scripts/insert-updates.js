@@ -3,32 +3,18 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('Inserindo atualizações do sistema...');
+  console.log('Inserindo nova atualização no sistema...');
 
-  await prisma.systemLog.createMany({
-    data: [
-      {
-        title: 'Imagem Hero Mobile Atualizada',
-        description: 'Nova foto do hero na versão mobile para melhor visualização e engagement.',
-        category: 'update',
-        isRead: false,
-      },
-      {
-        title: 'Sistema de Tracking Corrigido',
-        description: 'Correção completa do tracking analytics. Eventos form_start, form_progress e form_convert agora funcionando corretamente em GTM, Facebook Pixel e Segment.',
-        category: 'update',
-        isRead: false,
-      },
-      {
-        title: 'Formulário com Campos Separados',
-        description: 'Formulário de captura agora tem campos separados (nome e sobrenome) em vez de um campo único. Facilita nomes compostos e melhora a qualidade dos dados.',
-        category: 'update',
-        isRead: false,
-      },
-    ],
+  await prisma.systemLog.create({
+    data: {
+      title: 'Idiomas Limitados no Formulário',
+      description: 'Em "Selecione o seu idioma", limitamos para apenas os 5 idiomas possíveis responder de acordo com o Salesforce (Português, Espanhol, Inglês, Turco, Chinês).',
+      category: 'update',
+      isRead: false,
+    }
   });
 
-  console.log('✅ Atualizações inseridas com sucesso!');
+  console.log('✅ Nova atualização inserida com sucesso!');
 }
 
 main()
