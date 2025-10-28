@@ -23,6 +23,8 @@ const leadSchema = z.object({
   turismoOpcao: z.string().optional(),
   profissionalOpcao: z.string().optional(),
   contactChannel: z.string().optional(),
+  howDidYouFindUs: z.string().optional(),
+  additionalInfoText: z.string().optional(),
   source: z.string().optional(),
   utm_data: z.record(z.string(), z.string()).optional().nullable()
 });
@@ -66,6 +68,8 @@ export async function POST(request: NextRequest) {
           idioma: validatedData.language, // Mapear language para idioma no banco
           whatsapp: validatedData.whatsapp,
           contactChannel: validatedData.contactChannel,
+          howDidYouFindUs: validatedData.howDidYouFindUs,
+          additionalInfoText: validatedData.additionalInfoText,
           // UTM Parameters (capturados do localStorage)
           utm_data: body.utm_data || null
         })

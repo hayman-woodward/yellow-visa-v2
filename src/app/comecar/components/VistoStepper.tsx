@@ -27,6 +27,8 @@ import ContatoForm01 from './07-contato/ContatoForm01';
 import ContatoForm02 from './07-contato/ContatoForm02';
 import ContatoForm03 from './07-contato/ContatoForm03';
 import ContatoForm04 from './07-contato/ContatoForm04';
+import ContatoForm05 from './07-contato/ContatoForm05';
+import ContatoForm06 from './07-contato/ContatoForm06';
 import MaisInfoTurista03 from './05-mais-info/MaisInfoTurista03';
 import ResultadoPage from './08-captura-lead/ResultadoPage';
 
@@ -64,7 +66,13 @@ const formSchema = z.object({
   whatsapp: z.boolean().optional(),
   pais: z.string().min(2, 'País deve ter pelo menos 2 caracteres').optional(),
   language: z.string().min(1, 'Idioma é obrigatório').optional(),
-  contactChannel: z.string().optional()
+  contactChannel: z.string().optional(),
+  
+  // Etapa 8 - Como chegou até a gente
+  howDidYouFindUs: z.string().optional(),
+  
+  // Etapa 9 - Informação adicional
+  additionalInfoText: z.string().optional()
 });
 
 type StepperFormData = z.infer<typeof formSchema>;
@@ -108,6 +116,12 @@ export interface StepperFormDataInterface {
   pais?: string;
   language?: string;
   contactChannel?: string;
+  
+  // Etapa 8 - Como chegou até a gente
+  howDidYouFindUs?: string;
+  
+  // Etapa 9 - Informação adicional
+  additionalInfoText?: string;
 }
 
 // Definição das etapas
@@ -120,8 +134,10 @@ const etapas = [
   { id: 6, title: 'Experiência', description: 'Sua experiência', slug: 'experiencia' },
   { id: 7, title: 'Renda', description: 'Sua renda', slug: 'renda' },
   { id: 8, title: 'Contato', description: 'Seus dados', slug: 'contato' },
-  { id: 9, title: 'Captura Lead', description: 'Confirmação', slug: 'captura-lead' },
-  { id: 10, title: 'Resultado', description: 'Sua jornada', slug: 'resultado' }
+  { id: 9, title: 'Como chegou', description: 'Informação extra', slug: 'como-chegou' },
+  { id: 10, title: 'Informação adicional', description: 'Mais detalhes', slug: 'info-adicional' },
+  { id: 11, title: 'Captura Lead', description: 'Confirmação', slug: 'captura-lead' },
+  { id: 12, title: 'Resultado', description: 'Sua jornada', slug: 'resultado' }
 ];
 
 interface VistoStepperProps {
@@ -211,6 +227,8 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
         pais: watchedFields.pais || '',
         language: watchedFields.language || '',
         contactChannel: watchedFields.contactChannel || '',
+        howDidYouFindUs: watchedFields.howDidYouFindUs || '',
+        additionalInfoText: watchedFields.additionalInfoText || '',
         // Adicionar UTMs do localStorage
         utm_data: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('utm_data') || '{}') : {}
       };
@@ -664,7 +682,7 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
               errors={errors}
               watch={watch}
               setValue={setValue}
-              onProximo={proximaEtapa}
+              onProximo={() => setEtapaAtual(9)}
               onVoltar={etapaAnterior}
               etapaAtual={etapaAtual}
               totalEtapas={etapas.length}
@@ -686,8 +704,36 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
           );
         }
       case 9:
-        return <ResultadoPage />;
+        // ContatoForm05 - Como chegou até a gente
+        return (
+          <ContatoForm05
+            register={register}
+            errors={errors}
+            watch={watch}
+            setValue={setValue}
+            onProximo={() => setEtapaAtual(10)}
+            onVoltar={() => router.push('/comecar?etapa=08-contato&sub=contato-04')}
+            etapaAtual={etapaAtual}
+            totalEtapas={etapas.length}
+          />
+        );
       case 10:
+        // ContatoForm06 - Informação adicional
+        return (
+          <ContatoForm06
+            register={register}
+            errors={errors}
+            watch={watch}
+            setValue={setValue}
+            onProximo={proximaEtapa}
+            onVoltar={() => router.push('/comecar?etapa=09-como-chegou')}
+            etapaAtual={etapaAtual}
+            totalEtapas={etapas.length}
+          />
+        );
+      case 11:
+        return <ResultadoPage />;
+      case 12:
         return <ResultadoPage />;
       default:
         return null;
