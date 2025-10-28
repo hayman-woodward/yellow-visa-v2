@@ -95,7 +95,7 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
 
               <YVButton 
                 variant='secondary' 
-                href={disableComecarButton ? '#' : '/comecar'}
+                href={disableComecarButton ? '#' : '/comecar?utm_medium=botao-site&utm_source=site-comecar-agora&utm_campaign=botao-site-comecar-agora'}
                 disabled={disableComecarButton}
                 className={disableComecarButton ? 'opacity-50 cursor-not-allowed' : ''}
               >
