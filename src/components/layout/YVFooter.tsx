@@ -43,7 +43,7 @@ export default async function Footer({
     <footer className='bg-YV min-h-[400px] md:fixed md:bottom-0 md:left-0 md:right-0 md:min-h-[900px]'>
       <div className='w-full md:max-w-[1248px] px-6 md:px-28 xl:px-0 md:mx-auto pt-20 pb-10 md:pt-[120px] md:pb-[70px]'>
         {/* Desktop Layout */}
-        <div className='grid grid-cols-1 md:grid-cols-6 gap-0 md:gap-8'>
+        <div className='grid grid-cols-2 md:grid-cols-6 gap-4 md:gap-8'>
           {/* Coluna 1 - Informações da empresa (3 spans) */}
           <div className='col-span-2 md:col-span-3 flex flex-col mx-auto md:mx-0 md:justify-between'>
             <Image
@@ -84,7 +84,7 @@ export default async function Footer({
           </div>
 
           {/* Coluna 2 - Sobre a Yellow Visa (1 span) */}
-          <div className='col-span-3 md:col-span-1 mb-4 md:mb-0'>
+          <div className='col-span-2 md:col-span-1 mb-4 md:mb-0'>
             {firstColumn.map((item, index) => (
               <Link
                 key={index}
@@ -121,7 +121,7 @@ export default async function Footer({
                       <Link
                         key={item.slug}
                         href={`/vistos/${item.slug}`}
-                        className='group flex items-center justify-between text-sm hover:text-gray-600 transition-all duration-300 relative px-4 -mx-4 py-2 md:py-4 max-w-[168px] md:max-w-[188px]'
+                        className='group flex items-center justify-between text-sm hover:text-gray-600 transition-all duration-300 relative px-4 -mx-4 py-2 md:py-4 max-w-[164px] md:max-w-[188px]'
                       >
                         <span className='relative z-10'>{item.label}</span>
                         <span className='text-xs relative z-10'>›</span>
@@ -146,7 +146,7 @@ export default async function Footer({
                       <Link
                         key={item.slug}
                         href={`/vistos/${item.slug}`}
-                        className='group flex items-center justify-between text-sm hover:text-gray-600 transition-all duration-300 relative px-4 -mx-4 py-2 md:py-4 max-w-[168px] md:max-w-[188px]'
+                        className='group flex items-center justify-between text-sm hover:text-gray-600 transition-all duration-300 relative px-4 -mx-4 py-2 md:py-4 max-w-[164px] md:max-w-[188px]'
                       >
                         <span className='relative z-10'>{item.label}</span>
                         <span className='text-xs relative z-10'>›</span>
@@ -173,7 +173,7 @@ export default async function Footer({
                   <Link
                     key={index}
                     href='#'
-                    className='group flex items-center justify-between text-sm hover:text-gray-600 transition-all duration-300 relative px-4 -mx-4 py-2 md:py-4 max-w-[168px] md:max-w-[188px]'
+                    className='group flex items-center justify-between text-sm hover:text-gray-600 transition-all duration-300 relative px-4 -mx-4 py-2 md:py-4 max-w-[164px] md:max-w-[188px]'
                   >
                     <span className='relative z-10'>{item}</span>
                     <span className='text-xs relative z-10'>›</span>
