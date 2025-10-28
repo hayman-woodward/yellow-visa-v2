@@ -21,6 +21,8 @@ interface StepperData {
   idioma?: string;
   whatsapp?: boolean;
   contactChannel?: string;
+  howDidYouFindUs?: string;
+  additionalInfoText?: string;
   utm_data?: {
     utm_source?: string;
     utm_medium?: string;
@@ -392,6 +394,37 @@ export default function LeadDetailsModal({ isOpen, onClose, lead }: LeadDetailsM
                    stepperData.contactChannel === 'telefone' ? 'Telefone' : 
                    stepperData.contactChannel}
                 </span>
+              </div>
+            )}
+            
+            {stepperData?.howDidYouFindUs && (
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Globe className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Como chegou:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900">
+                  {stepperData.howDidYouFindUs === 'direct' ? 'Digitei o site direto ou já conhecia' : 
+                   stepperData.howDidYouFindUs === 'google' ? 'Busquei no Google e encontrei vocês' :
+                   stepperData.howDidYouFindUs === 'instagram' ? 'Vi no Instagram ou TikTok' :
+                   stepperData.howDidYouFindUs === 'facebook' ? 'Vi no Facebook ou LinkedIn' :
+                   stepperData.howDidYouFindUs === 'referral' ? 'Alguém me indicou' :
+                   stepperData.howDidYouFindUs === 'influencer' ? 'Vi através de um influenciador' :
+                   stepperData.howDidYouFindUs === 'email' ? 'Recebi por e-mail ou WhatsApp' :
+                   stepperData.howDidYouFindUs === 'youtube' ? 'Vi um vídeo no YouTube' :
+                   stepperData.howDidYouFindUs === 'other' ? 'Outro caminho' :
+                   stepperData.howDidYouFindUs}
+                </span>
+              </div>
+            )}
+            
+            {stepperData?.additionalInfoText && (
+              <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <MessageSquare className="w-3 h-3 text-[#FF6700]" />
+                  <span className="text-xs text-gray-600">Info adicional:</span>
+                </div>
+                <span className="text-xs font-medium text-gray-900 break-words">{stepperData.additionalInfoText}</span>
               </div>
             )}
 

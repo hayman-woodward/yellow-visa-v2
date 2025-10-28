@@ -30,6 +30,8 @@ interface StepperFormDataInterface {
   language?: string;
   academicBackground?: string;
   contactChannel?: string;
+  howDidYouFindUs?: string;
+  additionalInfoText?: string;
   utm_data?: {
     utm_campaign?: string;
     utm_source?: string;
@@ -104,6 +106,18 @@ const contactChannelMapping: { [key: string]: string } = {
   "telefone": "Contact via Phone"
 };
 
+const howDidYouFindUsMapping: { [key: string]: string } = {
+  "direct": "Digitei o site direto ou já conhecia",
+  "google": "Busquei no Google e encontrei vocês",
+  "instagram": "Vi no Instagram ou TikTok",
+  "facebook": "Vi no Facebook ou LinkedIn",
+  "referral": "Alguém me indicou",
+  "influencer": "Vi através de um influenciador",
+  "email": "Recebi por e-mail ou WhatsApp",
+  "youtube": "Vi um vídeo no YouTube",
+  "other": "Outro caminho"
+};
+
 // Mapeamento de países (apenas Portugal e Estados Unidos no step 1)
 const countryMapping: { [key: string]: string } = {
   "Portugal": "Portugal",
@@ -134,6 +148,19 @@ export default function ResultadoPage() {
       }
     });
     return filtered;
+  };
+
+  // Função helper para combinar howDidYouFindUs e additionalInfoText
+  const buildMoreInfo = (howDidYouFindUs?: string, additionalInfoText?: string): string => {
+    const parts = [];
+    if (howDidYouFindUs) {
+      const mapped = howDidYouFindUsMapping[howDidYouFindUs] || howDidYouFindUs;
+      parts.push(`Como chegou: ${mapped}`);
+    }
+    if (additionalInfoText) {
+      parts.push(`Info adicional: ${additionalInfoText}`);
+    }
+    return parts.length > 0 ? parts.join(' | ') : '';
   };
 
   // Função para mapear dados do stepper para Salesforce
@@ -167,9 +194,10 @@ export default function ResultadoPage() {
       language: data.language ? languageMapping[data.language] || 'English - Inglês' : 'English - Inglês',
       timeExperience: data.quantoTempo ? experienceTimeMapping[data.quantoTempo] || 'From 5 to 10 years' : 'From 5 to 10 years',
       contactChannel: data.contactChannel ? contactChannelMapping[data.contactChannel] || 'Contact by email' : 'Contact by email',
-      additionalInfo: data.quantasPessoas ? dependantsMapping[data.quantasPessoas] : 
+      additionalInfo: buildMoreInfo(data.howDidYouFindUs, data.additionalInfoText) || 
+                      (data.quantasPessoas ? dependantsMapping[data.quantasPessoas] : 
                       data.maisInfoTurista ? turismoMapping[data.maisInfoTurista] : 
-                      data.turismoOpcao ? turismoMapping[data.turismoOpcao] : 'Adultos',
+                      data.turismoOpcao ? turismoMapping[data.turismoOpcao] : 'Adultos'),
       whatsapp: Boolean(data.whatsapp),
       annualIncome: data.rendaAnual ? incomeMapping[data.rendaAnual] || '$50,000 to $199,999' : '$50,000 to $199,999',
       utm: data.utm_data?.utm_campaign || '',
@@ -278,6 +306,10 @@ export default function ResultadoPage() {
             turismoOpcao: parsedData.turismoOpcao,
             profissionalOpcao: parsedData.profissionalOpcao,
             contactChannel: parsedData.contactChannel,
+            howDidYouFindUs: parsedData.howDidYouFindUs,
+            additionalInfoText: parsedData.additionalInfoText,
+            // Campo combinado para compatibilidade e consulta rápida
+            additionalInfo: buildMoreInfo(parsedData.howDidYouFindUs, parsedData.additionalInfoText),
             source: 'stepper',
             utm_data: parsedData.utm_data
           };

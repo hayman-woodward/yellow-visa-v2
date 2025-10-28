@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
       medium: body.medium || '',
       term: body.term || '',
       campaign: body.campaign || '',
-      moreInfo: body.additionalInfo || 'Adultos',
+      moreInfo: body.additionalInfo || '',
       annualIncome: body.annualIncome || '$50,000 to $199,999',
       timeExperience: body.timeExperience || 'From 5 to 10 years',
       whatsapp: Boolean(body.whatsapp),
