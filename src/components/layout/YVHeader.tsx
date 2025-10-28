@@ -5,12 +5,14 @@ import HeaderMenu from '@/components/layout/header';
 import { menuData } from '@/components/layout/header/data';
 import type { VistoSummary } from '@/lib/actions/vistos';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function YVHeader({ vistos, disableComecarButton = false }: { vistos?: VistoSummary[]; disableComecarButton?: boolean }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,6 +41,13 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
     };
   }, [isMenuOpen]);
 
+  // Fecha o menu automaticamente em qualquer navegação
+  useEffect(() => {
+    if (!pathname) return;
+    setIsMenuOpen(false);
+    setActiveSubmenu(null);
+  }, [pathname]);
+
   const menuItems = [
     { label: 'Vistos e Destinos', hasDropdown: true, isVistosMenu: true },
     // { label: 'Dicas e Notícias', hasDropdown: true, isDicasMenu: true },
@@ -48,11 +57,13 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
 
   // Dados dinâmicos para vistos
   const dynamicVistosData = (() => {
-    if (!vistos || vistos.length === 0) return menuData.vistosDestinos;
-    const firstColumn = menuData.vistosDestinos[0];
-    const otherColumns = menuData.vistosDestinos.slice(1);
+    const baseData = menuData.vistosDestinos;
+    if (!vistos || vistos.length === 0) return baseData;
+    const firstColumn = baseData[0];
+    const otherColumns = baseData.slice(1);
     const dynamicFirst = {
       ...firstColumn,
+      href: firstColumn.href || '/vistos', // Garantir que href seja preservado ou usar fallback
       items: vistos.map((v) => ({ id: v.slug, label: v.label, href: `/vistos/${v.slug}` }))
     };
     return [dynamicFirst, ...otherColumns];
@@ -211,11 +222,15 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
                             />
                           </svg>
                         </button>
-                      ) : (
-                        <a
-                          href={item.href || '#'}
-                          className='flex items-center justify-between text-gray-800 hover:text-[#C60540] transition-colors py-3'
-                        >
+                        ) : (
+                         <Link
+                            href={item.href || '#'}
+                            className='flex items-center justify-between text-gray-800 hover:text-[#C60540] transition-colors py-3'
+                            onClick={() => {
+                              setIsMenuOpen(false);
+                              setActiveSubmenu(null);
+                            }}
+                          >
                           <span className='text-[22px]'>{item.label}</span>
                           <svg
                             width='16'
@@ -232,7 +247,7 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
                               strokeLinejoin='round'
                             />
                           </svg>
-                        </a>
+                        </Link>
                       )}
                     </div>
                   ))
@@ -269,16 +284,33 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
                       {activeSubmenu === 'Vistos e Destinos' && 
                         dynamicVistosData.map((column, index) => (
                           <div key={column.id} className={`${index > 0 ? 'mt-12' : 'mb-6'}`}>
-                            <h3 className='text-base font-semibold text-gray-800 mb-3'>
-                              {column.title}
-                            </h3>
+                            {column.href ? (
+                              <Link
+                                href={column.href}
+                                className='block text-base font-semibold text-gray-800 mb-3 hover:text-[#C60540] transition-colors cursor-pointer'
+                                onClick={(e) => {
+                                  console.log('Clicked on column:', column.title, column.href);
+                                  setIsMenuOpen(false);
+                                  setActiveSubmenu(null);
+                                }}
+                              >
+                                {column.title}
+                              </Link>
+                            ) : (
+                              <h3 className='text-base font-semibold text-gray-800 mb-3'>
+                                {column.title}
+                              </h3>
+                            )}
                             <div className='space-y-2'>
                               {column.items?.map((item) => (
-                                <a
+                                <Link
                                   key={item.id}
                                   href={item.href}
                                   className='flex items-center justify-between text-gray-600 hover:text-[#C60540] transition-colors py-2'
-                                  onClick={() => setIsMenuOpen(false)}
+                                  onClick={() => {
+                                    setIsMenuOpen(false);
+                                    setActiveSubmenu(null);
+                                  }}
                                 >
                                   <span className='text-[18px]'>{item.label}</span>
                                   <svg
@@ -296,7 +328,7 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
                                       strokeLinejoin='round'
                                     />
                                   </svg>
-                                </a>
+                                </Link>
                               ))}
                             </div>
                           </div>
@@ -333,7 +365,7 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
                                       strokeLinejoin='round'
                                     />
                                   </svg>
-                                </a>
+                                </Link>
                               ))}
                             </div>
                           </div>
@@ -349,9 +381,10 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
                 <div className='w-full'>                  
                   <YVButton
                     variant='secondary'
-                    href={disableComecarButton ? '#' : '/comecar'}
+                    href={disableComecarButton ? '#' : '/comecar?utm_medium=botao-site&utm_source=site-comecar-agora&utm_campaign=botao-site-comecar-agora'}
                     disabled={disableComecarButton}
                     className={`w-full justify-center ${disableComecarButton ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    onClick={() => setIsMenuOpen(false)}
                   >
                     Comece agora
                   </YVButton>                  

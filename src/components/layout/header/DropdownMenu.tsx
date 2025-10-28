@@ -35,6 +35,11 @@ const DropdownMenu = ({
   const triggerRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const closeMenu = () => {
+    setIsOpen(false);
+    setIsVisible(false);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -124,6 +129,7 @@ const DropdownMenu = ({
                       <Link
                         href={column.href}
                         className='block font-extrabold pb-3 text-[#0F0005] hover:text-[#C60540] transition-colors duration-150'
+                        onClick={closeMenu}
                       >
                         {column.title}
                       </Link>
@@ -145,9 +151,10 @@ const DropdownMenu = ({
                               </YVText>
                             </div>
                           ) : (
-                            <a
+                            <Link
                               href={item.href}
                               className='flex items-center justify-between group hover:bg-gray-50 rounded-md px-3 py-2 -mx-3 -my-2 transition-colors duration-150'
+                              onClick={closeMenu}
                             >
                               <YVText
                                 variant='small'
@@ -168,7 +175,7 @@ const DropdownMenu = ({
                                   d='M9 5l7 7-7 7'
                                 />
                               </svg>
-                            </a>
+                            </Link>
                           )}
                         </li>
                       ))}
