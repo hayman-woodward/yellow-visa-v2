@@ -30,12 +30,12 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
     openGraph: {
       title: post.ogTitle || post.title,
       description: post.ogDescription || post.excerpt || undefined,
-      images: post.ogImage ? [post.ogImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yellowvisa-og-image.jpg'],
+      images: post.ogImage ? [post.ogImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yv-og-image.jpg'],
     },
     twitter: {
       title: post.twitterTitle || post.title,
       description: post.twitterDescription || post.excerpt || undefined,
-      images: post.twitterImage ? [post.twitterImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yellowvisa-og-image.jpg'],
+      images: post.twitterImage ? [post.twitterImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yv-og-image.jpg'],
     },
   };
 }
