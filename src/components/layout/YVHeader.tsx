@@ -7,6 +7,7 @@ import type { VistoSummary } from '@/lib/actions/vistos';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import SmartComecarButton from '@/components/shared/SmartComecarButton';
 
 export default function YVHeader({ vistos, disableComecarButton = false }: { vistos?: VistoSummary[]; disableComecarButton?: boolean }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -104,14 +105,13 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
                 Log in
               </YVButton> */}
 
-              <YVButton 
-                variant='secondary' 
-                href={disableComecarButton ? '#' : '/comecar?utm_medium=botao-site&utm_source=site-comecar-agora&utm_campaign=botao-site-comecar-agora'}
+              <SmartComecarButton
+                variant='secondary'
                 disabled={disableComecarButton}
                 className={disableComecarButton ? 'opacity-50 cursor-not-allowed' : ''}
               >
                 Comece agora
-              </YVButton>
+              </SmartComecarButton>
             </div>
 
             {/* Mobile Menu Button */}
@@ -379,15 +379,14 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
               {/* Action Button */}
               <div className='absolute bottom-20 left-6 right-6'>
                 <div className='w-full'>                  
-                  <YVButton
+                  <SmartComecarButton
                     variant='secondary'
-                    href={disableComecarButton ? '#' : '/comecar?utm_medium=botao-site&utm_source=site-comecar-agora&utm_campaign=botao-site-comecar-agora'}
                     disabled={disableComecarButton}
                     className={`w-full justify-center ${disableComecarButton ? 'opacity-50 cursor-not-allowed' : ''}`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Comece agora
-                  </YVButton>                  
+                  </SmartComecarButton>                  
                 </div>
               </div>
             </div>

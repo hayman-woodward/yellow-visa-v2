@@ -32,8 +32,18 @@ export function useUTMTracking() {
       .filter(([_, value]) => value !== null)
       .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-    // Se há parâmetros UTM válidos, enviar para os sistemas
+    // Se há parâmetros UTM válidos
     if (Object.keys(validParams).length > 0) {
+      // Verificar se já existe UTM salvo (de campanhas anteriores)
+      const existingUtm = localStorage.getItem('utm_data');
+      const isManualSiteUtm = validParams.utm_campaign === 'botao-site-comecar-agora';
+      
+      // NÃO sobrescrever UTM de campanha com UTM manual do site
+      if (existingUtm && isManualSiteUtm) {
+        console.log('🔒 UTM de campanha preservado, ignorando UTM manual do site');
+        return;
+      }
+
       // Enviar para Google Tag Manager
       if (typeof window !== 'undefined' && window.dataLayer) {
         window.dataLayer.push({
