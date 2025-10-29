@@ -29,8 +29,8 @@ export function useUTMTracking() {
 
     // Filtrar apenas parâmetros que existem
     const validParams = Object.entries(utmParams)
-      .filter(([_, value]) => value !== null)
-      .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+      .filter(([, value]) => value !== null)
+      .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as Record<string, string>);
 
     // Se há parâmetros UTM válidos
     if (Object.keys(validParams).length > 0) {
