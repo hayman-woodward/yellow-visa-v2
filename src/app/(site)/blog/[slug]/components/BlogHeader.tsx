@@ -1,29 +1,12 @@
-import { YVAvatar, YVContainer, YVIcon, YVText, YVTitle } from "@/components/YV";
+import { YVAvatar, YVContainer, YVIcon, YVSection, YVText, YVTitle } from "@/components/YV";
 import Link from "next/link";
 
 export default function BlogHeader() {
   return (
-    <div className="bg-[#F7F5F6] relative overflow-hidden pt-40 pb-5">
-      {/* Laço decorativo de fundo */}
-      <div className="absolute top-[-400px] left-1/2 -translate-x-1/2 pointer-events-none z-0">
-        <svg width="2192" height="712" viewBox="0 0 2192 712" fill="none" className="rotate-[347deg]">
-          <path d="M2191.5 711.5C2191.5 711.5 1891.5 411.5 1591.5 311.5C1291.5 211.5 991.5 311.5 791.5 511.5C591.5 711.5 391.5 711.5 191.5 511.5C-8.5 311.5 0.5 0.5 0.5 0.5" 
-            stroke="url(#gradient)" 
-            strokeWidth="80" 
-            strokeLinecap="round"
-            fill="none"
-          />
-          <defs>
-            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#FFBD1A" />
-              <stop offset="50%" stopColor="#FF9500" />
-              <stop offset="100%" stopColor="#FF6700" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
+    <YVSection className="-mt-[88px]">
+ 
 
-      <YVContainer className="relative z-10">
+      <YVContainer className="z-10 pt-20 ">
         <div className="flex flex-col gap-10">
           {/* Botão Voltar */}
           <Link 
@@ -74,6 +57,6 @@ export default function BlogHeader() {
           </div>
         </div>
       </YVContainer>
-    </div>
+    </YVSection>
   );
 }
