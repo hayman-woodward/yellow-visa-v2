@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function BlogHeader() {
   return (
-    <YVSection className="-mt-[88px] relative overflow-hidden">
+    <YVSection className="-mt-[88px] relative overflow-hidden bg-[#F7F5F6]">
       {/* Laço decorativo responsivo */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
         <svg 
@@ -24,11 +24,11 @@ export default function BlogHeader() {
       </div>
 
 
-      <YVContainer className="relative z-10 pt-20 pb-10">
+      <YVContainer className="relative z-10 pt-[88px] pb-5 flex flex-col mb-10">
         {/* Botão Voltar */}
         <Link 
           href="/blog" 
-          className="text-sm inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 font-extrabold group py-[12px]"
+          className="text-sm inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 font-extrabold group py-[12px] mb-10"
         >
           <YVIcon 
             name="arrow-left" 
@@ -39,22 +39,21 @@ export default function BlogHeader() {
           Voltar para Notícias
         </Link>
 
-      <div className="flex flex-col max-w-[824px] pt-10 pb-4">
-      
-
-      <YVBreadcrumbs
+        {/* Conteúdo */}
+        <div className="flex flex-col max-w-[614px]">
+          <YVBreadcrumbs
             disabled
-            className='pb-4 md:pb-5 '
+            className='pb-4 md:pb-5'
             items={[
               { label: 'Noticias', href: '/blog' }
             ]}
           />
 
           {/* Título */}
-          <YVTitle tag="h1" variant='hero' title='Coimbra: A cidade universitária' className="pb-4 z-30" />
+          <YVTitle tag="h1" variant='hero' title='Coimbra: A cidade universitária' className="pb-4" />
           
           {/* Descrição */}
-          <YVText className="text-base leading-[22px] pb-2 z-30">
+          <YVText className="text-base leading-[22px] pb-2">
             Qualidade de vida, praias próximas e um polo de inovação crescente
           </YVText>
 
@@ -66,7 +65,7 @@ export default function BlogHeader() {
               className="w-10 h-10"
             />
             <div className="flex flex-col">
-              <YVText variant="paragraph" className="!font-bold ">
+              <YVText className="font-normal text-base leading-[22px]">
                 Kristin Watson
               </YVText>
               <YVText className="text-sm leading-5">
