@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
 
 export default function BlogPage() {
   return (
-    <div>
+    <div className="bg-white">
       <BlogHeader />
       <FeaturedImg />
       <BlogPost />

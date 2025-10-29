@@ -1,5 +1,8 @@
+'use client';
+
 import Image from 'next/image';
-import {  YVButton, YVText, YVTitle } from '@/components/YV';
+import { YVText, YVTitle } from '@/components/YV';
+import SmartComecarButton from '@/components/shared/SmartComecarButton';
 
 export default function HeroHome() {
   return (
@@ -59,13 +62,12 @@ export default function HeroHome() {
               </YVText>
             </div>
             <div className='pt-0' data-aos="fade-up" data-aos-delay="900" data-aos-duration="1200">
-              <YVButton
+              <SmartComecarButton
                 variant='secondary'
                 className=' text-white px-8 py-4 text-lg font-semibold w-full md:w-fit'
-                href='/comecar?utm_medium=botao-site&utm_source=site-comecar-agora&utm_campaign=botao-site-comecar-agora'
               >
                 Comece agora
-              </YVButton>
+              </SmartComecarButton>
             </div>
           </div>
 
