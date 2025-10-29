@@ -30,13 +30,13 @@ export async function generateMetadata({ params }: GDIPostPageProps): Promise<Me
     openGraph: {
       title: `${guiaData.title} | Yellow Visa`,
       description: guiaData.subtitle || `Perguntas frequentes sobre ${guiaData.title} - Guia do Imigrante.`,
-      images: ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yellowvisa-og-image.jpg'],
+      images: ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yv-og-image.jpg'],
     },
     twitter: {
       card: 'summary_large_image',
       title: `${guiaData.title} | Yellow Visa`,
       description: guiaData.subtitle || `Perguntas frequentes sobre ${guiaData.title} - Guia do Imigrante.`,
-      images: ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yellowvisa-og-image.jpg'],
+      images: ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yv-og-image.jpg'],
     },
   };
 }

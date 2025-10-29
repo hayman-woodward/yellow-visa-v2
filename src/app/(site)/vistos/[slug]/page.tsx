@@ -31,12 +31,12 @@ export async function generateMetadata({ params }: VistoPageProps): Promise<Meta
     openGraph: {
       title: visto.ogTitle || visto.title,
       description: visto.ogDescription || visto.description,
-      images: visto.ogImage ? [visto.ogImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yellowvisa-og-image.jpg'],
+      images: visto.ogImage ? [visto.ogImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yv-og-image.jpg'],
     },
     twitter: {
       title: visto.twitterTitle || visto.title,
       description: visto.twitterDescription || visto.description,
-      images: visto.twitterImage ? [visto.twitterImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yellowvisa-og-image.jpg'],
+      images: visto.twitterImage ? [visto.twitterImage] : ['https://vff5ghjtlyibstii.public.blob.vercel-storage.com/uploads/yv-og-image.jpg'],
     },
   };
 }
