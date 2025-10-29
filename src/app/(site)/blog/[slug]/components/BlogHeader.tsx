@@ -1,16 +1,34 @@
-import { YVAvatar, YVContainer, YVIcon, YVSection, YVText, YVTitle } from "@/components/YV";
+import { YVAvatar, YVBreadcrumbs, YVContainer, YVIcon, YVSection, YVText, YVTitle } from "@/components/YV";
 import Link from "next/link";
 
 export default function BlogHeader() {
   return (
-    <YVSection className="-mt-[88px]">
- 
+    <YVSection className="-mt-[88px] relative overflow-hidden">
+      {/* Laço decorativo responsivo */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
+        <svg 
+          className="absolute w-[250%] sm:w-[200%] md:w-[150%] lg:w-full h-auto top-0 left-1/2 -translate-x-1/2 opacity-40 md:opacity-50 lg:opacity-100"
+          viewBox="0 0 1440 577" 
+          preserveAspectRatio="xMidYMin slice"
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M688.399 563.769C679.476 565.818 670.462 567.629 661.37 569.18C625.093 575.38 588.619 577.422 552.933 575.245C516.575 573.038 482.107 566.506 450.485 555.858C417.177 544.633 387.768 529.05 363.077 509.531C273.264 438.567 234.114 357.136 199.553 285.301C177.816 240.081 157.268 197.385 126.835 164.941C93.8263 129.737 51.1546 108.735 -7.47405 98.8435C-33.9796 94.3731 -60.0112 93.9797 -84.8826 97.6725C-107.43 101.017 -129.61 107.814 -150.798 117.885C-187.025 135.094 -221.192 162.073 -252.357 198.105C-306.591 260.808 -332.963 329.708 -333.229 330.399C-337.32 341.247 -349.433 346.714 -360.285 342.613C-371.12 338.507 -376.602 326.394 -372.532 315.532C-371.386 312.472 -343.725 239.85 -284.942 171.508C-249.916 130.793 -211.083 100.057 -169.477 80.1859C-116.811 55.0152 -59.9802 47.3355 -0.541193 57.3746C35.0814 63.3815 65.4671 73.073 92.3808 86.9696C117.073 99.728 138.332 115.812 157.412 136.175C192.259 173.347 214.161 218.881 237.342 267.084C254.183 302.094 271.591 338.287 295.213 373.999C321.717 414.05 352.405 447.601 389.042 476.545C409.939 493.065 435.102 506.345 463.822 516.03C491.921 525.505 522.747 531.317 555.411 533.299C621.041 537.286 690.312 525.324 750.477 499.635C775.229 489.061 798.234 476.277 818.87 461.629C840.251 446.439 859.099 429.239 874.921 410.455C909.091 369.88 928.984 322.527 934.05 269.707C935.9 250.391 936.681 231.486 936.423 213.135C913.585 216.102 891.362 216.834 869.934 215.309C834.556 212.784 801.854 204.198 772.734 189.79C745.697 176.403 722.847 158.628 704.85 136.942C693.962 123.829 685.236 109.663 678.888 94.8224C672.528 79.9285 668.714 64.6906 667.548 49.5485C666.357 33.8937 668.029 18.711 672.521 4.45514C677.217 -10.4404 684.887 -23.9814 695.309 -35.7651C732.31 -77.6194 785.465 -89.0668 837.492 -66.3792C881.773 -47.0621 920.065 -5.44006 945.323 50.8435C960.348 84.3064 970.33 122.057 975.132 162.776C977.052 162.28 978.986 161.762 980.915 161.226C1023.57 149.467 1068.32 129.614 1113.87 102.206C1196.08 52.7679 1258.88 12.5634 1311.51 -24.3032C1363.89 -61.0037 1406.59 -94.7026 1445.93 -130.35C1522.94 -200.155 1583 -274.106 1673.89 -386.049L1676.34 -389.074C1683.65 -398.086 1696.87 -399.438 1705.87 -392.115C1714.88 -384.792 1716.24 -371.547 1708.93 -362.535L1706.48 -359.509C1523.2 -133.797 1461.45 -57.7554 1135.52 138.26C1086.69 167.626 1038.43 188.987 992.091 201.759C987.446 203.029 982.824 204.239 978.23 205.331C978.866 227.503 978.085 250.353 975.835 273.725C972.826 305.069 965.19 335.179 953.123 363.232C941.697 389.804 926.174 414.798 907.011 437.554C888.922 459.025 867.436 478.666 843.175 495.887C820.107 512.26 794.481 526.517 766.987 538.276C741.931 548.975 715.587 557.525 688.381 563.773L688.399 563.769ZM768.617 -33.9303C752.968 -30.3365 738.892 -21.5846 726.799 -7.89844C713.871 6.73897 707.86 25.4924 709.452 46.3525C711.088 67.8878 720.94 90.4997 737.154 110.058C751.162 126.936 769.902 141.469 791.325 152.071C815.525 164.053 842.982 171.213 872.885 173.329C892.396 174.719 912.797 173.942 933.868 171.011C929.749 133.266 920.755 98.5292 907.055 68.0217C896.23 43.9108 882.824 23.1337 867.18 6.29724C852.761 -9.22788 837.16 -20.7217 820.782 -27.8698C803.749 -35.2934 786.37 -37.544 770.549 -34.3739C769.895 -34.2423 769.242 -34.1107 768.592 -33.9614L768.617 -33.9303Z" fill="url(#paint0_linear_462_8538)"/>
+          <defs>
+            <linearGradient id="paint0_linear_462_8538" x1="-348.32" y1="436.58" x2="1788.07" y2="-54.0315" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#FFBD1A"/>
+              <stop offset="1" stopColor="#FF6700"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
 
-      <YVContainer className="z-10 pt-20">
+
+      <YVContainer className="relative z-10 pt-20 pb-10">
         {/* Botão Voltar */}
         <Link 
           href="/blog" 
-          className="text-sm inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 font-extrabold group py-[14px]"
+          className="text-sm inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 font-extrabold group py-[12px]"
         >
           <YVIcon 
             name="arrow-left" 
@@ -21,35 +39,34 @@ export default function BlogHeader() {
           Voltar para Notícias
         </Link>
 
-        <div className="flex flex-col gap-6 max-w-[824px] pt-10">
-          {/* Tag */}
-          <div className="flex items-center gap-1 pb-5">
-            <svg width="12" height="14" viewBox="0 0 12 14" fill="none" className="opacity-40">
-              <path d="M6 0L0 3.5L6 7L12 3.5L6 0Z" fill="currentColor"/>
-              <path d="M0 10.5L6 14L12 10.5L6 7L0 10.5Z" fill="currentColor"/>
-            </svg>
-            <span className="text-[#FF6700] font-semibold text-sm uppercase tracking-tight">
-              Notícias
-            </span>
-          </div>
+      <div className="flex flex-col max-w-[824px] pt-10 pb-4">
+      
+
+      <YVBreadcrumbs
+            disabled
+            className='pb-4 md:pb-5 '
+            items={[
+              { label: 'Noticias', href: '/blog' }
+            ]}
+          />
 
           {/* Título */}
-          <YVTitle tag="h1" variant='hero' title='Coimbra: A cidade universitária' className="pb-4" />
+          <YVTitle tag="h1" variant='hero' title='Coimbra: A cidade universitária' className="pb-4 z-30" />
           
           {/* Descrição */}
-          <YVText className="text-base leading-[22px] pb-2">
+          <YVText className="text-base leading-[22px] pb-2 z-30">
             Qualidade de vida, praias próximas e um polo de inovação crescente
           </YVText>
 
           {/* Autor */}
-          <div className="flex items-center gap-4 pt-4">
+          <div className="flex items-center gap-4 py-4">
             <YVAvatar 
               name="Kristin Watson"
               size="lg"
               className="w-10 h-10"
             />
             <div className="flex flex-col">
-              <YVText className="font-normal text-base leading-[22px]">
+              <YVText variant="paragraph" className="!font-bold ">
                 Kristin Watson
               </YVText>
               <YVText className="text-sm leading-5">
