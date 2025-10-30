@@ -354,8 +354,8 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
           }
         }
 
-        // Lógica especial para etapa 9 - redirecionar para /result
-        if (novaEtapa === 9) {
+        // Lógica especial para etapa 11 - redirecionar para /result
+        if (novaEtapa === 11) {
           router.push('/result');
           return;
         }

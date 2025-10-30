@@ -52,15 +52,9 @@ export function useStepperTracking() {
       window.gtag('event', event_name, gtagPayload);
     }
 
-    // Facebook Pixel
-    if (window.fbq) {
-      window.fbq('track', event_name, {
-        content_category: event_category,
-        content_name: event_label,
-        value,
-        ...custom_parameters
-      });
-    }
+    // Facebook Pixel - NÃO enviar eventos customizados aqui
+    // Eventos padrão do Facebook devem ser enviados diretamente nas funções específicas
+    // (ex: trackConversion envia 'Lead' diretamente)
 
     // Segment Analytics
     if (window.analytics) {
@@ -106,6 +100,17 @@ export function useStepperTracking() {
 
   // Evento de conversão final
   const trackConversion = (leadData?: unknown) => {
+    // Para Facebook Pixel, usar evento padrão "Lead"
+    if (window.fbq) {
+      window.fbq('track', 'Lead', {
+        content_name: 'Visa Form Completed',
+        content_category: 'visa_form',
+        value: 1,
+        currency: 'USD'
+      });
+    }
+
+    // Para Google Analytics e outros, usar evento customizado
     trackEvent({
       event_name: 'form_conversion',
       event_category: 'conversion',
