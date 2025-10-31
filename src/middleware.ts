@@ -20,6 +20,7 @@ export function middleware(request: NextRequest) {
     '/vistos',
     '/comecar',
     '/result',
+    '/politica-de-privacidade',
     '/dashboard',
     '/yv-admin',
     '/api',
