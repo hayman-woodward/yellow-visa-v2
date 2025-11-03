@@ -29,7 +29,7 @@ export default function Destinos() {
         <div className='max-w-[1248px] px-4 mx-auto md:py-[80px] xl:px-0'>
           <div data-aos="fade-right" data-aos-delay="200" data-aos-duration="800">
             <YVBreadcrumbs
-              className='pb-4 md:pb-5'
+              className='pb-4 md:pb-5 text-[#FFBD1A]'
               items={[{ label: 'Destinos', href: '/destinos' }]}
             />
           </div>
