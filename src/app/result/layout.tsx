@@ -10,7 +10,7 @@ export default async function ComecarLayout({
   
   return (
     <div className='pb-0 no-swipe -mt-[88px]'>
-      <YVHeader vistos={vistos} disableComecarButton />
+      <YVHeader vistos={vistos} />
       <div className='relative z-[1]'>
         <main>{children}</main>
       </div>
