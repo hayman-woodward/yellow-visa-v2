@@ -129,64 +129,32 @@ export default function Newsletter() {
         </div>
       </div>
 
-      {/* Modal de Sucesso */}
+      {/* Modal de Sucesso (alinhada ao Figma) */}
       <YVModal
         open={showSuccessModal}
         onOpenChange={setShowSuccessModal}
         size="md"
         className="text-center"
       >
-        <div className="flex flex-col items-center space-y-6 py-4">
-          {/* Ícone de sucesso animado */}
-          <div className="relative">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center animate-pulse">
-              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
-                <svg 
-                  className="w-8 h-8 text-white animate-bounce" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={3} 
-                    d="M5 13l4 4L19 7" 
-                  />
-                </svg>
-              </div>
-            </div>
-            {/* Confetes animados */}
-            <div className="absolute -top-2 -right-2 w-4 h-4 bg-yellow-400 rounded-full animate-ping"></div>
-            <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-pink-400 rounded-full animate-ping delay-100"></div>
-            <div className="absolute top-1 -left-3 w-2 h-2 bg-blue-400 rounded-full animate-ping delay-200"></div>
-          </div>
+        <div className="relative w-full mx-auto px-1 pt-8 pb-4  md:px-[80px] md:pt-12 md:pb-10 max-w-[600px] text-left break-words">
+     
+   
 
-          {/* Título */}
-          <div className="space-y-2">
-            <h3 className="text-2xl font-bold text-[#0F0005]">
-              🎉 Parabéns!
-            </h3>
-            <p className="text-lg text-gray-600">
-              Você foi cadastrado com sucesso na nossa newsletter!
-            </p>
-          </div>
+          {/* Título e texto */}
+          <h3 className=" text-[20px] max-w-[260px] lg:max-w-[240px] leading-[24px] md:text-[22px] md:leading-[28px] lg:text-[32px] lg:leading-[40px] font-semibold text-[#0F0005] tracking-[-0.5px] mb-3 md:mb-6">
+            Email cadastrado
+            <br />
+            com sucesso
+          </h3>
+          <p className="text-[14px] md:text-[18px] leading-[18px] md:leading-[24px] lg:leading-[26px] text-[#0F0005] mb-3 md:mb-6">
+            Você foi cadastrado com sucesso na nossa newsletter!
+          </p>
 
-          {/* Descrição */}
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 w-full max-w-sm">
-            <p className="text-sm text-gray-700">
-              <strong>O que vem por aí:</strong><br />
-              • Insights exclusivos sobre imigração<br />
-              • Dicas práticas para seu processo<br />
-              • Notícias atualizadas do mercado<br />
-              • Conteúdos selecionados especialmente para você
-            </p>
-          </div>
-
-          {/* Botão de fechar */}
+          {/* Botão */}
           <YVButton
             onClick={() => setShowSuccessModal(false)}
-            className="w-full max-w-xs"
+            variant="secondary"
+            className="w-full md:w-fit h-[46px]"
           >
             Fechar
           </YVButton>
