@@ -1,8 +1,8 @@
 'use client';
 
-import { YVBanner, YVButton, YVTitle, YVIcon } from '@/components/YV';
+import { YVBanner, YVButton, YVIcon, YVTitle } from '@/components/YV';
 import { useState } from 'react';
-import { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'react-hook-form';
+import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import ProgressBar from '../ProgressBar';
 
 interface FormData {
@@ -72,6 +72,7 @@ export default function RendaOptions({
         <YVBanner
           src='/imgs/stepper-form/bg-etapa-06.jpg'
           src2x='/imgs/stepper-form/bg-etapa-06-2x.jpg'
+          srcMobile='/imgs/stepper-form/bg-etapa-06-mobile.jpg'
           alt='Hero Renda'
           className='object-cover object-center h-full md:min-h-[100vh]'
           priority
