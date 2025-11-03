@@ -7,10 +7,12 @@ import 'aos/dist/aos.css';
 export default function AOSProvider() {
   useEffect(() => {
     AOS.init({
-      duration: 1200,
-      easing: 'ease-out-cubic',
+      // Padrão global solicitado: animações curtas, sem scale,
+      // apenas opacidade + deslocamento vertical (fade-up)
+      duration: 450,
+      easing: 'ease-out',
       once: true,
-      offset: 50,
+      offset: 80
     });
   }, []);
 

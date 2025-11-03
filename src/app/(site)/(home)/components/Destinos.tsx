@@ -27,7 +27,7 @@ export default function Destinos() {
       {/* Simplificamos seu visto */}
       <section className='pt-[180px] md:px-16 xl:px-0'>
         <div className='max-w-[1248px] px-4 mx-auto md:py-[80px] xl:px-0'>
-          <div data-aos="fade-right" data-aos-delay="200" data-aos-duration="800">
+          <div data-aos="fade-up" data-aos-delay="0">
             <YVBreadcrumbs
               className='pb-4 md:pb-5 text-[#FFBD1A]'
               items={[{ label: 'Destinos', href: '/destinos' }]}
@@ -37,14 +37,14 @@ export default function Destinos() {
           {/* Titulo e subtitulo */}
           <div className='flex flex-col gap-5 md:gap-10'>
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-15 items-start'>
-              <div data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+              <div data-aos="fade-up" data-aos-delay="60">
                 <YVTitle
                   className='text-white'
                   title='Um mundo inteiro pra ser visto por você'
                 />
               </div>
 
-              <div data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
+              <div data-aos="fade-up" data-aos-delay="120">
                 <p className='text-white text-base leading-relaxed max-w-[80%]'>
                   Nosso papel é simplificar esse caminho com processos 100% personalizados e do seu jeito.
                 </p>
@@ -52,7 +52,7 @@ export default function Destinos() {
             </div>
             {/* Second Gallery with overlap effect */}
 
-            <div className='z-10' data-aos="fade-up" data-aos-delay="800" data-aos-duration="1000">
+            <div className='z-10' data-aos="fade-up" data-aos-delay="180">
               <YVGallery
                 items={gallery2Items}
                 columns={2}
