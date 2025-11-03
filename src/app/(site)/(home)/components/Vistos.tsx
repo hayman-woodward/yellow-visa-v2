@@ -42,7 +42,7 @@ export default function Vistos() {
 
         </div>
       
-        <div data-aos="fade-right" data-aos-delay="200" data-aos-duration="800">
+        <div data-aos="fade-up" data-aos-delay="0">
           <YVBreadcrumbs
             className='pb-4 md:pb-5'
             items={[{ label: 'Vistos', href: '/vistos' }]}
@@ -50,14 +50,14 @@ export default function Vistos() {
         </div>
 
         <div className='relative grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-15 items-start'>
-          <div data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+          <div data-aos="fade-up" data-aos-delay="60">
             <YVTitle
               variant='heading'
               title='Cada jornada é única. A gente facilita a sua.'
             />
           </div>
 
-          <div data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
+          <div data-aos="fade-up" data-aos-delay="120">
             <YVText variant='body' className='leading-relaxed max-w-[80%]'>
               Aqui, o visto é só o começo de um novo capítulo feito sob medida para você. Seja para estudar, trabalhar ou só viver uma grande história.
 

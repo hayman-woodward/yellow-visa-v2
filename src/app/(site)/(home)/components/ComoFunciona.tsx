@@ -33,14 +33,14 @@ export default function ComoFunciona() {
       <div className='max-w-[1248px] mx-auto'>
         <div>
           <div className='mb-5 text-center'>
-            <div className='flex justify-center' data-aos="fade-down" data-aos-delay="100" data-aos-duration="600">
+            <div className='flex justify-center' data-aos="fade-up" data-aos-delay="0">
               <YVBreadcrumbs
                 disabled
                 className='pb-4 md:pb-5'
                 items={[{ label: 'Como Funciona', href: '/como-funciona' }]}
               />
             </div>
-            <div data-aos="fade-up" data-aos-delay="200" data-aos-duration="700">
+            <div data-aos="fade-up" data-aos-delay="60">
               <YVTitle
                 variant='heading'
                 className='max-w-[320px] md:max-w-[600px] mx-auto'
@@ -57,32 +57,24 @@ export default function ComoFunciona() {
                 background: 'linear-gradient(180deg, #FFBD1A 0%, #FF6700 100%)',
                 borderRadius: '999px'
               }}
-              data-aos="fade-right"
-              data-aos-delay="300"
-              data-aos-duration="800"
+              data-aos="fade-up"
+              data-aos-delay="120"
             />
 
             {/* Passos */}
             <div className='ml-[120px] py-[50px] space-y-32 '>
               {steps.map((step, index) => {
-                const animations = ['fade-right', 'fade-up', 'fade-left'];
-                const delays = [400, 500, 600];
-                const iconDelays = [500, 600, 700];
-                
+                const delays = [180, 240, 300];
                 return (
                   <div
                     key={step.number}
                     className='flex items-start gap-6 pt-[120px]'
-                    data-aos={animations[index]}
+                    data-aos="fade-up"
                     data-aos-delay={delays[index]}
-                    data-aos-duration="700"
                   >
                     {/* Ícone posicionado sobre a barra */}
                     <div 
                       className='flex-shrink-0 w-8 h-8 flex items-center justify-center text-black -ml-24 z-10'
-                      data-aos="zoom-in"
-                      data-aos-delay={iconDelays[index]}
-                      data-aos-duration="400"
                     >
                       <YVIcon
                         name={step.icon}
