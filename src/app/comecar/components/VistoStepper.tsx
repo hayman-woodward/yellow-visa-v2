@@ -385,9 +385,13 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
       if (etapa) {
         const etapaFormatada = novaEtapa.toString().padStart(2, '0');
 
-        if (etapaAtual === 5 && tipo === 'turista') {
-          router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&visto=turista`);
-          return;
+        // Ao voltar da etapa 5 (Formação) para a 4 (Tipo de Visto),
+        // sempre preservar o parâmetro "visto" correspondente ao tipo atual
+        if (etapaAtual === 5) {
+          if (tipo === 'turista' || tipo === 'estudante' || tipo === 'profissional') {
+            router.push(`/comecar?etapa=${etapaFormatada}-${etapa.slug}&visto=${tipo}`);
+            return;
+          }
         }
 
         // Lógica para etapa 6 (Renda) voltar para etapa 5 com tipo correto
