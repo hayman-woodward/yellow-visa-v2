@@ -25,17 +25,15 @@ export default function HeroVistos({
         src2x={heroImage2x}
         srcMobile={heroImageMobile}
         alt={`${title} - ${slug}`}
-        className='h-[560px] xl:max-h-[768px] -mt-[88px]'
+        className='h-[600px] md:h-[560px] xl:max-h-[768px] -mt-[88px]'
       />
 
       {/* Texto sobreposto na imagem com 2 colunas */}
       <div className='absolute inset-0 z-10'>
         <div className='max-w-[1248px] mx-auto px-4 w-full h-full'>
-          <div className='grid grid-cols-2 h-full'>
-            {/* Coluna 1 - Vazia (para a mulher ficar alinhada) */}
-            <div className='flex items-center justify-center'>
-              {/* Espaço vazio para alinhar com a mulher */}
-            </div>
+          <div className='grid grid-cols-1 md:grid-cols-2 h-full'>
+            {/* Coluna 1 - Vazia apenas no desktop para alinhar com a imagem */}
+            <div className='hidden md:flex items-center justify-center' />
 
             {/* Coluna 2 - Conteúdo */}
             <div className='flex flex-col justify-end items-start mb-8 md:mb-20'>
@@ -48,7 +46,7 @@ export default function HeroVistos({
                   tag="h1"
                   title={bannerTitle || title}
                   variant="hero"
-                  className='text-white max-w-[400px]'
+                  className='text-white max-w-full md:max-w-[400px]'
                 />
               </div>
             </div>
