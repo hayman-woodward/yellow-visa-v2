@@ -134,6 +134,16 @@
     touch-action: pan-y;
     -webkit-overflow-scrolling: touch;
   }
+
+  /* iOS Safari: evita zoom automático ao focar inputs com fonte <16px */
+  @media (max-width: 768px) {
+    input, select, textarea { font-size: 16px; }
+  }
+  @supports (-webkit-touch-callout: none) {
+    @media (max-width: 768px) {
+      input, select, textarea { font-size: 16px; }
+    }
+  }
 }
 @layer utilities {
   .bg-YV {
