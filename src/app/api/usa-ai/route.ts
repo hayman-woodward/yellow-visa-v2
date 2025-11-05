@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
 
     // Check if a specific seller ID was provided via URL parameter
     if (body.sellerId) {
-      // Fetch seller data directly using the seller ID
+      // Fetch seller data directly using the seller ID (SEM ROLETA)
       const sellerResponse = await fetch(
         `https://api.yellowvisa.com/api/get-seller/${body.sellerId}`,
         {
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
         sellerPhone = sellerData.phone; // Capturar phone do seller
       }
     } else {
-      // Requisição para obter o lead owner based on language (roleta)
+      // Requisição para obter o lead owner based on language (COM ROLETA)
       const leadOwnerResponse = await fetch(
         `https://api.yellowvisa.com/api/sellers?language=${body.language}`,
         {
