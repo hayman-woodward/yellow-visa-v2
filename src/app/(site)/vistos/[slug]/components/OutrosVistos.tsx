@@ -37,6 +37,7 @@ export default async function OutrosVistos({ currentSlug }: OutrosVistosProps) {
           <div className="space-y-3">
             {vistos.map((visto, index) => {
               const isActive = visto.slug === currentSlug;
+              const desc = (visto as any).excerpt || shortDescriptions[visto.slug];
               return (
                 <div
                   key={visto.slug}
@@ -59,13 +60,6 @@ export default async function OutrosVistos({ currentSlug }: OutrosVistosProps) {
                     >
                       {visto.label}
                     </YVTitle>
-                    <YVText
-                      variant="small"
-                      className={`!pb-0 text-sm ${isActive ? 'text-gray-700' : 'text-[#F7F5F6]'
-                        }`}
-                    >
-                      {shortDescriptions[visto.slug]}
-                    </YVText>
                   </Link>
                 </div>
               );
@@ -89,6 +83,7 @@ export default async function OutrosVistos({ currentSlug }: OutrosVistosProps) {
             <div className="grid grid-cols-2 gap-6 pb-[106px]">
               {vistos.map((visto, index) => {
                 const isActive = visto.slug === currentSlug;
+                const desc = (visto as any).excerpt || shortDescriptions[visto.slug];
                 return (
                   <div
                     key={visto.slug}
@@ -111,13 +106,6 @@ export default async function OutrosVistos({ currentSlug }: OutrosVistosProps) {
                       >
                         {visto.label}
                       </YVTitle>
-                      <YVText
-                        variant="small"
-                        className={`!pb-0 ${isActive ? 'text-gray-700' : 'text-[#F7F5F6]'
-                          }`}
-                      >
-                        {shortDescriptions[visto.slug]}
-                      </YVText>
                     </Link>
                   </div>
                 );
