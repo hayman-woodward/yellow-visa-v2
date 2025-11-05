@@ -4,12 +4,14 @@ import { YVButton } from '@/components/YV';
 import { useEffect, useState } from 'react';
 
 export default function ResultadoProvisorioParteDoTime() {
-  const [whatsappUrl, setWhatsappUrl] = useState('https://wa.me/12032337905'); // Valor padrão
+  const [whatsappUrl, setWhatsappUrl] = useState<string | null>(null);
 
   useEffect(() => {
     // Pegar telefone do seller do localStorage (salvo pela API)
-    const sellerPhone = localStorage.getItem('seller_phone') || '12032337905';
-    setWhatsappUrl(`https://wa.me/${sellerPhone}`);
+    const sellerPhone = localStorage.getItem('seller_phone');
+    if (sellerPhone) {
+      setWhatsappUrl(`https://wa.me/${sellerPhone}`);
+    }
   }, []);
 
   return (
@@ -52,15 +54,17 @@ export default function ResultadoProvisorioParteDoTime() {
           <p className='text-black/80 mb-8 leading-relaxed'>
             Se você quiser adiantar o atendimento, é só clicar no botão abaixo e falar direto com um de nossos especialistas. Quanto mais cedo começarmos, mais rápido o seu plano sai do papel.
           </p>
-          <YVButton
-            variant='secondary'
-            href={whatsappUrl}
-            target='_blank'
-            size='lg'
-            className='bg-[#CC0044] hover:bg-[#CC0044]/90 text-white px-8'
-          >
-             Fale com um especialista
-          </YVButton>
+          {whatsappUrl && (
+            <YVButton
+              variant='secondary'
+              href={whatsappUrl}
+              target='_blank'
+              size='lg'
+              className='bg-[#CC0044] hover:bg-[#CC0044]/90 text-white px-8'
+            >
+              Fale com um especialista
+            </YVButton>
+          )}
         </div>      
       </div>
     </div>

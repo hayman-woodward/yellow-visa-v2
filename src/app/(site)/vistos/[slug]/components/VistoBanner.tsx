@@ -34,6 +34,11 @@ export default function VistoBanner({
         className='h-[600px] md:h-[560px] xl:max-h-[768px] -mt-[88px] '
       />
 
+      {/* Overlay no topo para dar contraste ao menu no mobile */}
+      <div className='absolute inset-0 pointer-events-none'>
+        <div className='h-[120px] w-full bg-gradient-to-b from-black/50 to-transparent' />
+      </div>
+
       {/* Texto sobreposto na imagem com 2 colunas */}
       <div className='absolute inset-0 z-10'>
         <div className='max-w-[1248px] mx-auto px-4 w-full h-full'>
