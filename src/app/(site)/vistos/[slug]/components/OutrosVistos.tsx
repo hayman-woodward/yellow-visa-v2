@@ -1,4 +1,4 @@
-import { YVBreadcrumbs, YVSection, YVText, YVTitle } from "@/components/YV";
+import { YVBreadcrumbs, YVSection, YVTitle } from "@/components/YV";
 import { getPublishedVistos } from "@/lib/actions/vistos";
 import Link from "next/link";
 
