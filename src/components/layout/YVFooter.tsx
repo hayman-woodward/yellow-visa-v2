@@ -9,9 +9,10 @@ export default async function Footer({
   vistos?: VistoSummary[];
 }) {
   const firstColumn = [
-    { title: 'Sobre a Yellow Visa', href: '/sobre' }
+    { title: 'Sobre a Yellow Visa', href: '/sobre' },
     // { title: 'Guia do imigrante', href: '/guia-do-imigrante' },
-    // { title: 'Dicas e notícias', href: '/blog' }
+    // { title: 'Dicas e notícias', href: '/blog' },
+    { title: 'Política de Privacidade', href: '/politica-de-privacidade' }
   ];
 
   // Get all VISTOS (use passed prop if available)
