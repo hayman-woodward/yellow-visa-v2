@@ -67,14 +67,14 @@ export default function RendaOptions({
   const podeAvancar = selectedOpcao;
 
   return (
-    <div className="w-full grid grid-cols-1 grid-rows-[1.2fr_1.8fr] lg:grid-cols-[1fr_2fr] lg:grid-rows-1 relative overflow-hidden min-h-screen ">
-      <div className="row-start-1 px-0 md:px-0 relative md:overflow-hidden lg:col-start-1 lg:row-start-1 lg:order-1">
+    <div className="w-full grid grid-cols-1 grid-rows-[auto_1fr] lg:grid-cols-[1fr_2fr] lg:grid-rows-1 relative overflow-hidden min-h-screen ">
+      <div className="row-start-1 px-0 md:px-0 relative md:overflow-hidden lg:col-start-1 lg:row-start-1 lg:order-1 h-auto md:h-full">
         <YVBanner
           src='/imgs/stepper-form/bg-etapa-06.jpg'
           src2x='/imgs/stepper-form/bg-etapa-06-2x.jpg'
           srcMobile='/imgs/stepper-form/bg-etapa-06-mobile.jpg'
           alt='Hero Renda'
-          className='object-cover object-center h-full md:min-h-[100vh]'
+          className='object-cover object-center max-h-[35vh] md:h-full md:min-h-[100vh]'
           priority
           
         />
