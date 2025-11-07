@@ -118,7 +118,7 @@ export default function ObjetivoOptions({
                   className={`
                     md:p-4 rounded-lg cursor-pointer transition-all duration-300
                     ${selectedObjetivo && selectedObjetivo !== objetivo.id
-                      ? 'opacity-50'
+                      ? 'opacity-30'
                       : 'hover:bg-white/30'
                     }
                   `}

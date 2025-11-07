@@ -82,7 +82,7 @@ export default function MaisInfoTurista03({
                   className={`
                     md:p-4 rounded-lg cursor-pointer transition-all duration-300
                     ${selectedOpcao && selectedOpcao !== opcao.id
-                      ? 'opacity-50'
+                      ? 'opacity-30'
                       : 'hover:bg-white/30'
                     }
                   `}
