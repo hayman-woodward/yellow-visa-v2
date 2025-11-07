@@ -89,7 +89,7 @@ export default function ProfissionalOptions({
           src='/imgs/stepper-form/bg-etapa-05-profissional.jpg'
           srcMobile='/imgs/stepper-form/bg-etapa-05-profissional-mobile.jpg'
           alt='Hero Profissional'
-          className='object-cover object-center max-h-[24vh] md:h-full md:min-h-[100vh]'
+          className='object-cover object-center max-h-[27vh] md:h-full md:min-h-[100vh]'
           priority
         />
       </div>
@@ -108,7 +108,7 @@ export default function ProfissionalOptions({
           />
 
           {/* Título da pergunta */}
-          <YVTitle className="mb-6 md:mb-8">
+          <YVTitle className="mb-4 md:mb-8">
             Me conta um pouco de você
           </YVTitle>
 

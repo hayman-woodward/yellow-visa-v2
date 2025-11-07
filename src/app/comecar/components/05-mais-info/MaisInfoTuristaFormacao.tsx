@@ -91,7 +91,7 @@ export default function MaisInfoTuristaFormacao({
           src='/imgs/stepper-form/bg-etapa-05-turista-formacao.jpg'
           srcMobile='/imgs/stepper-form/bg-etapa-05-turista-formacao-mobile.jpg'
           alt='Hero Formação Turista'
-          className='object-cover object-center max-h-[24vh] md:h-full md:min-h-[100vh]'
+          className='object-cover object-center max-h-[27vh] md:h-full md:min-h-[100vh]'
           priority
           
         />
@@ -111,7 +111,7 @@ export default function MaisInfoTuristaFormacao({
           />
 
           {/* Título da pergunta */}
-          <YVTitle className="mb-6 md:mb-8">
+          <YVTitle className="mb-4 md:mb-8">
             Qual é o seu nível de formação acadêmica?
           </YVTitle>
 

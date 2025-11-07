@@ -70,7 +70,7 @@ export default function MaisInfoEstudante({
           src='/imgs/stepper-form/bg-etapa-05-estudante.jpg'
           srcMobile='/imgs/stepper-form/bg-etapa-05-estudante-mobile.jpg'
           alt='Hero Mais Info Estudante'
-          className='object-cover object-center max-h-[24vh] md:h-full md:min-h-[100vh]'
+          className='object-cover object-center max-h-[27vh] md:h-full md:min-h-[100vh]'
           priority
           
         />
@@ -90,7 +90,7 @@ export default function MaisInfoEstudante({
           />
 
           {/* Título da pergunta */}
-          <YVTitle className="mb-6 md:mb-8">
+          <YVTitle className="mb-4 md:mb-8">
             Você já tem alguma formação profissional ou acadêmica?
           </YVTitle>
 

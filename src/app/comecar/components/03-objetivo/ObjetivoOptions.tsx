@@ -86,7 +86,7 @@ export default function ObjetivoOptions({
           src='/imgs/stepper-form/bg-etapa-03.jpg'
           srcMobile='/imgs/stepper-form/bg-etapa-03-mobile.jpg'
           alt='Hero Objetivo'
-          className='object-cover object-center max-h-[24vh] md:h-full md:min-h-[100vh]'
+          className='object-cover object-center max-h-[27vh] md:h-full md:min-h-[100vh]'
           priority
         />
       </div>
@@ -106,7 +106,7 @@ export default function ObjetivoOptions({
           />
 
           {/* Título da pergunta */}
-          <YVTitle className="mb-6 md:mb-8">
+          <YVTitle className="mb-4 md:mb-8">
             O que te motiva a sair do país?
           </YVTitle>
 

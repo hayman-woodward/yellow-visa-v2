@@ -62,7 +62,7 @@ export default function DestinoOptions({
           src='/imgs/stepper-form/bg-etapa-02.jpg'
           srcMobile='/imgs/stepper-form/bg-etapa-02-mobile.jpg'
           alt='Hero Destino'
-          className='object-cover object-center max-h-[24vh] md:h-full md:min-h-[100vh]'
+          className='object-cover object-center max-h-[27vh] md:h-full md:min-h-[100vh]'
           priority
         />
       </div>
@@ -81,7 +81,7 @@ export default function DestinoOptions({
           />
 
           {/* Título da pergunta */}
-          <YVTitle className="mb-6 md:mb-8">
+          <YVTitle className="mb-4 md:mb-8">
             Qual é seu sonho de destino?
           </YVTitle>
 

@@ -68,7 +68,7 @@ export default function MaisInfoTurista02({
           src='/imgs/stepper-form/bg-etapa-05-turista-02.jpg'
           src2x='/imgs/stepper-form/bg-etapa-05-turista-02-2x.jpg'
           alt='Hero Quantas Pessoas'
-          className='object-cover object-center max-h-[24vh] md:h-full md:min-h-[100vh]'
+          className='object-cover object-center max-h-[27vh] md:h-full md:min-h-[100vh]'
           priority
           
         />
@@ -88,7 +88,7 @@ export default function MaisInfoTurista02({
           />
 
           {/* Título da pergunta */}
-          <YVTitle className="mb-6 md:mb-8">
+          <YVTitle className="mb-4 md:mb-8">
             Quantas pessoas?
           </YVTitle>
 
