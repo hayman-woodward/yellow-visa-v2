@@ -91,7 +91,7 @@ export default function MaisInfoProfissionalFormacao({
           src='/imgs/stepper-form/bg-etapa-05-profissional.jpg'
           srcMobile='/imgs/stepper-form/bg-etapa-05-profissional-mobile.jpg'
           alt='Hero Formação Profissional'
-          className='object-cover object-center max-h-[24vh] md:h-full md:min-h-[100vh]'
+          className='object-cover object-center max-h-[27vh] md:h-full md:min-h-[100vh]'
           priority
         />
       </div>
@@ -110,7 +110,7 @@ export default function MaisInfoProfissionalFormacao({
           />
 
           {/* Título da pergunta */}
-          <YVTitle className="mb-6 md:mb-8">
+          <YVTitle className="mb-4 md:mb-8">
             Qual é o seu nível de formação acadêmica?
           </YVTitle>
 

@@ -24,10 +24,10 @@ export default function ProgressBar({ etapaAtual, totalEtapas, titulo }: Progres
   const progresso = ((etapaSimplificada - 1) / 3) * 100;
   
   return (
-    <div className="mb-6 md:mb-8">
+    <div className="mb-2 md:mb-8">
       <div className="relative md:h-[100px] h-[80px]">
         {/* Labels no topo */}
-        <div className="flex justify-between absolute top-0 left-0 right-0 px-3">
+        <div className="flex justify-between absolute top-0 left-0 right-0 md:px-3">
           {labels.map((label, index) => (
             <div key={index} className="text-center">
               <span className="text-xs font-medium text-black">{label}</span>
@@ -61,7 +61,7 @@ export default function ProgressBar({ etapaAtual, totalEtapas, titulo }: Progres
         ></div>
 
         {/* Círculos */}
-        <div className="flex justify-between absolute top-1/2 left-0 right-0 px-3 -translate-y-1/2" style={{ zIndex: 30 }}>
+        <div className="flex justify-between absolute top-1/2 left-0 right-0 md:px-3 -translate-y-1/2" style={{ zIndex: 30 }}>
           {[1, 2, 3, 4].map((stepNumber) => {
             const isCompleted = stepNumber < etapaSimplificada;
             const isCurrent = stepNumber === etapaSimplificada;

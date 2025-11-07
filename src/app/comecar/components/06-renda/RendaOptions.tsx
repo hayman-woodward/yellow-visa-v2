@@ -74,7 +74,7 @@ export default function RendaOptions({
           src2x='/imgs/stepper-form/bg-etapa-06-2x.jpg'
           srcMobile='/imgs/stepper-form/bg-etapa-06-mobile.jpg'
           alt='Hero Renda'
-          className='object-cover object-center max-h-[24vh] md:h-full md:min-h-[100vh]'
+          className='object-cover object-center max-h-[27vh] md:h-full md:min-h-[100vh]'
           priority
           
         />
@@ -86,7 +86,7 @@ export default function RendaOptions({
             totalEtapas={totalEtapas}
             titulo="Renda"
           />
-          <YVTitle className="mb-6 md:mb-8">
+          <YVTitle className="mb-4 md:mb-8">
             Sua renda anual hoje está em<br /> torno de...
           </YVTitle>
           <div className="space-y-4 mb-8">

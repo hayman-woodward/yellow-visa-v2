@@ -55,7 +55,7 @@ export default function ContatoForm02({
           src2x='/imgs/stepper-form/bg-etapa-07-2x.jpg'
           srcMobile='/imgs/stepper-form/bg-etapa-07-mobile.jpg'
           alt='Hero Contato'
-          className='object-cover object-center max-h-[24vh] md:h-full md:min-h-[100vh]'
+          className='object-cover object-center max-h-[27vh] md:h-full md:min-h-[100vh]'
           priority
           
         />
@@ -67,7 +67,7 @@ export default function ContatoForm02({
             totalEtapas={totalEtapas}
             titulo="Contato"
           />
-          <YVTitle className="mb-6 md:mb-8">
+          <YVTitle className="mb-4 md:mb-8">
             Ótimo. Seu e-mail e telefone de contato?
           </YVTitle>
           <div className="space-y-6 mb-8">

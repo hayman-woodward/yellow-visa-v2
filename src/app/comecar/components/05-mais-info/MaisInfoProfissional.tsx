@@ -71,7 +71,7 @@ export default function MaisInfoProfissional({
           src='/imgs/stepper-form/bg-etapa-05-profissional.jpg'
           srcMobile='/imgs/stepper-form/bg-etapa-05-profissional-mobile.jpg'
           alt='Hero Mais Info Profissional'
-          className='object-cover object-center max-h-[24vh] md:h-full md:min-h-[100vh]'
+          className='object-cover object-center max-h-[27vh] md:h-full md:min-h-[100vh]'
           priority
           
         />
@@ -91,7 +91,7 @@ export default function MaisInfoProfissional({
           />
 
           {/* Título da pergunta */}
-          <YVTitle className="mb-6 md:mb-8">
+          <YVTitle className="mb-4 md:mb-8">
             Quanto tempo de experiência você tem na sua área?
           </YVTitle>
 
