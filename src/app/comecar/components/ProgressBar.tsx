@@ -24,7 +24,7 @@ export default function ProgressBar({ etapaAtual, totalEtapas, titulo }: Progres
   const progresso = ((etapaSimplificada - 1) / 3) * 100;
   
   return (
-    <div className="mb-2 md:mb-8">
+    <div className="mb-0.5 md:mb-8">
       <div className="relative md:h-[100px] h-[80px]">
         {/* Labels no topo */}
         <div className="flex justify-between absolute top-0 left-0 right-0 md:px-3">
