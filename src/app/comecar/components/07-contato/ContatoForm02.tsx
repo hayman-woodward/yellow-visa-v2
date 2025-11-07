@@ -48,19 +48,20 @@ export default function ContatoForm02({
   const podeAvancar = watch('email')?.trim() && watch('telefone')?.trim();
 
   return (
-    <div className="w-full grid grid-cols-1 grid-rows-[1.2fr_1.8fr] lg:grid-cols-[1fr_2fr] lg:grid-rows-1 relative overflow-hidden min-h-screen max-h-[90vh]">
+    <div className="w-full grid grid-cols-1 grid-rows-[1.2fr_1.8fr] lg:grid-cols-[1fr_2fr] lg:grid-rows-1 relative overflow-hidden min-h-screen ">
       <div className="row-start-1 px-0 md:px-0 relative md:overflow-hidden lg:col-start-1 lg:row-start-1 lg:order-1">
         <YVBanner
           src='/imgs/stepper-form/bg-etapa-07.jpg'
           src2x='/imgs/stepper-form/bg-etapa-07-2x.jpg'
+          srcMobile='/imgs/stepper-form/bg-etapa-07-mobile.jpg'
           alt='Hero Contato'
           className='object-cover object-center h-full md:min-h-[100vh]'
           priority
           
         />
       </div>
-      <div className="row-start-2 bg-gradient-to-br bg-YV-secondary-gradient relative flex items-center lg:col-start-2 lg:col-span-1 lg:row-start-1 lg:h-screen order-1 lg:order-2 px-1 md:pl-[10%] -mt-0 py-40 md:py-0">
-        <div className="relative z-10 px-5 lg:px-8 md:max-w-3xl w-full -mt-7 md:mt-0">
+      <div className="row-start-2 bg-gradient-to-br bg-YV-secondary-gradient relative flex items-start md:items-center lg:col-start-2 lg:col-span-1 lg:row-start-1 lg:h-screen order-1 lg:order-2 px-1 md:pl-[10%] -mt-0 py-0 pb-6 md:py-0 min-h-full">
+        <div className="relative z-10 px-5 lg:px-8 md:max-w-3xl w-full pt-10 pb-6 md:pt-0 md:pb-0 md:mt-0">
           <ProgressBar
             etapaAtual={etapaAtual}
             totalEtapas={totalEtapas}
