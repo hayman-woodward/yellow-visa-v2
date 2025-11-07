@@ -71,7 +71,7 @@ export default function DestinoOptions({
       <div className="row-start-2 bg-gradient-to-br bg-YV-secondary-gradient relative flex items-start md:items-center lg:col-start-2 lg:col-span-1 lg:row-start-1 lg:h-screen order-1 lg:order-2 px-1 md:pl-[10%] -mt-0 py-0 pb-6 md:py-0 min-h-full">
 
         {/* Conteúdo central */}
-        <div className="relative z-10 px-5 lg:px-8 md:max-w-2xl w-full pt-5 pb-6 md:pt-0 md:pb-0 md:mt-0">
+        <div className="relative z-10 px-4 lg:px-8 md:max-w-2xl w-full pt-5 pb-6 md:pt-0 md:pb-0 md:mt-0">
 
           {/* ProgressBar */}
           <ProgressBar
@@ -81,12 +81,12 @@ export default function DestinoOptions({
           />
 
           {/* Título da pergunta */}
-          <YVTitle className="mb-4 md:mb-8">
+          <YVTitle className="mb-3 md:mb-8">
             Qual é seu sonho de destino?
           </YVTitle>
 
           {/* Opções de destino */}
-          <div className="space-y-4 mb-8">
+          <div className="space-y-4 mb-6 md:mb-8">
             {destinos.map((destino) => (
               <div key={destino.id}>
                 <div

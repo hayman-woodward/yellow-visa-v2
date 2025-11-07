@@ -27,7 +27,7 @@ export default function HeroInicio({ onIniciar }: HeroInicioProps) {
       <div className="row-start-2 bg-gradient-to-br bg-YV-secondary-gradient relative flex items-center lg:col-start-2 lg:col-span-1 lg:row-start-1 px-1 md:pl-[10%] -mt-0 py-40 md:py-0">
 
         {/* Conteúdo central */}
-        <div className="relative z-10 px-5 lg:px-8 md:max-w-2xl -mt-[25%] md:mt-0">
+        <div className="relative z-10 px-4 lg:px-8 md:max-w-2xl -mt-[25%] md:mt-0">
           <YVTitle tag="h1" variant="hero" className='mb-4 lg:mb-6 pr-5 md:pr-0'>
             Vamos imaginar sua nova vida em outro país?
           </YVTitle>
