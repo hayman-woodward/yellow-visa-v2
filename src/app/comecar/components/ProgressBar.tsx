@@ -25,7 +25,7 @@ export default function ProgressBar({ etapaAtual, totalEtapas, titulo }: Progres
   
   return (
     <div className="mb-6 md:mb-8">
-      <div className="relative md:h-[100px] h-[60px]">
+      <div className="relative md:h-[100px] h-[80px]">
         {/* Labels no topo */}
         <div className="flex justify-between absolute top-0 left-0 right-0 px-3">
           {labels.map((label, index) => (
