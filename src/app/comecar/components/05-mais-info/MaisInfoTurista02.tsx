@@ -68,7 +68,7 @@ export default function MaisInfoTurista02({
           src='/imgs/stepper-form/bg-etapa-05-turista-02.jpg'
           src2x='/imgs/stepper-form/bg-etapa-05-turista-02-2x.jpg'
           alt='Hero Quantas Pessoas'
-          className='object-cover object-center max-h-[35vh] md:h-full md:min-h-[100vh]'
+          className='object-cover object-center max-h-[24vh] md:h-full md:min-h-[100vh]'
           priority
           
         />
@@ -78,7 +78,7 @@ export default function MaisInfoTurista02({
       <div className="row-start-2 bg-gradient-to-br bg-YV-secondary-gradient relative flex items-start md:items-center lg:col-start-2 lg:col-span-1 lg:row-start-1 lg:h-screen order-1 lg:order-2 px-1 md:pl-[10%] -mt-0 py-0 pb-6 md:py-0 min-h-full">
 
         {/* Conteúdo central */}
-        <div className="relative z-10 px-5 lg:px-8 md:max-w-3xl w-full pt-10 pb-6 md:pt-0 md:pb-0 md:mt-0">
+        <div className="relative z-10 px-5 lg:px-8 md:max-w-3xl w-full pt-5 pb-6 md:pt-0 md:pb-0 md:mt-0">
 
           {/* ProgressBar */}
           <ProgressBar
@@ -88,7 +88,7 @@ export default function MaisInfoTurista02({
           />
 
           {/* Título da pergunta */}
-          <YVTitle className="mb-8">
+          <YVTitle className="mb-6 md:mb-8">
             Quantas pessoas?
           </YVTitle>
 
