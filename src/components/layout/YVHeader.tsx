@@ -401,7 +401,11 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
 
               {/* Action Button */}
               <div className='absolute bottom-20 left-6 right-6'>
-                <div className='w-full'>                  
+              <div className='w-full flex flex-col gap-2'>    
+                <YVButton href='https://portal.yellowvisa.com/login' target='_blank'   className={`w-full justify-center ${disableComecarButton ? 'opacity-50 cursor-not-allowed' : ''}`} >
+                <YVIcon name='user' />
+                Log in
+              </YVButton>              
                   <SmartComecarButton
                     variant='secondary'
                     disabled={disableComecarButton}
