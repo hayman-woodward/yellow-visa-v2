@@ -13,6 +13,7 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -23,6 +24,28 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Observar quando dropdown está aberto
+  useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-dropdown-open') {
+          const isOpen = document.documentElement.hasAttribute('data-dropdown-open');
+          setIsDropdownOpen(isOpen);
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-dropdown-open']
+    });
+
+    // Verifica estado inicial
+    setIsDropdownOpen(document.documentElement.hasAttribute('data-dropdown-open'));
+
+    return () => observer.disconnect();
   }, []);
 
   // Bloquear scroll da página quando menu mobile estiver aberto
@@ -79,8 +102,8 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
   };
 
   return (
-    <header className={`${isScrolled ? 'fixed' : 'sticky'} top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled 
+    <header className={`${isScrolled ? 'fixed' : 'sticky'} top-0 left-0 right-0 z-50 transition-all duration-200 ease-in-out ${
+      isScrolled || isDropdownOpen
         ? 'bg-white shadow-md' 
         : 'bg-transparent'
     }`}>
