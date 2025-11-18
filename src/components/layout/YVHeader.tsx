@@ -1,6 +1,6 @@
 'use client';
 
-import { YVButton, YVLogo } from '@/components/YV';
+import { YVButton, YVIcon, YVLogo } from '@/components/YV';
 import HeaderMenu from '@/components/layout/header';
 import { menuData } from '@/components/layout/header/data';
 import type { VistoSummary } from '@/lib/actions/vistos';
@@ -122,11 +122,11 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
           {/* Right Side Actions */}
           <div className='flex items-center gap-2 sm:gap-4'>
             {/* Login Button - Hidden on mobile */}
-            <div className='hidden lg:flex items-center gap-2 sm:gap-4'>
-              {/* <YVButton href='/yv-admin'>
+            <div className='hidden lg:flex  items-center gap-2 sm:gap-4'>
+              <YVButton href='https://portal.yellowvisa.com/login' target='_blank'>
                 <YVIcon name='user' />
                 Log in
-              </YVButton> */}
+              </YVButton>
 
               <SmartComecarButton
                 variant='secondary'
