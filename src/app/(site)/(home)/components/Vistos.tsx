@@ -67,7 +67,7 @@ export default function Vistos() {
       </div>
 
       {/* Gallery positioned to overlap - vazar o canvas */}
-      <div className='w-full pb-10 md:pb-0 relative z-10 mb-[-230px] overflow-visible'>
+      <div className='w-full md:max-w-[1248px] mx-auto pb-10 md:pb-0 relative z-10 mb-[-230px] overflow-visible'>
         <YVGallery
           items={galleryItems.slice(0, 3)}
           showTitles={true}
