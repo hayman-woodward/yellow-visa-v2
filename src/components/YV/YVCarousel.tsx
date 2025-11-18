@@ -25,6 +25,7 @@ interface YVCarouselProps {
   imageClassName?: string;
   className?: string;
   darkMode?: boolean;
+  overflowVisible?: boolean; // Permite vazar o canvas
   // Optional custom renderer to replace the default image card
   renderItem?: (item: Partial<CarouselItem>) => React.ReactNode;
 }
@@ -36,16 +37,18 @@ const YVCarousel = ({
   imageClassName = 'aspect-[400/520]',
   className = '',
   darkMode = false,
+  overflowVisible = false,
   renderItem
 }: YVCarouselProps) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
+  // Sempre mostrar 3 bullets, mas limitar navegação ao número real de itens
+  const count = 3;
+  const maxItems = Math.min(items.length, 3);
 
   useEffect(() => {
     if (!api) return;
 
-    setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
 
     api.on('select', () => {
@@ -54,17 +57,17 @@ const YVCarousel = ({
   }, [api]);
 
   return (
-    <div className={`w-full ${className}`}>
+    <div className={`w-full ${className} ${overflowVisible ? 'overflow-visible' : ''}`}>
       <Carousel
         setApi={setApi}
         opts={{
           align: 'start',
-          loop: true,
+          loop: false,
           dragFree: true
         }}
-        className='w-full'
+        className={`w-full ${overflowVisible ? '[&>div]:overflow-visible' : ''}`}
       >
-        <CarouselContent className='-ml-2'>
+        <CarouselContent className={`-ml-2 ${overflowVisible ? '!overflow-visible' : ''}`}>
           {items.map((item) => (
             <CarouselItem
               key={item.id}
@@ -134,18 +137,31 @@ const YVCarousel = ({
           </svg>
         </button>
 
-        {/* Dots */}
-        {Array.from({ length: count }).map((_, index) => (
-          <button
-            key={index}
-            onClick={() => api?.scrollTo(index)}
-            className={`w-3 h-3 rounded-full transition-colors ${index === current - 1
-              ? 'bg-[#CC0044] border-0'
-              : 'border-2 border-[#CC0044]/30 bg-transparent'
+        {/* Dots - sempre mostrar 3 bullets */}
+        {Array.from({ length: count }).map((_, index) => {
+          const isActive = index === current - 1;
+          const isDisabled = index >= maxItems;
+          
+          return (
+            <button
+              key={index}
+              onClick={() => {
+                if (!isDisabled && api) {
+                  api.scrollTo(index);
+                }
+              }}
+              disabled={isDisabled}
+              className={`w-3 h-3 rounded-full transition-colors ${
+                isActive
+                  ? 'bg-[#CC0044] border-0'
+                  : isDisabled
+                    ? 'border-2 border-[#CC0044]/10 bg-transparent opacity-30 cursor-not-allowed'
+                    : 'border-2 border-[#CC0044]/30 bg-transparent'
               }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          );
+        })}
 
         {/* Right Arrow */}
         <button
