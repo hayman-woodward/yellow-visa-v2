@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { YVText, YVTitle } from '@/components/YV';
 import SmartComecarButton from '@/components/shared/SmartComecarButton';
+import ScrollButton from './ScrollButton';
 
 export default function HeroHome() {
   return (
@@ -86,6 +87,11 @@ export default function HeroHome() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Scroll Button */}
+      <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 z-20'>
+        <ScrollButton />
       </div>
     </div>
   );

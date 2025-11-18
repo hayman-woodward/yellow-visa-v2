@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Red_Hat_Display } from 'next/font/google';
+import { Geist, Geist_Mono, Red_Hat_Display, Red_Hat_Text } from 'next/font/google';
 import './globals.css';
 import AOSProvider from '@/components/AOSProvider';
 import GoogleTagManager, { GoogleTagManagerNoScript } from '@/components/integrations/GoogleTagManager';
@@ -18,6 +18,11 @@ const geistMono = Geist_Mono({
 const redHatDisplay = Red_Hat_Display({
   variable: '--heading-family',
   subsets: ['latin']
+});
+const redHatText = Red_Hat_Text({
+  variable: '--font-red-hat-text',
+  subsets: ['latin'],
+  weight: ['400', '600', '700']
 });
 
 export const metadata: Metadata = {
@@ -65,7 +70,7 @@ export default function RootLayout({
         {CLARITY_ID && <MicrosoftClarity clarityId={CLARITY_ID} />}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${redHatDisplay.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${redHatDisplay.variable} ${redHatText.variable} antialiased`}
       >
         {GTM_ID && <GoogleTagManagerNoScript gtmId={GTM_ID} />}
         <UTMTracker />
