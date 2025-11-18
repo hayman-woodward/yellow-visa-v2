@@ -75,7 +75,7 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
   const menuItems = [
     { label: 'Vistos e Destinos', hasDropdown: true, isVistosMenu: true },
     // { label: 'Dicas e Notícias', hasDropdown: true, isDicasMenu: true },
-    // { label: 'Guia do imigrante', href: '/guia-do-imigrante' },
+    { label: 'Guia do imigrante', href: '/guia-do-imigrante' },
     { label: 'Sobre a Yellow Visa', href: '/sobre' }
   ];
 

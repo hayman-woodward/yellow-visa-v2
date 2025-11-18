@@ -6,14 +6,14 @@ export const faqGroupSchema = z.object({
   slug: z.string()
     .min(2, 'Slug deve ter pelo menos 2 caracteres')
     .regex(/^[a-z0-9-]+$/, 'Slug deve conter apenas letras minúsculas, números e hífens'),
-  description: z.string().optional().or(z.literal('')),
-  imageUrl: z.string().optional().or(z.literal('')),
+  description: z.string().optional().transform(val => val === '' ? undefined : val),
+  imageUrl: z.string().optional().transform(val => val === '' ? undefined : val),
   order: z.number().int().min(0, 'Ordem deve ser um número positivo'),
   status: z.enum(['draft', 'published'] as const),
   // Campos para controlar a seção de FAQ
-  sectionTitle: z.string().optional().or(z.literal('')),
-  breadcrumbLabel: z.string().optional().or(z.literal('')),
-  breadcrumbHref: z.string().optional().or(z.literal('')),
+  sectionTitle: z.string().optional().transform(val => val === '' ? undefined : val),
+  breadcrumbLabel: z.string().optional().transform(val => val === '' ? undefined : val),
+  breadcrumbHref: z.string().optional().transform(val => val === '' ? undefined : val),
   questions: z.array(z.object({
     question: z.string().min(3, 'Pergunta deve ter pelo menos 3 caracteres'),
     link: z.string().min(1, 'Link é obrigatório'),
@@ -28,14 +28,14 @@ export const updateFaqGroupSchema = z.object({
   slug: z.string()
     .min(2, 'Slug deve ter pelo menos 2 caracteres')
     .regex(/^[a-z0-9-]+$/, 'Slug deve conter apenas letras minúsculas, números e hífens'),
-  description: z.string().optional().or(z.literal('')),
-  imageUrl: z.string().optional().or(z.literal('')),
+  description: z.string().optional().transform(val => val === '' ? undefined : val),
+  imageUrl: z.string().optional().transform(val => val === '' ? undefined : val),
   order: z.number().int().min(0, 'Ordem deve ser um número positivo'),
   status: z.enum(['draft', 'published'] as const),
   // Campos para controlar a seção de FAQ
-  sectionTitle: z.string().optional().or(z.literal('')),
-  breadcrumbLabel: z.string().optional().or(z.literal('')),
-  breadcrumbHref: z.string().optional().or(z.literal('')),
+  sectionTitle: z.string().optional().transform(val => val === '' ? undefined : val),
+  breadcrumbLabel: z.string().optional().transform(val => val === '' ? undefined : val),
+  breadcrumbHref: z.string().optional().transform(val => val === '' ? undefined : val),
   questions: z.array(z.object({
     question: z.string().min(3, 'Pergunta deve ter pelo menos 3 caracteres'),
     link: z.string().min(1, 'Link é obrigatório'),
@@ -50,14 +50,14 @@ export const faqGroupBackendSchema = z.object({
   slug: z.string()
     .min(2, 'Slug deve ter pelo menos 2 caracteres')
     .regex(/^[a-z0-9-]+$/, 'Slug deve conter apenas letras minúsculas, números e hífens'),
-  description: z.string().optional(),
-  imageUrl: z.string().nullable().optional(),
+  description: z.string().nullable().optional().transform(val => val === '' ? null : val),
+  imageUrl: z.string().nullable().optional().transform(val => val === '' ? null : val),
   order: z.number().int().min(0, 'Ordem deve ser um número positivo'),
   status: z.enum(['draft', 'published'] as const),
   // Campos para controlar a seção de FAQ
-  sectionTitle: z.string().nullable().optional(),
-  breadcrumbLabel: z.string().nullable().optional(),
-  breadcrumbHref: z.string().nullable().optional(),
+  sectionTitle: z.string().nullable().optional().transform(val => val === '' ? null : val),
+  breadcrumbLabel: z.string().nullable().optional().transform(val => val === '' ? null : val),
+  breadcrumbHref: z.string().nullable().optional().transform(val => val === '' ? null : val),
   questions: z.array(z.object({
     question: z.string().min(3, 'Pergunta deve ter pelo menos 3 caracteres'),
     link: z.string().min(1, 'Link é obrigatório'),

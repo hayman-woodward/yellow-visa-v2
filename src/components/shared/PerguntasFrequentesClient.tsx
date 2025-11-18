@@ -61,12 +61,14 @@ export default function PerguntasFrequentesClient({
               className='mb-4 md:mb-6 max-w-[280px] md:max-w-[350px]'
             />
 
-            <YVText
-              variant='body'
-              className='pb-1 md:pb-2 mb-0 md:mb-8 text-[16px] max-w-[90%]'
-            >
-              {faqGroup.description || 'Descrição Phasellus netus natoque ante eget at condimentum eget.Descrição'}
-            </YVText>
+            {faqGroup.description && (
+              <YVText
+                variant='body'
+                className='pb-1 md:pb-2 mb-0 md:mb-8 text-[16px] max-w-[90%]'
+              >
+                {faqGroup.description}
+              </YVText>
+            )}
 
 
           </div>
