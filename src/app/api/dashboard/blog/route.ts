@@ -40,6 +40,7 @@ export async function POST(request: Request) {
       order,
       status,
       isFeatured,
+      authorId,
     } = validated;
 
     const finalSlug = customSlug || generateSlug(title);
@@ -74,6 +75,7 @@ export async function POST(request: Request) {
         order,
         status,
         isFeatured,
+        authorId: authorId || null,
         publishedAt: status === 'published' ? new Date() : null,
       },
     });

@@ -32,10 +32,11 @@ export async function getRecentBlogPosts(limit: number = 4) {
 
 export async function getBlogPostBySlug(slug: string) {
   try {
+    console.log('🔍 Buscando post com slug:', slug);
+    
     const post = await prisma.blogPost.findUnique({
       where: {
-        slug,
-        status: 'published'
+        slug
       },
       select: {
         id: true,
@@ -43,6 +44,7 @@ export async function getBlogPostBySlug(slug: string) {
         slug: true,
         content: true,
         excerpt: true,
+        category: true,
         metaTitle: true,
         metaDescription: true,
         ogTitle: true,
@@ -52,13 +54,62 @@ export async function getBlogPostBySlug(slug: string) {
         twitterDescription: true,
         twitterImage: true,
         featuredImage: true,
-        publishedAt: true
+        publishedAt: true,
+        createdAt: true,
+        authorId: true,
+        status: true
       }
     });
 
-    return post;
+    console.log('📄 Post encontrado:', post ? 'SIM' : 'NÃO');
+    if (post) {
+      console.log('📊 Status do post:', post.status);
+      console.log('👤 AuthorId:', post.authorId);
+    }
+
+    if (!post) {
+      console.log('❌ Post não encontrado no banco');
+      return null;
+    }
+
+    // Filtrar apenas posts publicados
+    if (post.status !== 'published') {
+      console.log('⚠️ Post encontrado mas não está publicado. Status:', post.status);
+      return null;
+    }
+
+    // Buscar autor separadamente se houver authorId
+    let author = null;
+    if (post.authorId) {
+      console.log('🔍 Buscando autor com ID:', post.authorId);
+      const authorData = await prisma.user.findUnique({
+        where: { id: post.authorId },
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
+          email: true
+        }
+      });
+      console.log('👤 Autor encontrado:', authorData ? 'SIM' : 'NÃO');
+      if (authorData) {
+        console.log('👤 Nome do autor:', authorData.name);
+        console.log('👤 Avatar do autor:', authorData.avatar || 'SEM AVATAR');
+      }
+      author = authorData;
+    } else {
+      console.log('⚠️ Post não tem authorId');
+    }
+
+    const result = {
+      ...post,
+      author
+    };
+    
+    console.log('✅ Retornando post com autor:', result.author ? 'SIM' : 'NÃO');
+    return result;
   } catch (error) {
-    console.error('Error fetching blog post:', error);
+    console.error('❌ Error fetching blog post:', error);
     return null;
   }
 }

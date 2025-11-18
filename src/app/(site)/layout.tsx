@@ -15,7 +15,7 @@ export default async function SiteLayout({
       <YVHeader vistos={vistos} />
       <div className='relative z-[1]'>
         <main>{children}</main>
-        <DicasENoticias />
+      
         <Newsletter />
       </div>
       <YVFooter vistos={vistos} />
