@@ -1,4 +1,5 @@
 import { YVBanner, YVBreadcrumbs, YVTitle } from "@/components/YV";
+import ScrollButton from "../../../(home)/components/ScrollButton";
 
 interface HeroDestinosProps {
   title: string;
@@ -50,6 +51,11 @@ export default function HeroDestinos({
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Scroll Button */}
+      <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 z-20'>
+        <ScrollButton />
       </div>
     </div>
   );
