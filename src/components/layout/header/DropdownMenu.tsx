@@ -38,6 +38,8 @@ const DropdownMenu = ({
   const closeMenu = () => {
     setIsOpen(false);
     setIsVisible(false);
+    // Remove atributo quando dropdown fecha
+    document.documentElement.removeAttribute('data-dropdown-open');
   };
 
   useEffect(() => {
@@ -60,6 +62,8 @@ const DropdownMenu = ({
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
+      // Remove atributo ao desmontar
+      document.documentElement.removeAttribute('data-dropdown-open');
     };
   }, []);
 
@@ -69,15 +73,24 @@ const DropdownMenu = ({
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
-    setIsOpen(true);
-    setIsVisible(true);
+    // Dispara evento para o header ficar branco ANTES de abrir o dropdown
+    document.documentElement.setAttribute('data-dropdown-open', 'true');
+    // Usa requestAnimationFrame para garantir que o header mude antes da animação
+    requestAnimationFrame(() => {
+      setIsOpen(true);
+      setIsVisible(true);
+    });
   };
 
   const handleMouseLeave = () => {
     // Delay para dar tempo do usuário navegar para o dropdown
     timeoutRef.current = setTimeout(() => {
       setIsOpen(false);
-      setTimeout(() => setIsVisible(false), 200);
+      setTimeout(() => {
+        setIsVisible(false);
+        // Remove atributo quando dropdown fecha
+        document.documentElement.removeAttribute('data-dropdown-open');
+      }, 200);
     }, 200);
   };
 
@@ -98,7 +111,7 @@ const DropdownMenu = ({
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           className={cn(
-            'fixed top-16 left-0 right-0 z-50 bg-white shadow-xl mt-3 pb-1 lg:pt-12',
+            'fixed top-20 left-0 right-0 z-40 bg-white shadow-xl pb-1 lg:pt-12',
             'transition-all duration-200 ease-in-out',
             isOpen
               ? 'opacity-100 translate-y-0'
