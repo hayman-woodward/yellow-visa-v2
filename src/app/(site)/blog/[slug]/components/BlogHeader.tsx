@@ -1,7 +1,30 @@
 import { YVAvatar, YVBreadcrumbs, YVContainer, YVIcon, YVSection, YVText, YVTitle } from "@/components/YV";
 import Link from "next/link";
 
-export default function BlogHeader() {
+interface BlogHeaderProps {
+  title: string;
+  excerpt: string;
+  category: string;
+  author: {
+    id: string;
+    name: string;
+    avatar: string | null;
+    email: string;
+  } | null;
+  publishedAt: Date | null;
+}
+
+export default function BlogHeader({ title, excerpt, category, author, publishedAt }: BlogHeaderProps) {
+  // Formatar data
+  const formatDate = (date: Date | null) => {
+    if (!date) return '';
+    return new Intl.DateTimeFormat('pt-BR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }).format(new Date(date));
+  };
+
   return (
     <YVSection className="-mt-[88px] relative overflow-hidden bg-[#F7F5F6]">
       {/* Laço decorativo responsivo */}
@@ -45,34 +68,50 @@ export default function BlogHeader() {
             disabled
             className='pb-4 md:pb-5'
             items={[
-              { label: 'Noticias', href: '/blog' }
+              { label: category || 'Notícias', href: '/blog' }
             ]}
           />
 
           {/* Título */}
-          <YVTitle tag="h1" variant='hero' title='Coimbra: A cidade universitária' className="pb-4" />
+          <YVTitle tag="h1" variant='hero' title={title} className="pb-4" />
           
           {/* Descrição */}
-          <YVText className="text-base leading-[22px] pb-2">
-            Qualidade de vida, praias próximas e um polo de inovação crescente
-          </YVText>
+          {excerpt && (
+            <YVText className="text-base leading-[22px] pb-2">
+              {excerpt}
+            </YVText>
+          )}
 
           {/* Autor */}
-          <div className="flex items-center gap-4 py-4">
-            <YVAvatar 
-              name="Kristin Watson"
-              size="lg"
-              className="w-10 h-10"
-            />
-            <div className="flex flex-col">
-              <YVText className="font-normal text-base leading-[22px]">
-                Kristin Watson
-              </YVText>
-              <YVText className="text-sm leading-5">
-                Consultora de imigração da Yellow Visa
-              </YVText>
+          {author && (
+            <div className="flex items-start gap-4 py-4">
+              {/* Avatar com fundo amarelo conforme Figma */}
+              <div className="bg-[#FFBD1A] flex items-center justify-center overflow-hidden rounded-full shrink-0 size-10">
+                {author.avatar ? (
+                  <div className="relative w-full h-full">
+                    <img 
+                      src={author.avatar} 
+                      alt={author.name}
+                      className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+                    />
+                    <div className="absolute bg-[#FFBD1A] bottom-0 left-0 mix-blend-soft-light opacity-20 right-0 top-0" />
+                  </div>
+                ) : (
+                  <span className="text-[#0F0005] font-bold text-sm">
+                    {author.name.charAt(0).toUpperCase()}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col pt-2.5">
+                <YVText className="font-normal text-base leading-[22px]">
+                  {author.name}
+                </YVText>
+                <YVText className="text-sm leading-5">
+                  {publishedAt && formatDate(publishedAt)}
+                </YVText>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </YVContainer>
     </YVSection>

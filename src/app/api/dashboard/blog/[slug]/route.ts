@@ -32,8 +32,14 @@ export async function PUT(
     const { slug } = await params;
     const body = await request.json();
 
+    console.log('📥 PUT /api/dashboard/blog/[slug] - Body recebido:', body);
+    console.log('📥 authorId no body:', body.authorId);
+
     // Validar dados com Zod
     const validated = updateBlogPostSchema.parse(body);
+    
+    console.log('✅ Dados validados:', validated);
+    console.log('✅ authorId validado:', validated.authorId);
 
     // Verificar se o post existe
     const existingPost = await prisma.blogPost.findUnique({
@@ -64,6 +70,7 @@ export async function PUT(
       order,
       status,
       isFeatured,
+      authorId,
     } = validated;
 
     const finalSlug = newSlug && newSlug !== existingPost.slug ? generateSlug(newSlug) : existingPost.slug;
@@ -78,31 +85,40 @@ export async function PUT(
       }
     }
 
+    const updateData = {
+      title,
+      slug: finalSlug,
+      content,
+      excerpt,
+      metaTitle,
+      metaDescription,
+      metaKeywords,
+      ogTitle,
+      ogDescription,
+      ogImage,
+      twitterTitle,
+      twitterDescription,
+      twitterImage,
+      featuredImage,
+      category,
+      tags,
+      order,
+      status,
+      isFeatured,
+      authorId: authorId || null,
+      publishedAt: status === 'published' && !existingPost.publishedAt ? new Date() : existingPost.publishedAt,
+    };
+
+    console.log('💾 Dados para atualizar:', updateData);
+    console.log('💾 authorId que será salvo:', updateData.authorId);
+
     const updatedPost = await prisma.blogPost.update({
       where: { slug },
-      data: {
-        title,
-        slug: finalSlug,
-        content,
-        excerpt,
-        metaTitle,
-        metaDescription,
-        metaKeywords,
-        ogTitle,
-        ogDescription,
-        ogImage,
-        twitterTitle,
-        twitterDescription,
-        twitterImage,
-        featuredImage,
-        category,
-        tags,
-        order,
-        status,
-        isFeatured,
-        publishedAt: status === 'published' && !existingPost.publishedAt ? new Date() : existingPost.publishedAt,
-      },
+      data: updateData,
     });
+
+    console.log('✅ Post atualizado:', updatedPost);
+    console.log('✅ authorId no post atualizado:', updatedPost.authorId);
 
     return NextResponse.json(updatedPost);
   } catch (error: unknown) {

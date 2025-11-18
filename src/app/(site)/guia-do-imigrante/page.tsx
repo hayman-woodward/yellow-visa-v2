@@ -4,6 +4,7 @@ import FaqSearchWrapper from '@/components/shared/FaqSearchWrapper';
 import { getAllFaqGroups } from '@/lib/actions/faq';
 import HeroGuiaDoImigrante from './components/HeroGuiaDoImigrante';
 import SobreGuiaDoImigrante from './components/SobreGuiaDoImigrante';
+import DicasENoticias from '@/components/shared/DicasENoticias';
 
 export const metadata = {
   title: 'Guia do Imigrante | Perguntas frequentes e orientações',
@@ -26,6 +27,7 @@ export default async function GuiaDoImigrante() {
 
       <CTABanner />
       <BeneficiosSection />
+      <DicasENoticias />
     
     </div>
   );

@@ -40,12 +40,43 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
   };
 }
 
-export default function BlogPage() {
+export default async function BlogPage({ params }: BlogPageProps) {
+  const { slug } = await params;
+  console.log('📝 BlogPage - Slug recebido:', slug);
+  
+  const post = await getBlogPostBySlug(slug);
+  console.log('📝 BlogPage - Post retornado:', post ? 'SIM' : 'NÃO');
+
+  if (!post) {
+    console.log('📝 BlogPage - Mostrando página de erro');
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Post não encontrado</h1>
+          <p className="text-gray-600">O post solicitado não foi encontrado.</p>
+          <p className="text-sm text-gray-500 mt-2">Slug: {slug}</p>
+        </div>
+      </div>
+    );
+  }
+
+  console.log('📝 BlogPage - Renderizando post:', {
+    title: post.title,
+    hasAuthor: !!post.author,
+    authorName: post.author?.name
+  });
+
   return (
     <div className="bg-white">
-      <BlogHeader />
-      <FeaturedImg />
-      <BlogPost />
+      <BlogHeader 
+        title={post.title}
+        excerpt={post.excerpt || ''}
+        category={post.category || ''}
+        author={post.author}
+        publishedAt={post.publishedAt}
+      />
+      <FeaturedImg imageUrl={post.featuredImage} />
+      <BlogPost content={post.content} />
       <CTABanner />
       <BeneficiosSection />
       <OutrosDestaques />
