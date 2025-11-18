@@ -1,11 +1,9 @@
+import BeneficiosSection from '@/components/shared/BeneficiosSection';
 import CTABanner from '@/components/shared/CTABanner';
 import FaqSearchWrapper from '@/components/shared/FaqSearchWrapper';
 import { getAllFaqGroups } from '@/lib/actions/faq';
-import Banner from './components/banner';
-import SobreGuiaDoImigrante from './components/SobreGuiaDoImigrante';
 import HeroGuiaDoImigrante from './components/HeroGuiaDoImigrante';
-import BeneficiosSection from '@/components/shared/BeneficiosSection';
-import DicasENoticias from '@/components/shared/DicasENoticias';
+import SobreGuiaDoImigrante from './components/SobreGuiaDoImigrante';
 
 export const metadata = {
   title: 'Guia do Imigrante | Perguntas frequentes e orientações',
@@ -28,7 +26,7 @@ export default async function GuiaDoImigrante() {
 
       <CTABanner />
       <BeneficiosSection />
-      <DicasENoticias />
+    
     </div>
   );
 }
