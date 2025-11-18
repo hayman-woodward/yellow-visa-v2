@@ -254,7 +254,7 @@ export default function FaqForm({
         {/* Descrição */}
         <div>
           <Label htmlFor="description" className="mb-2 block">
-            Descrição
+            Descrição <span className="text-gray-400">(opcional)</span>
           </Label>
           <YVTextField
             id="description"
