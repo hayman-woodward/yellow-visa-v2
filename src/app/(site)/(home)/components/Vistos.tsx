@@ -66,14 +66,15 @@ export default function Vistos() {
         </div>
       </div>
 
-      {/* Gallery positioned to overlap */}
-      <div className='max-w-[1248px] mx-auto pb-10 md:pb-0 relative z-10 mb-[-230px] px-4 md:px-0'>
+      {/* Gallery positioned to overlap - vazar o canvas */}
+      <div className='w-full pb-10 md:pb-0 relative z-10 mb-[-230px] overflow-visible'>
         <YVGallery
-          items={galleryItems}
+          items={galleryItems.slice(0, 3)}
           showTitles={true}
           darkMode
           isMobileCarousel
           enableAnimations={true}
+          className='overflow-visible'
         />
       </div>
     </div>

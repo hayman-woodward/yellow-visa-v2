@@ -229,11 +229,12 @@ const YVGallery = ({
         </div>
 
         {/* Mobile - Carousel Layout */}
-        <div className='block md:hidden'>
+        <div className='block md:hidden overflow-visible -mx-4 px-4'>
           <YVCarousel
-            items={items}
+            items={items.slice(0, 3)}
             showTitles={showTitles}
             darkMode={darkMode}
+            overflowVisible={true}
           />
         </div>
       </div>
