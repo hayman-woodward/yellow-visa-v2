@@ -9,10 +9,10 @@ export default function ScrollButton() {
   };
 
   return (
-    <div className='flex flex-col items-center pb-[8px] pt-0 px-0 relative w-[65px] h-[80px]'>
+    <div className='flex flex-col items-center pb-[8px] pt-0 px-0 relative w-[65px] h-[80px] group'>
       <button
         onClick={handleScroll}
-        className='flex items-center justify-center gap-[4px] h-[46px] px-0 py-[14px] rounded-[999px] shrink-0 mb-[-8px] relative group w-full bg-transparent border-none outline-none cursor-pointer'
+        className='flex items-center justify-center gap-[4px] h-[46px] px-0 py-[14px] rounded-[999px] shrink-0 mb-[-8px] relative w-full bg-transparent border-none outline-none cursor-pointer transition-opacity duration-300 hover:opacity-85'
         aria-label='Scroll Down'
       >
         <div className='flex flex-col gap-[4px] h-4 items-center justify-center relative shrink-0'>
@@ -27,7 +27,7 @@ export default function ScrollButton() {
           </p>
         </div>
       </button>
-      <div className='bg-[#f7f5f6] flex-[1_0_0] mb-[-8px] min-h-px min-w-px shrink-0 w-[2px]' style={{ height: '42px' }} />
+      <div className='bg-[#f7f5f6] flex-[1_0_0] mb-[-8px] min-h-px min-w-px shrink-0 w-[2px] transition-opacity duration-300 group-hover:opacity-85' style={{ height: '42px' }} />
     </div>
   );
 }
