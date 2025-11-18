@@ -7,14 +7,16 @@ export default function Destinos() {
       src: '/imgs/home/estados-unidos.jpg',
       alt: 'Estados Unidos',
       title: 'Estados Unidos',
-      description: ''
+      description: '',
+      href: '/destinos/estados-unidos'
     },
     {
       id: '2',
       src: '/imgs/home/portugal.jpg',
       alt: 'Portugal',
       title: 'Portugal',
-      description: ''
+      description: '',
+      href: '/destinos/portugal'
     }
   ];
   return (
