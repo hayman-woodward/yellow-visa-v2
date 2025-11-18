@@ -42,7 +42,7 @@ export default async function Footer({
 
   return (
     <footer className='bg-YV min-h-[400px] md:fixed md:bottom-0 md:left-0 md:right-0 md:min-h-[900px]'>
-      <div className='w-full md:max-w-[1248px] px-6 md:px-28 xl:px-0 md:mx-auto pt-20 pb-10 md:pt-[120px] md:pb-[70px]'>
+      <div className='w-full md:max-w-[1248px] px-6 md:px-28 xl:px-0 md:mx-auto pt-20 pb-10 md:pt-[120px] md:pb-[40px]'>
         {/* Desktop Layout */}
         <div className='grid grid-cols-2 md:grid-cols-6 gap-4 md:gap-8'>
           {/* Coluna 1 - Informações da empresa (3 spans) */}
@@ -204,7 +204,7 @@ export default async function Footer({
         </div>
 
         {/* Credit */}
-        <div className='mt-6 md:mt-12 pt-0 md:pt-6 flex gap-2 justify-end items-end'>
+        <div className='mt-6 md:mt-12 pt-0 md:pt-4 flex gap-2 justify-end items-end'>
           <span>by</span>
           <Link href='https://hayhyve.com' target='_blank'>
             <Image
