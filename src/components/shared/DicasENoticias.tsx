@@ -1,6 +1,7 @@
 import { YVBreadcrumbs, YVSection, YVText, YVTitle } from '@/components/YV';
 import { getRecentBlogPosts } from '@/lib/actions/blog';
 import Link from 'next/link';
+import { generateSlug } from '@/utils/generateSlug';
 
 export default async function DicasENoticias() {
   const recentPosts = await getRecentBlogPosts(4);
@@ -24,7 +25,7 @@ export default async function DicasENoticias() {
           {/* Lado direito - Lista de artigos */}
           <div>
             {recentPosts.map((post) => {
-              const category = post.category || 'blog';
+              const category = post.category ? generateSlug(post.category) : 'blog';
               const postUrl = `/blog/${category}/${post.slug}`;
               return (
               <Link

@@ -9,3 +9,9 @@ export function generateSlug(text: string): string {
     .trim()
     .replace(/^-+|-+$/g, ''); // Remove hífens do início e fim
 }
+
+// Normaliza categoria para URL (mesma lógica do slug)
+export function normalizeCategoryForUrl(category: string | null | undefined): string {
+  if (!category) return 'blog';
+  return generateSlug(category);
+}

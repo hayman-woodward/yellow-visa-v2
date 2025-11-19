@@ -10,6 +10,7 @@ import { DeletePanel } from '@/components/shared/DeletePanel';
 import { SeoAnalysisPanel } from '@/components/shared/SeoAnalysisPanel';
 import { useRouter } from 'next/navigation';
 import BlogForm from '../../components/BlogForm';
+import { generateSlug } from '@/utils/generateSlug';
 
 interface EditPostPageProps {
   params: Promise<{
@@ -98,7 +99,7 @@ export default function EditPostPage({ params }: EditPostPageProps) {
         {/* Botão Visualizar - só aparece se o post estiver publicado */}
         {blogPost.status === 'published' && (
           <Link
-            href={`/blog/${blogPost.category || 'blog'}/${blogPost.slug}`}
+            href={`/blog/${blogPost.category ? generateSlug(blogPost.category) : 'blog'}/${blogPost.slug}`}
             target='_blank'
             rel='noopener noreferrer'
             className='flex items-center gap-2 px-4 py-2 bg-[#FFBD1A] text-[#0F0005] rounded-lg hover:bg-[#FFBD1A]/90 transition-colors font-medium'

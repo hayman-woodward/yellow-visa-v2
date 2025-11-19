@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { blogPostSchema, updateBlogPostSchema } from '@/schemas/dashboard/blog';
 import ClientEditorWrapper from '@/components/editor/ClientEditorWrapper';
 import { useUsuarios } from '@/hooks/useDashboardData';
+import { generateSlug } from '@/utils/generateSlug';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type FormValues = Record<string, any>;
@@ -158,6 +159,20 @@ export default function BlogForm({
     fetchFaqQuestions();
   }, []);
 
+  // Expandir seção de Links Relacionados se houver links salvos
+  useEffect(() => {
+    if (defaultValues?.relatedLinks && defaultValues.relatedLinks.trim() !== '') {
+      try {
+        const parsed = JSON.parse(defaultValues.relatedLinks);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setRelatedLinksExpanded(true);
+        }
+      } catch {
+        // Ignora erros de parsing
+      }
+    }
+  }, [defaultValues?.relatedLinks]);
+
   // Parse related links from JSON string (array de IDs)
   const getSelectedFaqIds = (): string[] => {
     try {
@@ -207,12 +222,32 @@ export default function BlogForm({
     setServerSuccess(null);
 
     try {
+      // Converter relatedLinks: se vazio, string vazia ou array vazio, enviar null
+      let relatedLinksValue = null;
+      if (data.relatedLinks && data.relatedLinks.trim() !== '') {
+        try {
+          const parsed = JSON.parse(data.relatedLinks);
+          // Se for array vazio, enviar null
+          if (Array.isArray(parsed) && parsed.length === 0) {
+            relatedLinksValue = null;
+          } else {
+            relatedLinksValue = data.relatedLinks;
+          }
+        } catch {
+          // Se não for JSON válido, enviar null
+          relatedLinksValue = null;
+        }
+      }
+
+      // Normalizar slug antes de enviar
+      const normalizedSlug = generateSlug(data.slug);
+
       const payload = {
         title: data.title,
-        slug: data.slug,
+        slug: normalizedSlug,
         content: data.content,
         excerpt: data.excerpt || '',
-        category: data.category || '',
+        category: data.category || null,
         featuredImage: data.featuredImage || '',
         authorId: data.authorId || null,
         metaTitle: data.metaTitle || '',
@@ -227,7 +262,7 @@ export default function BlogForm({
         status: data.status,
         isFeatured: data.isFeatured,
         relatedLinksEnabled: data.relatedLinksEnabled || false,
-        relatedLinks: data.relatedLinks || ''
+        relatedLinks: relatedLinksValue
       };
 
       // Usar o slug original (do ref) para construir a URL quando estiver editando
@@ -434,7 +469,7 @@ export default function BlogForm({
               {relatedLinksExpanded && (
                 <div className='mt-4 space-y-4 p-4 bg-white border border-gray-200 rounded-lg'>
                   <div>
-                    <Label htmlFor='relatedFaqs'>Selecione as FAQs relacionadas</Label>
+                    <Label htmlFor='relatedFaqs'>As perguntas</Label>
                     {loadingFaqs ? (
                       <div className="w-full h-10 bg-gray-200 rounded-md animate-pulse mt-2" />
                     ) : (

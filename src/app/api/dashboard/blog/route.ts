@@ -5,11 +5,67 @@ import { generateSlug } from '@/utils/generateSlug';
 
 export async function GET() {
   try {
+    // Tentar buscar normalmente primeiro
     const blogPosts = await prisma.blogPost.findMany({
       orderBy: { order: 'asc' },
     });
-    return NextResponse.json(blogPosts);
-  } catch (error: unknown) {
+    
+    // Adicionar valores padrão para campos que podem não existir no banco
+    const blogPostsWithDefaults = blogPosts.map((post: any) => ({
+      ...post,
+      relatedLinksEnabled: post.relatedLinksEnabled ?? false,
+      relatedLinks: post.relatedLinks ?? null,
+    }));
+    
+    return NextResponse.json(blogPostsWithDefaults);
+  } catch (error: any) {
+    // Se o erro for por campos não existirem, usar select explícito
+    if (error.code === 'P2022' && error.message?.includes('related_links')) {
+      try {
+        const blogPosts = await prisma.blogPost.findMany({
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            excerpt: true,
+            content: true,
+            featuredImage: true,
+            createdAt: true,
+            updatedAt: true,
+            authorId: true,
+            category: true,
+            isFeatured: true,
+            metaDescription: true,
+            metaKeywords: true,
+            metaTitle: true,
+            ogDescription: true,
+            ogImage: true,
+            ogTitle: true,
+            order: true,
+            publishedAt: true,
+            status: true,
+            tags: true,
+            twitterDescription: true,
+            twitterImage: true,
+            twitterTitle: true,
+          },
+          orderBy: { order: 'asc' },
+        });
+        
+        // Adicionar valores padrão para campos que não existem
+        const blogPostsWithDefaults = blogPosts.map((post: any) => ({
+          ...post,
+          relatedLinksEnabled: false,
+          relatedLinks: null,
+        }));
+        
+        return NextResponse.json(blogPostsWithDefaults);
+      } catch (selectError) {
+        console.error('Error fetching blog posts with select:', selectError);
+        return NextResponse.json({ message: 'Error fetching blog posts', error: selectError instanceof Error ? selectError.message : 'Unknown error' }, { status: 500 });
+      }
+    }
+    
     console.error('Error fetching blog posts:', error);
     return NextResponse.json({ message: 'Error fetching blog posts', error: error instanceof Error ? error.message : 'Unknown error' }, { status: 500 });
   }

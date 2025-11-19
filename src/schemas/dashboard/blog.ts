@@ -32,7 +32,7 @@ export const blogPostSchema = z.object({
   status: z.enum(['draft', 'published', 'archived'] as const),
   isFeatured: z.boolean().default(false),
   relatedLinksEnabled: z.boolean().default(false),
-  relatedLinks: z.string().optional() // JSON string
+  relatedLinks: z.string().optional().nullable() // JSON string ou null
 });
 
 export const updateBlogPostSchema = blogPostSchema.partial();

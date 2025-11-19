@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { generateSlug } from '@/utils/generateSlug';
 
 export async function getRecentBlogPosts(limit: number = 4) {
   try {
@@ -56,8 +57,9 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
         createdAt: true,
         authorId: true,
         status: true,
-        relatedLinksEnabled: true,
-        relatedLinks: true
+        // Campos opcionais - podem não existir no banco ainda
+        // relatedLinksEnabled: true,
+        // relatedLinks: true
       }
     });
 
@@ -65,8 +67,10 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
       return null;
     }
 
-    // Verificar se a categoria corresponde
-    if (post.category !== category) {
+    // Verificar se a categoria corresponde (normalizar ambas para comparar)
+    const normalizedPostCategory = post.category ? generateSlug(post.category) : 'blog';
+    const normalizedUrlCategory = category ? generateSlug(category) : 'blog';
+    if (normalizedPostCategory !== normalizedUrlCategory) {
       return null;
     }
 
@@ -93,8 +97,8 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
     return {
       ...post,
       author,
-      relatedLinksEnabled: post.relatedLinksEnabled ?? false,
-      relatedLinks: post.relatedLinks ?? null
+      relatedLinksEnabled: false,
+      relatedLinks: null
     } as typeof post & { author: typeof author; relatedLinksEnabled: boolean; relatedLinks: string | null };
   } catch (error) {
     console.error('❌ Error fetching blog post:', error);
