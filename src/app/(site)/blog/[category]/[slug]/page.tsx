@@ -59,11 +59,37 @@ export default async function BlogPage({ params }: BlogPageProps) {
     );
   }
 
-  // Parse related links
+  // Parse related links - pode ser array de IDs ou array de objetos
   let relatedLinks: Array<{ title: string; link: string }> = [];
   if (post.relatedLinks) {
     try {
-      relatedLinks = JSON.parse(post.relatedLinks);
+      const parsed = JSON.parse(post.relatedLinks);
+      
+      // Se for array de IDs (strings), buscar as FAQs correspondentes
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        if (typeof parsed[0] === 'string') {
+          // Array de IDs - buscar FAQs
+          const { prisma } = await import('@/lib/prisma');
+          const faqQuestions = await prisma.faqQuestion.findMany({
+            where: {
+              id: { in: parsed },
+              status: 'published'
+            },
+            select: {
+              question: true,
+              link: true
+            }
+          });
+          
+          relatedLinks = faqQuestions.map(faq => ({
+            title: faq.question,
+            link: faq.link
+          }));
+        } else if (typeof parsed[0] === 'object' && 'title' in parsed[0] && 'link' in parsed[0]) {
+          // Já é array de objetos com title e link
+          relatedLinks = parsed;
+        }
+      }
     } catch (error) {
       console.error('Error parsing related links:', error);
     }

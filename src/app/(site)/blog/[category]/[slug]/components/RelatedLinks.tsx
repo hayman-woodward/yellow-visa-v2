@@ -11,20 +11,21 @@ export default function RelatedLinks({ links }: RelatedLinksProps) {
   }
 
   return (
-    <section className='py-10 md:py-20 bg-[#FFD46A]'>
-      <div className='max-w-[1248px] mx-auto px-4 md:px-20 xl:px-0'>
-        <div className='space-y-2'>
+    <section className='py-10 md:py-20'>
+      <div className='container mx-auto px-4'>
+        <div className='max-w-4xl mx-auto bg-[#FFBD1A] rounded-2xl p-10 flex flex-col gap-2'>
           {links.map((item, index) => (
             <Link
               key={`related-link-${index}`}
               href={item.link}
-              className='group block relative px-4 py-5 rounded-lg bg-white hover:bg-gray-50 transition-colors'
+              className='group block relative px-4 py-[22px] rounded-lg overflow-hidden'
             >
+              <div className='absolute inset-0 bg-[#FFD46A] opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg' />
               <div className='relative z-10 flex items-center justify-between'>
-                <h3 className='text-gray-900 text-[18px] font-semibold md:font-medium md:text-xl leading-[22px] md:leading-relaxed pr-4'>
+                <h3 className='font-heading text-[22px] font-semibold leading-[28px] tracking-[-0.5px] text-[#0f0005] pr-4'>
                   {item.title}
                 </h3>
-                <ChevronRight className='w-5 h-5 text-gray-400 flex-shrink-0 transition-colors group-hover:text-gray-700' />
+                <ChevronRight className='w-5 h-5 text-[#0f0005] flex-shrink-0' />
               </div>
             </Link>
           ))}

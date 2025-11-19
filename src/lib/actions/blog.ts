@@ -33,35 +33,75 @@ export async function getRecentBlogPosts(limit: number = 4) {
 
 export async function getBlogPostByCategoryAndSlug(category: string, slug: string) {
   try {
-    const post = await prisma.blogPost.findUnique({
-      where: {
-        slug
-      },
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        content: true,
-        excerpt: true,
-        category: true,
-        metaTitle: true,
-        metaDescription: true,
-        ogTitle: true,
-        ogDescription: true,
-        ogImage: true,
-        twitterTitle: true,
-        twitterDescription: true,
-        twitterImage: true,
-        featuredImage: true,
-        publishedAt: true,
-        createdAt: true,
-        authorId: true,
-        status: true,
-        // Campos opcionais - podem não existir no banco ainda
-        // relatedLinksEnabled: true,
-        // relatedLinks: true
+    // Tentar buscar com os campos relacionados primeiro
+    let post: any;
+    try {
+      post = await prisma.blogPost.findUnique({
+        where: {
+          slug
+        },
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          content: true,
+          excerpt: true,
+          category: true,
+          metaTitle: true,
+          metaDescription: true,
+          ogTitle: true,
+          ogDescription: true,
+          ogImage: true,
+          twitterTitle: true,
+          twitterDescription: true,
+          twitterImage: true,
+          featuredImage: true,
+          publishedAt: true,
+          createdAt: true,
+          authorId: true,
+          status: true,
+          relatedLinksEnabled: true,
+          relatedLinks: true
+        }
+      });
+    } catch (error: any) {
+      // Se os campos não existirem, buscar sem eles
+      if (error.code === 'P2022' || error.message?.includes('related_links')) {
+        post = await prisma.blogPost.findUnique({
+          where: {
+            slug
+          },
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            content: true,
+            excerpt: true,
+            category: true,
+            metaTitle: true,
+            metaDescription: true,
+            ogTitle: true,
+            ogDescription: true,
+            ogImage: true,
+            twitterTitle: true,
+            twitterDescription: true,
+            twitterImage: true,
+            featuredImage: true,
+            publishedAt: true,
+            createdAt: true,
+            authorId: true,
+            status: true,
+          }
+        });
+        // Adicionar valores padrão
+        if (post) {
+          post.relatedLinksEnabled = false;
+          post.relatedLinks = null;
+        }
+      } else {
+        throw error;
       }
-    });
+    }
 
     if (!post) {
       return null;
@@ -97,8 +137,8 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
     return {
       ...post,
       author,
-      relatedLinksEnabled: false,
-      relatedLinks: null
+      relatedLinksEnabled: post.relatedLinksEnabled ?? false,
+      relatedLinks: post.relatedLinks ?? null
     } as typeof post & { author: typeof author; relatedLinksEnabled: boolean; relatedLinks: string | null };
   } catch (error) {
     console.error('❌ Error fetching blog post:', error);
