@@ -281,12 +281,14 @@ export default function BlogPage() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem asChild>
-                          <Link href={`/blog/${post.slug}`} className='flex items-center gap-2 py-2'>
-                            <Eye size={14} className='flex-shrink-0' />
-                            <span>Visualizar</span>
-                          </Link>
-                        </DropdownMenuItem>
+                        {post.status === 'published' && (
+                          <DropdownMenuItem asChild>
+                            <Link href={`/blog/${post.category || 'blog'}/${post.slug}`} className='flex items-center gap-2 py-2'>
+                              <Eye size={14} className='flex-shrink-0' />
+                              <span>Visualizar</span>
+                            </Link>
+                          </DropdownMenuItem>
+                        )}
                         <DropdownMenuItem asChild>
                           <Link href={`/dashboard/blog/${post.slug}/editar`} className='flex items-center gap-2 py-2'>
                             <Pencil size={14} className='flex-shrink-0' />

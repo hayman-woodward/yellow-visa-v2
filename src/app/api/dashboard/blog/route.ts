@@ -41,6 +41,8 @@ export async function POST(request: Request) {
       status,
       isFeatured,
       authorId,
+      relatedLinksEnabled,
+      relatedLinks,
     } = validated;
 
     const finalSlug = customSlug || generateSlug(title);
@@ -54,30 +56,40 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: 'Slug already exists' }, { status: 409 });
     }
 
+    // Preparar dados base
+    const baseData = {
+      title,
+      slug: finalSlug,
+      content,
+      excerpt,
+      metaTitle,
+      metaDescription,
+      metaKeywords,
+      ogTitle,
+      ogDescription,
+      ogImage,
+      twitterTitle,
+      twitterDescription,
+      twitterImage,
+      featuredImage,
+      category,
+      tags,
+      order,
+      status,
+      isFeatured,
+      authorId: authorId || null,
+      publishedAt: status === 'published' ? new Date() : null,
+    };
+
+    // Adicionar campos novos apenas se estiverem presentes
+    const createData = {
+      ...baseData,
+      ...(relatedLinksEnabled !== undefined && { relatedLinksEnabled: relatedLinksEnabled || false }),
+      ...(relatedLinks !== undefined && { relatedLinks: relatedLinks || null }),
+    };
+
     const newPost = await prisma.blogPost.create({
-      data: {
-        title,
-        slug: finalSlug,
-        content,
-        excerpt,
-        metaTitle,
-        metaDescription,
-        metaKeywords,
-        ogTitle,
-        ogDescription,
-        ogImage,
-        twitterTitle,
-        twitterDescription,
-        twitterImage,
-        featuredImage,
-        category,
-        tags,
-        order,
-        status,
-        isFeatured,
-        authorId: authorId || null,
-        publishedAt: status === 'published' ? new Date() : null,
-      },
+      data: createData,
     });
 
     return NextResponse.json(newPost, { status: 201 });

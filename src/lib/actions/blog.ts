@@ -30,6 +30,78 @@ export async function getRecentBlogPosts(limit: number = 4) {
   }
 }
 
+export async function getBlogPostByCategoryAndSlug(category: string, slug: string) {
+  try {
+    const post = await prisma.blogPost.findUnique({
+      where: {
+        slug
+      },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        content: true,
+        excerpt: true,
+        category: true,
+        metaTitle: true,
+        metaDescription: true,
+        ogTitle: true,
+        ogDescription: true,
+        ogImage: true,
+        twitterTitle: true,
+        twitterDescription: true,
+        twitterImage: true,
+        featuredImage: true,
+        publishedAt: true,
+        createdAt: true,
+        authorId: true,
+        status: true,
+        relatedLinksEnabled: true,
+        relatedLinks: true
+      }
+    });
+
+    if (!post) {
+      return null;
+    }
+
+    // Verificar se a categoria corresponde
+    if (post.category !== category) {
+      return null;
+    }
+
+    // Filtrar apenas posts publicados
+    if (post.status !== 'published') {
+      return null;
+    }
+
+    // Buscar autor separadamente se houver authorId
+    let author = null;
+    if (post.authorId) {
+      const authorData = await prisma.user.findUnique({
+        where: { id: post.authorId },
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
+          email: true
+        }
+      });
+      author = authorData;
+    }
+
+    return {
+      ...post,
+      author,
+      relatedLinksEnabled: post.relatedLinksEnabled ?? false,
+      relatedLinks: post.relatedLinks ?? null
+    } as typeof post & { author: typeof author; relatedLinksEnabled: boolean; relatedLinks: string | null };
+  } catch (error) {
+    console.error('❌ Error fetching blog post:', error);
+    return null;
+  }
+}
+
 export async function getBlogPostBySlug(slug: string) {
   try {
     console.log('🔍 Buscando post com slug:', slug);
@@ -57,7 +129,9 @@ export async function getBlogPostBySlug(slug: string) {
         publishedAt: true,
         createdAt: true,
         authorId: true,
-        status: true
+        status: true,
+        relatedLinksEnabled: true,
+        relatedLinks: true
       }
     });
 

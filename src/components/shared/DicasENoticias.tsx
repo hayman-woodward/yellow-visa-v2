@@ -23,14 +23,17 @@ export default async function DicasENoticias() {
 
           {/* Lado direito - Lista de artigos */}
           <div>
-            {recentPosts.map((post) => (
+            {recentPosts.map((post) => {
+              const category = post.category || 'blog';
+              const postUrl = `/blog/${category}/${post.slug}`;
+              return (
               <Link
                 key={post.id}
-                href={`/blog/${post.slug}`}
+                href={postUrl}
                 className='block py-4 md:py-5 px-2 md:px-4 group'
               >
                 <YVBreadcrumbs
-                  items={[{ label: post.category || 'BLOG', href: `/blog/${post.slug}` }]}
+                  items={[{ label: post.category || 'BLOG', href: postUrl }]}
                   className='pb-2 md:pb-4 text-[#8F8387]'
                 />
                 <YVTitle
@@ -41,7 +44,8 @@ export default async function DicasENoticias() {
                   tag='h3'
                 />
               </Link>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

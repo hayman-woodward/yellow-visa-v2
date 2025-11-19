@@ -30,7 +30,9 @@ export const blogPostSchema = z.object({
   tags: z.string().optional(),
   order: z.number().int().min(0, 'Ordem deve ser um número positivo'),
   status: z.enum(['draft', 'published', 'archived'] as const),
-  isFeatured: z.boolean().default(false)
+  isFeatured: z.boolean().default(false),
+  relatedLinksEnabled: z.boolean().default(false),
+  relatedLinks: z.string().optional() // JSON string
 });
 
 export const updateBlogPostSchema = blogPostSchema.partial();

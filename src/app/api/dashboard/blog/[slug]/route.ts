@@ -71,21 +71,12 @@ export async function PUT(
       status,
       isFeatured,
       authorId,
+      relatedLinksEnabled,
+      relatedLinks,
     } = validated;
 
-    const finalSlug = newSlug && newSlug !== existingPost.slug ? generateSlug(newSlug) : existingPost.slug;
-
-    // Check for slug conflict if slug changed
-    if (newSlug && newSlug !== existingPost.slug) {
-      const slugConflict = await prisma.blogPost.findUnique({
-        where: { slug: finalSlug },
-      });
-      if (slugConflict) {
-        return NextResponse.json({ message: 'New slug already exists' }, { status: 409 });
-      }
-    }
-
-    const updateData = {
+    // Preparar dados de atualização (sem os campos novos se não existirem no banco)
+    const baseUpdateData = {
       title,
       slug: finalSlug,
       content,
@@ -108,6 +99,25 @@ export async function PUT(
       authorId: authorId || null,
       publishedAt: status === 'published' && !existingPost.publishedAt ? new Date() : existingPost.publishedAt,
     };
+
+    // Adicionar campos novos apenas se estiverem presentes no validated
+    const updateData = {
+      ...baseUpdateData,
+      ...(relatedLinksEnabled !== undefined && { relatedLinksEnabled }),
+      ...(relatedLinks !== undefined && { relatedLinks }),
+    };
+
+    const finalSlug = newSlug && newSlug !== existingPost.slug ? generateSlug(newSlug) : existingPost.slug;
+
+    // Check for slug conflict if slug changed
+    if (newSlug && newSlug !== existingPost.slug) {
+      const slugConflict = await prisma.blogPost.findUnique({
+        where: { slug: finalSlug },
+      });
+      if (slugConflict) {
+        return NextResponse.json({ message: 'New slug already exists' }, { status: 409 });
+      }
+    }
 
     console.log('💾 Dados para atualizar:', updateData);
     console.log('💾 authorId que será salvo:', updateData.authorId);

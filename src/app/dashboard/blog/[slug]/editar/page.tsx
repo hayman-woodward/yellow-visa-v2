@@ -95,16 +95,18 @@ export default function EditPostPage({ params }: EditPostPageProps) {
           </div>
         </div>
 
-        {/* Botão Visualizar */}
-        <Link
-          href={`/guia-do-imigrante/${blogPost.slug}`}
-          target='_blank'
-          rel='noopener noreferrer'
-          className='flex items-center gap-2 px-4 py-2 bg-[#FFBD1A] text-[#0F0005] rounded-lg hover:bg-[#FFBD1A]/90 transition-colors font-medium'
-        >
-          <Eye size={18} />
-          Visualizar
-        </Link>
+        {/* Botão Visualizar - só aparece se o post estiver publicado */}
+        {blogPost.status === 'published' && (
+          <Link
+            href={`/blog/${blogPost.category || 'blog'}/${blogPost.slug}`}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='flex items-center gap-2 px-4 py-2 bg-[#FFBD1A] text-[#0F0005] rounded-lg hover:bg-[#FFBD1A]/90 transition-colors font-medium'
+          >
+            <Eye size={18} />
+            Visualizar
+          </Link>
+        )}
       </div>
 
       {/* Mensagem de sucesso/erro */}

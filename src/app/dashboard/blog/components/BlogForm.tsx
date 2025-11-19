@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { YVTextField, YVSelect, YVUploadImg } from '@/components/YV';
+import { YVTextField, YVSelect, YVUploadImg, YVSwitch } from '@/components/YV';
 import { Label } from '@/components/ui/label';
 import { blogPostSchema, updateBlogPostSchema } from '@/schemas/dashboard/blog';
 import ClientEditorWrapper from '@/components/editor/ClientEditorWrapper';
@@ -35,9 +35,18 @@ type BlogFormProps = {
     twitterImage?: string | null;
     status?: string;
     isFeatured?: boolean;
+    relatedLinksEnabled?: boolean;
+    relatedLinks?: string | null;
   };
   isEditing?: boolean;
 };
+
+interface FaqQuestionOption {
+  id: string;
+  question: string;
+  link: string;
+  groupTitle: string;
+}
 
 export default function BlogForm({
   defaultValues,
@@ -46,6 +55,9 @@ export default function BlogForm({
   const [serverError, setServerError] = useState<string | null>(null);
   const [serverSuccess, setServerSuccess] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [relatedLinksExpanded, setRelatedLinksExpanded] = useState(false);
+  const [faqQuestions, setFaqQuestions] = useState<FaqQuestionOption[]>([]);
+  const [loadingFaqs, setLoadingFaqs] = useState(true);
   const router = useRouter();
   const { usuarios, loading: usuariosLoading } = useUsuarios();
   
@@ -87,7 +99,9 @@ export default function BlogForm({
       twitterDescription: defaultValues?.twitterDescription || '',
       twitterImage: defaultValues?.twitterImage || '',
       status: (defaultValues?.status as 'draft' | 'published' | 'archived') || 'draft',
-      isFeatured: defaultValues?.isFeatured || false
+      isFeatured: defaultValues?.isFeatured || false,
+      relatedLinksEnabled: defaultValues?.relatedLinksEnabled || false,
+      relatedLinks: defaultValues?.relatedLinks || ''
     }
   });
 
@@ -112,12 +126,62 @@ export default function BlogForm({
         twitterDescription: defaultValues.twitterDescription || '',
         twitterImage: defaultValues.twitterImage || '',
         status: (defaultValues.status as 'draft' | 'published' | 'archived') || 'draft',
-        isFeatured: defaultValues.isFeatured || false
+        isFeatured: defaultValues.isFeatured || false,
+        relatedLinksEnabled: defaultValues.relatedLinksEnabled || false,
+        relatedLinks: defaultValues.relatedLinks || ''
       }, { keepDefaultValues: false });
     }
   }, [defaultValues?.id, defaultValues?.title, defaultValues?.slug, isEditing, reset]);
 
   const watchedFields = watch();
+
+  // Buscar FAQs ao carregar
+  useEffect(() => {
+    const fetchFaqQuestions = async () => {
+      try {
+        const response = await fetch('/api/dashboard/faqs/questions');
+        if (response.ok) {
+          const data = await response.json();
+          setFaqQuestions(data.map((q: any) => ({
+            id: q.id,
+            question: q.question,
+            link: q.link,
+            groupTitle: q.group?.title || ''
+          })));
+        }
+      } catch (error) {
+        console.error('Error fetching FAQ questions:', error);
+      } finally {
+        setLoadingFaqs(false);
+      }
+    };
+    fetchFaqQuestions();
+  }, []);
+
+  // Parse related links from JSON string (array de IDs)
+  const getSelectedFaqIds = (): string[] => {
+    try {
+      const linksStr = watchedFields.relatedLinks || '';
+      if (!linksStr) return [];
+      const parsed = JSON.parse(linksStr);
+      // Se for array de objetos {title, link}, converter para array de IDs
+      if (Array.isArray(parsed) && parsed.length > 0 && typeof parsed[0] === 'object' && 'id' in parsed[0]) {
+        return parsed.map((item: any) => item.id);
+      }
+      // Se já for array de IDs
+      if (Array.isArray(parsed) && parsed.every((item: any) => typeof item === 'string')) {
+        return parsed;
+      }
+      return [];
+    } catch {
+      return [];
+    }
+  };
+
+  // Atualizar FAQs selecionadas
+  const updateSelectedFaqs = (faqIds: string[]) => {
+    setValue('relatedLinks', JSON.stringify(faqIds));
+  };
 
   // Auto-gerar slug baseado no título (igual ao FAQ)
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -161,7 +225,9 @@ export default function BlogForm({
         twitterDescription: data.twitterDescription || '',
         twitterImage: data.twitterImage || '',
         status: data.status,
-        isFeatured: data.isFeatured
+        isFeatured: data.isFeatured,
+        relatedLinksEnabled: data.relatedLinksEnabled || false,
+        relatedLinks: data.relatedLinks || ''
       };
 
       // Usar o slug original (do ref) para construir a URL quando estiver editando
@@ -194,9 +260,22 @@ export default function BlogForm({
 
       if (response.ok) {
         setServerSuccess(result.message || 'Post salvo com sucesso!');
-        setTimeout(() => {
-          router.push('/dashboard/blog');
-        }, 500);
+        setIsSubmitting(false);
+        
+        // Se for criação de novo post, redirecionar para a lista
+        // Se for edição, manter na página para permitir salvar várias vezes
+        if (!isEditing) {
+          setTimeout(() => {
+            router.push('/dashboard/blog');
+          }, 1500);
+        } else {
+          // Atualizar o slug original caso tenha mudado
+          if (result.slug && result.slug !== originalSlugRef.current) {
+            originalSlugRef.current = result.slug;
+            // Atualizar a URL sem recarregar a página
+            window.history.replaceState({}, '', `/dashboard/blog/${result.slug}/editar`);
+          }
+        }
       } else {
         setServerError(result.message || 'Erro ao salvar post');
         setIsSubmitting(false);
@@ -318,6 +397,96 @@ export default function BlogForm({
                     {errors.content.message as string}
                   </p>
                 )}
+            </div>
+
+            {/* Links Relacionados */}
+            <div className='mb-6 mt-4'>
+              <div className='flex items-center justify-between w-full p-4 bg-gray-50 rounded-lg'>
+                <div className='flex items-center space-x-3'>
+                  <svg className='w-6 h-6 text-[#FFBD1A]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1' />
+                  </svg>
+                  <div className='text-left'>
+                    <h3 className='text-lg font-semibold text-dashboard'>Links Relacionados</h3>
+                    <p className='text-sm text-gray-500'>Adicione links relacionados ao post</p>
+                  </div>
+                </div>
+                <div className='flex items-center space-x-4'>
+                  <YVSwitch
+                    checked={watchedFields.relatedLinksEnabled || false}
+                    onCheckedChange={(checked) => setValue('relatedLinksEnabled', checked)}
+                    label="Exibir na página"
+                    size="sm"
+                    variant="primary"
+                  />
+                  <button
+                    type='button'
+                    onClick={() => setRelatedLinksExpanded(!relatedLinksExpanded)}
+                    className='text-gray-600 hover:text-gray-900 transition-colors'
+                  >
+                    <svg className={`w-5 h-5 transition-transform ${relatedLinksExpanded ? 'rotate-180' : ''}`} fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {relatedLinksExpanded && (
+                <div className='mt-4 space-y-4 p-4 bg-white border border-gray-200 rounded-lg'>
+                  <div>
+                    <Label htmlFor='relatedFaqs'>Selecione as FAQs relacionadas</Label>
+                    {loadingFaqs ? (
+                      <div className="w-full h-10 bg-gray-200 rounded-md animate-pulse mt-2" />
+                    ) : (
+                      <select
+                        id='relatedFaqs'
+                        multiple
+                        value={getSelectedFaqIds()}
+                        onChange={(e) => {
+                          const selectedIds = Array.from(e.target.selectedOptions, option => option.value);
+                          updateSelectedFaqs(selectedIds);
+                        }}
+                        disabled={isSubmitting}
+                        className='w-full mt-2 px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors min-h-[200px]'
+                      >
+                        {faqQuestions.map((faq) => (
+                          <option key={faq.id} value={faq.id}>
+                            {faq.question} {faq.groupTitle ? `(${faq.groupTitle})` : ''}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                    <p className='text-xs text-gray-500 mt-2'>
+                      Segure Ctrl (ou Cmd no Mac) para selecionar múltiplas FAQs
+                    </p>
+                    {getSelectedFaqIds().length > 0 && (
+                      <div className='mt-4 space-y-2'>
+                        <p className='text-sm font-medium text-dashboard'>FAQs selecionadas:</p>
+                        <ul className='space-y-1'>
+                          {getSelectedFaqIds().map((faqId) => {
+                            const faq = faqQuestions.find(q => q.id === faqId);
+                            return faq ? (
+                              <li key={faqId} className='text-sm text-gray-600 flex items-center justify-between p-2 bg-gray-50 rounded'>
+                                <span>{faq.question}</span>
+                                <button
+                                  type='button'
+                                  onClick={() => {
+                                    const currentIds = getSelectedFaqIds();
+                                    updateSelectedFaqs(currentIds.filter(id => id !== faqId));
+                                  }}
+                                  className='text-red-600 hover:text-red-800 text-xs'
+                                >
+                                  Remover
+                                </button>
+                              </li>
+                            ) : null;
+                          })}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
