@@ -11,16 +11,16 @@ export async function GET() {
     });
     
     // Adicionar valores padrão para campos que podem não existir no banco
-    const blogPostsWithDefaults = blogPosts.map((post: any) => ({
+    const blogPostsWithDefaults = blogPosts.map((post) => ({
       ...post,
-      relatedLinksEnabled: post.relatedLinksEnabled ?? false,
-      relatedLinks: post.relatedLinks ?? null,
+      relatedLinksEnabled: (post as { relatedLinksEnabled?: boolean }).relatedLinksEnabled ?? false,
+      relatedLinks: (post as { relatedLinks?: string | null }).relatedLinks ?? null,
     }));
     
     return NextResponse.json(blogPostsWithDefaults);
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Se o erro for por campos não existirem, usar select explícito
-    if (error.code === 'P2022' && error.message?.includes('related_links')) {
+    if ((error as { code?: string; message?: string }).code === 'P2022' && (error as { message?: string }).message?.includes('related_links')) {
       try {
         const blogPosts = await prisma.blogPost.findMany({
           select: {
@@ -53,7 +53,7 @@ export async function GET() {
         });
         
         // Adicionar valores padrão para campos que não existem
-        const blogPostsWithDefaults = blogPosts.map((post: any) => ({
+        const blogPostsWithDefaults = blogPosts.map((post) => ({
           ...post,
           relatedLinksEnabled: false,
           relatedLinks: null,

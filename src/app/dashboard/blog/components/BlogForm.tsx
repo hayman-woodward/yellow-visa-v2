@@ -143,7 +143,7 @@ export default function BlogForm({
         const response = await fetch('/api/dashboard/faqs/questions');
         if (response.ok) {
           const data = await response.json();
-          setFaqQuestions(data.map((q: any) => ({
+          setFaqQuestions(data.map((q: { id: string; question: string; link: string; group?: { title: string } }) => ({
             id: q.id,
             question: q.question,
             link: q.link,

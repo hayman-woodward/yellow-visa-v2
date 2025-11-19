@@ -21,14 +21,14 @@ export async function GET(
     // Garantir que campos opcionais existam mesmo se não estiverem no banco
     const blogPostWithDefaults = {
       ...blogPost,
-      relatedLinksEnabled: (blogPost as any).relatedLinksEnabled ?? false,
-      relatedLinks: (blogPost as any).relatedLinks ?? null,
+      relatedLinksEnabled: (blogPost as { relatedLinksEnabled?: boolean }).relatedLinksEnabled ?? false,
+      relatedLinks: (blogPost as { relatedLinks?: string | null }).relatedLinks ?? null,
     };
 
     return NextResponse.json(blogPostWithDefaults);
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Se o erro for por campos não existirem, usar select explícito
-    if (error.code === 'P2022' && error.message?.includes('related_links')) {
+    if ((error as { code?: string; message?: string }).code === 'P2022' && (error as { message?: string }).message?.includes('related_links')) {
       try {
         const resolvedParams = await params;
         const blogPost = await prisma.blogPost.findUnique({
@@ -174,7 +174,7 @@ export async function PUT(
     };
 
     // Preparar dados de atualização
-    const updateData: any = {
+    const updateData: Record<string, unknown> = {
       ...baseUpdateData,
     };
 
@@ -196,9 +196,9 @@ export async function PUT(
         where: { slug },
         data: updateData,
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Se der erro por campos não existirem, atualizar sem esses campos
-      if (error.message?.includes('relatedLinks') || error.code === 'P2022') {
+      if ((error as { message?: string }).message?.includes('relatedLinks') || (error as { code?: string }).code === 'P2022') {
         console.warn('⚠️ Campos relatedLinks não existem no banco, atualizando sem eles');
         const safeUpdateData = { ...updateData };
         delete safeUpdateData.relatedLinksEnabled;
