@@ -13,7 +13,7 @@ export default function DicasNoticiasMenu({
   return (
     <DropdownMenu
       trigger={children}
-      columns={[]} // menuData.dicasNoticias comentado
+      columns={menuData.dicasNoticias}
       className={className}
     />
   );

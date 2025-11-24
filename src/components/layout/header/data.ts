@@ -55,15 +55,15 @@ export const menuData = {
       ]
     }
   ],
-  // dicasNoticias: [
-  //   {
-  //     id: 'todas-dicas',
-  //     title: 'Todas as dicas e notícias',
-  //     items: [
-  //       { id: 'noticias', label: 'Notícias', href: '/blog' },
-  //       { id: 'historias', label: 'Histórias', href: '/blog/historias' },
-  //       { id: 'destinos', label: 'Destinos', href: '/blog/locais' }
-  //     ]
-  //   }
-  // ]
+  dicasNoticias: [
+    {
+      id: 'todas-dicas',
+      title: 'Todas as dicas e notícias',
+      items: [
+        { id: 'noticias', label: 'Notícias', href: '/blog/noticias' },
+        { id: 'historias', label: 'Histórias', href: '/blog/historias' },
+        { id: 'destinos', label: 'Destinos', href: '/blog/locais' }
+      ]
+    }
+  ]
 };

@@ -31,6 +31,65 @@ export async function getRecentBlogPosts(limit: number = 4) {
   }
 }
 
+export async function getBlogPostsByCategory(category: string) {
+  try {
+    const posts = await prisma.blogPost.findMany({
+      where: {
+        status: 'published',
+        publishedAt: {
+          not: null
+        },
+        category: category
+      },
+      orderBy: {
+        publishedAt: 'desc'
+      },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        category: true,
+        excerpt: true,
+        featuredImage: true,
+        publishedAt: true
+      }
+    });
+
+    return posts;
+  } catch (error) {
+    console.error('Error fetching blog posts by category:', error);
+    return [];
+  }
+}
+
+export async function getPublishedHistorias() {
+  try {
+    const historias = await prisma.historia.findMany({
+      where: {
+        status: 'published'
+      },
+      orderBy: {
+        createdAt: 'desc'
+      },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        content: true,
+        imageUrl: true,
+        authorName: true,
+        country: true,
+        createdAt: true
+      }
+    });
+
+    return historias;
+  } catch (error) {
+    console.error('Error fetching historias:', error);
+    return [];
+  }
+}
+
 export async function getBlogPostByCategoryAndSlug(category: string, slug: string) {
   try {
     // Tentar buscar com os campos relacionados primeiro
@@ -56,69 +115,84 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
       status: string;
       relatedLinksEnabled?: boolean;
       relatedLinks?: string | null;
-    } | null;
+      outrosDestaquesEnabled?: boolean;
+      outrosDestaquesTitle?: string | null;
+      outrosDestaquesDescription?: string | null;
+      outrosDestaques?: string | null;
+    } | null = null;
     try {
-      post = await prisma.blogPost.findUnique({
+      const postData = await prisma.blogPost.findUnique({
         where: {
           slug
-        },
-        select: {
-          id: true,
-          title: true,
-          slug: true,
-          content: true,
-          excerpt: true,
-          category: true,
-          metaTitle: true,
-          metaDescription: true,
-          ogTitle: true,
-          ogDescription: true,
-          ogImage: true,
-          twitterTitle: true,
-          twitterDescription: true,
-          twitterImage: true,
-          featuredImage: true,
-          publishedAt: true,
-          createdAt: true,
-          authorId: true,
-          status: true,
-          relatedLinksEnabled: true,
-          relatedLinks: true
         }
       });
+      
+      if (postData) {
+        post = {
+          id: postData.id,
+          title: postData.title,
+          slug: postData.slug,
+          content: postData.content,
+          excerpt: postData.excerpt,
+          category: postData.category,
+          metaTitle: postData.metaTitle,
+          metaDescription: postData.metaDescription,
+          ogTitle: postData.ogTitle,
+          ogDescription: postData.ogDescription,
+          ogImage: postData.ogImage,
+          twitterTitle: postData.twitterTitle,
+          twitterDescription: postData.twitterDescription,
+          twitterImage: postData.twitterImage,
+          featuredImage: postData.featuredImage,
+          publishedAt: postData.publishedAt,
+          createdAt: postData.createdAt,
+          authorId: postData.authorId,
+          status: postData.status,
+          relatedLinksEnabled: (postData as Record<string, unknown>).relatedLinksEnabled as boolean | undefined ?? false,
+          relatedLinks: (postData as Record<string, unknown>).relatedLinks as string | null | undefined ?? null,
+          outrosDestaquesEnabled: (postData as Record<string, unknown>).outrosDestaquesEnabled as boolean | undefined ?? false,
+          outrosDestaquesTitle: (postData as Record<string, unknown>).outrosDestaquesTitle as string | null | undefined ?? null,
+          outrosDestaquesDescription: (postData as Record<string, unknown>).outrosDestaquesDescription as string | null | undefined ?? null,
+          outrosDestaques: (postData as Record<string, unknown>).outrosDestaques as string | null | undefined ?? null
+        };
+      }
     } catch (error: unknown) {
       // Se os campos não existirem, buscar sem eles
-      if ((error as { code?: string; message?: string }).code === 'P2022' || (error as { message?: string }).message?.includes('related_links')) {
-        post = await prisma.blogPost.findUnique({
+      if ((error as { code?: string; message?: string }).code === 'P2022' || (error as { message?: string }).message?.includes('related_links') || (error as { message?: string }).message?.includes('outros_destaques')) {
+        const postDataFallback = await prisma.blogPost.findUnique({
           where: {
             slug
-          },
-          select: {
-            id: true,
-            title: true,
-            slug: true,
-            content: true,
-            excerpt: true,
-            category: true,
-            metaTitle: true,
-            metaDescription: true,
-            ogTitle: true,
-            ogDescription: true,
-            ogImage: true,
-            twitterTitle: true,
-            twitterDescription: true,
-            twitterImage: true,
-            featuredImage: true,
-            publishedAt: true,
-            createdAt: true,
-            authorId: true,
-            status: true,
           }
         });
-        // Adicionar valores padrão
-        if (post) {
-          post.relatedLinksEnabled = false;
-          post.relatedLinks = null;
+        
+        if (postDataFallback) {
+          post = {
+            id: postDataFallback.id,
+            title: postDataFallback.title,
+            slug: postDataFallback.slug,
+            content: postDataFallback.content,
+            excerpt: postDataFallback.excerpt,
+            category: postDataFallback.category,
+            metaTitle: postDataFallback.metaTitle,
+            metaDescription: postDataFallback.metaDescription,
+            ogTitle: postDataFallback.ogTitle,
+            ogDescription: postDataFallback.ogDescription,
+            ogImage: postDataFallback.ogImage,
+            twitterTitle: postDataFallback.twitterTitle,
+            twitterDescription: postDataFallback.twitterDescription,
+            twitterImage: postDataFallback.twitterImage,
+            featuredImage: postDataFallback.featuredImage,
+            publishedAt: postDataFallback.publishedAt,
+            createdAt: postDataFallback.createdAt,
+            authorId: postDataFallback.authorId,
+            status: postDataFallback.status,
+            relatedLinksEnabled: false,
+            relatedLinks: null,
+            outrosDestaquesEnabled: false,
+            outrosDestaquesTitle: null,
+            outrosDestaquesDescription: null,
+            outrosDestaques: null
+          };
         }
       } else {
         throw error;
@@ -160,8 +234,12 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
       ...post,
       author,
       relatedLinksEnabled: post.relatedLinksEnabled ?? false,
-      relatedLinks: post.relatedLinks ?? null
-    } as typeof post & { author: typeof author; relatedLinksEnabled: boolean; relatedLinks: string | null };
+      relatedLinks: post.relatedLinks ?? null,
+      outrosDestaquesEnabled: post.outrosDestaquesEnabled ?? false,
+      outrosDestaquesTitle: post.outrosDestaquesTitle ?? null,
+      outrosDestaquesDescription: post.outrosDestaquesDescription ?? null,
+      outrosDestaques: post.outrosDestaques ?? null
+    } as typeof post & { author: typeof author; relatedLinksEnabled: boolean; relatedLinks: string | null; outrosDestaquesEnabled: boolean; outrosDestaquesTitle: string | null; outrosDestaquesDescription: string | null; outrosDestaques: string | null };
   } catch (error) {
     console.error('❌ Error fetching blog post:', error);
     return null;
@@ -172,34 +250,26 @@ export async function getBlogPostBySlug(slug: string) {
   try {
     console.log('🔍 Buscando post com slug:', slug);
     
-    const post = await prisma.blogPost.findUnique({
+    const postData = await prisma.blogPost.findUnique({
       where: {
         slug
-      },
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        content: true,
-        excerpt: true,
-        category: true,
-        metaTitle: true,
-        metaDescription: true,
-        ogTitle: true,
-        ogDescription: true,
-        ogImage: true,
-        twitterTitle: true,
-        twitterDescription: true,
-        twitterImage: true,
-        featuredImage: true,
-        publishedAt: true,
-        createdAt: true,
-        authorId: true,
-        status: true,
-        relatedLinksEnabled: true,
-        relatedLinks: true
       }
     });
+    
+    if (!postData) {
+      console.log('❌ Post não encontrado no banco');
+      return null;
+    }
+    
+    const post = {
+      ...postData,
+      relatedLinksEnabled: (postData as Record<string, unknown>).relatedLinksEnabled as boolean | undefined ?? false,
+      relatedLinks: (postData as Record<string, unknown>).relatedLinks as string | null | undefined ?? null,
+      outrosDestaquesEnabled: (postData as Record<string, unknown>).outrosDestaquesEnabled as boolean | undefined ?? false,
+      outrosDestaquesTitle: (postData as Record<string, unknown>).outrosDestaquesTitle as string | null | undefined ?? null,
+      outrosDestaquesDescription: (postData as Record<string, unknown>).outrosDestaquesDescription as string | null | undefined ?? null,
+      outrosDestaques: (postData as Record<string, unknown>).outrosDestaques as string | null | undefined ?? null
+    };
 
     console.log('📄 Post encontrado:', post ? 'SIM' : 'NÃO');
     if (post) {
