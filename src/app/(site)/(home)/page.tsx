@@ -1,6 +1,6 @@
 import CTABanner from '@/components/shared/CTABanner';
 // import DicasENoticias from '@/components/shared/DicasENoticias';
-// import PerguntasFrequentes from '@/components/shared/PerguntasFrequentes';
+import PerguntasFrequentes from '@/components/shared/PerguntasFrequentes';
 import BeneficiosSectionHome from './components/BeneficiosSectionHome';
 import ComoFunciona from './components/ComoFunciona';
 import Destinos from './components/Destinos';
@@ -24,7 +24,7 @@ export default function Home() {
       <ComoFunciona />     
       {/* <Contadores /> */}
       
-      {/* <PerguntasFrequentes slug='guia-do-imigrante' /> */}
+      <PerguntasFrequentes slug='guia-do-imigrante' />
       <CTABanner   
         titulo="Seu visto pode estar mais perto do que você imagina"
         texto="Faça sua avaliação personalizada para sua rotina e de o primeiro passo. Vamo nessa?"
