@@ -6,6 +6,11 @@ import { generateSlug } from '@/utils/generateSlug';
 export default async function DicasENoticias() {
   const recentPosts = await getRecentBlogPosts(4);
 
+  // Se não houver posts, não renderizar o componente
+  if (!recentPosts || recentPosts.length === 0) {
+    return null;
+  }
+
   return (
     <YVSection className='bg-[#0F0005] text-white'>
       <div className='max-w-7xl mx-auto'>

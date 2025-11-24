@@ -1,5 +1,5 @@
 import CTABanner from '@/components/shared/CTABanner';
-// import DicasENoticias from '@/components/shared/DicasENoticias';
+import DicasENoticias from '@/components/shared/DicasENoticias';
 import PerguntasFrequentes from '@/components/shared/PerguntasFrequentes';
 import BeneficiosSectionHome from './components/BeneficiosSectionHome';
 import ComoFunciona from './components/ComoFunciona';
@@ -31,8 +31,7 @@ export default function Home() {
         buttonText="Comece agora"
         buttonLink="/comecar?utm_medium=botao-site&utm_source=site-comecar-agora&utm_campaign=botao-site-comecar-agora" />
       <BeneficiosSectionHome />
-      
-      {/* <DicasENoticias /> */}
+      <DicasENoticias />
     </div>
   );
 }
