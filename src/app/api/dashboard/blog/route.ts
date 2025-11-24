@@ -11,16 +11,40 @@ export async function GET() {
     });
     
     // Adicionar valores padrão para campos que podem não existir no banco
-    const blogPostsWithDefaults = blogPosts.map((post) => ({
-      ...post,
-      relatedLinksEnabled: (post as { relatedLinksEnabled?: boolean }).relatedLinksEnabled ?? false,
-      relatedLinks: (post as { relatedLinks?: string | null }).relatedLinks ?? null,
-    }));
+    const blogPostsWithDefaults = blogPosts.map((post) => {
+      const postWithDefaults = {
+        ...post,
+        relatedLinksEnabled: (post as { relatedLinksEnabled?: boolean }).relatedLinksEnabled ?? false,
+        relatedLinks: (post as { relatedLinks?: string | null }).relatedLinks ?? null,
+      };
+      
+      // Adicionar campos outrosDestaques apenas se existirem no banco
+      if ('outrosDestaquesEnabled' in post) {
+        return {
+          ...postWithDefaults,
+          outrosDestaquesEnabled: (post as { outrosDestaquesEnabled?: boolean }).outrosDestaquesEnabled ?? false,
+          outrosDestaquesTitle: (post as { outrosDestaquesTitle?: string | null }).outrosDestaquesTitle ?? null,
+          outrosDestaquesDescription: (post as { outrosDestaquesDescription?: string | null }).outrosDestaquesDescription ?? null,
+          outrosDestaques: (post as { outrosDestaques?: string | null }).outrosDestaques ?? null,
+        };
+      }
+      
+      // Se não existirem, adicionar valores padrão
+      return {
+        ...postWithDefaults,
+        outrosDestaquesEnabled: false,
+        outrosDestaquesTitle: null,
+        outrosDestaquesDescription: null,
+        outrosDestaques: null,
+      };
+    });
     
     return NextResponse.json(blogPostsWithDefaults);
   } catch (error: unknown) {
     // Se o erro for por campos não existirem, usar select explícito
-    if ((error as { code?: string; message?: string }).code === 'P2022' && (error as { message?: string }).message?.includes('related_links')) {
+    if ((error as { code?: string; message?: string }).code === 'P2022' && 
+        ((error as { message?: string }).message?.includes('related_links') || 
+         (error as { message?: string }).message?.includes('outros_destaques'))) {
       try {
         const blogPosts = await prisma.blogPost.findMany({
           select: {
@@ -48,15 +72,21 @@ export async function GET() {
             twitterDescription: true,
             twitterImage: true,
             twitterTitle: true,
+            relatedLinksEnabled: true,
+            relatedLinks: true,
           },
           orderBy: { order: 'asc' },
         });
         
-        // Adicionar valores padrão para campos que não existem
+        // Adicionar valores padrão para campos que podem não existir
         const blogPostsWithDefaults = blogPosts.map((post) => ({
           ...post,
-          relatedLinksEnabled: false,
-          relatedLinks: null,
+          relatedLinksEnabled: (post as { relatedLinksEnabled?: boolean }).relatedLinksEnabled ?? false,
+          relatedLinks: (post as { relatedLinks?: string | null }).relatedLinks ?? null,
+          outrosDestaquesEnabled: false,
+          outrosDestaquesTitle: null,
+          outrosDestaquesDescription: null,
+          outrosDestaques: null,
         }));
         
         return NextResponse.json(blogPostsWithDefaults);

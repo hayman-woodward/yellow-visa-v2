@@ -19,16 +19,32 @@ export async function GET(
     }
 
     // Garantir que campos opcionais existam mesmo se não estiverem no banco
-    const blogPostWithDefaults = {
+    const blogPostWithDefaults: Record<string, unknown> = {
       ...blogPost,
       relatedLinksEnabled: (blogPost as { relatedLinksEnabled?: boolean }).relatedLinksEnabled ?? false,
       relatedLinks: (blogPost as { relatedLinks?: string | null }).relatedLinks ?? null,
     };
+    
+    // Adicionar campos outrosDestaques apenas se existirem no banco
+    if ('outrosDestaquesEnabled' in blogPost) {
+      blogPostWithDefaults.outrosDestaquesEnabled = (blogPost as { outrosDestaquesEnabled?: boolean }).outrosDestaquesEnabled ?? false;
+      blogPostWithDefaults.outrosDestaquesTitle = (blogPost as { outrosDestaquesTitle?: string | null }).outrosDestaquesTitle ?? null;
+      blogPostWithDefaults.outrosDestaquesDescription = (blogPost as { outrosDestaquesDescription?: string | null }).outrosDestaquesDescription ?? null;
+      blogPostWithDefaults.outrosDestaques = (blogPost as { outrosDestaques?: string | null }).outrosDestaques ?? null;
+    } else {
+      // Se não existirem, adicionar valores padrão
+      blogPostWithDefaults.outrosDestaquesEnabled = false;
+      blogPostWithDefaults.outrosDestaquesTitle = null;
+      blogPostWithDefaults.outrosDestaquesDescription = null;
+      blogPostWithDefaults.outrosDestaques = null;
+    }
 
     return NextResponse.json(blogPostWithDefaults);
   } catch (error: unknown) {
     // Se o erro for por campos não existirem, usar select explícito
-    if ((error as { code?: string; message?: string }).code === 'P2022' && (error as { message?: string }).message?.includes('related_links')) {
+    if ((error as { code?: string; message?: string }).code === 'P2022' && 
+        ((error as { message?: string }).message?.includes('related_links') || 
+         (error as { message?: string }).message?.includes('outros_destaques'))) {
       try {
         const resolvedParams = await params;
         const blogPost = await prisma.blogPost.findUnique({
@@ -58,6 +74,8 @@ export async function GET(
             twitterDescription: true,
             twitterImage: true,
             twitterTitle: true,
+            relatedLinksEnabled: true,
+            relatedLinks: true,
           },
         });
 
@@ -65,11 +83,15 @@ export async function GET(
           return NextResponse.json({ message: 'Blog post not found' }, { status: 404 });
         }
 
-        // Adicionar valores padrão para campos que não existem
+        // Adicionar valores padrão para campos que podem não existir
         const blogPostWithDefaults = {
           ...blogPost,
-          relatedLinksEnabled: false,
-          relatedLinks: null,
+          relatedLinksEnabled: (blogPost as { relatedLinksEnabled?: boolean }).relatedLinksEnabled ?? false,
+          relatedLinks: (blogPost as { relatedLinks?: string | null }).relatedLinks ?? null,
+          outrosDestaquesEnabled: false,
+          outrosDestaquesTitle: null,
+          outrosDestaquesDescription: null,
+          outrosDestaques: null,
         };
 
         return NextResponse.json(blogPostWithDefaults);
