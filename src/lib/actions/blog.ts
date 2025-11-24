@@ -119,77 +119,80 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
       outrosDestaquesTitle?: string | null;
       outrosDestaquesDescription?: string | null;
       outrosDestaques?: string | null;
-    } | null;
+    } | null = null;
     try {
-      post = await prisma.blogPost.findUnique({
+      const postData = await prisma.blogPost.findUnique({
         where: {
           slug
-        },
-        select: {
-          id: true,
-          title: true,
-          slug: true,
-          content: true,
-          excerpt: true,
-          category: true,
-          metaTitle: true,
-          metaDescription: true,
-          ogTitle: true,
-          ogDescription: true,
-          ogImage: true,
-          twitterTitle: true,
-          twitterDescription: true,
-          twitterImage: true,
-          featuredImage: true,
-          publishedAt: true,
-          createdAt: true,
-          authorId: true,
-          status: true,
-          relatedLinksEnabled: true,
-          relatedLinks: true,
-          outrosDestaquesEnabled: true,
-          outrosDestaquesTitle: true,
-          outrosDestaquesDescription: true,
-          outrosDestaques: true
         }
       });
+      
+      if (postData) {
+        post = {
+          id: postData.id,
+          title: postData.title,
+          slug: postData.slug,
+          content: postData.content,
+          excerpt: postData.excerpt,
+          category: postData.category,
+          metaTitle: postData.metaTitle,
+          metaDescription: postData.metaDescription,
+          ogTitle: postData.ogTitle,
+          ogDescription: postData.ogDescription,
+          ogImage: postData.ogImage,
+          twitterTitle: postData.twitterTitle,
+          twitterDescription: postData.twitterDescription,
+          twitterImage: postData.twitterImage,
+          featuredImage: postData.featuredImage,
+          publishedAt: postData.publishedAt,
+          createdAt: postData.createdAt,
+          authorId: postData.authorId,
+          status: postData.status,
+          relatedLinksEnabled: (postData as any).relatedLinksEnabled ?? false,
+          relatedLinks: (postData as any).relatedLinks ?? null,
+          outrosDestaquesEnabled: (postData as any).outrosDestaquesEnabled ?? false,
+          outrosDestaquesTitle: (postData as any).outrosDestaquesTitle ?? null,
+          outrosDestaquesDescription: (postData as any).outrosDestaquesDescription ?? null,
+          outrosDestaques: (postData as any).outrosDestaques ?? null
+        };
+      }
     } catch (error: unknown) {
       // Se os campos não existirem, buscar sem eles
-      if ((error as { code?: string; message?: string }).code === 'P2022' || (error as { message?: string }).message?.includes('related_links')) {
-        post = await prisma.blogPost.findUnique({
+      if ((error as { code?: string; message?: string }).code === 'P2022' || (error as { message?: string }).message?.includes('related_links') || (error as { message?: string }).message?.includes('outros_destaques')) {
+        const postDataFallback = await prisma.blogPost.findUnique({
           where: {
             slug
-          },
-          select: {
-            id: true,
-            title: true,
-            slug: true,
-            content: true,
-            excerpt: true,
-            category: true,
-            metaTitle: true,
-            metaDescription: true,
-            ogTitle: true,
-            ogDescription: true,
-            ogImage: true,
-            twitterTitle: true,
-            twitterDescription: true,
-            twitterImage: true,
-            featuredImage: true,
-            publishedAt: true,
-            createdAt: true,
-            authorId: true,
-            status: true,
           }
         });
-        // Adicionar valores padrão
-        if (post) {
-          post.relatedLinksEnabled = false;
-          post.relatedLinks = null;
-          post.outrosDestaquesEnabled = false;
-          post.outrosDestaquesTitle = null;
-          post.outrosDestaquesDescription = null;
-          post.outrosDestaques = null;
+        
+        if (postDataFallback) {
+          post = {
+            id: postDataFallback.id,
+            title: postDataFallback.title,
+            slug: postDataFallback.slug,
+            content: postDataFallback.content,
+            excerpt: postDataFallback.excerpt,
+            category: postDataFallback.category,
+            metaTitle: postDataFallback.metaTitle,
+            metaDescription: postDataFallback.metaDescription,
+            ogTitle: postDataFallback.ogTitle,
+            ogDescription: postDataFallback.ogDescription,
+            ogImage: postDataFallback.ogImage,
+            twitterTitle: postDataFallback.twitterTitle,
+            twitterDescription: postDataFallback.twitterDescription,
+            twitterImage: postDataFallback.twitterImage,
+            featuredImage: postDataFallback.featuredImage,
+            publishedAt: postDataFallback.publishedAt,
+            createdAt: postDataFallback.createdAt,
+            authorId: postDataFallback.authorId,
+            status: postDataFallback.status,
+            relatedLinksEnabled: false,
+            relatedLinks: null,
+            outrosDestaquesEnabled: false,
+            outrosDestaquesTitle: null,
+            outrosDestaquesDescription: null,
+            outrosDestaques: null
+          };
         }
       } else {
         throw error;
@@ -247,38 +250,26 @@ export async function getBlogPostBySlug(slug: string) {
   try {
     console.log('🔍 Buscando post com slug:', slug);
     
-    const post = await prisma.blogPost.findUnique({
+    const postData = await prisma.blogPost.findUnique({
       where: {
         slug
-      },
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        content: true,
-        excerpt: true,
-        category: true,
-        metaTitle: true,
-        metaDescription: true,
-        ogTitle: true,
-        ogDescription: true,
-        ogImage: true,
-        twitterTitle: true,
-        twitterDescription: true,
-        twitterImage: true,
-        featuredImage: true,
-        publishedAt: true,
-        createdAt: true,
-        authorId: true,
-        status: true,
-        relatedLinksEnabled: true,
-        relatedLinks: true,
-        outrosDestaquesEnabled: true,
-        outrosDestaquesTitle: true,
-        outrosDestaquesDescription: true,
-        outrosDestaques: true
       }
     });
+    
+    if (!postData) {
+      console.log('❌ Post não encontrado no banco');
+      return null;
+    }
+    
+    const post = {
+      ...postData,
+      relatedLinksEnabled: (postData as any).relatedLinksEnabled ?? false,
+      relatedLinks: (postData as any).relatedLinks ?? null,
+      outrosDestaquesEnabled: (postData as any).outrosDestaquesEnabled ?? false,
+      outrosDestaquesTitle: (postData as any).outrosDestaquesTitle ?? null,
+      outrosDestaquesDescription: (postData as any).outrosDestaquesDescription ?? null,
+      outrosDestaques: (postData as any).outrosDestaques ?? null
+    };
 
     console.log('📄 Post encontrado:', post ? 'SIM' : 'NÃO');
     if (post) {
