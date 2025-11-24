@@ -148,12 +148,12 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
           createdAt: postData.createdAt,
           authorId: postData.authorId,
           status: postData.status,
-          relatedLinksEnabled: (postData as any).relatedLinksEnabled ?? false,
-          relatedLinks: (postData as any).relatedLinks ?? null,
-          outrosDestaquesEnabled: (postData as any).outrosDestaquesEnabled ?? false,
-          outrosDestaquesTitle: (postData as any).outrosDestaquesTitle ?? null,
-          outrosDestaquesDescription: (postData as any).outrosDestaquesDescription ?? null,
-          outrosDestaques: (postData as any).outrosDestaques ?? null
+          relatedLinksEnabled: (postData as Record<string, unknown>).relatedLinksEnabled as boolean | undefined ?? false,
+          relatedLinks: (postData as Record<string, unknown>).relatedLinks as string | null | undefined ?? null,
+          outrosDestaquesEnabled: (postData as Record<string, unknown>).outrosDestaquesEnabled as boolean | undefined ?? false,
+          outrosDestaquesTitle: (postData as Record<string, unknown>).outrosDestaquesTitle as string | null | undefined ?? null,
+          outrosDestaquesDescription: (postData as Record<string, unknown>).outrosDestaquesDescription as string | null | undefined ?? null,
+          outrosDestaques: (postData as Record<string, unknown>).outrosDestaques as string | null | undefined ?? null
         };
       }
     } catch (error: unknown) {
@@ -263,12 +263,12 @@ export async function getBlogPostBySlug(slug: string) {
     
     const post = {
       ...postData,
-      relatedLinksEnabled: (postData as any).relatedLinksEnabled ?? false,
-      relatedLinks: (postData as any).relatedLinks ?? null,
-      outrosDestaquesEnabled: (postData as any).outrosDestaquesEnabled ?? false,
-      outrosDestaquesTitle: (postData as any).outrosDestaquesTitle ?? null,
-      outrosDestaquesDescription: (postData as any).outrosDestaquesDescription ?? null,
-      outrosDestaques: (postData as any).outrosDestaques ?? null
+      relatedLinksEnabled: (postData as Record<string, unknown>).relatedLinksEnabled as boolean | undefined ?? false,
+      relatedLinks: (postData as Record<string, unknown>).relatedLinks as string | null | undefined ?? null,
+      outrosDestaquesEnabled: (postData as Record<string, unknown>).outrosDestaquesEnabled as boolean | undefined ?? false,
+      outrosDestaquesTitle: (postData as Record<string, unknown>).outrosDestaquesTitle as string | null | undefined ?? null,
+      outrosDestaquesDescription: (postData as Record<string, unknown>).outrosDestaquesDescription as string | null | undefined ?? null,
+      outrosDestaques: (postData as Record<string, unknown>).outrosDestaques as string | null | undefined ?? null
     };
 
     console.log('📄 Post encontrado:', post ? 'SIM' : 'NÃO');
