@@ -31,6 +31,65 @@ export async function getRecentBlogPosts(limit: number = 4) {
   }
 }
 
+export async function getBlogPostsByCategory(category: string) {
+  try {
+    const posts = await prisma.blogPost.findMany({
+      where: {
+        status: 'published',
+        publishedAt: {
+          not: null
+        },
+        category: category
+      },
+      orderBy: {
+        publishedAt: 'desc'
+      },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        category: true,
+        excerpt: true,
+        featuredImage: true,
+        publishedAt: true
+      }
+    });
+
+    return posts;
+  } catch (error) {
+    console.error('Error fetching blog posts by category:', error);
+    return [];
+  }
+}
+
+export async function getPublishedHistorias() {
+  try {
+    const historias = await prisma.historia.findMany({
+      where: {
+        status: 'published'
+      },
+      orderBy: {
+        createdAt: 'desc'
+      },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        content: true,
+        imageUrl: true,
+        authorName: true,
+        country: true,
+        createdAt: true
+      }
+    });
+
+    return historias;
+  } catch (error) {
+    console.error('Error fetching historias:', error);
+    return [];
+  }
+}
+
 export async function getBlogPostByCategoryAndSlug(category: string, slug: string) {
   try {
     // Tentar buscar com os campos relacionados primeiro
@@ -56,6 +115,10 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
       status: string;
       relatedLinksEnabled?: boolean;
       relatedLinks?: string | null;
+      outrosDestaquesEnabled?: boolean;
+      outrosDestaquesTitle?: string | null;
+      outrosDestaquesDescription?: string | null;
+      outrosDestaques?: string | null;
     } | null;
     try {
       post = await prisma.blogPost.findUnique({
@@ -83,7 +146,11 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
           authorId: true,
           status: true,
           relatedLinksEnabled: true,
-          relatedLinks: true
+          relatedLinks: true,
+          outrosDestaquesEnabled: true,
+          outrosDestaquesTitle: true,
+          outrosDestaquesDescription: true,
+          outrosDestaques: true
         }
       });
     } catch (error: unknown) {
@@ -119,6 +186,10 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
         if (post) {
           post.relatedLinksEnabled = false;
           post.relatedLinks = null;
+          post.outrosDestaquesEnabled = false;
+          post.outrosDestaquesTitle = null;
+          post.outrosDestaquesDescription = null;
+          post.outrosDestaques = null;
         }
       } else {
         throw error;
@@ -160,8 +231,12 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
       ...post,
       author,
       relatedLinksEnabled: post.relatedLinksEnabled ?? false,
-      relatedLinks: post.relatedLinks ?? null
-    } as typeof post & { author: typeof author; relatedLinksEnabled: boolean; relatedLinks: string | null };
+      relatedLinks: post.relatedLinks ?? null,
+      outrosDestaquesEnabled: post.outrosDestaquesEnabled ?? false,
+      outrosDestaquesTitle: post.outrosDestaquesTitle ?? null,
+      outrosDestaquesDescription: post.outrosDestaquesDescription ?? null,
+      outrosDestaques: post.outrosDestaques ?? null
+    } as typeof post & { author: typeof author; relatedLinksEnabled: boolean; relatedLinks: string | null; outrosDestaquesEnabled: boolean; outrosDestaquesTitle: string | null; outrosDestaquesDescription: string | null; outrosDestaques: string | null };
   } catch (error) {
     console.error('❌ Error fetching blog post:', error);
     return null;
@@ -197,7 +272,11 @@ export async function getBlogPostBySlug(slug: string) {
         authorId: true,
         status: true,
         relatedLinksEnabled: true,
-        relatedLinks: true
+        relatedLinks: true,
+        outrosDestaquesEnabled: true,
+        outrosDestaquesTitle: true,
+        outrosDestaquesDescription: true,
+        outrosDestaques: true
       }
     });
 

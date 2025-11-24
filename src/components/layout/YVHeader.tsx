@@ -74,7 +74,7 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
 
   const menuItems = [
     { label: 'Vistos e Destinos', hasDropdown: true, isVistosMenu: true },
-    // { label: 'Dicas e Notícias', hasDropdown: true, isDicasMenu: true },
+    { label: 'Dicas e Notícias', hasDropdown: true, isDicasMenu: true },
     { label: 'Guia do imigrante', href: '/guia-do-imigrante' },
     { label: 'Sobre a Yellow Visa', href: '/sobre' }
   ];
@@ -358,7 +358,7 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
                         ))
                       }
                       
-                      {/* {activeSubmenu === 'Dicas e Notícias' && 
+                      {activeSubmenu === 'Dicas e Notícias' && 
                         menuData.dicasNoticias.map((column) => (
                           <div key={column.id} className='mb-6'>
                             <h3 className='text-lg font-semibold text-gray-800 mb-3'>
@@ -388,12 +388,12 @@ export default function YVHeader({ vistos, disableComecarButton = false }: { vis
                                       strokeLinejoin='round'
                                     />
                                   </svg>
-                                </Link>
+                                </a>
                               ))}
                             </div>
                           </div>
                         ))
-                      } */}
+                      }
                     </div>
                   </div>
                 )}
