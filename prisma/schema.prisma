@@ -69,6 +69,8 @@ model BlogPost {
   twitterDescription String?
   twitterImage       String?
   twitterTitle       String?
+  relatedLinksEnabled Boolean  @default(false) @map("related_links_enabled")
+  relatedLinks       String?   @map("related_links") // JSON array: [{title: string, link: string}]
 
   @@map("blog_posts")
 }

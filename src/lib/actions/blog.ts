@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { generateSlug } from '@/utils/generateSlug';
 
 export async function getRecentBlogPosts(limit: number = 4) {
   try {
@@ -30,6 +31,143 @@ export async function getRecentBlogPosts(limit: number = 4) {
   }
 }
 
+export async function getBlogPostByCategoryAndSlug(category: string, slug: string) {
+  try {
+    // Tentar buscar com os campos relacionados primeiro
+    let post: {
+      id: string;
+      title: string;
+      slug: string;
+      content: string;
+      excerpt: string | null;
+      category: string | null;
+      metaTitle: string | null;
+      metaDescription: string | null;
+      ogTitle: string | null;
+      ogDescription: string | null;
+      ogImage: string | null;
+      twitterTitle: string | null;
+      twitterDescription: string | null;
+      twitterImage: string | null;
+      featuredImage: string | null;
+      publishedAt: Date | null;
+      createdAt: Date;
+      authorId: string | null;
+      status: string;
+      relatedLinksEnabled?: boolean;
+      relatedLinks?: string | null;
+    } | null;
+    try {
+      post = await prisma.blogPost.findUnique({
+        where: {
+          slug
+        },
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          content: true,
+          excerpt: true,
+          category: true,
+          metaTitle: true,
+          metaDescription: true,
+          ogTitle: true,
+          ogDescription: true,
+          ogImage: true,
+          twitterTitle: true,
+          twitterDescription: true,
+          twitterImage: true,
+          featuredImage: true,
+          publishedAt: true,
+          createdAt: true,
+          authorId: true,
+          status: true,
+          relatedLinksEnabled: true,
+          relatedLinks: true
+        }
+      });
+    } catch (error: unknown) {
+      // Se os campos não existirem, buscar sem eles
+      if ((error as { code?: string; message?: string }).code === 'P2022' || (error as { message?: string }).message?.includes('related_links')) {
+        post = await prisma.blogPost.findUnique({
+          where: {
+            slug
+          },
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            content: true,
+            excerpt: true,
+            category: true,
+            metaTitle: true,
+            metaDescription: true,
+            ogTitle: true,
+            ogDescription: true,
+            ogImage: true,
+            twitterTitle: true,
+            twitterDescription: true,
+            twitterImage: true,
+            featuredImage: true,
+            publishedAt: true,
+            createdAt: true,
+            authorId: true,
+            status: true,
+          }
+        });
+        // Adicionar valores padrão
+        if (post) {
+          post.relatedLinksEnabled = false;
+          post.relatedLinks = null;
+        }
+      } else {
+        throw error;
+      }
+    }
+
+    if (!post) {
+      return null;
+    }
+
+    // Verificar se a categoria corresponde (normalizar ambas para comparar)
+    const normalizedPostCategory = post.category ? generateSlug(post.category) : 'blog';
+    const normalizedUrlCategory = category ? generateSlug(category) : 'blog';
+    if (normalizedPostCategory !== normalizedUrlCategory) {
+      return null;
+    }
+
+    // Filtrar apenas posts publicados
+    if (post.status !== 'published') {
+      return null;
+    }
+
+    // Buscar autor separadamente se houver authorId
+    let author = null;
+    if (post.authorId) {
+      const authorData = await prisma.user.findUnique({
+        where: { id: post.authorId },
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
+          email: true
+        }
+      });
+      author = authorData;
+    }
+
+    return {
+      ...post,
+      author,
+      relatedLinksEnabled: post.relatedLinksEnabled ?? false,
+      relatedLinks: post.relatedLinks ?? null
+    } as typeof post & { author: typeof author; relatedLinksEnabled: boolean; relatedLinks: string | null };
+  } catch (error) {
+    console.error('❌ Error fetching blog post:', error);
+    return null;
+  }
+}
+
 export async function getBlogPostBySlug(slug: string) {
   try {
     console.log('🔍 Buscando post com slug:', slug);
@@ -57,7 +195,9 @@ export async function getBlogPostBySlug(slug: string) {
         publishedAt: true,
         createdAt: true,
         authorId: true,
-        status: true
+        status: true,
+        relatedLinksEnabled: true,
+        relatedLinks: true
       }
     });
 

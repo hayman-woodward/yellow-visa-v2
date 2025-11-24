@@ -596,6 +596,8 @@ export interface BlogPost {
   updatedAt: string;
   publishedAt: string | null;
   authorId: string | null;
+  relatedLinksEnabled: boolean;
+  relatedLinks: string | null;
 }
 
 export function useBlogPosts() {

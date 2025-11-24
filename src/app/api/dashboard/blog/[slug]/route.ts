@@ -9,6 +9,7 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
+    // Tentar buscar normalmente primeiro
     const blogPost = await prisma.blogPost.findUnique({
       where: { slug },
     });
@@ -17,8 +18,67 @@ export async function GET(
       return NextResponse.json({ message: 'Blog post not found' }, { status: 404 });
     }
 
-    return NextResponse.json(blogPost);
+    // Garantir que campos opcionais existam mesmo se não estiverem no banco
+    const blogPostWithDefaults = {
+      ...blogPost,
+      relatedLinksEnabled: (blogPost as { relatedLinksEnabled?: boolean }).relatedLinksEnabled ?? false,
+      relatedLinks: (blogPost as { relatedLinks?: string | null }).relatedLinks ?? null,
+    };
+
+    return NextResponse.json(blogPostWithDefaults);
   } catch (error: unknown) {
+    // Se o erro for por campos não existirem, usar select explícito
+    if ((error as { code?: string; message?: string }).code === 'P2022' && (error as { message?: string }).message?.includes('related_links')) {
+      try {
+        const resolvedParams = await params;
+        const blogPost = await prisma.blogPost.findUnique({
+          where: { slug: resolvedParams.slug },
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            excerpt: true,
+            content: true,
+            featuredImage: true,
+            createdAt: true,
+            updatedAt: true,
+            authorId: true,
+            category: true,
+            isFeatured: true,
+            metaDescription: true,
+            metaKeywords: true,
+            metaTitle: true,
+            ogDescription: true,
+            ogImage: true,
+            ogTitle: true,
+            order: true,
+            publishedAt: true,
+            status: true,
+            tags: true,
+            twitterDescription: true,
+            twitterImage: true,
+            twitterTitle: true,
+          },
+        });
+
+        if (!blogPost) {
+          return NextResponse.json({ message: 'Blog post not found' }, { status: 404 });
+        }
+
+        // Adicionar valores padrão para campos que não existem
+        const blogPostWithDefaults = {
+          ...blogPost,
+          relatedLinksEnabled: false,
+          relatedLinks: null,
+        };
+
+        return NextResponse.json(blogPostWithDefaults);
+      } catch (selectError) {
+        console.error('Error fetching blog post with select:', selectError);
+        return NextResponse.json({ message: 'Error fetching blog post', error: selectError instanceof Error ? selectError.message : 'Unknown error' }, { status: 500 });
+      }
+    }
+
     console.error('Error fetching blog post:', error);
     return NextResponse.json({ message: 'Error fetching blog post', error: error instanceof Error ? error.message : 'Unknown error' }, { status: 500 });
   }
@@ -71,8 +131,11 @@ export async function PUT(
       status,
       isFeatured,
       authorId,
+      relatedLinksEnabled,
+      relatedLinks,
     } = validated;
 
+    // Calcular o slug final antes de usar
     const finalSlug = newSlug && newSlug !== existingPost.slug ? generateSlug(newSlug) : existingPost.slug;
 
     // Check for slug conflict if slug changed
@@ -85,7 +148,8 @@ export async function PUT(
       }
     }
 
-    const updateData = {
+    // Preparar dados de atualização (sem os campos novos se não existirem no banco)
+    const baseUpdateData = {
       title,
       slug: finalSlug,
       content,
@@ -109,13 +173,44 @@ export async function PUT(
       publishedAt: status === 'published' && !existingPost.publishedAt ? new Date() : existingPost.publishedAt,
     };
 
+    // Preparar dados de atualização
+    const updateData: Record<string, unknown> = {
+      ...baseUpdateData,
+    };
+
+    // Adicionar campos opcionais se existirem no validated
+    if ('relatedLinksEnabled' in validated) {
+      updateData.relatedLinksEnabled = relatedLinksEnabled ?? false;
+    }
+    if ('relatedLinks' in validated) {
+      updateData.relatedLinks = relatedLinks ?? null;
+    }
+
     console.log('💾 Dados para atualizar:', updateData);
     console.log('💾 authorId que será salvo:', updateData.authorId);
 
-    const updatedPost = await prisma.blogPost.update({
-      where: { slug },
-      data: updateData,
-    });
+    // Tentar atualizar normalmente
+    let updatedPost;
+    try {
+      updatedPost = await prisma.blogPost.update({
+        where: { slug },
+        data: updateData,
+      });
+    } catch (error: unknown) {
+      // Se der erro por campos não existirem, atualizar sem esses campos
+      if ((error as { message?: string }).message?.includes('relatedLinks') || (error as { code?: string }).code === 'P2022') {
+        console.warn('⚠️ Campos relatedLinks não existem no banco, atualizando sem eles');
+        const safeUpdateData = { ...updateData };
+        delete safeUpdateData.relatedLinksEnabled;
+        delete safeUpdateData.relatedLinks;
+        updatedPost = await prisma.blogPost.update({
+          where: { slug },
+          data: safeUpdateData,
+        });
+      } else {
+        throw error;
+      }
+    }
 
     console.log('✅ Post atualizado:', updatedPost);
     console.log('✅ authorId no post atualizado:', updatedPost.authorId);

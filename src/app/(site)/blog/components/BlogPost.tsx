@@ -12,3 +12,4 @@ export default function BlogPost({ content }: BlogPostProps) {
     </div>
   );
 }
+

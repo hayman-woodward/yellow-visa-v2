@@ -1,21 +1,23 @@
 import CTABanner from "@/components/shared/CTABanner";
-import BlogHeader from "./components/BlogHeader";
-import BlogPost from "./components/BlogPost";
-import FeaturedImg from "./components/FeaturedImg";
+import BlogHeader from "../../components/BlogHeader";
+import BlogPost from "../../components/BlogPost";
+import FeaturedImg from "../../components/FeaturedImg";
 import BeneficiosSection from "@/components/shared/BeneficiosSection";
-import OutrosDestaques from "../locais/components/OutrosDestaques";
-import { getBlogPostBySlug } from "@/lib/actions/blog";
+import OutrosDestaques from "../../locais/components/OutrosDestaques";
+import { getBlogPostByCategoryAndSlug } from "@/lib/actions/blog";
 import { Metadata } from "next";
+import RelatedLinks from "./components/RelatedLinks";
 
 interface BlogPageProps {
   params: Promise<{
+    category: string;
     slug: string;
   }>;
 }
 
 export async function generateMetadata({ params }: BlogPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const post = await getBlogPostBySlug(slug);
+  const { category, slug } = await params;
+  const post = await getBlogPostByCategoryAndSlug(category, slug);
 
   if (!post) {
     return {
@@ -41,30 +43,57 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
 }
 
 export default async function BlogPage({ params }: BlogPageProps) {
-  const { slug } = await params;
-  console.log('📝 BlogPage - Slug recebido:', slug);
+  const { category, slug } = await params;
   
-  const post = await getBlogPostBySlug(slug);
-  console.log('📝 BlogPage - Post retornado:', post ? 'SIM' : 'NÃO');
+  const post = await getBlogPostByCategoryAndSlug(category, slug);
 
   if (!post) {
-    console.log('📝 BlogPage - Mostrando página de erro');
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Post não encontrado</h1>
           <p className="text-gray-600">O post solicitado não foi encontrado.</p>
-          <p className="text-sm text-gray-500 mt-2">Slug: {slug}</p>
+          <p className="text-sm text-gray-500 mt-2">Categoria: {category} | Slug: {slug}</p>
         </div>
       </div>
     );
   }
 
-  console.log('📝 BlogPage - Renderizando post:', {
-    title: post.title,
-    hasAuthor: !!post.author,
-    authorName: post.author?.name
-  });
+  // Parse related links - pode ser array de IDs ou array de objetos
+  let relatedLinks: Array<{ title: string; link: string }> = [];
+  if (post.relatedLinks) {
+    try {
+      const parsed = JSON.parse(post.relatedLinks);
+      
+      // Se for array de IDs (strings), buscar as FAQs correspondentes
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        if (typeof parsed[0] === 'string') {
+          // Array de IDs - buscar FAQs
+          const { prisma } = await import('@/lib/prisma');
+          const faqQuestions = await prisma.faqQuestion.findMany({
+            where: {
+              id: { in: parsed },
+              status: 'published'
+            },
+            select: {
+              question: true,
+              link: true
+            }
+          });
+          
+          relatedLinks = faqQuestions.map(faq => ({
+            title: faq.question,
+            link: faq.link
+          }));
+        } else if (typeof parsed[0] === 'object' && 'title' in parsed[0] && 'link' in parsed[0]) {
+          // Já é array de objetos com title e link
+          relatedLinks = parsed;
+        }
+      }
+    } catch (error) {
+      console.error('Error parsing related links:', error);
+    }
+  }
 
   return (
     <div className="bg-white">
@@ -77,9 +106,13 @@ export default async function BlogPage({ params }: BlogPageProps) {
       />
       <FeaturedImg imageUrl={post.featuredImage} />
       <BlogPost content={post.content} />
+      {post.relatedLinksEnabled && relatedLinks.length > 0 && (
+        <RelatedLinks links={relatedLinks} />
+      )}
       <CTABanner />
       <BeneficiosSection />
       <OutrosDestaques />
     </div>
   );
 }
+
