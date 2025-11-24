@@ -181,10 +181,10 @@ export default function BlogForm({
       const parsed = JSON.parse(linksStr);
       // Se for array de objetos {title, link}, converter para array de IDs
       if (Array.isArray(parsed) && parsed.length > 0 && typeof parsed[0] === 'object' && 'id' in parsed[0]) {
-        return parsed.map((item: any) => item.id);
+        return parsed.map((item: { id: string }) => item.id);
       }
       // Se já for array de IDs
-      if (Array.isArray(parsed) && parsed.every((item: any) => typeof item === 'string')) {
+      if (Array.isArray(parsed) && parsed.every((item: unknown) => typeof item === 'string')) {
         return parsed;
       }
       return [];

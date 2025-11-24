@@ -34,7 +34,29 @@ export async function getRecentBlogPosts(limit: number = 4) {
 export async function getBlogPostByCategoryAndSlug(category: string, slug: string) {
   try {
     // Tentar buscar com os campos relacionados primeiro
-    let post: any;
+    let post: {
+      id: string;
+      title: string;
+      slug: string;
+      content: string;
+      excerpt: string | null;
+      category: string | null;
+      metaTitle: string | null;
+      metaDescription: string | null;
+      ogTitle: string | null;
+      ogDescription: string | null;
+      ogImage: string | null;
+      twitterTitle: string | null;
+      twitterDescription: string | null;
+      twitterImage: string | null;
+      featuredImage: string | null;
+      publishedAt: Date | null;
+      createdAt: Date;
+      authorId: string | null;
+      status: string;
+      relatedLinksEnabled?: boolean;
+      relatedLinks?: string | null;
+    } | null;
     try {
       post = await prisma.blogPost.findUnique({
         where: {
@@ -64,9 +86,9 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
           relatedLinks: true
         }
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Se os campos não existirem, buscar sem eles
-      if (error.code === 'P2022' || error.message?.includes('related_links')) {
+      if ((error as { code?: string; message?: string }).code === 'P2022' || (error as { message?: string }).message?.includes('related_links')) {
         post = await prisma.blogPost.findUnique({
           where: {
             slug
