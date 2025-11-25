@@ -3,16 +3,19 @@ import { generateSlug } from '@/utils/generateSlug';
 
 export async function getRecentBlogPosts(limit: number = 4) {
   try {
+    // Buscar posts publicados, priorizando os que têm publishedAt, mas incluindo todos os publicados
     const posts = await prisma.blogPost.findMany({
       where: {
-        status: 'published',
-        publishedAt: {
-          not: null
+        status: 'published'
+      },
+      orderBy: [
+        {
+          publishedAt: 'desc'
+        },
+        {
+          updatedAt: 'desc'
         }
-      },
-      orderBy: {
-        publishedAt: 'desc'
-      },
+      ],
       take: limit,
       select: {
         id: true,
@@ -24,9 +27,48 @@ export async function getRecentBlogPosts(limit: number = 4) {
       }
     });
 
+    console.log(`📝 getRecentBlogPosts: encontrados ${posts.length} posts`);
+    
     return posts;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching blog posts:', error);
+    // Se o erro for por campos não existirem, tentar buscar sem select explícito
+    if ((error as { code?: string; message?: string }).code === 'P2022' || 
+        (error as { message?: string }).message?.includes('does not exist')) {
+      try {
+        console.log('⚠️ Tentando fallback sem select explícito...');
+        const posts = await prisma.blogPost.findMany({
+          where: {
+            status: 'published'
+          },
+          orderBy: [
+            {
+              publishedAt: 'desc'
+            },
+            {
+              updatedAt: 'desc'
+            }
+          ],
+          take: limit,
+        });
+
+        // Mapear apenas os campos necessários
+        const mappedPosts = posts.map(post => ({
+          id: post.id,
+          title: post.title,
+          slug: post.slug,
+          category: post.category,
+          excerpt: post.excerpt,
+          publishedAt: post.publishedAt
+        }));
+        
+        console.log(`📝 getRecentBlogPosts (fallback): encontrados ${mappedPosts.length} posts`);
+        return mappedPosts;
+      } catch (fallbackError) {
+        console.error('Error fetching blog posts (fallback):', fallbackError);
+        return [];
+      }
+    }
     return [];
   }
 }
@@ -92,112 +134,105 @@ export async function getPublishedHistorias() {
 
 export async function getBlogPostByCategoryAndSlug(category: string, slug: string) {
   try {
-    // Tentar buscar com os campos relacionados primeiro
-    let post: {
-      id: string;
-      title: string;
-      slug: string;
-      content: string;
-      excerpt: string | null;
-      category: string | null;
-      metaTitle: string | null;
-      metaDescription: string | null;
-      ogTitle: string | null;
-      ogDescription: string | null;
-      ogImage: string | null;
-      twitterTitle: string | null;
-      twitterDescription: string | null;
-      twitterImage: string | null;
-      featuredImage: string | null;
-      publishedAt: Date | null;
-      createdAt: Date;
-      authorId: string | null;
-      status: string;
-      relatedLinksEnabled?: boolean;
-      relatedLinks?: string | null;
-      outrosDestaquesEnabled?: boolean;
-      outrosDestaquesTitle?: string | null;
-      outrosDestaquesDescription?: string | null;
-      outrosDestaques?: string | null;
-    } | null = null;
+    // Usar select explícito para evitar buscar campos que não existem no banco
+    let postData;
     try {
-      const postData = await prisma.blogPost.findUnique({
+      postData = await prisma.blogPost.findUnique({
         where: {
           slug
+        },
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          content: true,
+          excerpt: true,
+          category: true,
+          metaTitle: true,
+          metaDescription: true,
+          ogTitle: true,
+          ogDescription: true,
+          ogImage: true,
+          twitterTitle: true,
+          twitterDescription: true,
+          twitterImage: true,
+          featuredImage: true,
+          publishedAt: true,
+          createdAt: true,
+          authorId: true,
+          status: true,
+          relatedLinksEnabled: true,
+          relatedLinks: true,
         }
       });
-      
-      if (postData) {
-        post = {
-          id: postData.id,
-          title: postData.title,
-          slug: postData.slug,
-          content: postData.content,
-          excerpt: postData.excerpt,
-          category: postData.category,
-          metaTitle: postData.metaTitle,
-          metaDescription: postData.metaDescription,
-          ogTitle: postData.ogTitle,
-          ogDescription: postData.ogDescription,
-          ogImage: postData.ogImage,
-          twitterTitle: postData.twitterTitle,
-          twitterDescription: postData.twitterDescription,
-          twitterImage: postData.twitterImage,
-          featuredImage: postData.featuredImage,
-          publishedAt: postData.publishedAt,
-          createdAt: postData.createdAt,
-          authorId: postData.authorId,
-          status: postData.status,
-          relatedLinksEnabled: (postData as Record<string, unknown>).relatedLinksEnabled as boolean | undefined ?? false,
-          relatedLinks: (postData as Record<string, unknown>).relatedLinks as string | null | undefined ?? null,
-          outrosDestaquesEnabled: (postData as Record<string, unknown>).outrosDestaquesEnabled as boolean | undefined ?? false,
-          outrosDestaquesTitle: (postData as Record<string, unknown>).outrosDestaquesTitle as string | null | undefined ?? null,
-          outrosDestaquesDescription: (postData as Record<string, unknown>).outrosDestaquesDescription as string | null | undefined ?? null,
-          outrosDestaques: (postData as Record<string, unknown>).outrosDestaques as string | null | undefined ?? null
-        };
-      }
     } catch (error: unknown) {
-      // Se os campos não existirem, buscar sem eles
-      if ((error as { code?: string; message?: string }).code === 'P2022' || (error as { message?: string }).message?.includes('related_links') || (error as { message?: string }).message?.includes('outros_destaques')) {
-        const postDataFallback = await prisma.blogPost.findUnique({
+      // Se der erro por campos não existirem, buscar sem eles
+      if ((error as { code?: string; message?: string }).code === 'P2022' || 
+          (error as { message?: string }).message?.includes('related_links') ||
+          (error as { message?: string }).message?.includes('outros_destaques')) {
+        postData = await prisma.blogPost.findUnique({
           where: {
             slug
+          },
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            content: true,
+            excerpt: true,
+            category: true,
+            metaTitle: true,
+            metaDescription: true,
+            ogTitle: true,
+            ogDescription: true,
+            ogImage: true,
+            twitterTitle: true,
+            twitterDescription: true,
+            twitterImage: true,
+            featuredImage: true,
+            publishedAt: true,
+            createdAt: true,
+            authorId: true,
+            status: true,
           }
         });
-        
-        if (postDataFallback) {
-          post = {
-            id: postDataFallback.id,
-            title: postDataFallback.title,
-            slug: postDataFallback.slug,
-            content: postDataFallback.content,
-            excerpt: postDataFallback.excerpt,
-            category: postDataFallback.category,
-            metaTitle: postDataFallback.metaTitle,
-            metaDescription: postDataFallback.metaDescription,
-            ogTitle: postDataFallback.ogTitle,
-            ogDescription: postDataFallback.ogDescription,
-            ogImage: postDataFallback.ogImage,
-            twitterTitle: postDataFallback.twitterTitle,
-            twitterDescription: postDataFallback.twitterDescription,
-            twitterImage: postDataFallback.twitterImage,
-            featuredImage: postDataFallback.featuredImage,
-            publishedAt: postDataFallback.publishedAt,
-            createdAt: postDataFallback.createdAt,
-            authorId: postDataFallback.authorId,
-            status: postDataFallback.status,
-            relatedLinksEnabled: false,
-            relatedLinks: null,
-            outrosDestaquesEnabled: false,
-            outrosDestaquesTitle: null,
-            outrosDestaquesDescription: null,
-            outrosDestaques: null
-          };
-        }
       } else {
         throw error;
       }
     }
+    
+    if (!postData) {
+      return null;
+    }
+
+    // Montar o objeto post com valores padrão para campos opcionais
+    const post = {
+      id: postData.id,
+      title: postData.title,
+      slug: postData.slug,
+      content: postData.content,
+      excerpt: postData.excerpt,
+      category: postData.category,
+      metaTitle: postData.metaTitle,
+      metaDescription: postData.metaDescription,
+      ogTitle: postData.ogTitle,
+      ogDescription: postData.ogDescription,
+      ogImage: postData.ogImage,
+      twitterTitle: postData.twitterTitle,
+      twitterDescription: postData.twitterDescription,
+      twitterImage: postData.twitterImage,
+      featuredImage: postData.featuredImage,
+      publishedAt: postData.publishedAt,
+      createdAt: postData.createdAt,
+      authorId: postData.authorId,
+      status: postData.status,
+      relatedLinksEnabled: (postData as { relatedLinksEnabled?: boolean }).relatedLinksEnabled ?? false,
+      relatedLinks: (postData as { relatedLinks?: string | null }).relatedLinks ?? null,
+      outrosDestaquesEnabled: false,
+      outrosDestaquesTitle: null,
+      outrosDestaquesDescription: null,
+      outrosDestaques: null
+    };
 
     if (!post) {
       return null;
@@ -232,14 +267,8 @@ export async function getBlogPostByCategoryAndSlug(category: string, slug: strin
 
     return {
       ...post,
-      author,
-      relatedLinksEnabled: post.relatedLinksEnabled ?? false,
-      relatedLinks: post.relatedLinks ?? null,
-      outrosDestaquesEnabled: post.outrosDestaquesEnabled ?? false,
-      outrosDestaquesTitle: post.outrosDestaquesTitle ?? null,
-      outrosDestaquesDescription: post.outrosDestaquesDescription ?? null,
-      outrosDestaques: post.outrosDestaques ?? null
-    } as typeof post & { author: typeof author; relatedLinksEnabled: boolean; relatedLinks: string | null; outrosDestaquesEnabled: boolean; outrosDestaquesTitle: string | null; outrosDestaquesDescription: string | null; outrosDestaques: string | null };
+      author
+    };
   } catch (error) {
     console.error('❌ Error fetching blog post:', error);
     return null;
@@ -250,11 +279,71 @@ export async function getBlogPostBySlug(slug: string) {
   try {
     console.log('🔍 Buscando post com slug:', slug);
     
-    const postData = await prisma.blogPost.findUnique({
-      where: {
-        slug
+    let postData;
+    try {
+      postData = await prisma.blogPost.findUnique({
+        where: {
+          slug
+        },
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          content: true,
+          excerpt: true,
+          category: true,
+          metaTitle: true,
+          metaDescription: true,
+          ogTitle: true,
+          ogDescription: true,
+          ogImage: true,
+          twitterTitle: true,
+          twitterDescription: true,
+          twitterImage: true,
+          featuredImage: true,
+          publishedAt: true,
+          createdAt: true,
+          authorId: true,
+          status: true,
+          relatedLinksEnabled: true,
+          relatedLinks: true,
+        }
+      });
+    } catch (error: unknown) {
+      // Se der erro por campos não existirem, buscar sem eles
+      if ((error as { code?: string; message?: string }).code === 'P2022' || 
+          (error as { message?: string }).message?.includes('related_links') ||
+          (error as { message?: string }).message?.includes('outros_destaques')) {
+        postData = await prisma.blogPost.findUnique({
+          where: {
+            slug
+          },
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            content: true,
+            excerpt: true,
+            category: true,
+            metaTitle: true,
+            metaDescription: true,
+            ogTitle: true,
+            ogDescription: true,
+            ogImage: true,
+            twitterTitle: true,
+            twitterDescription: true,
+            twitterImage: true,
+            featuredImage: true,
+            publishedAt: true,
+            createdAt: true,
+            authorId: true,
+            status: true,
+          }
+        });
+      } else {
+        throw error;
       }
-    });
+    }
     
     if (!postData) {
       console.log('❌ Post não encontrado no banco');
@@ -263,12 +352,12 @@ export async function getBlogPostBySlug(slug: string) {
     
     const post = {
       ...postData,
-      relatedLinksEnabled: (postData as Record<string, unknown>).relatedLinksEnabled as boolean | undefined ?? false,
-      relatedLinks: (postData as Record<string, unknown>).relatedLinks as string | null | undefined ?? null,
-      outrosDestaquesEnabled: (postData as Record<string, unknown>).outrosDestaquesEnabled as boolean | undefined ?? false,
-      outrosDestaquesTitle: (postData as Record<string, unknown>).outrosDestaquesTitle as string | null | undefined ?? null,
-      outrosDestaquesDescription: (postData as Record<string, unknown>).outrosDestaquesDescription as string | null | undefined ?? null,
-      outrosDestaques: (postData as Record<string, unknown>).outrosDestaques as string | null | undefined ?? null
+      relatedLinksEnabled: (postData as { relatedLinksEnabled?: boolean }).relatedLinksEnabled ?? false,
+      relatedLinks: (postData as { relatedLinks?: string | null }).relatedLinks ?? null,
+      outrosDestaquesEnabled: false,
+      outrosDestaquesTitle: null,
+      outrosDestaquesDescription: null,
+      outrosDestaques: null
     };
 
     console.log('📄 Post encontrado:', post ? 'SIM' : 'NÃO');

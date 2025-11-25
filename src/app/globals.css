@@ -163,6 +163,15 @@
       ),
       var(--background-background, #ffbd1a);
   }
+
+  /* Limita altura do hero em monitores verticais (altura >= 1500px) ou ultrawide (largura >= 1800px) */
+  @media (min-height: 1500px),
+         (min-width: 1800px) {
+    .hero-max-height {
+      max-height: 900px;
+      height: 900px;
+    }
+  }
 }
 
 /* Page Transitions - Simple & Elegant */

@@ -1,6 +1,5 @@
 import BeneficiosSection from '@/components/shared/BeneficiosSection';
 import CTABanner from '@/components/shared/CTABanner';
-import DicasENoticias from '@/components/shared/DicasENoticias';
 import { getGuiaQuestionHeader } from '@/lib/actions/faq';
 import GuiaHeader from './components/GuiaHeader';
 import GuiaContent from './components/GuiaContent';

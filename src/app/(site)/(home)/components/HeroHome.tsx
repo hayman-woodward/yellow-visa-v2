@@ -7,7 +7,7 @@ import ScrollButton from './ScrollButton';
 
 export default function HeroHome() {
   return (
-    <div className='bg-YV max-h-[700px] md:max-h-[800px] h-[90vh] -mt-[88px] relative w-full overflow-hidden'>
+    <div className='bg-YV lg:max-h-none h-[calc(100vh+10px)] lg:h-screen max-h-[calc(100vh+10px)] hero-max-height -mt-[88px] relative w-full overflow-hidden'>
       {/* SVG Background - Desktop */}
       <div className='absolute inset-0 pointer-events-none hidden lg:block' data-aos="fade-in" data-aos-duration="2000">
         <Image
@@ -42,22 +42,22 @@ export default function HeroHome() {
       </div>
 
       {/* Conteúdo do Hero */}
-      <div className='relative z-10 w-full max-w-[1248px]  m-auto px-5 sm:px-6 lg:px-8 xl:px-0'>
-        <div className='grid grid-cols-1 lg:grid-cols-2 max-h-[600px] md:max-h-[800px] h-[90vh] py-0'>
+      <div className='relative z-10 w-full max-w-[1248px] m-auto px-5 sm:px-6 lg:px-8 xl:px-0 h-full'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 lg:max-h-none h-full hero-max-height py-0'>
           {/* Coluna Esquerda - Texto */}
-          <div className='flex flex-col lg:ml-20 max-w-[300px] md:max-w-[520px] md:pr-20 justify-end md:justify-center  md:pb-[80px] md:mt-20 relative z-20 '>
+          <div className='flex flex-col lg:ml-20 max-w-[300px] md:max-w-[520px] md:pr-20 justify-end md:justify-center pb-24 md:pb-[80px] pt-20 md:pt-0 md:mt-20 relative z-20'>
            
             <div data-aos="fade-up" data-aos-delay="500" data-aos-duration="1400" className='md:mt-15'>
               <YVTitle
                 tag="h1"
                 variant='hero'
-                className='text-4xl lg:text-5xl xl:text-6xl font-bold text-white md:text-gray-900 leading-tight mb-2'
+                className='text-4xl lg:text-5xl xl:text-6xl font-bold text-white lg:text-gray-900 leading-tight mb-2'
               >
                Imigração não precisa ser complicada, só bem orientada
               </YVTitle>
             </div>
             <div data-aos="fade-up" data-aos-delay="700" data-aos-duration="1400">
-              <YVText className='text-white md:text-gray-700 max-w-lg mb-6'>
+              <YVText className='text-white lg:text-gray-700 max-w-lg mb-6'>
               
              Preço justo, parcelamento acessível e uma equipe parceira que joga junto com você. Do Brasil para os EUA e/ou Portugal, com confiança e velocidade. Podemos te ajudar a voar.
               </YVText>

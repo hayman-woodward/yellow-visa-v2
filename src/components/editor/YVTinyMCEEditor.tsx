@@ -44,6 +44,16 @@ export default function YVTinyMCEEditor({
           convert_urls: false,
           relative_urls: false,
           remove_script_host: false,
+          // Preservar estilos inline
+          valid_elements: '*[*]',
+          valid_styles: '*',
+          keep_styles: true,
+          paste_retain_style_properties: 'all',
+          paste_remove_styles_if_webkit: false,
+          paste_strip_class_attributes: 'none',
+          paste_auto_cleanup_on_paste: false,
+          paste_remove_spans: false,
+          paste_remove_styles: false,
           plugins: [
             'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
             'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',

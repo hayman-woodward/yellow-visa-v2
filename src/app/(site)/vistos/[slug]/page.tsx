@@ -12,6 +12,7 @@ import VistoBeneficios from './components/VistoBeneficios';
 // import VistoFAQ from './components/VistoFAQ';
 import VistoVideo from './components/VistoVideo';
 import RequisitosEspeciais from '@/components/shared/RequisitosEspeciais';
+import DicasENoticias from '@/components/shared/DicasENoticias';
 
 interface VistoPageProps {
   params: Promise<{
@@ -296,7 +297,7 @@ export default async function VistoPage({ params }: VistoPageProps) {
       {visto.beneficiosEnabled && (
         <VistoBeneficios beneficios={beneficios} />
       )}
-      {/* <DicasENoticias /> */}
+      <DicasENoticias />
     </div>
   );
 }

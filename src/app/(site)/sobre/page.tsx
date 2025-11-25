@@ -1,4 +1,5 @@
 import CTABanner from '@/components/shared/CTABanner';
+import DicasENoticias from '@/components/shared/DicasENoticias';
 import Banner from './components/banner';
 import Contadores from './components/contadores';
 
@@ -34,7 +35,7 @@ export default function Sobre() {
         buttonText="Comece agora"
         buttonLink="/comecar" />
       <BeneficiosSectionSobre />
-      {/* <DicasENoticias /> */}
+      <DicasENoticias />
     </div>
   );
 }
