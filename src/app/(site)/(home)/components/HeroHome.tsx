@@ -7,7 +7,7 @@ import ScrollButton from './ScrollButton';
 
 export default function HeroHome() {
   return (
-    <div className='bg-YV lg:max-h-none h-screen hero-max-height -mt-[88px] relative w-full overflow-hidden'>
+    <div className='bg-YV lg:max-h-none h-[calc(100vh+10px)] lg:h-screen max-h-[calc(100vh+10px)] hero-max-height -mt-[88px] relative w-full overflow-hidden'>
       {/* SVG Background - Desktop */}
       <div className='absolute inset-0 pointer-events-none hidden lg:block' data-aos="fade-in" data-aos-duration="2000">
         <Image
@@ -51,13 +51,13 @@ export default function HeroHome() {
               <YVTitle
                 tag="h1"
                 variant='hero'
-                className='text-4xl lg:text-5xl xl:text-6xl font-bold text-white md:text-gray-900 leading-tight mb-2'
+                className='text-4xl lg:text-5xl xl:text-6xl font-bold text-white lg:text-gray-900 leading-tight mb-2'
               >
                Imigração não precisa ser complicada, só bem orientada
               </YVTitle>
             </div>
             <div data-aos="fade-up" data-aos-delay="700" data-aos-duration="1400">
-              <YVText className='text-white md:text-gray-700 max-w-lg mb-6'>
+              <YVText className='text-white lg:text-gray-700 max-w-lg mb-6'>
               
              Preço justo, parcelamento acessível e uma equipe parceira que joga junto com você. Do Brasil para os EUA e/ou Portugal, com confiança e velocidade. Podemos te ajudar a voar.
               </YVText>
