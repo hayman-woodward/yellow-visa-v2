@@ -7,7 +7,7 @@ import ScrollButton from './ScrollButton';
 
 export default function HeroHome() {
   return (
-    <div className='bg-YV max-h-[700px] md:max-h-[800px] h-[90vh] -mt-[88px] relative w-full overflow-hidden'>
+    <div className='bg-YV max-h-[700px] md:max-h-[800px] lg:max-h-none h-[90vh] lg:h-screen hero-max-height -mt-[88px] relative w-full overflow-hidden'>
       {/* SVG Background - Desktop */}
       <div className='absolute inset-0 pointer-events-none hidden lg:block' data-aos="fade-in" data-aos-duration="2000">
         <Image
@@ -42,8 +42,8 @@ export default function HeroHome() {
       </div>
 
       {/* Conteúdo do Hero */}
-      <div className='relative z-10 w-full max-w-[1248px]  m-auto px-5 sm:px-6 lg:px-8 xl:px-0'>
-        <div className='grid grid-cols-1 lg:grid-cols-2 max-h-[600px] md:max-h-[800px] h-[90vh] py-0'>
+      <div className='relative z-10 w-full max-w-[1248px] m-auto px-5 sm:px-6 lg:px-8 xl:px-0 h-full'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 max-h-[600px] md:max-h-[800px] lg:max-h-none h-[90vh] lg:h-full hero-max-height py-0'>
           {/* Coluna Esquerda - Texto */}
           <div className='flex flex-col lg:ml-20 max-w-[300px] md:max-w-[520px] md:pr-20 justify-end md:justify-center  md:pb-[80px] md:mt-20 relative z-20 '>
            
