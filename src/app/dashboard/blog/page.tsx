@@ -19,6 +19,7 @@ export default function BlogPage() {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
   const [bulkAction, setBulkAction] = useState('');
+  const [deletingSlug, setDeletingSlug] = useState<string | null>(null);
 
   if (loading) {
     return <YVSkeletonList />;
@@ -74,6 +75,46 @@ export default function BlogPage() {
     } else {
       // Senão, seleciona todos
       setSelectedPosts(filteredPosts.map(post => post.id));
+    }
+  };
+
+  const handleDeletePost = async (slug: string, title: string) => {
+    if (!slug || slug.trim() === '') {
+      console.error('❌ Slug vazio ou inválido:', slug);
+      alert('Erro: Slug inválido');
+      return;
+    }
+
+    if (!confirm(`Tem certeza que deseja deletar o post "${title}"? Esta ação não pode ser desfeita.`)) {
+      return;
+    }
+
+    console.log('🗑️ Deleting post from list with slug:', slug);
+    setDeletingSlug(slug);
+    
+    try {
+      const response = await fetch(`/api/dashboard/blog/${slug}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('✅ Post deleted successfully from list');
+        // Recarregar a página para atualizar a lista
+        window.location.reload();
+      } else {
+        console.error('❌ Erro ao deletar post:', data);
+        alert('Erro ao deletar post: ' + (data.message || data.error || 'Erro desconhecido'));
+        setDeletingSlug(null);
+      }
+    } catch (error) {
+      console.error('❌ Erro ao deletar post:', error);
+      alert('Erro ao deletar post. Tente novamente.');
+      setDeletingSlug(null);
     }
   };
 
@@ -297,9 +338,13 @@ export default function BlogPage() {
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className='flex items-center gap-2 py-2 text-red-600'>
+                        <DropdownMenuItem 
+                          className='flex items-center gap-2 py-2 text-red-600 cursor-pointer'
+                          onClick={() => handleDeletePost(post.slug, post.title)}
+                          disabled={deletingSlug === post.slug}
+                        >
                           <Trash2 size={14} className='flex-shrink-0' />
-                          <span>Excluir</span>
+                          <span>{deletingSlug === post.slug ? 'Excluindo...' : 'Excluir'}</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

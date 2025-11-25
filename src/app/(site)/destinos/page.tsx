@@ -1,6 +1,7 @@
 import Contadores from '@/app/(site)/sobre/components/contadores';
 import CTABanner from '@/components/shared/CTABanner';
 import SimplificamosSeuVisto from '@/components/shared/SimplificamosSeuVisto';
+import DicasENoticias from '@/components/shared/DicasENoticias';
 import HeroDestinos from './components/HeroDestinos';
 import Banner from './components/banner';
 
@@ -21,7 +22,7 @@ export default function Destinos() {
      
       <CTABanner />
       {/* <BeneficiosSection />    */}
-
+      <DicasENoticias />
     </div>
   );
 }

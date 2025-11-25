@@ -262,7 +262,7 @@ export default async function DestinoPage({ params }: DestinoPageProps) {
       )}     
      
       <BeneficiosSection />
-     
+      <DicasENoticias />
     </div>
   );
 }

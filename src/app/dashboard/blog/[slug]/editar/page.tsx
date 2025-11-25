@@ -36,22 +36,42 @@ export default function EditPostPage({ params }: EditPostPageProps) {
   const { blogPost, loading, error } = useBlogPost(slug);
 
   const handleDelete = async (slug: string) => {
+    if (!slug || slug.trim() === '') {
+      console.error('❌ Slug vazio ou inválido:', slug);
+      setMessage({ text: 'Erro: Slug inválido', success: false });
+      return;
+    }
+
+    console.log('🗑️ Deleting post with slug:', slug);
     setIsDeleting(true);
+    setMessage(null);
+    
     try {
       const response = await fetch(`/api/dashboard/blog/${slug}`, {
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        setMessage({ text: 'Post movido para lixeira!', success: true });
+        console.log('✅ Post deleted successfully');
+        setMessage({ text: 'Post deletado com sucesso!', success: true });
         setTimeout(() => router.push('/dashboard/blog'), 1500);
       } else {
-        const error = await response.json();
-        setMessage({ text: 'Erro ao deletar post: ' + error.message, success: false });
+        console.error('❌ Erro ao deletar post:', data);
+        const errorMessage = data.message || data.error || 'Erro desconhecido';
+        setMessage({ text: 'Erro ao deletar post: ' + errorMessage, success: false });
+        setIsDeleting(false);
       }
     } catch (error) {
-      setMessage({ text: 'Erro ao deletar post', success: false });
-    } finally {
+      console.error('❌ Erro ao deletar post:', error);
+      setMessage({ 
+        text: 'Erro ao deletar post: ' + (error instanceof Error ? error.message : 'Erro de conexão'), 
+        success: false 
+      });
       setIsDeleting(false);
     }
   };
@@ -211,14 +231,16 @@ export default function EditPostPage({ params }: EditPostPageProps) {
         </SeoAnalysisPanel>
 
         {/* Delete Panel */}
-        <DeletePanel
-          expanded={deleteExpanded}
-          onToggle={() => setDeleteExpanded(!deleteExpanded)}
-          onDelete={handleDelete}
-          itemName="post"
-          itemSlug={blogPost.slug}
-          isDeleting={isDeleting}
-        />
+        {blogPost?.slug && (
+          <DeletePanel
+            expanded={deleteExpanded}
+            onToggle={() => setDeleteExpanded(!deleteExpanded)}
+            onDelete={handleDelete}
+            itemName="post"
+            itemSlug={blogPost.slug}
+            isDeleting={isDeleting}
+          />
+        )}
       </div>
     </div>
   );
