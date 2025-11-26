@@ -34,6 +34,15 @@ export default function HeroVistos({
           priority
           sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw'
         />
+        {/* Overlay escuro para melhorar legibilidade do texto - Pixel Perfect Figma */}
+        <div
+          className='absolute inset-0'
+          style={{
+            backgroundImage: 'linear-gradient(180deg, rgba(15, 0, 5, 0.1) 40%, rgba(15, 0, 5, 0.5) 100%), linear-gradient(90deg, rgba(15, 0, 5, 0.1) 0%, rgba(15, 0, 5, 0.1) 100%)'
+          }}
+        />
+        {/* Overlay amarelo com mix-blend-soft-light - Pixel Perfect Figma */}
+        <div className='absolute inset-0 bg-[#FFBD1A] mix-blend-soft-light opacity-20' />
       </div>
 
       {/* Imagem Mobile/iPad */}
@@ -47,14 +56,15 @@ export default function HeroVistos({
           priority
           sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw'
         />
-        {/* Overlay escuro para melhorar legibilidade do texto */}
+        {/* Overlay escuro para melhorar legibilidade do texto - Pixel Perfect Figma */}
         <div
-          className='absolute bottom-0 left-0 right-0 h-full'
+          className='absolute inset-0'
           style={{
-            background:
-              'linear-gradient(180deg, var(--overlay-0, rgba(15, 0, 5, 0.00)) 40.06%, var(--overlay-36, rgba(15, 0, 5, 0.50)) 50%)'
+            backgroundImage: 'linear-gradient(180deg, rgba(15, 0, 5, 0.1) 40%, rgba(15, 0, 5, 0.5) 100%), linear-gradient(90deg, rgba(15, 0, 5, 0.1) 0%, rgba(15, 0, 5, 0.1) 100%)'
           }}
         />
+        {/* Overlay amarelo com mix-blend-soft-light - Pixel Perfect Figma */}
+        <div className='absolute inset-0 bg-[#FFBD1A] mix-blend-soft-light opacity-20' />
       </div>
 
       {/* Overlay no topo para dar contraste ao menu no mobile */}
