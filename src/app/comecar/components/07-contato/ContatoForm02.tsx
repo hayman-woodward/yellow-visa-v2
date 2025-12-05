@@ -5,7 +5,8 @@ import { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'rea
 import type { Value } from 'react-phone-number-input';
 import ProgressBar from '../ProgressBar';
 import { Switch } from '@/components/ui/switch';
-import { isValidPhone } from '@/lib/utils';
+import { isValidPhone, getPhoneErrorMessage } from '@/lib/utils';
+import { useState } from 'react';
 
 interface FormData {
   nome?: string;
@@ -38,8 +39,20 @@ export default function ContatoForm02({
   etapaAtual,
   totalEtapas
 }: ContatoForm02Props) {
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+
   const handlePhoneChange = (value?: Value) => {
-    setValue('telefone', value || '');
+    const phoneValue = value || '';
+    setValue('telefone', phoneValue);
+    
+    // Validação em tempo real
+    const error = getPhoneErrorMessage(phoneValue);
+    setPhoneError(error);
+    
+    // Limpar erro do react-hook-form se telefone ficar válido
+    if (!error && errors.telefone) {
+      setValue('telefone', phoneValue, { shouldValidate: true });
+    }
   };
 
   const handleWhatsAppToggle = (value: boolean) => {
@@ -51,6 +64,9 @@ export default function ContatoForm02({
   
   // Validar se email e telefone são válidos antes de permitir avançar
   const podeAvancar = email?.trim() && telefone && isValidPhone(telefone);
+  
+  // Usar erro em tempo real ou erro do form
+  const telefoneError = phoneError || errors.telefone?.message;
 
   return (
     <div className="w-full grid grid-cols-1 grid-rows-[auto_1fr] lg:grid-cols-[1fr_2fr] lg:grid-rows-1 relative overflow-hidden min-h-screen ">
@@ -92,9 +108,12 @@ export default function ContatoForm02({
                   value={watch('telefone') as Value}
                   onChange={handlePhoneChange}
                   placeholder="Telefone"
-                  error={!!errors.telefone}
+                  error={!!telefoneError}
                   className="w-full"
                 />
+                {telefoneError && (
+                  <p className="text-red-500 text-sm mt-1">{telefoneError}</p>
+                )}
               </div>
               {/* Toggle WhatsApp - ao lado direito no desktop, abaixo no mobile */}
               <div className="flex items-center gap-2 flex-shrink-0">
@@ -105,9 +124,6 @@ export default function ContatoForm02({
                 />
               </div>
             </div>
-            {errors.telefone && (
-              <p className="text-red-500 text-sm mt-1">{errors.telefone.message || 'Telefone é obrigatório'}</p>
-            )}
           </div>
           <div className="flex items-center justify-between md:justify-end gap-4">
             <YVButton
