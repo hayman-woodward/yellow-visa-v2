@@ -2,6 +2,7 @@
 
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
+import { normalizePhone } from '@/lib/utils';
 
 const prisma = new PrismaClient();
 
@@ -39,11 +40,14 @@ export async function submitContactForm(
       message: string;
     };
 
+    // Validar telefone antes de salvar
+    const phoneValidated = normalizePhone(validated.phone);
+
     await prisma.contact.create({
       data: {
         name: validated.name,
         email: validated.email,
-        phone: validated.phone,
+        phone: phoneValidated,
         subject: validated.subject,
         message: validated.message
       }

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ResultadoProvisorio from './ResultadoProvisorio';
 import { useStepperTracking } from '@/hooks/tracks/useStepperTracking';
+import { normalizePhone } from '@/lib/utils';
 
 interface StepperFormDataInterface {
   destino?: string;
@@ -176,13 +177,16 @@ export default function ResultadoPage() {
       lastName = partes.slice(1).join(' ') || '';
     }
     
+    // Validar telefone - só enviar se tiver pelo menos 10 dígitos
+    const telefoneValido = normalizePhone(data.telefone) || '';
+    
     return {
       firstName,
       lastName,
       email: data.email || '',
       country: data.destino ? countryMapping[data.destino] || 'USA' : 'USA',
       nationality: data.pais ? countryMapping[data.pais] || 'USA' : 'USA',
-      phone: data.telefone || '',
+      phone: telefoneValido,
       service: data.service || 'Immigrant Visa',
       subSource: 'AI Form',
       academicBackground: data.maisInfoProfissionalFormacao ? academicBackgroundMapping[data.maisInfoProfissionalFormacao] : 
@@ -285,11 +289,14 @@ export default function ResultadoPage() {
       // Salvar no banco local também
       const saveToLocalDatabase = async () => {
         try {
+          // Validar telefone antes de salvar
+          const telefoneValidado = normalizePhone(parsedData.telefone);
+          
           const leadData = {
             nome: parsedData.nome,
             sobrenome: parsedData.sobrenome,
             email: parsedData.email,
-            telefone: parsedData.telefone,
+            telefone: telefoneValidado,
             whatsapp: parsedData.whatsapp || false,
             pais: parsedData.pais,
             idioma: parsedData.language, // Mapear language para idioma no banco

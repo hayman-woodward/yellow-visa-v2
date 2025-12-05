@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
+import { normalizePhone } from '@/lib/utils';
 
 const leadSchema = z.object({
   nome: z.string().optional(),
@@ -43,11 +44,14 @@ export async function POST(request: NextRequest) {
       nomeCompleto = validatedData.sobrenome;
     }
 
+    // Validar telefone - só salvar se tiver pelo menos 10 dígitos
+    const telefoneValido = normalizePhone(validatedData.telefone);
+
     const lead = await prisma.lead.create({
       data: {
         name: nomeCompleto,
         email: validatedData.email,
-        phone: validatedData.telefone || null,
+        phone: telefoneValido,
         status: 'new',
         source: validatedData.source || 'stepper',
         notes: JSON.stringify({
