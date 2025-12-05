@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { z } from 'zod';
 import { useStepperTracking } from '@/hooks/tracks/useStepperTracking';
+import { isValidPhone } from '@/lib/utils';
+import { normalizePhone } from '@/lib/utils';
 
 // Import dos componentes das etapas
 import HeroInicio from './01-inicio/HeroInicio';
@@ -62,7 +64,11 @@ const formSchema = z.object({
   nome: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres').optional(),
   sobrenome: z.string().min(2, 'Sobrenome deve ter pelo menos 2 caracteres').optional(),
   email: z.string().email('Email inválido').optional(),
-  telefone: z.string().min(10, 'Telefone deve ter pelo menos 10 dígitos').optional(),
+  telefone: z.string()
+    .refine((val) => !val || isValidPhone(val), {
+      message: 'Telefone inválido. Digite um número completo.'
+    })
+    .optional(),
   whatsapp: z.boolean().optional(),
   pais: z.string().min(2, 'País deve ter pelo menos 2 caracteres').optional(),
   language: z.string().min(1, 'Idioma é obrigatório').optional(),
@@ -205,6 +211,9 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
   // Salvar dados automaticamente no localStorage
   useEffect(() => {
     try {
+      // Validar telefone antes de salvar - só salvar se tiver pelo menos 10 dígitos
+      const telefoneValido = normalizePhone(watchedFields.telefone) || '';
+      
       // Criar um objeto limpo apenas com os valores dos campos
       const cleanData = {
         destino: watchedFields.destino || '',
@@ -222,7 +231,7 @@ export default function VistoStepper({ etapaInicial }: VistoStepperProps) {
         nome: watchedFields.nome || '',
         sobrenome: watchedFields.sobrenome || '',
         email: watchedFields.email || '',
-        telefone: watchedFields.telefone || '',
+        telefone: telefoneValido,
         whatsapp: watchedFields.whatsapp || false,
         pais: watchedFields.pais || '',
         language: watchedFields.language || '',

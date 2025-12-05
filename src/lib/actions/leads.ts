@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
+import { normalizePhone } from '@/lib/utils';
 
 const leadSchema = z.object({
   nomeCompleto: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
@@ -27,11 +28,14 @@ export async function createLead(formData: z.infer<typeof leadSchema>) {
   try {
     const validatedData = leadSchema.parse(formData);
     
+    // Validar telefone antes de salvar
+    const telefoneValido = normalizePhone(validatedData.telefone);
+
     const lead = await prisma.lead.create({
       data: {
         name: validatedData.nomeCompleto,
         email: validatedData.email,
-        phone: validatedData.telefone || null,
+        phone: telefoneValido,
         notes: JSON.stringify({
           pais: validatedData.pais,
           idioma: validatedData.idioma,

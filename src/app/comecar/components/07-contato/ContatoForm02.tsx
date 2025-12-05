@@ -5,6 +5,7 @@ import { UseFormRegister, FieldErrors, UseFormWatch, UseFormSetValue } from 'rea
 import type { Value } from 'react-phone-number-input';
 import ProgressBar from '../ProgressBar';
 import { Switch } from '@/components/ui/switch';
+import { isValidPhone } from '@/lib/utils';
 
 interface FormData {
   nome?: string;
@@ -45,7 +46,11 @@ export default function ContatoForm02({
     setValue('whatsapp', value);
   };
 
-  const podeAvancar = watch('email')?.trim() && watch('telefone')?.trim();
+  const telefone = watch('telefone');
+  const email = watch('email');
+  
+  // Validar se email e telefone são válidos antes de permitir avançar
+  const podeAvancar = email?.trim() && telefone && isValidPhone(telefone);
 
   return (
     <div className="w-full grid grid-cols-1 grid-rows-[auto_1fr] lg:grid-cols-[1fr_2fr] lg:grid-rows-1 relative overflow-hidden min-h-screen ">

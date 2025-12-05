@@ -26,20 +26,20 @@ export default function HeaderMenu({ items, className = '', vistos }: HeaderMenu
           {item.hasDropdown ? (
             item.isVistosMenu ? (
               <VistosDestinosMenu vistos={vistos}>
-                <button className='flex items-center gap-1 text-[#0F0005] hover:text-[#C60540] transition-colors font-bold text-[12px] leading-[16px] tracking-[-0.5px] cursor-pointer'>
+                <button className='flex items-center gap-1 text-[#0F0005] hover:text-[#C60540] transition-colors font-bold text-[13px] leading-[18px] tracking-[-0.5px] cursor-pointer'>
                   {item.label}
                   <YVIcon name='small-caret-down' />
                 </button>
               </VistosDestinosMenu>
             ) : item.isDicasMenu ? (
               <DicasNoticiasMenu>
-                <button className='flex items-center gap-1 text-[#0F0005] hover:text-[#C60540] transition-colors font-bold text-[12px] leading-[16px] tracking-[-0.5px] cursor-pointer'>
+                <button className='flex items-center gap-1 text-[#0F0005] hover:text-[#C60540] transition-colors font-bold text-[13px] leading-[18px] tracking-[-0.5px] cursor-pointer'>
                   {item.label}
                   <YVIcon name='small-caret-down' />
                 </button>
               </DicasNoticiasMenu>
             ) : (
-              <button className='flex items-center gap-1 text-[#0F0005] hover:text-[#C60540] transition-colors font-bold text-[12px] leading-[16px] tracking-[-0.5px]'>
+              <button className='flex items-center gap-1 text-[#0F0005] hover:text-[#C60540] transition-colors font-bold text-[13px] leading-[18px] tracking-[-0.5px]'>
                 {item.label}
                 <YVIcon name='small-caret-down' />
               </button>
@@ -47,7 +47,7 @@ export default function HeaderMenu({ items, className = '', vistos }: HeaderMenu
           ) : (
             <Link
               href={item.href!}
-              className='text-[#0F0005] hover:text-[#C60540] transition-colors font-bold text-[12px] leading-[16px] tracking-[-0.5px]'
+              className='text-[#0F0005] hover:text-[#C60540] transition-colors font-bold text-[13px] leading-[18px] tracking-[-0.5px]'
             >
               {item.label}
             </Link>
