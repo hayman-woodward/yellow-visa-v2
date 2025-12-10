@@ -19,16 +19,10 @@ export default function SobreGuiaDoImigrante() {
           </div>
           <div className='space-y-6 md:pt-9 md:pl-6'>
             <YVText>
-              Lorem ipsum dolor sit amet consectetur. Vulputate cursus quis
-              commodo praesent blandit. Ac ultrices enim egestas molestie amet
-              lobortis feugiat. Tellus ut vitae turpis malesuada eu. Risus morbi
-              egestas consectetur suspendisse.
+              Navegar pelo processo de imigração pode parecer desafiador, mas com as informações certas e orientação adequada, você descobre que existem caminhos claros para realizar seu sonho. Aqui você encontra respostas para as principais dúvidas sobre vistos, documentação e processos para EUA e Portugal.
             </YVText>
             <YVText>
-              Egestas proin at blandit facilisi facilisis fames at turpis. Urna
-              sollicitudin et in pretium cursus morbi a fermentum augue. Mauris
-              sed amet dui ut pretium fermentum gravida pulvinar arcu. Elementum
-              orna
+              Organizamos todo o conteúdo por temas para facilitar sua busca. Seja para trabalho, estudo, investimento ou reunificação familiar, você encontra orientações práticas e atualizadas para tomar decisões informadas sobre seu futuro.
             </YVText>
           </div>
         </div>
