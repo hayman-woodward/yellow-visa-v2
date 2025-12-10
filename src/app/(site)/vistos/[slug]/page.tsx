@@ -13,6 +13,7 @@ import VistoBeneficios from './components/VistoBeneficios';
 import VistoVideo from './components/VistoVideo';
 import RequisitosEspeciais from '@/components/shared/RequisitosEspeciais';
 import DicasENoticias from '@/components/shared/DicasENoticias';
+import SecaoJornada from './components/SecaoJornada';
 
 interface VistoPageProps {
   params: Promise<{
@@ -277,6 +278,7 @@ export default async function VistoPage({ params }: VistoPageProps) {
         videoUrl={visto.videoUrl}
         title={visto.title}
       />
+      <SecaoJornada />
       <OutrosVistos currentSlug={slug} />
       {/* <HistoriasImigracao /> */}
       {/* {visto.faqEnabled && (
