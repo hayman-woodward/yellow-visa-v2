@@ -10,6 +10,7 @@ export default function HeroSobre() {
         srcMobile='/imgs/sobre/desktop/hero-yv-sobre.jpg'
         alt='Hero Sobre'
         className='lg:max-h-none h-[calc(100vh+10px)] lg:h-screen max-h-[calc(100vh+10px)] hero-max-height -mt-[88px]'
+        objectPosition='center top'
         priority
       />
       {/* Scroll Button */}

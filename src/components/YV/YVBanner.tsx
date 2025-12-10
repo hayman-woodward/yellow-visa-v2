@@ -25,6 +25,7 @@ interface YVBannerProps {
   height?: 'sm' | 'md' | 'lg' | 'xl';
   priority?: boolean;
   lazy?: boolean; // Nova prop para lazy loading
+  objectPosition?: string; // Posicionamento da imagem
   // Nova prop para múltiplas imagens
   images?: {
     desktop: string;
@@ -42,6 +43,7 @@ const YVBanner = ({
   height = 'md',
   priority = false,
   lazy = false,
+  objectPosition,
   images
 }: YVBannerProps) => {
   // Se images for fornecido, usar ele; senão usar as props individuais
@@ -68,6 +70,7 @@ const YVBanner = ({
             alt={alt}
             fill
             className='object-cover hidden md:block'
+            style={objectPosition ? { objectPosition } : undefined}
             priority={priority}
             loading={loadingStrategy}
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw'
@@ -79,6 +82,7 @@ const YVBanner = ({
           alt={alt}
           fill
           className='object-cover hidden md:block'
+          style={objectPosition ? { objectPosition } : undefined}
           priority={priority}
           loading={loadingStrategy}
           sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw'
@@ -92,6 +96,7 @@ const YVBanner = ({
           alt={alt}
           fill
           className='object-cover block md:hidden'
+          style={objectPosition ? { objectPosition } : undefined}
           priority={priority}
           loading={loadingStrategy}
           sizes='(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw'
