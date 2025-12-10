@@ -17,13 +17,13 @@ export default function SecaoJornada() {
       {/* Coluna Esquerda - Texto Sticky */}
       <div className='flex flex-col gap-[24px] items-center pb-[80px] pl-0 shrink-0 sticky top-0 w-[400px] z-[2]'>
         <div className='flex flex-col items-start relative shrink-0 w-full'>
-          <h2 className='text-[42px] leading-[48px] tracking-[-0.5px] font-normal text-[#0F0005] font-heading pb-4 pt-0 px-0'>
+          <h2 className='text-[42px] leading-[48px] tracking-[-0.5px] font-normal text-[#0F0005] font-heading pb-2 pt-0 px-0'>
             Se tem chance, a gente vai tentar. E tentar de novo.
           </h2>
         </div>
         <div className='flex flex-col gap-[16px] items-start relative shrink-0 w-full'>
-          <p className='text-[16px] leading-[22px] tracking-[0px] font-normal text-[#0F0005] pb-[8px] pt-0 px-0' style={{ fontFamily: 'var(--font-red-hat-text)' }}>
-            Nossa jornada completa de 7 etapas garante que cada detalhe do seu processo seja cuidado com atenção e expertise. Do primeiro contato até o suporte contínuo, estamos com você em cada passo.
+          <p className='text-[14px] leading-[20px] tracking-[0px] font-normal text-[#0F0005] pb-[8px] pt-0 px-0' style={{ fontFamily: 'var(--font-red-hat-text)' }}>
+            Nossa jornada completa garante que cada detalhe do seu processo seja cuidado com atenção e expertise.
           </p>
         </div>
       </div>
