@@ -8,7 +8,7 @@ export default function HeroSobre() {
         src='/imgs/sobre/desktop/sobre-hero.png'
         srcMobile='/imgs/sobre/desktop/sobre-hero.png'
         alt='Hero Guia Do Imigrante'
-        className='h-[560px] xl:max-h-[768px] -mt-[88px]'
+        className='lg:max-h-none h-[calc(100vh+10px)] lg:h-screen max-h-[calc(100vh+10px)] hero-max-height -mt-[88px]'
       />
       {/* Scroll Button */}
       <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 z-20'>
