@@ -10,9 +10,8 @@ export default async function Footer({
 }) {
   const firstColumn = [
     { title: 'Sobre a Yellow Visa', href: '/sobre' },
-    // { title: 'Guia do imigrante', href: '/guia-do-imigrante' },
-    // { title: 'Dicas e notícias', href: '/blog' },
-    { title: 'Política de Privacidade', href: '/politica-de-privacidade' }
+    { title: 'Guia do imigrante', href: '/guia-do-imigrante' },
+    { title: 'Dicas e notícias', href: '/blog' }
   ];
 
   // Get all VISTOS (use passed prop if available)
@@ -41,7 +40,7 @@ export default async function Footer({
   ];
 
   return (
-    <footer className='bg-YV min-h-[400px] md:fixed md:bottom-0 md:left-0 md:right-0 md:min-h-[900px]'>
+    <footer className='bg-YV min-h-[400px] '>
       <div className='w-full md:max-w-[1248px] px-6 md:px-28 xl:px-0 md:mx-auto pt-20 pb-10 md:pt-[120px] md:pb-[40px]'>
         {/* Desktop Layout */}
         <div className='grid grid-cols-2 md:grid-cols-6 gap-4 md:gap-8'>
@@ -81,6 +80,14 @@ export default async function Footer({
                   </Link>
                 ))}
               </div>
+
+              {/* Política de Privacidade */}
+              <Link
+                href='/politica-de-privacidade'
+                className='block text-base hover:text-gray-600 transition-colors font-extrabold py-[20px]'
+              >
+                Política de Privacidade
+              </Link>
             </div>
           </div>
 
