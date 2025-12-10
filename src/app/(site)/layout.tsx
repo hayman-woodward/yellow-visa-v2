@@ -11,7 +11,7 @@ export default async function SiteLayout({
 }>) {
   const vistos = await getPublishedVistos();
   return (
-    <div className='pb-0 md:pb-[900px] no-swipe'>
+    <div className='no-swipe'>
       <YVHeader vistos={vistos} />
       <div className='relative z-[1]'>
         <main>{children}</main>
