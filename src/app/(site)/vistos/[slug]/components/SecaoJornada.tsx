@@ -12,27 +12,27 @@ export default function SecaoJornada() {
   ];
 
   return (
-    <YVSection className='bg-[#f7f5f6] flex gap-[24px] md:pt-[140px] md:pb-[140px] justify-center items-center w-full'>
-      <div className='max-w-[1248px] mx-auto flex justify-center gap-6'>
+    <YVSection className='bg-[#f7f5f6] flex flex-col md:flex-row gap-[24px] py-10 md:pt-[140px] md:pb-[140px] justify-center items-start md:items-center w-full'>
+      <div className='max-w-[1248px] mx-auto flex flex-col md:flex-row justify-center gap-6 w-full'>
       {/* Coluna Esquerda - Texto Sticky */}
-      <div className='flex flex-col gap-[24px] items-center pb-[80px] pl-0 shrink-0 sticky top-0 w-[400px] z-[2]'>
+      <div className='flex flex-col gap-4 md:gap-6 items-start md:pb-4 md:pb-6 md:pb-[80px] pl-0 shrink-0 relative md:sticky top-0 w-full md:w-[400px] z-[2]'>
         <div className='flex flex-col items-start relative shrink-0 w-full'>
-          <h2 className='text-[42px] leading-[48px] tracking-[-0.5px] font-normal text-[#0F0005] font-heading pb-2 pt-0 px-0'>
+          <h2 className='text-[27px] leading-[32px] md:text-[42px] md:leading-[48px] tracking-[-0.5px] font-normal text-[#0F0005] font-heading pb-2 pt-0 px-0'>
             Se tem chance, a gente vai tentar. E tentar de novo.
           </h2>
         </div>
         <div className='flex flex-col gap-[16px] items-start relative shrink-0 w-full'>
-          <p className='text-[14px] leading-[20px] tracking-[0px] font-normal text-[#0F0005] pb-[8px] pt-0 px-0' style={{ fontFamily: 'var(--font-red-hat-text)' }}>
+          <p className='text-[16px] leading-[20px] tracking-[0px] font-normal text-[#0F0005] pb-1 md:pb-2 pt-0 px-0' style={{ fontFamily: 'var(--font-red-hat-text)' }}>
             Nossa jornada completa garante que cada detalhe do seu processo seja cuidado com atenção e expertise.
           </p>
         </div>
       </div>
 
       {/* Coluna Direita - Timeline */}
-      <div className='flex flex-1 flex-col gap-[24px] items-start min-h-px min-w-px px-[178px] relative shrink-0 z-[1]'>
+      <div className='flex flex-1 flex-col gap-[16px] md:gap-[24px] items-start min-h-px min-w-px px-0 md:px-[178px] relative shrink-0 z-[1] w-full'>
         {/* Linha Vertical com Gradiente */}
         <div
-          className='absolute left-[187px] top-[-34px] bottom-[300px] h-[1061px] w-[22px] rounded-[999px] z-0'
+          className='absolute left-[9px] md:left-[187px] top-[0] md:top-[-34px] w-[22px] h-[660px] md:h-[1061px] rounded-[999px] z-0'
           style={{
             background: 'linear-gradient(180deg, rgba(255, 189, 26, 1) 0%, rgba(255, 103, 0, 1) 100%)'
           }}
@@ -42,10 +42,10 @@ export default function SecaoJornada() {
         {steps.map((step) => (
           <div
             key={step.number}
-            className='flex gap-[40px] items-center px-0 relative rounded-2xl shrink-0 w-[522px] h-[120px]'
+            className='flex gap-[16px] md:gap-[40px] items-center px-0 relative rounded-2xl shrink-0 w-full md:w-[522px] h-[80px] md:h-[120px]'
           >
             {/* Círculo com Número */}
-            <div className='bg-[#0f0005] flex items-center justify-center relative rounded-full shrink-0 w-[40px] h-[40px] aspect-square'>
+            <div className='bg-[#0f0005] flex items-center justify-center relative rounded-full shrink-0 w-[40px] h-[40px] aspect-square z-10'>
               <span className='font-semibold text-[#ffbd1a] text-[14px] leading-[20px] tracking-[0px] uppercase whitespace-nowrap' style={{ fontFamily: 'var(--font-red-hat-text)' }}>
                 {step.number}
               </span>
