@@ -23,7 +23,7 @@ export default async function OutrosVistos({ currentSlug }: OutrosVistosProps) {
 
   return (
     <YVSection className="bg-[#0C0C0C]">
-      <div className="max-w-[1248px] mx-auto px-4 md:px-8 xl:px-0">
+      <div className="max-w-[1248px] mx-auto md:px-8 xl:px-0">
         {/* Mobile Layout */}
         <div className="block lg:hidden">
           <div data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">

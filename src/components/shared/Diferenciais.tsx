@@ -24,7 +24,7 @@ export default function Diferenciais({
 
   return (
     <YVSection className='bg-white'>
-      <div className='max-w-[1248px] mx-auto px-4 md:px-8 xl:px-0'>
+      <div className='max-w-[1248px] mx-auto md:px-4 md:px-8 xl:px-0'>
 
         {/* Mobile Layout - Carousel */}
         <div className='block lg:hidden'>
@@ -32,7 +32,7 @@ export default function Diferenciais({
             <YVBreadcrumbs disabled items={[{ label: 'Diferenciais', href: '/vistos' }]} className='pb-4' />
           </div>
           <div data-aos="fade-up" data-aos-delay="400" data-aos-duration="800">
-            <YVTitle className='text-2xl mb-6'>
+            <YVTitle className='text-2xl mb-4'>
               {diferenciaisTitle}
             </YVTitle>
           </div>
