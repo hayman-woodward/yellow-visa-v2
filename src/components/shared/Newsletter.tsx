@@ -55,7 +55,7 @@ export default function Newsletter() {
   };
 
   return (
-    <YVSection className='bg-[#0F0005] flex items-center justify-center px-6 md:px-23 xl:px-0 md:pb-20'>
+    <YVSection className='bg-[#0F0005] flex items-center justify-center px-4  md:px-6 md:px-23 xl:px-0 md:pb-20'>
       <div 
         className='grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch rounded-[40px] overflow-hidden min-h-[320px] lg:max-h-[320px] w-full max-w-[1248px] bg-[#FFBD1A]'
         data-aos="fade-in"

@@ -41,7 +41,7 @@ export default async function Footer({
 
   return (
     <footer className='bg-YV min-h-[400px] '>
-      <div className='w-full md:max-w-[1248px] px-6 md:px-28 xl:px-0 md:mx-auto pt-20 pb-10 md:pt-[120px] md:pb-[40px]'>
+      <div className='w-full md:max-w-[1248px] px-4 md:px-6 md:px-28 xl:px-0 md:mx-auto pt-20 pb-10 md:pt-[120px] md:pb-[40px]'>
         {/* Desktop Layout */}
         <div className='grid grid-cols-2 md:grid-cols-6 gap-4 md:gap-8'>
           {/* Coluna 1 - Informações da empresa (3 spans) */}
