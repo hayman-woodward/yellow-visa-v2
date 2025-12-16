@@ -40,10 +40,7 @@ export default function OutrosDestaques() {
                 title='Outros destaques'
                 className='mb-4 md:mb-6 text-white'
               />
-              <YVText className='pb-1 md:pb-2 md:mb-4 text-white text-[16px]'>
-                Descrição Phasellus netus natoque ante eget at condimentum
-                eget.Descrição
-              </YVText>
+          
             </div>
           </div>
 
