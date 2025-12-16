@@ -10,6 +10,7 @@ import { blogPostSchema, updateBlogPostSchema } from '@/schemas/dashboard/blog';
 import ClientEditorWrapper from '@/components/editor/ClientEditorWrapper';
 import { useUsuarios } from '@/hooks/useDashboardData';
 import { generateSlug } from '@/utils/generateSlug';
+import { SeoAnalysisPanel } from '@/components/shared/SeoAnalysisPanel';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type FormValues = Record<string, any>;
@@ -59,6 +60,8 @@ export default function BlogForm({
   const [relatedLinksExpanded, setRelatedLinksExpanded] = useState(false);
   const [faqQuestions, setFaqQuestions] = useState<FaqQuestionOption[]>([]);
   const [loadingFaqs, setLoadingFaqs] = useState(true);
+  const [seoExpanded, setSeoExpanded] = useState(false);
+  const [seoActiveTab, setSeoActiveTab] = useState<'general' | 'social'>('general');
   const router = useRouter();
   const { usuarios, loading: usuariosLoading } = useUsuarios();
   
@@ -665,6 +668,86 @@ export default function BlogForm({
               </a>
             </div>
           </div>
+
+        {/* SEO Panel */}
+        <SeoAnalysisPanel
+          data={{
+            title: watchedFields.title || '',
+            content: watchedFields.content || '',
+            metaDescription: watchedFields.metaDescription || '',
+            metaKeywords: watchedFields.metaKeywords || '',
+          }}
+          expanded={seoExpanded}
+          onToggle={() => setSeoExpanded(!seoExpanded)}
+          activeTab={seoActiveTab}
+          onTabChange={setSeoActiveTab}
+        >
+          {seoActiveTab === 'general' && (
+            <div className="space-y-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">Meta Title</label>
+                <input
+                  type="text"
+                  placeholder="Título para SEO..."
+                  {...register('metaTitle')}
+                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
+                />
+                {errors.metaTitle && <p className="text-red-500 text-xs mt-1">{errors.metaTitle.message as string}</p>}
+              </div>
+              <div>
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">Meta Description</label>
+                <textarea
+                  placeholder="Descrição para SEO..."
+                  {...register('metaDescription')}
+                  rows={3}
+                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
+                />
+                {errors.metaDescription && <p className="text-red-500 text-xs mt-1">{errors.metaDescription.message as string}</p>}
+              </div>
+              <div>
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">Meta Keywords</label>
+                <input
+                  type="text"
+                  placeholder="palavra-chave1, palavra-chave2..."
+                  {...register('metaKeywords')}
+                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
+                />
+                {errors.metaKeywords && <p className="text-red-500 text-xs mt-1">{errors.metaKeywords.message as string}</p>}
+              </div>
+            </div>
+          )}
+          {seoActiveTab === 'social' && (
+            <div className="space-y-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">OG Title</label>
+                <input
+                  type="text"
+                  placeholder="Título para redes sociais..."
+                  {...register('ogTitle')}
+                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">OG Description</label>
+                <textarea
+                  placeholder="Descrição para redes sociais..."
+                  {...register('ogDescription')}
+                  rows={3}
+                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">OG Image</label>
+                <input
+                  type="text"
+                  placeholder="URL da imagem para redes sociais..."
+                  {...register('ogImage')}
+                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
+                />
+              </div>
+            </div>
+          )}
+        </SeoAnalysisPanel>
         </div>
         </div>
       </div>

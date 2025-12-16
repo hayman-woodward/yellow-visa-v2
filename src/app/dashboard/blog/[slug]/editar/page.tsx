@@ -7,7 +7,6 @@ import { YVTitle, YVText } from '@/components/YV';
 import { YVSkeletonForm } from '@/components/YV';
 import { useBlogPost } from '@/hooks/useDashboardData';
 import { DeletePanel } from '@/components/shared/DeletePanel';
-import { SeoAnalysisPanel } from '@/components/shared/SeoAnalysisPanel';
 import { useRouter } from 'next/navigation';
 import BlogForm from '../../components/BlogForm';
 import { generateSlug } from '@/utils/generateSlug';
@@ -22,8 +21,6 @@ export default function EditPostPage({ params }: EditPostPageProps) {
   const [slug, setSlug] = useState<string>('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteExpanded, setDeleteExpanded] = useState(false);
-  const [seoExpanded, setSeoExpanded] = useState(false);
-  const [seoActiveTab, setSeoActiveTab] = useState<'general' | 'social'>('general');
   const [message, setMessage] = useState<{ text: string; success: boolean } | null>(null);
   const router = useRouter();
 
@@ -154,81 +151,7 @@ export default function EditPostPage({ params }: EditPostPageProps) {
       {/* Painéis SEO e Delete - FORA do formulário */}
       <div className="space-y-4">
         {/* SEO Panel */}
-        <SeoAnalysisPanel
-          data={{
-            title: blogPost.title || '',
-            content: blogPost.excerpt || '',
-            metaDescription: blogPost.metaDescription || '',
-            metaKeywords: blogPost.metaKeywords || '',
-          }}
-          expanded={seoExpanded}
-          onToggle={() => setSeoExpanded(!seoExpanded)}
-          activeTab={seoActiveTab}
-          onTabChange={setSeoActiveTab}
-        >
-          {seoActiveTab === 'general' && (
-            <div className="space-y-6">
-              <div>
-                <label className="text-sm font-semibold text-gray-700 mb-2 block">Meta Title</label>
-                <input
-                  type="text"
-                  placeholder="Título para SEO..."
-                  defaultValue={blogPost.metaTitle || ''}
-                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-semibold text-gray-700 mb-2 block">Meta Description</label>
-                <textarea
-                  placeholder="Descrição para SEO..."
-                  defaultValue={blogPost.metaDescription || ''}
-                  rows={3}
-                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-semibold text-gray-700 mb-2 block">Meta Keywords</label>
-                <input
-                  type="text"
-                  placeholder="palavra-chave1, palavra-chave2..."
-                  defaultValue={blogPost.metaKeywords || ''}
-                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
-                />
-              </div>
-            </div>
-          )}
-          {seoActiveTab === 'social' && (
-            <div className="space-y-6">
-              <div>
-                <label className="text-sm font-semibold text-gray-700 mb-2 block">OG Title</label>
-                <input
-                  type="text"
-                  placeholder="Título para redes sociais..."
-                  defaultValue={blogPost.ogTitle || ''}
-                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-semibold text-gray-700 mb-2 block">OG Description</label>
-                <textarea
-                  placeholder="Descrição para redes sociais..."
-                  defaultValue={blogPost.ogDescription || ''}
-                  rows={3}
-                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-semibold text-gray-700 mb-2 block">OG Image</label>
-                <input
-                  type="text"
-                  placeholder="URL da imagem para redes sociais..."
-                  defaultValue={blogPost.ogImage || ''}
-                  className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background hover:border-dashboard focus:border-[#FFBD1A] focus:ring-2 focus:ring-[#FFBD1A]/20 focus:outline-none transition-colors"
-                />
-              </div>
-            </div>
-          )}
-        </SeoAnalysisPanel>
+
 
         {/* Delete Panel */}
         {blogPost?.slug && (
