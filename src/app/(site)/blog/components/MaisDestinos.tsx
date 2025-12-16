@@ -31,7 +31,7 @@ export default function MaisDestinos() {
   return (
     <VerMaisSection
       title='Destinos'
-      description='Descrição Phasellus netus natoque ante eget at condimentum eget.Descrição'
+      description=''
       buttonText='Ver todos os destinos'
       buttonHref='/destinos'
       buttonVariant='outline-secondary'
