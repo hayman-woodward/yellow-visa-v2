@@ -1,4 +1,4 @@
-import { YVGallery, YVSection, YVText, YVTitle } from "@/components/YV";
+import { YVGallery, YVSection, YVTitle } from "@/components/YV";
 import { truncateText } from "@/utils/text";
 
 interface Post {
@@ -11,7 +11,7 @@ interface Post {
   publishedAt: Date | string | null;
 }
 
-export default function OutrosDestaques({ posts = [], categoryName }: { posts?: Post[], categoryName?: string }) {
+export default function OutrosDestaques({ posts = [] }: { posts?: Post[] }) {
   const galleryItems = posts.map(post => ({
     id: post.id,
     src: post.featuredImage || "/imgs/home/estados-unidos.jpg",

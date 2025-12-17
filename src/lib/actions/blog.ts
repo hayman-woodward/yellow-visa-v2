@@ -60,7 +60,7 @@ export async function getRecentBlogPosts(limit: number = 4) {
           slug: post.slug,
           category: post.category,
           excerpt: post.excerpt,
-          featuredImage: (post as any).featuredImage || null,
+          featuredImage: (post as { featuredImage?: string | null }).featuredImage || null,
           publishedAt: post.publishedAt
         }));
         
