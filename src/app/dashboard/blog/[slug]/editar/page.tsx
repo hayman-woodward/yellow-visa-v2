@@ -112,9 +112,9 @@ export default function EditPostPage({ params }: EditPostPageProps) {
             </YVText>
           </div>
         </div>
-
+      
         {/* Botão Visualizar - só aparece se o post estiver publicado */}
-        {blogPost.status === 'published' && (
+        {blogPost.status?.toLowerCase() === 'published' && (
           <Link
             href={`/blog/${blogPost.category ? generateSlug(blogPost.category) : 'blog'}/${blogPost.slug}`}
             target='_blank'
