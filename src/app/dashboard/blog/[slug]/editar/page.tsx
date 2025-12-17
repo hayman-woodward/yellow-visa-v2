@@ -114,6 +114,7 @@ export default function EditPostPage({ params }: EditPostPageProps) {
         </div>
       
         {/* Botão Visualizar - só aparece se o post estiver publicado */}
+        <span className="hidden">{blogPost.status}</span>
         {blogPost.status?.toLowerCase() === 'published' && (
           <Link
             href={`/blog/${blogPost.category ? generateSlug(blogPost.category) : 'blog'}/${blogPost.slug}`}
