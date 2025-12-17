@@ -4,7 +4,7 @@ import BlogPost from "../../components/BlogPost";
 import FeaturedImg from "../../components/FeaturedImg";
 import BeneficiosSection from "@/components/shared/BeneficiosSection";
 import OutrosDestaques from "../../locais/components/OutrosDestaques";
-import { getBlogPostByCategoryAndSlug } from "@/lib/actions/blog";
+import { getBlogPostByCategoryAndSlug, getRelatedPostsByCategory } from "@/lib/actions/blog";
 import { Metadata } from "next";
 import RelatedLinks from "./components/RelatedLinks";
 
@@ -95,6 +95,9 @@ export default async function BlogPage({ params }: BlogPageProps) {
     }
   }
 
+  // Buscar outros destaques (posts da mesma categoria)
+  const relatedPosts = await getRelatedPostsByCategory(post.category || 'noticias', post.slug, 3);
+
   return (
     <div className="bg-white">
       <BlogHeader 
@@ -111,7 +114,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
       )}
       <CTABanner />
       <BeneficiosSection />
-      <OutrosDestaques />
+      <OutrosDestaques posts={relatedPosts} categoryName={post.category || 'Notícias'} />
     </div>
   );
 }
