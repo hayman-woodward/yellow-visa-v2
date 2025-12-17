@@ -114,7 +114,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
       )}
       <CTABanner />
       <BeneficiosSection />
-      <OutrosDestaques posts={relatedPosts} categoryName={post.category || 'Notícias'} />
+      <OutrosDestaques posts={relatedPosts} />
     </div>
   );
 }

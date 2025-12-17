@@ -12,13 +12,13 @@ import BlogForm from '../../components/BlogForm';
 import { generateSlug } from '@/utils/generateSlug';
 
 interface EditPostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export default function EditPostPage({ params }: EditPostPageProps) {
-  const slug = params.slug;
+  const { slug } = React.use(params);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteExpanded, setDeleteExpanded] = useState(false);
   const [message, setMessage] = useState<{ text: string; success: boolean } | null>(null);
