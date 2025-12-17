@@ -23,6 +23,7 @@ export async function getRecentBlogPosts(limit: number = 4) {
         slug: true,
         category: true,
         excerpt: true,
+        featuredImage: true,
         publishedAt: true
       }
     });
@@ -59,6 +60,7 @@ export async function getRecentBlogPosts(limit: number = 4) {
           slug: post.slug,
           category: post.category,
           excerpt: post.excerpt,
+          featuredImage: (post as { featuredImage?: string | null }).featuredImage || null,
           publishedAt: post.publishedAt
         }));
         
@@ -410,5 +412,38 @@ export async function getBlogPostBySlug(slug: string) {
   } catch (error) {
     console.error('❌ Error fetching blog post:', error);
     return null;
+  }
+}
+
+export async function getRelatedPostsByCategory(category: string, currentSlug: string, limit: number = 3) {
+  try {
+    const posts = await prisma.blogPost.findMany({
+      where: {
+        status: 'published',
+        category: category,
+        slug: {
+          not: currentSlug
+        }
+      },
+      orderBy: {
+        publishedAt: 'desc'
+      },
+      take: limit,
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        category: true,
+        excerpt: true,
+        featuredImage: true,
+        publishedAt: true
+      }
+    });
+
+    console.log(`📝 getRelatedPostsByCategory: encontrados ${posts.length} posts para categoria ${category}`);
+    return posts;
+  } catch (error) {
+    console.error('❌ Error fetching related blog posts:', error);
+    return [];
   }
 }

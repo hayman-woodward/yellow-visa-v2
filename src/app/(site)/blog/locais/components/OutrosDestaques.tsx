@@ -1,30 +1,30 @@
-import { YVGallery, YVSection, YVText, YVTitle } from "@/components/YV";
+import { YVGallery, YVSection, YVTitle } from "@/components/YV";
+import { truncateText } from "@/utils/text";
 
-export default function OutrosDestaques() {
-  const outrosDestaquesItems = [
-    {
-      id: "1",
-      src: "/imgs/home/estados-unidos.jpg",
-      alt: "EB-2 NIW",
-      title: "EB-2 NIW",
-      description: "Seu Passaporte para Contribuir com o Futuro dos EUA",
-    },
-    {
-      id: "2",
-      src: "/imgs/home/estados-unidos.jpg",
-      alt: "Grupo é Alvo da PF",
-      title: "Grupo é Alvo da PF",
-      description:
-        "Grupo Lucra R$ 59 Milhões com Envio de Brasileiros aos EUA e é Alvo da PF",
-    },
-    {
-      id: "3",
-      src: "/imgs/home/estados-unidos.jpg",
-      alt: "Portugal Sem Imigração",
-      title: "Portugal Sem Imigração",
-      description: "Impactos e Necessidade de Políticas Claras",
-    },
-  ];
+interface Post {
+  id: string;
+  title: string;
+  slug: string;
+  category: string | null;
+  excerpt: string | null;
+  featuredImage: string | null;
+  publishedAt: Date | string | null;
+}
+
+export default function OutrosDestaques({ posts = [] }: { posts?: Post[] }) {
+  const galleryItems = posts.map(post => ({
+    id: post.id,
+    src: post.featuredImage || "/imgs/home/estados-unidos.jpg",
+    alt: post.title,
+    title: post.title,
+    description: post.excerpt ? truncateText(post.excerpt, 63) : "",
+    // We should probably pass the link as well, or YVGallery handles it? 
+    // Looking at the previous items, they didn't have a link property, but maybe it handles navigation?
+    // Let's check YVGallery if possible or assume it needs href.
+    href: `/blog/${post.category ? post.category.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim() : 'noticias'}/${post.slug}`
+  }));
+
+  if (posts.length === 0) return null;
 
   return (
     <YVSection className="bg-[#0F0005]">
@@ -43,7 +43,7 @@ export default function OutrosDestaques() {
           <div className="w-full lg:flex-1">
             <div className="w-full flex justify-end">
               <YVGallery
-                items={outrosDestaquesItems}
+                items={galleryItems}
                 showTitles={true}
                 columns={3}
                 imageClassName="aspect-[294/400] object-cover"
