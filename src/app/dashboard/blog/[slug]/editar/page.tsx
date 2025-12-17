@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { BookOpen, Eye } from 'lucide-react';
 import { YVTitle, YVText } from '@/components/YV';
@@ -12,23 +12,17 @@ import BlogForm from '../../components/BlogForm';
 import { generateSlug } from '@/utils/generateSlug';
 
 interface EditPostPageProps {
-  params: Promise<{
+  params: {
     slug: string;
-  }>;
+  };
 }
 
 export default function EditPostPage({ params }: EditPostPageProps) {
-  const [slug, setSlug] = useState<string>('');
+  const slug = params.slug;
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteExpanded, setDeleteExpanded] = useState(false);
   const [message, setMessage] = useState<{ text: string; success: boolean } | null>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    params.then(({ slug: resolvedSlug }) => {
-      setSlug(resolvedSlug);
-    });
-  }, [params]);
 
   const { blogPost, loading, error } = useBlogPost(slug);
 
