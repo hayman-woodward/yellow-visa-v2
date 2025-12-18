@@ -10,6 +10,7 @@ interface DropdownItem {
   href: string;
   icon?: string;
   isSubtitle?: boolean;
+  description?: string;
 }
 
 interface DropdownColumn {
@@ -22,12 +23,14 @@ interface DropdownMenuProps {
   trigger: React.ReactNode;
   columns: DropdownColumn[];
   className?: string;
+  sideImage?: string;
 }
 
 const DropdownMenu = ({
   trigger,
   columns,
-  className = ''
+  className = '',
+  sideImage = '/imgs/vistos-e-destinos-dropdown.jpg'
 }: DropdownMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -125,7 +128,7 @@ const DropdownMenu = ({
               <div className='w-1/3 flex-shrink-0'>
                 <div className='w-[289px] xl:w-[389px] h-[386px] xl:h-[516px] bg-gray-200 overflow-hidden'>
                   <Image
-                    src='/imgs/vistos-e-destinos-dropdown.jpg'
+                    src={sideImage}
                     alt='Imigração'
                     width={389}
                     height={516}
@@ -151,47 +154,94 @@ const DropdownMenu = ({
                         {column.title}
                       </YVText>
                     )}
-                    <ul className='space-y-4 pt-3 gap-4 pb-3'>
-                      {column.items.map((item) => (
-                        <li key={item.id} className='max-w-[240px]'>
-                          {item.isSubtitle ? (
-                            <div className='py-1'>
-                              <YVText
-                                variant='small'
-                                className='text-gray-900 !font-semibold text-sm uppercase tracking-wide'
+                    <ul className={cn(
+                      'space-y-4 pt-3 gap-4 pb-3',
+                      column.items.some(item => item.description) && 'grid grid-cols-[repeat(auto-fit,minmax(250px,294px))] gap-[24px] space-y-0 w-full'
+                    )}>
+                      {column.items.map((item) => {
+                        const hasDescription = !!item.description;
+                        
+                        if (hasDescription) {
+                          return (
+                            <li key={item.id} className='w-full'>
+                              <Link
+                                href={item.href}
+                                className='flex flex-col p-6 border-2 border-[#DFDFDF] rounded-[12px] h-full hover:border-[#FFBD1A] transition-colors duration-200 group'
+                                onClick={closeMenu}
                               >
-                                {item.label}
-                              </YVText>
-                            </div>
-                          ) : (
-                            <Link
-                              href={item.href}
-                              className='flex items-center justify-between group hover:bg-gray-50 rounded-md px-3 py-2 -mx-3 -my-2 transition-colors duration-150'
-                              onClick={closeMenu}
-                            >
-                              <YVText
-                                variant='small'
-                                className='text-gray-700 group-hover:text-gray-900 font-medium text-base'
+                                <div className='flex items-center justify-between mb-4 w-full'>
+                                  <span 
+                                    className='text-[22px] font-semibold text-[#0F0005] leading-[28px] tracking-[-0.5px]'
+                                    style={{ fontFamily: '"Red Hat Display", sans-serif' }}
+                                  >
+                                    {item.label}
+                                  </span>
+                                  <svg
+                                    className='w-5 h-5 text-[#0F0005] group-hover:translate-x-1 transition-transform duration-200 shrink-0'
+                                    fill='none'
+                                    stroke='currentColor'
+                                    viewBox='0 0 24 24'
+                                  >
+                                    <path
+                                      strokeLinecap='round'
+                                      strokeLinejoin='round'
+                                      strokeWidth={2}
+                                      d='M9 5l7 7-7 7'
+                                    />
+                                  </svg>
+                                </div>
+                                <span 
+                                  className='text-[14px] font-normal text-[#0F0005] leading-[20px] tracking-normal self-stretch'
+                                  style={{ fontFamily: '"Red Hat Text", sans-serif' }}
+                                >
+                                  {item.description}
+                                </span>
+                              </Link>
+                            </li>
+                          );
+                        }
+
+                        return (
+                          <li key={item.id} className='max-w-[240px]'>
+                            {item.isSubtitle ? (
+                              <div className='py-1'>
+                                <YVText
+                                  variant='small'
+                                  className='text-gray-900 !font-semibold text-sm uppercase tracking-wide'
+                                >
+                                  {item.label}
+                                </YVText>
+                              </div>
+                            ) : (
+                              <Link
+                                href={item.href}
+                                className='flex items-center justify-between group hover:bg-gray-50 rounded-md px-3 py-2 -mx-3 -my-2 transition-colors duration-150'
+                                onClick={closeMenu}
                               >
-                                {item.label}
-                              </YVText>
-                              <svg
-                                className='w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors duration-150'
-                                fill='none'
-                                stroke='currentColor'
-                                viewBox='0 0 24 24'
-                              >
-                                <path
-                                  strokeLinecap='round'
-                                  strokeLinejoin='round'
-                                  strokeWidth={2}
-                                  d='M9 5l7 7-7 7'
-                                />
-                              </svg>
-                            </Link>
-                          )}
-                        </li>
-                      ))}
+                                <YVText
+                                  variant='small'
+                                  className='text-gray-700 group-hover:text-gray-900 font-medium text-base'
+                                >
+                                  {item.label}
+                                </YVText>
+                                <svg
+                                  className='w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors duration-150'
+                                  fill='none'
+                                  stroke='currentColor'
+                                  viewBox='0 0 24 24'
+                                >
+                                  <path
+                                    strokeLinecap='round'
+                                    strokeLinejoin='round'
+                                    strokeWidth={2}
+                                    d='M9 5l7 7-7 7'
+                                  />
+                                </svg>
+                              </Link>
+                            )}
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 ))}

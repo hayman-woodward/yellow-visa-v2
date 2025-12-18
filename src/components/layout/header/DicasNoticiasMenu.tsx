@@ -15,6 +15,7 @@ export default function DicasNoticiasMenu({
       trigger={children}
       columns={menuData.dicasNoticias}
       className={className}
+      sideImage='/imgs/dropdown-dicas.jpg'
     />
   );
 }
