@@ -4,7 +4,7 @@ interface BlogPostProps {
 
 export default function BlogPost({ content }: BlogPostProps) {
   return (
-    <div className="container mx-auto px-4 py-4 max-w-4xl">
+    <div className="container mx-auto px-4 py-4 max-w-4xl" data-aos="fade-up" data-aos-duration="1000">
       <div 
         className="
           text-foreground

@@ -59,6 +59,7 @@ export const menuData = {
     {
       id: 'todas-dicas',
       title: 'Todas as dicas e notícias',
+      href: '/blog',
       items: [
         { id: 'noticias', label: 'Notícias', href: '/blog/noticias' },
         { id: 'historias', label: 'Histórias', href: '/blog/historias' },

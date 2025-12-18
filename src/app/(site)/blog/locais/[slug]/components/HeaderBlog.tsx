@@ -8,12 +8,10 @@ export default function HeaderBlog() {
           disabled
           items={[{ label: 'Noticias', href: '/blog' }]}
         />
-        <YVTitle tag="h1" variant='hero' title='Coimbra: A cidade universiratria' />
+        <YVTitle tag="h1" variant='hero' title='Destinos em destaque' />
         <YVText>
-          Lorem ipsum dolor sit amet consectetur. Vulputate cursus quis commodo
-          praesent blandit. Ac ultrices enim egestas molestie amet lobortis
-          feugiat. Tellus ut vitae turpis malesuada eu. Risus morbi egestas
-          consectetur suspendisse.
+          Explore detalhes sobre moradia, trabalho e oportunidades em diversas regiões. 
+          Nossos especialistas preparam guias completos para facilitar sua transição para uma nova vida.
         </YVText>
       </YVGrid>
       HeaderBlog
