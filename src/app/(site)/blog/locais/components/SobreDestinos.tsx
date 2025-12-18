@@ -19,16 +19,14 @@ export default function SobreDestinos() {
           </div>
           <div className='space-y-6 pt-6 md:pt-9 md:pl-6'>
             <YVText>
-              Lorem ipsum dolor sit amet consectetur. Vulputate cursus quis
-              commodo praesent blandit. Ac ultrices enim egestas molestie amet
-              lobortis feugiat. Tellus ut vitae turpis malesuada eu. Risus morbi
-              egestas consectetur suspendisse.
+              Explorar um novo país é o primeiro passo para transformar sua vida. Na Yellow Visa, 
+              selecionamos cuidadosamente os destinos que oferecem as melhores oportunidades 
+              de carreira, estudo e qualidade de vida para brasileiros.
             </YVText>
             <YVText>
-              Egestas proin at blandit facilisi facilisis fames at turpis. Urna
-              sollicitudin et in pretium cursus morbi a fermentum augue. Mauris
-              sed amet dui ut pretium fermentum gravida pulvinar arcu. Elementum
-              orna
+              Nossos guias detalhados sobre os Estados Unidos e Portugal ajudam você a entender 
+              o custo de vida, as principais cidades e os caminhos legais para fixar residência 
+              com segurança e planejamento.
             </YVText>
           </div>
         </div>

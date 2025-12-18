@@ -75,7 +75,7 @@ export async function getRecentBlogPosts(limit: number = 4) {
   }
 }
 
-export async function getBlogPostsByCategory(category: string) {
+export async function getBlogPostsByCategory(category: string, limit?: number) {
   try {
     const posts = await prisma.blogPost.findMany({
       where: {
@@ -88,6 +88,7 @@ export async function getBlogPostsByCategory(category: string) {
       orderBy: {
         publishedAt: 'desc'
       },
+      take: limit,
       select: {
         id: true,
         title: true,

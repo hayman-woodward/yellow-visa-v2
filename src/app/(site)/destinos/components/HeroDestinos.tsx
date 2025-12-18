@@ -4,7 +4,7 @@ export default function HeroDestinos() {
   return (
     <div className='bg-YV max-h-[600px] h-[90vh] -mt-[88px] relative w-full overflow-hidden'>
       <div className='max-w-[1248px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-0 pt-[120px] pb-16'>
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-8 lg:gap-[70px] items-start'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-8 lg:gap-[70px] items-start' data-aos="fade-up" data-aos-duration="1000">
           <div>
             <YVBreadcrumbs
               disabled

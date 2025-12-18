@@ -1,40 +1,26 @@
 import VerMaisSection from '@/components/shared/VerMaisSection';
+import { getRecentBlogPosts } from '@/lib/actions/blog';
+import { generateSlug } from '@/utils/generateSlug';
+import { truncateText } from '@/utils/text';
 
-export default function MaisNoticias() {
-  const noticiasItems = [
-    {
-      id: '1',
-      src: '/imgs/home/estados-unidos.jpg',
-      alt: 'EB-2 NIW',
-      title: 'EB-2 NIW',
-      description: 'Seu Passaporte para Contribuir com o Futuro dos EUA',
-      href: '/blog/eb-2-niw'
-    },
-    {
-      id: '2',
-      src: '/imgs/home/estados-unidos.jpg',
-      alt: 'Grupo é Alvo da PF',
-      title: 'Grupo é Alvo da PF',
-      description:
-        'Grupo Lucra R$ 59 Milhões com Envio de Brasileiros aos EUA e é Alvo da PF',
-      href: '/blog/grupo-alvo-pf'
-    },
-    {
-      id: '3',
-      src: '/imgs/home/estados-unidos.jpg',
-      alt: 'Portugal Sem Imigração',
-      title: 'Portugal Sem Imigração',
-      description: 'Impactos e Necessidade de Políticas Claras',
-      href: '/blog/portugal-sem-imigracao'
-    }
-  ];
+export default async function MaisNoticias() {
+  const posts = await getRecentBlogPosts(3);
+  
+  const noticiasItems = posts.map(post => ({
+    id: post.id,
+    src: post.featuredImage || '/imgs/home/estados-unidos.jpg',
+    alt: post.title,
+    title: post.title,
+    description: truncateText(post.excerpt || '', 64),
+    href: `/blog/${post.category ? generateSlug(post.category) : 'noticias'}/${post.slug}`
+  }));
 
   return (
     <VerMaisSection
       title='Notícias'
-      description='Descrição Phasellus netus natoque ante eget at condimentum eget.Descrição'
+      description='Fique por dentro das últimas atualizações sobre imigração, mudanças na legislação e oportunidades internacionais.'
       buttonText='Ver todas as notícias'
-      buttonHref='/noticias'
+      buttonHref='/blog/noticias'
       buttonVariant='outline-secondary'
       galleryItems={noticiasItems}
       showDescriptions={true}

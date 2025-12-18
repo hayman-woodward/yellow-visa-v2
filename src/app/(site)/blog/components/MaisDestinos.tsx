@@ -1,37 +1,30 @@
 import VerMaisSection from '@/components/shared/VerMaisSection';
+import { truncateText } from '@/utils/text';
 
 export default function MaisDestinos() {
   const destinosItems = [
     {
-      id: '1',
+      id: 'usa',
       src: '/imgs/home/estados-unidos.jpg',
       alt: 'Estados Unidos',
       title: 'Estados Unidos',
-      description: 'Oportunidades profissionais e acadêmicas nos EUA',
+      description: truncateText('Oportunidades profissionais e acadêmicas para brasileiros nos Estados Unidos.', 64),
       href: '/destinos/estados-unidos'
     },
     {
-      id: '2',
-      src: '/imgs/home/portugal.png',
+      id: 'portugal',
+      src: '/imgs/home/portugal.jpg',
       alt: 'Portugal',
       title: 'Portugal',
-      description: 'Vida na Europa com facilidades para brasileiros',
+      description: truncateText('Vida na Europa com facilidades de imigração para cidadãos da CPLP.', 64),
       href: '/destinos/portugal'
-    },
-    {
-      id: '3',
-      src: '/imgs/home/estados-unidos.jpg',
-      alt: 'Canadá',
-      title: 'Canadá',
-      description: 'Programas de imigração e qualidade de vida',
-      href: '/destinos/canada'
     }
   ];
 
   return (
     <VerMaisSection
       title='Destinos'
-      description=''
+      description='Explore guias detalhados sobre os melhores lugares para viver, estudar e trabalhar no exterior.'
       buttonText='Ver todos os destinos'
       buttonHref='/destinos'
       buttonVariant='outline-secondary'

@@ -63,7 +63,7 @@ export default function BlogHeader({ title, excerpt, category, author, published
         </Link>
 
         {/* Conteúdo */}
-        <div className="flex flex-col max-w-[614px]">
+        <div className="flex flex-col max-w-[614px]" data-aos="fade-up" data-aos-delay="200">
           <YVBreadcrumbs
             disabled
             className='pb-4 md:pb-5'

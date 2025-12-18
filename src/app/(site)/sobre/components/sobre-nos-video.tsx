@@ -9,33 +9,25 @@ export default function SobreNosVideo() {
           <div className='grid max-w-[823px] mx-auto'>
             <div className='mb-4 md:mb-6'>
               <h2 className='text-[24px] leading-[28px] md:text-[32px] font-[600] md:font-bold md:leading-[40px] tracking-[-0.5px] pb-1 md:pb-2'>
-                Lorem ipsum dolor sit amet consectetur. Vulputate cursus quis
-                commodo praesent blandit. Ac ultrices enim egestas molestie amet
-                lobortis feugiat. Tellus ut vitae turpis malesuada eu. Risus
-                morbi egestas consectetur suspendisse.
+                Nossa missão é transformar o complexo processo de imigração em uma jornada de 
+                sucesso e tranquilidade. Com uma equipe experiente e dedicada, oferecemos 
+                soluções personalizadas para quem busca novos horizontes nos Estados Unidos e Portugal.
               </h2>
             </div>
             <div className=' space-y-4 md:space-y-6'>
               <YVText variant='paragraph'>
-                Lorem ipsum dolor sit amet consectetur. Vulputate cursus quis
-                commodo praesent blandit. Ac ultrices enim egestas molestie amet
-                lobortis feugiat. Tellus ut vitae turpis malesuada eu. Risus
-                morbi egestas consectetur suspendisse.
+                Acreditamos que cada cliente tem uma história única e merece uma estratégia exclusiva. 
+                Não trabalhamos com fórmulas prontas; focamos em entender seus objetivos para 
+                encontrar o caminho legal mais eficiente e seguro para você e sua família.
               </YVText>
               <YVText variant='paragraph'>
-                Egestas proin at blandit facilisi facilisis fames at turpis.
-                Urna sollicitudin et in pretium cursus morbi a fermentum augue.
-                Mauris sed amet dui ut pretium fermentum gravida pulvinar arcu.
-                Elementum ornaLorem ipsum dolor sit amet consectetur. Vulputate
-                cursus quis commodo praesent blandit. Ac ultrices enim egestas
-                molestie amet lobortis feugiat. Tellus ut vitae turpis malesuada
-                eu. Risus morbi egestas consectetur suspendisse.
+                Desde a análise inicial de perfil até a chegada ao destino escolhido, a Yellow Visa 
+                está ao seu lado. Nossa transparência e compromisso com resultados são os pilares 
+                que nos tornam parceiros de confiança na realização do seu sonho internacional.
               </YVText>
               <YVText variant='paragraph'>
-                Egestas proin at blandit facilisi facilisis fames at turpis.
-                Urna sollicitudin et in pretium cursus morbi a fermentum augue.
-                Mauris sed amet dui ut pretium fermentum gravida pulvinar arcu.
-                Elementum orna
+                Seja para carreira, estudo ou investimento, nossa expertise garante que você 
+                tenha toda a estrutura necessária para voar alto e conquistar seu lugar no mundo.
               </YVText>
             </div>
           </div>
