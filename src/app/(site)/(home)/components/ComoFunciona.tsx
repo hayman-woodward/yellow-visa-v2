@@ -52,7 +52,7 @@ export default function ComoFunciona() {
           <div className='relative flex'>
             {/* Barra gradiente */}
             <div
-              className='absolute left-0 top-0 w-20 h-full rounded-full z-10'
+              className='absolute left-0 top-0 w-20 h-full rounded-full'
               style={{
                 background: 'linear-gradient(180deg, #FFBD1A 0%, #FF6700 100%)',
                 borderRadius: '999px'
@@ -74,7 +74,7 @@ export default function ComoFunciona() {
                   >
                     {/* Ícone posicionado sobre a barra */}
                     <div 
-                      className='flex-shrink-0 w-8 h-8 flex items-center justify-center text-black -ml-24 z-10'
+                      className='flex-shrink-0 w-8 h-8 flex items-center justify-center text-black -ml-24'
                     >
                       <YVIcon
                         name={step.icon}
