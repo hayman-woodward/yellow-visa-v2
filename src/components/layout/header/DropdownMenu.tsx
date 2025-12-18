@@ -166,7 +166,7 @@ const DropdownMenu = ({
                             <li key={item.id} className='w-full'>
                               <Link
                                 href={item.href}
-                                className='flex flex-col p-6 border-2 border-[#DFDFDF] rounded-[12px] h-full hover:border-[#FFBD1A] transition-colors duration-200 group'
+                                className='flex flex-col p-10 border-2 border-[#DFDFDF] rounded-[12px] h-full hover:border-[#FFBD1A] transition-colors duration-200 group'
                                 onClick={closeMenu}
                               >
                                 <div className='flex items-center justify-between mb-4 w-full'>
@@ -191,7 +191,7 @@ const DropdownMenu = ({
                                   </svg>
                                 </div>
                                 <span 
-                                  className='text-[14px] font-normal text-[#0F0005] leading-[20px] tracking-normal self-stretch'
+                                  className='text-[14px] font-normal text-[#0F0005] leading-[20px] tracking-normal self-stretch line-clamp-3 max-w-[206px]'
                                   style={{ fontFamily: '"Red Hat Text", sans-serif' }}
                                 >
                                   {item.description}
