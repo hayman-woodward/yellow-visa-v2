@@ -590,9 +590,8 @@ export default function VistoForm({
 
       if (response.ok) {
         setServerSuccess(result.message || 'Visto salvo com sucesso!');
-        setTimeout(() => {
-          router.push('/dashboard/vistos');
-        }, 500);
+        setIsSubmitting(false);
+        // Não redireciona mais - mantém na mesma página para continuar editando
       } else {
         setServerError(result.message || 'Erro ao salvar visto');
         setIsSubmitting(false);
