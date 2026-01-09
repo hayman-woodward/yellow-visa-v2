@@ -43,41 +43,41 @@ export default function MaisInfoTuristaFormacao({
       icon: 'study',
       title: 'Ensino Médio'
     },
-    {
-      id: 'Professional Certificates / Certificados Profissionais',
-      icon: 'study',
-      title: 'Certificados Profissionais'
-    },
-    {
-      id: 'Technician / College (Nivel tecnico)',
-      icon: 'study',
-      title: 'Técnico/Profissionalizante'
-    },
+    // {
+    //   id: 'Professional Certificates / Certificados Profissionais',
+    //   icon: 'study',
+    //   title: 'Certificados Profissionais'
+    // },
+    // {
+    //   id: 'Technician / College (Nivel tecnico)',
+    //   icon: 'study',
+    //   title: 'Técnico/Profissionalizante'
+    // },
     {
       id: 'Baccalaureate Degree (Nivel Superior / Bacharelado)',
       icon: 'study',
-      title: 'Superior/Bacharelado'
+      title: 'Nível Superior / Bacharelado'
     },
     {
       id: 'Post Graduation (Pos Graduacao)',
       icon: 'study',
-      title: 'Pós-graduação'
+      title: 'Pós Graduação'
     },
-    {
-      id: 'Master Degree (Mestrado)',
-      icon: 'study',
-      title: 'Mestrado'
-    },
+    // {
+    //   id: 'Master Degree (Mestrado)',
+    //   icon: 'study',
+    //   title: 'Mestrado'
+    // },
     {
       id: 'Doctorate Degree (Doutorado)',
       icon: 'study',
       title: 'Doutorado'
     },
-    {
-      id: 'Post Doctorate (Pos Doutorado)',
-      icon: 'study',
-      title: 'Pós Doutorado'
-    }
+    // {
+    //   id: 'Post Doctorate (Pos Doutorado)',
+    //   icon: 'study',
+    //   title: 'Pós Doutorado'
+    // }
   ];
 
   const podeAvancar = selectedOpcao;
@@ -88,8 +88,8 @@ export default function MaisInfoTuristaFormacao({
       {/* Coluna Esquerda - Imagem (33% da largura) */}
       <div className="row-start-1 px-0 md:px-0 relative md:overflow-hidden lg:col-start-1 lg:row-start-1 lg:order-1 h-auto md:h-full">
         <YVBanner
-          src='/imgs/stepper-form/bg-etapa-05-turista-formacao.jpg'
-          srcMobile='/imgs/stepper-form/bg-etapa-05-turista-formacao-mobile.jpg'
+          src='/imgs/stepper-form/bg-etapa-05-profissional.jpg'
+          srcMobile='/imgs/stepper-form/bg-etapa-05-profissional-mobile.jpg'
           alt='Hero Formação Turista'
           className='object-cover object-center max-h-[27vh] md:h-full md:min-h-[100vh]'
           priority
