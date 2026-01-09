@@ -212,6 +212,25 @@ export default function YVTinyMCEEditor({
               }
             });
 
+            // Handler para processar paste do Google Docs
+            editor.on('PastePreProcess', (e: { content: string }) => {
+              let content = e.content;
+              
+              // Converter spans com font-weight:bold ou font-weight:700 para <strong>
+              content = content.replace(/<span[^>]*style="[^"]*font-weight:\s*(bold|700|800|900)[^"]*"[^>]*>(.*?)<\/span>/gi, '<strong>$2</strong>');
+              
+              // Converter spans com font-style:italic para <em>
+              content = content.replace(/<span[^>]*style="[^"]*font-style:\s*italic[^"]*"[^>]*>(.*?)<\/span>/gi, '<em>$1</em>');
+              
+              // Converter <b> para <strong>
+              content = content.replace(/<b>(.*?)<\/b>/gi, '<strong>$1</strong>');
+              
+              // Converter <i> para <em>
+              content = content.replace(/<i>(.*?)<\/i>/gi, '<em>$1</em>');
+              
+              e.content = content;
+            });
+
             // Plugin CTA personalizado
             editor.ui.registry.addButton('yvcta', {
               text: 'CTA',
