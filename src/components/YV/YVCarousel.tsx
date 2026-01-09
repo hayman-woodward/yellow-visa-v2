@@ -71,14 +71,51 @@ const YVCarousel = ({
           {items.map((item) => (
             <CarouselItem
               key={item.id}
-              className='pl-2 basis-[80%] sm:basis-[60%] md:basis-[50%] lg:basis-[50%] xl:basis-[33%]'
+              className='pl-2 basis-auto'
             >
               {renderItem ? (
                 renderItem(item)
+              ) : item.href ? (
+                <a href={item.href} className='group relative block overflow-hidden rounded-lg'>
+                  <div
+                    className={`relative overflow-hidden rounded-xl ${imageClassName}`}
+                  >
+                    <Image
+                      src={item.src}
+                      alt={item.alt}
+                      width={400}
+                      height={520}
+                      className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
+                      sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
+                    />
+                    <div className='absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
+                  </div>
+                  {(showTitles || showDescriptions) &&
+                    (item.title || item.description) && (
+                      <div className='space-y-2 pt-2'>
+                        {showTitles && item.title && (
+                          <h3
+                            className={`text-xl font-semibold font-heading ${darkMode ? 'text-white' : 'text-gray-900'
+                              }`}
+                          >
+                            {item.title}
+                          </h3>
+                        )}
+                        {showDescriptions && item.description && (
+                          <p
+                            className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'
+                              }`}
+                          >
+                            {item.description}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                </a>
               ) : (
                 <div className='group relative overflow-hidden rounded-lg'>
                   <div
-                    className={`relative w-full overflow-hidden rounded-xl ${imageClassName}`}
+                    className={`relative overflow-hidden rounded-xl ${imageClassName}`}
                   >
                     <Image
                       src={item.src}
