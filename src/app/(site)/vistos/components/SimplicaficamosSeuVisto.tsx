@@ -18,13 +18,15 @@ export default function SimplificamosSeuVisto({ showButton = true }: Simplificam
       id: '1',
       src: '/imgs/destinos/galeria-01.jpg',
       alt: 'Estados Unidos',
-      title: 'Estados Unidos'
+      title: 'Estados Unidos',
+      href: '/destinos/estados-unidos'
     },
     {
       id: '2',
       src: '/imgs/destinos/galeria-02.jpg',
       alt: 'Portugal',
-      title: 'Portugal'
+      title: 'Portugal',
+      href: '/destinos/portugal'
     }
   ];
   return (
@@ -42,8 +44,8 @@ export default function SimplificamosSeuVisto({ showButton = true }: Simplificam
                 className='md:mb-4 xl:mb-6'
               />
               <YVText className='p-2 mb-2 xl:mb-4'>
-                Descrição Phasellus netus natoque ante eget at condimentum
-                eget.Descrição
+                Seja para conquistar oportunidades nos Estados Unidos ou buscar uma nova vida em Portugal, 
+                oferecemos assessoria completa para tornar seu sonho realidade.
               </YVText>
               {showButton && (
               <YVButton variant='outline' href='/destinos'>
@@ -62,6 +64,7 @@ export default function SimplificamosSeuVisto({ showButton = true }: Simplificam
                 columns={2}
                 imageClassName='h-[370px] xl:h-auto xl:aspect-[400/520] object-cover'
                 showDescriptions={false}
+                
               />
             </div>
           </div>

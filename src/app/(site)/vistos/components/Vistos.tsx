@@ -2,6 +2,7 @@ import {
   YVBreadcrumbs,
   YVButton,
   YVCarousel,
+  YVContainer,
   YVIcon,
   YVText,
   YVTitle
@@ -45,12 +46,12 @@ export default function Vistos({ vistos }: VistosProps) {
           />
         </div>
 
-        {/* Main Content Container */}
-        <div className='max-w-[1440px] mx-auto px-4 sm:px-6 xl:px-0 md:pl-16'>
-          <div className='relative grid grid-cols-1 lg:grid-cols-2 gap-10 items-center'>
+        {/* Main Content Container using project standard 1248px */}
+        <YVContainer>
+          <div className='relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center'>
             
-            {/* Text Content Column */}
-            <div className='max-w-[624px]'>
+            {/* Text Content Column - Occupies 4 columns (smaller as requested) */}
+            <div className='lg:col-span-4 md:max-w-[96%] xl:max-w-[92%] pr-12'>
               <YVBreadcrumbs
                 className='pb-4 md:pb-6'
                 items={[{ label: 'Vistos', href: '/vistos' }]}
@@ -67,8 +68,8 @@ export default function Vistos({ vistos }: VistosProps) {
               </YVText>
             </div>
 
-            {/* Carousel Column */}
-            <div className='w-full relative z-10'>
+            {/* Carousel Column - Occupies 8 columns */}
+            <div className='lg:col-span-8 w-full relative z-10'>
               <YVCarousel
                 items={galleryItems}
                 showTitles
@@ -77,7 +78,7 @@ export default function Vistos({ vistos }: VistosProps) {
             </div>
 
           </div>
-        </div>
+        </YVContainer>
       </div>
     </div>
   );
