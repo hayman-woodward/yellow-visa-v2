@@ -14,7 +14,7 @@ export default function DescricaoVisto({ excerpt, content }: DescricaoVistoProps
           <div className='grid max-w-[823px] mx-auto'>
             {excerpt && (
               <div className='mb-4 md:mb-6' data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
-                <h2 className='text-[24px] leading-[28px] md:text-[32px] font-[600] md:font-bold md:leading-[40px] tracking-[-0.5px] pb-1 md:pb-2'>
+                <h2 className='text-[24px] leading-[28px] md:text-[32px] font-[600] md:font-bold md:leading-[40px] tracking-[-0.5px] pb-1 md:pb-0'>
                   {excerpt}
                 </h2>
               </div>
