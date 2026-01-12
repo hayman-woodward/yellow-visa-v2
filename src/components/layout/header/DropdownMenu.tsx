@@ -65,20 +65,31 @@ const DropdownMenu = ({
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
-      // Remove atributo ao desmontar
-      document.documentElement.removeAttribute('data-dropdown-open');
+      // Decrement counter and remove attribute on unmount if this dropdown was open
+      const currentCount = parseInt(document.documentElement.getAttribute('data-dropdown-count') || '0');
+      const nextCount = Math.max(0, currentCount - 1);
+      document.documentElement.setAttribute('data-dropdown-count', nextCount.toString());
+      if (nextCount === 0) {
+        document.documentElement.removeAttribute('data-dropdown-open');
+      }
     };
   }, []);
 
   const handleMouseEnter = () => {
-    // Limpa timeout anterior se existir
+    // Limpa qualquer timeout de fechamento pendente
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
-    // Dispara evento para o header ficar branco ANTES de abrir o dropdown
-    document.documentElement.setAttribute('data-dropdown-open', 'true');
-    // Usa requestAnimationFrame para garantir que o header mude antes da animação
+
+    // Gerenciamento colaborativo do atributo global
+    if (!isOpen) {
+      const count = parseInt(document.documentElement.getAttribute('data-dropdown-count') || '0');
+      document.documentElement.setAttribute('data-dropdown-count', (count + 1).toString());
+      document.documentElement.setAttribute('data-dropdown-open', 'true');
+    }
+
+    // Usa requestAnimationFrame para garantir que as mudanças de estado ocorram sincronizadas
     requestAnimationFrame(() => {
       setIsOpen(true);
       setIsVisible(true);
@@ -86,34 +97,49 @@ const DropdownMenu = ({
   };
 
   const handleMouseLeave = () => {
-    // Delay para dar tempo do usuário navegar para o dropdown
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+    // Primeiro delay: para o usuário poder mover o mouse entre gatilho e menu
     timeoutRef.current = setTimeout(() => {
       setIsOpen(false);
-      setTimeout(() => {
+      
+      // Segundo delay: aguarda a animação de fade-out durar
+      timeoutRef.current = setTimeout(() => {
         setIsVisible(false);
-        // Remove atributo quando dropdown fecha
-        document.documentElement.removeAttribute('data-dropdown-open');
-      }, 200);
+        
+        // Decrementa o contador e só remove o atributo global se for o último menu
+        const currentCount = parseInt(document.documentElement.getAttribute('data-dropdown-count') || '0');
+        const nextCount = Math.max(0, currentCount - 1);
+        document.documentElement.setAttribute('data-dropdown-count', nextCount.toString());
+        
+        if (nextCount === 0) {
+          document.documentElement.removeAttribute('data-dropdown-open');
+        }
+      }, 300);
     }, 200);
   };
 
   return (
-    <div className='relative w-full'>
+    <div className='relative w-full' onMouseLeave={handleMouseLeave}>
       <div
         ref={triggerRef}
         onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
         className='cursor-pointer'
       >
         {trigger}
       </div>
 
       {isVisible && (
-        <div
-          ref={dropdownRef}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          className={cn(
+        <>
+          {/* Ponte invisível para evitar gap entre header e dropdown */}
+          <div 
+            className="fixed top-[60px] left-0 right-0 h-[30px] z-30" 
+            onMouseEnter={handleMouseEnter}
+          />
+          <div
+            ref={dropdownRef}
+            onMouseEnter={handleMouseEnter}
+            className={cn(
             'fixed top-20 left-0 right-0 z-40 bg-white shadow-xl pb-1 lg:pt-12',
             'transition-all duration-200 ease-in-out',
             isOpen
@@ -249,6 +275,7 @@ const DropdownMenu = ({
             </div>
           </div>
         </div>
+        </>
       )}
     </div>
   );
