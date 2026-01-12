@@ -7,7 +7,7 @@ const destinosData = [
     alt: 'Coimbra - A cidade universitária',
     title: 'Coimbra: A cidade universitária',
     description: 'Vibe jovem, cultura pulsante e aluguéis mais acessíveis.',
-    href: '/destinos/coimbra'
+    href: '/blog/destinos/coimbra'
   },
   {
     id: 'braga-1',
@@ -16,7 +16,7 @@ const destinosData = [
     title: 'Braga: A "Roma Portuguesa"',
     description:
       'História, tecnologia e custo de vida até 30% menor que Lisboa.',
-    href: '/destinos/braga'
+    href: '/blog/destinos/braga'
   },
   {
     id: 'aveiro-1',
@@ -25,7 +25,7 @@ const destinosData = [
     title: 'Aveiro: A "Veneza Portuguesa"',
     description:
       'Qualidade de vida, praias próximas e um polo de inovação crescente.',
-    href: '/destinos/aveiro'
+    href: '/blog/destinos/aveiro'
   },
   {
     id: 'coimbra-2',
@@ -33,7 +33,7 @@ const destinosData = [
     alt: 'Coimbra - A cidade universitária',
     title: 'Coimbra: A cidade universitária',
     description: 'Vibe jovem, cultura pulsante e aluguéis mais acessíveis.',
-    href: '/destinos/coimbra'
+    href: '/blog/destinos/coimbra'
   },
   {
     id: 'braga-2',
@@ -42,7 +42,7 @@ const destinosData = [
     title: 'Braga: A "Roma Portuguesa"',
     description:
       'História, tecnologia e custo de vida até 30% menor que Lisboa.',
-    href: '/destinos/braga'
+    href: '/blog/destinos/braga'
   },
   {
     id: 'aveiro-2',
@@ -51,7 +51,7 @@ const destinosData = [
     title: 'Aveiro: A "Veneza Portuguesa"',
     description:
       'Qualidade de vida, praias próximas e um polo de inovação crescente.',
-    href: '/destinos/aveiro'
+    href: '/blog/destinos/aveiro'
   },
   {
     id: 'coimbra-3',
@@ -59,7 +59,7 @@ const destinosData = [
     alt: 'Coimbra - A cidade universitária',
     title: 'Coimbra: A cidade universitária',
     description: 'Vibe jovem, cultura pulsante e aluguéis mais acessíveis.',
-    href: '/destinos/coimbra'
+    href: '/blog/destinos/coimbra'
   },
   {
     id: 'braga-3',
@@ -68,7 +68,7 @@ const destinosData = [
     title: 'Braga: A "Roma Portuguesa"',
     description:
       'História, tecnologia e custo de vida até 30% menor que Lisboa.',
-    href: '/destinos/braga'
+    href: '/blog/destinos/braga'
   },
   {
     id: 'aveiro-3',
@@ -77,7 +77,7 @@ const destinosData = [
     title: 'Aveiro: A "Veneza Portuguesa"',
     description:
       'Qualidade de vida, praias próximas e um polo de inovação crescente.',
-    href: '/destinos/aveiro'
+    href: '/blog/destinos/aveiro'
   },
   {
     id: 'coimbra-4',
@@ -85,7 +85,7 @@ const destinosData = [
     alt: 'Coimbra - A cidade universitária',
     title: 'Coimbra: A cidade universitária',
     description: 'Vibe jovem, cultura pulsante e aluguéis mais acessíveis.',
-    href: '/destinos/coimbra'
+    href: '/blog/destinos/coimbra'
   },
   {
     id: 'braga-4',
@@ -94,7 +94,7 @@ const destinosData = [
     title: 'Braga: A "Roma Portuguesa"',
     description:
       'História, tecnologia e custo de vida até 30% menor que Lisboa.',
-    href: '/destinos/braga'
+    href: '/blog/destinos/braga'
   },
   {
     id: 'aveiro-4',
@@ -103,7 +103,7 @@ const destinosData = [
     title: 'Aveiro: A "Veneza Portuguesa"',
     description:
       'Qualidade de vida, praias próximas e um polo de inovação crescente.',
-    href: '/destinos/aveiro'
+    href: '/blog/destinos/aveiro'
   }
 ];
 
