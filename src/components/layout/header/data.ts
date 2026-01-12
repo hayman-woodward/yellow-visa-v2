@@ -70,7 +70,7 @@ export const menuData = {
         { 
           id: 'destinos', 
           label: 'Destinos', 
-          href: '/blog/locais',
+          href: '/blog/destinos',
           description: 'Guias para morar, trabalhar e investir pelo mundo'
         }
       ]

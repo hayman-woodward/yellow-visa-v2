@@ -12,7 +12,7 @@ export function middleware(request: NextRequest) {
   // Redirect de URLs antigas do blog: /blog/slug -> será tratado pela API
   // O Next.js vai capturar /blog/slug e redirecionar via API route
   const blogSlugMatch = pathname.match(/^\/blog\/([^\/]+)$/)
-  if (blogSlugMatch && !pathname.startsWith('/blog/locais') && !pathname.startsWith('/blog/lugares')) {
+  if (blogSlugMatch && !pathname.startsWith('/blog/destinos') && !pathname.startsWith('/blog/lugares')) {
     // Deixa passar para a API route fazer o redirect
     return NextResponse.next()
   }
