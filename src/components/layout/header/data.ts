@@ -65,13 +65,13 @@ export const menuData = {
           id: 'noticias', 
           label: 'Notícias', 
           href: '/blog/noticias',
-          description: 'Acompanhe as principais novidades, atualizações e insights exclusivos sobre o mundo da imigração e vistos para diversos países.'
+          description: 'Novidades e atualizações sobre vistos e imigração'
         },
         { 
           id: 'destinos', 
           label: 'Destinos', 
           href: '/blog/locais',
-          description: 'Descubra os melhores lugares para morar, trabalhar e investir pelo mundo com nossos guias completos e dicas de quem já vive lá.'
+          description: 'Guias para morar, trabalhar e investir pelo mundo'
         }
       ]
     }
