@@ -17,13 +17,15 @@ export default function SimplificamosSeuVisto({ showButton = true }: Simplificam
       id: '1',
       src: '/imgs/destinos/galeria-01.jpg',
       alt: 'Estados Unidos',
-      title: 'Estados Unidos'
+      title: 'Estados Unidos',
+      href: '/destinos/estados-unidos'
     },
     {
       id: '2',
       src: '/imgs/destinos/galeria-02.jpg',
       alt: 'Portugal',
-      title: 'Portugal'
+      title: 'Portugal',
+      href: '/destinos/portugal'
     }
   ];
   return (
