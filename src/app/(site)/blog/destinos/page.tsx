@@ -1,19 +1,85 @@
 import CTABanner from '@/components/shared/CTABanner';
-import SobreDestinos from './components/SobreDestinos';
-import CardsDestinos from './components/CardsDestinos';
-import OutrosDestaques from './components/OutrosDestaques';
 import BeneficiosSection from '@/components/shared/BeneficiosSection';
-import { getRecentBlogPosts } from '@/lib/actions/blog';
+import OutrosDestaques from './components/OutrosDestaques';
+import { YVGallery, YVSection, YVText, YVTitle } from '@/components/YV';
+import { getBlogPostsByCategory, getRecentBlogPosts } from '@/lib/actions/blog';
+import { generateSlug } from '@/utils/generateSlug';
+import { Metadata } from 'next';
+import Link from 'next/link';
 
-export default async function Destinos() {
-  const posts = await getRecentBlogPosts(3);
+export const metadata: Metadata = {
+  title: 'Destinos | Blog Yellow Visa',
+  description: 'Explore os melhores destinos para brasileiros que querem morar no exterior. Guias completos sobre cidades, custo de vida e oportunidades.',
+};
+
+export default async function DestinosPage() {
+  const posts = await getBlogPostsByCategory('Destinos');
+  const recentPosts = await getRecentBlogPosts(3);
+
+  const postsData = posts.map((post) => ({
+    id: post.id,
+    src: post.featuredImage || '/imgs/home/estados-unidos.jpg',
+    alt: post.title,
+    title: post.title,
+    description: post.excerpt || '',
+    href: `/blog/${generateSlug(post.category || 'destinos')}/${post.slug}`
+  }));
+
   return (
     <>
-      <SobreDestinos />
-      <CardsDestinos />
+      {/* Header Section */}
+      <YVSection className='bg-YV-secondary-gradient px-4 -mt-[88px] md:-mt-[120px]'>
+        <div className='max-w-[1248px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-0 pt-[93px] md:pt-[100px]'>
+          <div className='pb-5 lg:pb-10'>
+            <Link
+              href='/blog'
+              className='text-[14px] font-bold transition-all duration-200 py-[10px] md:py-[14px] hover:opacity-70 flex items-center gap-1'
+            >
+              ← Voltar para Dicas e Notícias
+            </Link>
+          </div>
+          <div className='grid grid-cols-1 lg:grid-cols-2 gap-0 md:gap-8 lg:gap-20 items-start'>
+            <div>
+              <YVTitle tag="h1" variant='hero' title='Destinos em destaque' />
+            </div>
+            <div className='space-y-6 pt-6 md:pt-9 md:pl-6'>
+              <YVText>
+                Explore detalhes sobre moradia, trabalho e oportunidades em diversas regiões. 
+                Nossos especialistas prepararam guias completos para facilitar sua transição para uma nova vida.
+              </YVText>
+            </div>
+          </div>
+        </div>
+      </YVSection>
+
+      {/* Cards Grid */}
+      {postsData.length > 0 ? (
+        <YVSection className='bg-white px-4'>
+          <div className='max-w-[1248px] mx-auto'>
+            <YVGallery
+              items={postsData}
+              variant='grid'
+              columns={4}
+              gap='custom'
+              showTitles={true}
+              showDescriptions={true}
+              aspectRatio='auto'
+              imageClassName='aspect-[294/400] object-cover max-h-[400px] md:max-h-full'
+              className='[&>*]:!gap-x-6 [&>*]:!gap-y-12'
+            />
+          </div>
+        </YVSection>
+      ) : (
+        <YVSection className='bg-white px-4'>
+          <div className='max-w-[1248px] mx-auto text-center py-12'>
+            <YVText>Nenhum destino encontrado. Em breve novos guias!</YVText>
+          </div>
+        </YVSection>
+      )}
+
       <CTABanner />
       <BeneficiosSection />
-      <OutrosDestaques posts={posts} />
+      <OutrosDestaques posts={recentPosts} />
     </>
   );
 }
