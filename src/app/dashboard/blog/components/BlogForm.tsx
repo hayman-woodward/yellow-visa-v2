@@ -300,11 +300,11 @@ export default function BlogForm({
         setServerSuccess(result.message || 'Post salvo com sucesso!');
         setIsSubmitting(false);
         
-        // Se for criação de novo post, redirecionar para a lista
-        // Se for edição, manter na página para permitir salvar várias vezes
+        // Se for criação de novo post, redirecionar para a página de edição do post criado
+        // Assim o usuário pode continuar trabalhando e visualizar o post
         if (!isEditing) {
           setTimeout(() => {
-            router.push('/dashboard/blog');
+            router.push(`/dashboard/blog/${result.slug}/editar`);
           }, 1500);
         } else {
           // Atualizar o slug original caso tenha mudado
