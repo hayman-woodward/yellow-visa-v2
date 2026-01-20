@@ -647,7 +647,8 @@ export default function BlogForm({
                   { value: 'Vistos', label: 'Vistos' },
                   { value: 'Dicas', label: 'Dicas' },
                   { value: 'Notícias', label: 'Notícias' },
-                  { value: 'Guia do Imigrante', label: 'Guia do Imigrante' }
+                  { value: 'Guia do Imigrante', label: 'Guia do Imigrante' },
+                  { value: 'Destinos', label: 'Destinos' }
                 ]}
               />
             </div>
