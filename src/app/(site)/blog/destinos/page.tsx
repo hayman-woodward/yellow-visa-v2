@@ -7,6 +7,9 @@ import { generateSlug } from '@/utils/generateSlug';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
+// Revalidar a cada request para buscar dados frescos
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: 'Destinos | Blog Yellow Visa',
   description: 'Explore os melhores destinos para brasileiros que querem morar no exterior. Guias completos sobre cidades, custo de vida e oportunidades.',

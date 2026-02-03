@@ -25,6 +25,7 @@ export function useUTMTracking() {
       utm_term: searchParams.get('utm_term'),
       utm_content: searchParams.get('utm_content'),
       refer: searchParams.get('refer'),
+      champion: searchParams.get('champion'),
     };
 
     // Filtrar apenas parâmetros que existem

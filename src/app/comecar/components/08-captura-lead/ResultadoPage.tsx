@@ -39,6 +39,8 @@ interface StepperFormDataInterface {
     utm_medium?: string;
     utm_term?: string;
     utm_referrer?: string;
+    refer?: string;
+    champion?: string;
   };
 }
 
@@ -208,12 +210,13 @@ export default function ResultadoPage() {
       source: data.utm_data?.utm_source || '',
       medium: data.utm_data?.utm_medium || '',
       term: data.utm_data?.utm_term || '',
-      refer: championId || data.utm_data?.utm_referrer || '', // Champion tem prioridade sobre UTM referrer
+      // Ler refer e champion do localStorage (utm_data) pois se perdem na navegação do stepper
+      refer: data.utm_data?.champion || data.utm_data?.refer || '',
       campaign: data.utm_data?.utm_campaign || '',
       event: null, // Campo event sempre null por enquanto
-      // sellerId e championId serão enviados se existirem na URL
+      // sellerId e championId serão lidos do localStorage também
       sellerId: sellerId || undefined,
-      championId: championId || undefined
+      championId: data.utm_data?.champion || undefined
     };
   };
 
