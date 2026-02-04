@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
       language: body.language || 'English - Ingles',
       nationality: body.nationality || 'USA',
       refer: championId || body.refer || '', // Champion tem prioridade
-      utm: body.utm || '',
+      utm: body.utm || championId || '', // Tenta enviar no UTM também como fallback
       source: body.source || '',
       medium: body.medium || '',
       term: body.term || '',
