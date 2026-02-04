@@ -74,8 +74,8 @@ export async function POST(request: NextRequest) {
       subSource: body.subSource || 'AI Form',
       language: body.language || 'English - Ingles',
       nationality: body.nationality || 'USA',
-      refer: championId || body.refer || '', // Champion tem prioridade
-      utm: body.utm || '',
+      refer: championId || body.refer || '',
+      utm: body.utm || championId || '',
       source: body.source || '',
       medium: body.medium || '',
       term: body.term || '',
