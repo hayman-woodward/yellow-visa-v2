@@ -1,6 +1,8 @@
-# 📁 Estrutura do Frontend - Yellow Visa
+# 📁 Estrutura do Projeto (Full-Stack) - Yellow Visa
 
 ## Filosofia
+
+O projeto utiliza Next.js 15 (App Router), conectando **Frontend e Backend** diretamente na mesma base de código. 
 
 Este projeto segue os princípios:
 
@@ -8,6 +10,7 @@ Este projeto segue os princípios:
 - **YAGNI** (You Aren't Gonna Need It) - Implementar quando precisar
 - **Co-location** - Código relacionado próximo um do outro
 - **Feature-based** - Organização por funcionalidade, não por tipo de arquivo
+- **Type-Safety** - Tipagem completa de ponta a ponta (TypeScript + Prisma + Zod)
 
 ## 🗂️ Estrutura de Pastas
 
@@ -284,7 +287,17 @@ app/(site)/nova-feature/
 └── page.tsx
 ```
 
-4. **Componente usado em 2+ lugares?**
+4. **Buscando Dados no Banco (Backend)**
+
+- Crie seu `<Componente>` como `async`.
+- Faça a leitura direta apontando pro Prisma (`await prisma.visto.findMany()`).
+
+5. **Mutações / Enviando Dados**
+
+- Crie uma Server Action (`'use server'`) para salvar no banco.
+- Integre ela no Formulário (`'use client'`).
+
+6. **Componente usado em 2+ lugares?**
 
 ```
 Mover para: src/components/shared/
@@ -314,6 +327,36 @@ Mover para: src/components/shared/
 
 ---
 
+## 🔌 Arquitetura Front + Back (Integração)
+
+O projeto dispensa requisições API REST tradicionais, tudo acontece no Next.js Server.
+
+### Server Components vs Client Components
+
+- **Server Components (Leitura de Dados):** É o padrão. A exportação do componente DEVE possuir marcação `async`. O banco (Neon DB) é acessado diretamente no componente através do instanciamento do `PrismaClient`.
+- **Client Components (Interatividade e Forms):** São marcados com `'use client'` no topo do arquivo. Serão encarregados de rodar no navegador para lidar com `useState`, `useEffect` e formulários.
+
+### Server Actions (Mutações no Banco)
+
+Ao submeter itens pela UI, disparamos as **Server Actions**:
+1. O form (Client Component) envia o `FormData`.
+2. Uma Server Action contendo `'use server'` processa os dados no servidor.
+3. Ação valida (via Zod), grava no banco (via Prisma) e então chama `revalidatePath('/caminho')` para que o cache seja apagado e a UI exiba os dados mais recentes.
+
+---
+
+## 💻 Setup Local (Como Iniciar o Projeto)
+
+Para desenvolvedores configurando sua máquina:
+
+1. **Requisitos:** Certifique-se de estar usando Node.js superior à versão 18.
+2. **Ambiente:** Defina um arquivo `.env` preenchendo as variáveis necessárias (`DATABASE_URL` do Neon).
+3. **Variáveis de Node:** Rode comando `npm install` na pasta base.
+4. **Banco:** Gere novamente os tipos do BD batendo pro Prisma: `npx prisma generate`.
+5. **Rodar Aplicação:** Suba na porta local com `npm run dev`.
+
+---
+
 ## 📚 Referências
 
 - [Next.js Route Groups](https://nextjs.org/docs/app/building-your-application/routing/route-groups)
@@ -323,17 +366,17 @@ Mover para: src/components/shared/
 
 ---
 
-## ✅ Checklist de Qualidade
+## ✅ Checklist de Qualidade (Front & Back)
 
 Antes de criar um PR, verificar:
 
-- [ ] Componente local ou compartilhado? (regra de 1 vs 2+ usos)
+- [ ] **Data Fetching:** Componentes lendo do Prisma devem ser Server Components (`async`)
+- [ ] **Interatividade:** Arquivos com `useState`/formulários contêm `'use client'`
+- [ ] **Mutações:** As chamadas usam Server Actions (`'use server'`) e validam tipagem com Zod
+- [ ] **Co-location:** Componente usado 1x (local) ou 2+ (compartilhado na pasta correta)?
 - [ ] Imports usando `@/` (paths absolutos)
-- [ ] Seguindo padrões do YVButton (para componentes YV/)
-- [ ] Server actions em `'use server'`
-- [ ] Client components em `'use client'` (quando necessário)
-- [ ] Schemas validados com Zod
-- [ ] Sem erros de linter
+- [ ] Seguindo padrões do `YVButton` (para componentes `YV/`)
+- [ ] Sem erros de linter (`npm run lint`)
 
 ---
 
